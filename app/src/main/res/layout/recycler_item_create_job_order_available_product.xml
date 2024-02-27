@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.joborders.create.products.MenuProductItem" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardMenuItem"
+        android:id="@+id/jobOrderMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageIcon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                tools:src="@drawable/icon_fabcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:imageResource="@{viewModel.productType.icon}" />
+
+            <TextView
+                android:id="@+id/textTitle"
+                style="@style/TextItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.name}"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/imageIcon"
+                app:layout_constraintTop_toTopOf="@id/imageIcon"
+                tools:text="Ariel" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.currentStock + ``}"
+                app:layout_constraintStart_toStartOf="@+id/textTitle"
+                app:layout_constraintTop_toBottomOf="@id/textTitle"
+                tools:text="100 pcs available" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPrice"
+                style="@style/CardSpan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imageIcon">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <TextView
+                        style="@style/TextPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:peso="@{viewModel.price}"
+                        tools:text="P 70.00" />
+                    <TextView
+                        android:textSize="12sp"
+                        android:id="@+id/textMinutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{` /` + viewModel.serving()}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textTitle"
+                        tools:text=" /80 mL"/>
+                </LinearLayout>
+<!--                <TextView-->
+<!--                    android:visibility="@{viewModel.selected}"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@{`(` + viewModel.quantity + `*) `}"-->
+<!--                    tools:text="(1*) "/>-->
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                app:contentPadding="4dp"
+                app:cardCornerRadius="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="@{viewModel.selected}"
+                app:layout_constraintEnd_toEndOf="@id/cardPrice"
+                app:layout_constraintTop_toBottomOf="@id/cardPrice">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icno_cart"
+                        android:layout_marginEnd="10dp"/>
+                    <TextView
+                        style="@style/Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.quantityStr()}"
+                        tools:text="1 keme"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

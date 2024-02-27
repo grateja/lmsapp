@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.main_menu.MainActivity">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.viewmodels.MainViewModel" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:background="@drawable/background_gradient_primary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"/>
+<!--            <TextView-->
+<!--                tools:text="1080"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/btnTest"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                android:id="@+id/dpWidth"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/btnTest"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Create Job Order"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnRemote"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Remote"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnIpSettings"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="IP Settings"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnPrinterSettings"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Printer Settings" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnMachines"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Machines" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnJobOrders"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Job Orders" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnExpenses"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Expenses" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnDiscounts"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Discounts" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnProducts"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Products" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnExtras"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Extras" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnCustomers"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Customers" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnServices"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Services" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btnPackages"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Packages" />-->
+<!--            <Button-->
+<!--                android:id="@+id/btn_cam"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Packages" />-->
+<!--            <com.github.chrisbanes.photoview.PhotoView-->
+<!--                android:id="@+id/image_view"-->
+<!--                android:layout_width="300dp"-->
+<!--                android:layout_height="300dp"/>-->
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

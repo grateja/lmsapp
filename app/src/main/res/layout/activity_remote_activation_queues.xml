@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.remote.queues.RemoteActivationQueuesActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.remote.queues.RemoteQueuesViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:background="@color/color_code_machines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar
+                app:title="@{`Activate ` + viewModel.machine.machineName()}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:title="Activate dryer 1"/>
+            <TextView
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Bold"
+                android:textSize="16sp"
+                android:text="@{viewModel.customerQueue.customerName}"
+                tools:text="Tony Stark"/>
+            <TextView
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select service"
+                android:layout_marginBottom="18dp"/>
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.core.widget.NestedScrollView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:text="@{`There are currently no customers who have available ` + viewModel.machine.machineType + ` services.`}"
+                    android:textAlignment="center"
+                    android:visibility="@{viewModel.availableServices.size() == 0}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="Some text" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="@{viewModel.availableServices.size() > 0}"
+                    android:id="@+id/recyclerAvailableServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+<!--        <com.google.android.material.card.MaterialCardView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:minHeight="500dp">-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
+<!--                <TextView-->
+<!--                    style="@style/TileTitle"-->
+<!--                    android:text="@{viewModel.customerQueue.customerName}"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="10dp"-->
+<!--                    tools:text="Tony stark"/>-->
+<!--                <com.google.android.material.divider.MaterialDivider-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginVertical="10dp"/>-->
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/recyclerAvailableServices"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_marginHorizontal="10dp"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>-->
+<!--                &lt;!&ndash;                    <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:id="@+id/recyclerServiceQueues"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:orientation="vertical"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        android:layout_marginHorizontal="10dp"&ndash;&gt;-->
+<!--                &lt;!&ndash;                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>&ndash;&gt;-->
+<!--            </LinearLayout>-->
+<!--        </com.google.android.material.card.MaterialCardView>-->
+        <!--        </FrameLayout>-->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

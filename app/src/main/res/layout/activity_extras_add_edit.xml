@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.extras.edit.ExtrasAddEditActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.extras.edit.ExtrasAddEditViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category"
+                app:errorEnabled="true"
+                app:errorText="@{viewModel.validation.get(`category`)}">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/textCategory"
+                    android:completionThreshold="0"
+                    android:padding="12dp"
+                    android:text="@={viewModel.model.category}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textAutoComplete"
+                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`category`)}"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                app:errorEnabled="true"
+                app:errorText="@{viewModel.validation.get(`name`)}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:text="@={viewModel.model.name}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`name`)}"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Price"
+                app:errorEnabled="true"
+                app:errorText="@{viewModel.validation.get(`price`)}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:text="@={viewModel.model.price + ``}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`price`)}"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <include
+                android:id="@+id/controls"
+                app:showDelete="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
+                layout="@layout/incl_controls_alter"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

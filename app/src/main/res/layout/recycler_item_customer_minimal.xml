@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.customers.CustomerMinimal" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        app:strokeColor="@{viewModel.selected ? @color/color_code_customers : @color/white}"
+        app:cardBackgroundColor="@{viewModel.selected ? @color/color_code_customers_highlight : @color/white}"
+        app:strokeWidth="1dp"
+        style="@style/CardItemList.FullWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/labelCRN"
+                style="@style/Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`CRN` + viewModel.crn}"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="[CRN] : #0392029" />
+
+            <TextView
+                android:id="@+id/labelName"
+                style="@style/TextItemTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.name + viewModel.joDate}"
+                app:layout_constraintEnd_toStartOf="@+id/labelCRN"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Chris Hemsworth" />
+            <TextView
+                android:visibility="@{viewModel.address != null}"
+                android:id="@+id/labelAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.address}"
+                app:layout_constraintTop_toBottomOf="@id/labelName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/buttonEdit"
+                tools:text="Sa dako paroon. Malayo sa kabihasnan"/>
+            <TextView
+                android:id="@+id/labelUnpaid"
+                android:visibility="@{viewModel.unpaid > 0}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.unpaid + ` unpaid JO` + viewModel.hasUnpaidJoToday}"
+                app:layout_constraintTop_toBottomOf="@id/labelAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/buttonEdit"
+                tools:text="10 unpaid"/>
+            <TextView
+                android:text="@{viewModel.joDate}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/label_last_job_order"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:text="@{viewModel.dateNow}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/label_last_job_order"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <androidx.constraintlayout.widget.Group
+                android:visibility="@{viewModel.lastJobOrder != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="label_last_job_order,text_last_job_order"/>
+            <TextView
+                android:id="@+id/label_last_job_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last J.O. "
+                app:layout_constraintTop_toBottomOf="@id/labelUnpaid"
+                app:layout_constraintStart_toStartOf="@id/labelUnpaid"/>
+            <TextView
+                android:id="@+id/text_last_job_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:momentAgo="@{viewModel.lastJobOrder}"
+                tools:text="3 years ago"
+                app:layout_constraintTop_toBottomOf="@id/labelUnpaid"
+                app:layout_constraintStart_toEndOf="@id/label_last_job_order"/>
+
+            <com.google.android.material.card.MaterialCardView
+                app:cardElevation="1dp"
+                android:id="@+id/buttonEdit"
+                style="@style/CardRoundButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="2dp"
+                android:layout_marginTop="17dp"
+                android:text="@string/edit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelCRN">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_edit" />
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

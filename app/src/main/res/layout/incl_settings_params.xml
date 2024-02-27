@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="label"
+            type="String" />
+        <variable
+            name="value"
+            type="String" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        style="@style/CardPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{label}"/>
+            <TextView
+                style="@style/TextItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{value}"
+                tools:text="Lagoon CTCC"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

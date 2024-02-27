@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.room.entities.EntityAvailableService" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardItemList.FullWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textServiceName"
+                style="@style/TextItemTitle.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.serviceName}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Regular Wash" />
+
+            <TextView
+                android:id="@+id/textMinutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.service.serviceRef.minutes + ` mins.`}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="36 Minutes" />
+
+            <TextView
+                android:id="@+id/textLoads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{viewModel.available + ` load(s) available`}"
+                app:layout_constraintStart_toStartOf="@+id/textServiceName"
+                app:layout_constraintTop_toBottomOf="@id/textServiceName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="3 Load(s) available" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

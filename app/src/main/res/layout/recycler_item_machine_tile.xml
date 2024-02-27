@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.machines.MachineListItem" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/machine_tile"
+        app:strokeColor="@color/color_code_machines"
+        app:cardBackgroundColor="@color/color_code_payments_highlight"
+        app:strokeWidth="2dp"
+        style="@style/CardItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="icon_customer,text_customer"
+                android:visibility="@{viewModel.customer != null}"/>
+
+            <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="icon_minutes,text_minutes"
+                android:visibility="@{viewModel.machine.activationRef.running()}" />
+
+            <androidx.constraintlayout.widget.Group
+                android:visibility="@{viewModel.machine.activationRef.timeActivated != null &amp;&amp; !viewModel.machine.activationRef.running() }"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="caption_last_active,text_last_active"/>
+
+            <TextView
+                android:id="@+id/text_machine_name"
+                style="@style/Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{viewModel.machine.machineName()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="8KG Washer 1" />
+
+            <ImageView
+                android:id="@+id/icon_minutes"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_machine_name"
+                app:layout_constraintEnd_toStartOf="@+id/text_minutes"
+                app:layout_constraintTop_toTopOf="@id/text_minutes"
+                android:layout_marginEnd="8dp"
+                app:srcCompat="@drawable/minute_icon" />
+            <TextView
+                android:id="@+id/text_minutes"
+                android:text="@{viewModel.machine.activationRef.remainingTime() + ` mins remaining`}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="36 mins remaining"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/caption_last_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Last used"
+                app:layout_constraintEnd_toStartOf="@id/text_last_active"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_last_active"/>
+
+            <TextView
+                android:id="@+id/text_last_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:momentAgo="@{viewModel.machine.activationRef.timeActivated}"
+                tools:layout_editor_absoluteX="688dp"
+                tools:text="1 hour ago"
+                app:layout_constraintEnd_toStartOf="@id/icon_minutes"
+                app:layout_constraintTop_toTopOf="@id/icon_minutes"
+                app:layout_constraintBottom_toBottomOf="@id/icon_minutes"/>
+
+            <TextView
+                android:id="@+id/prompt_not_used"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not yet activated"
+                android:visibility="@{viewModel.machine.activationRef == null}"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_machine_name"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/icon_machine"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:imageResource="@{viewModel.machine.machineType.icon}"
+                tools:src="@drawable/icon_washer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_machine_name"/>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon_machine"
+                app:layout_constraintTop_toTopOf="@id/icon_machine"/>
+
+            <ImageView
+                android:id="@+id/icon_customer"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/icon_customer"
+                app:layout_constraintStart_toStartOf="@id/divider"
+                app:layout_constraintTop_toBottomOf="@id/divider"/>
+
+            <TextView
+                android:id="@+id/text_customer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.customer.name}"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textFontWeight="200"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon_customer"
+                app:layout_constraintTop_toTopOf="@+id/icon_customer"
+                tools:text="Tony Stark" />
+
+            <TextView
+                android:id="@+id/text_service_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{viewModel.service.serviceName}"
+                style="@style/Bold"
+                app:layout_constraintTop_toBottomOf="@id/text_customer"
+                app:layout_constraintStart_toStartOf="@id/text_customer"
+                tools:layout_editor_absoluteY="20dp"
+                tools:text="Regular Wash" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

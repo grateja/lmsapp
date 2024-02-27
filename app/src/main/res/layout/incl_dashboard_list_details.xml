@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="legend"
+            type="String" />
+        <variable
+            name="visibility"
+            type="Boolean" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:visibility="@{visibility}"
+        android:layout_margin="8dp"
+        style="@style/CardPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    style="@style/Caption.Term"
+                    tools:text="Some Title"
+                    android:text="@{legend}"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/browse_right"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                style="@style/Caption.Definition"
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

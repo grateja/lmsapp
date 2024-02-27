@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.app_settings.printer.PrinterSettingsViewModel" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:background="@drawable/background_gradient_primary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".app.app_settings.printer.SettingsPrinterActivity"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/Settings"
+                android:text="PRINTER DEVICE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Settings.Card"
+                android:id="@+id/cardPrinterBrowser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/incl_settings_params"
+                        android:id="@+id/card_printer"
+                        app:label="@{`DEVICE`}"
+                        app:value="@{viewModel.printerName + ` - ` + viewModel.macAddress}"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <include layout="@layout/incl_settings_params"
+                        android:id="@+id/card_width"
+                        app:label="@{`PAPER WIDTH`}"
+                        app:value="@{viewModel.width + `mm`}"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <include layout="@layout/incl_settings_params"
+                        android:id="@+id/card_characters_per_line"
+                        app:label="@{`CHARACTERS PER LINE`}"
+                        app:value="@{viewModel.charactersPerLine + ``}"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:text="JOB ORDER"
+                style="@style/Settings"
+                android:layout_marginStart="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Settings.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_job_order_itemized"
+                        android:text="Itemized"
+                        style="@style/TextItemTitle"
+                        android:checked="@{viewModel.jobOrderItemized}"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:enabled="@{viewModel.jobOrderItemized}"
+                        android:id="@+id/switch_job_order_show_item_price"
+                        android:text="Show item price"
+                        style="@style/TextItemTitle"
+                        android:checked="@{viewModel.jobOrderShowItemPrice}"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:text="CLAIM STUB"
+                style="@style/Settings"
+                android:layout_marginStart="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Settings.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_claim_stub_itemized"
+                        android:text="Itemized"
+                        style="@style/TextItemTitle"
+                        android:checked="@{viewModel.claimStubItemized}"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:enabled="@{viewModel.claimStubItemized}"
+                        android:id="@+id/switch_claim_stub_show_item_price"
+                        android:text="Show item price"
+                        style="@style/TextItemTitle"
+                        android:checked="@{viewModel.claimStubShowItemPrice}"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:text="DISCLAIMER"
+                style="@style/Settings"
+                android:layout_marginStart="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_disclaimer"
+                style="@style/Settings.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_show_disclaimer"
+                        android:text="Show disclaimer"
+                        style="@style/TextItemTitle"
+                        android:checked="@{viewModel.showDisclaimer}"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/text_disclaimer"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_marginBottom="18dp"
+                        android:text="@{viewModel.disclaimerText}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/not_official_receipt_disclaimer"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

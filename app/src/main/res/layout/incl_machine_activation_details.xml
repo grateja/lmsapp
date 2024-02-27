@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="machineName"
+            type="String" />
+        <variable
+            name="customerName"
+            type="String" />
+        <variable
+            name="serviceName"
+            type="String" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CUSTOMER"/>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Tony Stark"
+            android:text="@{customerName}"/>
+        <TextView
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SERVICE"/>
+        <TextView
+            android:textSize="24dp"
+            android:fontFamily="sans-serif-thin"
+            android:textFontWeight="300"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{serviceName}"
+            tools:text="Regular Wash (40 Mins)"/>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_regularWashers"
+        android:title="8KG Washers" />
+    <item android:id="@+id/menu_regularDryers"
+        android:title="8KG Dryers" />
+    <item android:id="@+id/menu_titanWashers"
+        android:title="12KG Washers" />
+    <item android:id="@+id/menu_titanDryers"
+        android:title="12KG Dryers" />
+</menu>

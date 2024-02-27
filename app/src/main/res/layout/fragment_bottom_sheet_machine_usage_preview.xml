@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.machines.usage.MachineUsagePreviewBottomSheetFragment">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.machines.usage.MachineUsageViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-thin"
+                android:textFontWeight="200"
+                android:layout_marginVertical="18dp"
+                android:text="Machine usage preview summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginTop="18dp"
+                android:text="JOB ORDER#"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="10201"
+                style="@style/TextItemTitle.Medium"
+                android:text="@{viewModel.machineUsage.jobOrderNumber}"/>
+
+            <TextView
+                android:layout_marginTop="18dp"
+                android:text="CUSTOMER"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Tony Stark"
+                style="@style/TextItemTitle.Medium"
+                android:text="@{viewModel.machineUsage.customerName}"/>
+
+            <TextView
+                android:layout_marginTop="18dp"
+                android:text="SERVICE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Regular Wash (36 mins.)"
+                style="@style/TextItemTitle.Medium"
+                android:text="@{viewModel.machineUsage.serviceLabel()}"/>
+
+            <TextView
+                android:layout_marginTop="18dp"
+                android:text="PRICE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="P 70.0"
+                style="@style/TextItemTitle.Medium"
+                android:peso="@{viewModel.machineUsage.price}"
+                android:layout_marginBottom="36dp"/>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.joborders.payment.JobOrderPaymentActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.joborders.payment.JobOrderPaymentViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_code_payments">
+            <androidx.appcompat.widget.Toolbar
+                app:title="Payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CUSTOMER NAME"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"/>
+            <TextView
+                style="@style/TextDefinition.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.customer.name}"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="12dp"
+                tools:text="Tony Stark"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            >
+            <androidx.core.widget.NestedScrollView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/controls"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/CardTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UNPAID JOB ORDERS"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                        style="@style/CardItemWrapper"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:contentPadding="18dp">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerJobOrderPaymentMinimal"
+                            android:nestedScrollingEnabled="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                    </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        style="@style/CardTitle"
+                        android:text="SUMMARY"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/CardItemWrapper"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp">
+                            <TableRow
+                                android:id="@+id/card_date_paid"
+                                style="@style/DefinitionTermRow">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Date"/>
+                                <TextView android:text="@{viewModel.datePaid}"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="January 12, 2023"/>
+                                <ImageView
+                                    android:src="@drawable/icon_edit"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_height="20dp"
+                                    android:layout_width="20dp"/>
+                            </TableRow>
+                            <TableRow
+                                style="@style/DefinitionTermRow">
+                                <TextView android:text="Total Payable Amount"
+                                    style="@style/Bold.Black"/>
+                                <TextView android:peso="@{viewModel.payableAmount}"
+                                    style="@style/Bold.Black"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="P 90.2"/>
+                            </TableRow>
+                            <TableRow
+                                style="@style/DefinitionTermRow">
+                                <TextView android:text="Amount to pay"
+                                    style="@style/Bold"/>
+                                <TextView android:peso="@{viewModel.amountToPay}"
+                                    style="@style/Bold"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="P 90.2"/>
+                            </TableRow>
+                            <TableRow
+                                android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
+                                style="@style/DefinitionTermRow">
+                                <TextView android:text="Cash tendered"
+                                    android:textColor="#F6C948"
+                                    style="@style/Bold"/>
+                                <TextView android:peso="@{viewModel.cashReceived}"
+                                    style="@style/Bold"
+                                    android:textColor="#F6C948"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="P 90.2"/>
+                            </TableRow>
+                            <TableRow
+                                android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                                style="@style/DefinitionTermRow">
+                                <TextView android:text="Cashless amount sent"
+                                    android:textColor="#F6C948"
+                                    style="@style/Bold"/>
+                                <TextView android:peso="@{viewModel.cashlessAmount}"
+                                    style="@style/Bold"
+                                    android:textColor="#F6C948"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="P 90.2"/>
+                            </TableRow>
+                            <TableRow
+                                android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                                style="@style/DefinitionTermRow">
+                                <TextView android:text="Cashless provider"
+                                    android:textColor="#F6C948"
+                                    style="@style/Bold"/>
+                                <TextView android:text="@{viewModel.cashlessProvider}"
+                                    style="@style/Bold"
+                                    android:textColor="#F6C948"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="G-Cash"/>
+                            </TableRow>
+                            <TableRow
+                                android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                                style="@style/DefinitionTermRow">
+                                <TextView android:text="Cashless ref.#"
+                                    android:textColor="#F6C948"
+                                    style="@style/Bold"/>
+                                <TextView android:text="@{viewModel.cashlessRefNumber}"
+                                    style="@style/Bold"
+                                    android:textColor="#F6C948"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="12345678"/>
+                            </TableRow>
+                            <TableRow
+                                style="@style/DefinitionTermRow"
+                                android:visibility="@{viewModel.change > 0}">
+                                <TextView android:text="Change"/>
+                                <TextView android:peso="@{viewModel.change}"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="P 90.2"/>
+                            </TableRow>
+                            <TableRow
+                                style="@style/DefinitionTermRow"
+                                android:visibility="@{!viewModel.orNumber.isEmpty()}">
+                                <TextView android:text="OR Number"/>
+                                <TextView android:text="@{viewModel.orNumber}"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="0001"/>
+                            </TableRow>
+                            <TableRow
+                                style="@style/DefinitionTermRow"
+                                android:visibility="@{viewModel.remainingBalance > 0}">
+                                <TextView android:text="Remaining balance"/>
+                                <TextView android:peso="@{viewModel.remainingBalance}"
+                                    android:textAlignment="textEnd"
+                                    android:layout_weight="1"
+                                    tools:text="P 90.2"/>
+                            </TableRow>
+                        </TableLayout>
+                    </com.google.android.material.card.MaterialCardView>
+<!--                    <TextView-->
+<!--                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"-->
+<!--                        android:visibility="@{viewModel.inputValidation.has(`paymentMethod`)}"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/danger"-->
+<!--                        android:text="@{viewModel.inputValidation.get(`paymentMethod`)}"-->
+<!--                        tools:text="Please select payment method!"/>-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginVertical="24dp"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_marginEnd="4dp"
+                            app:strokeWidth="2dp"
+                            app:strokeColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH ? @color/color_code_payments : @color/regularColor}"
+                            style="@style/CardPrimary"
+                            android:id="@+id/card_payment_option_cash"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <TextView
+                                    style="@style/TextItemTitle"
+                                    android:textColor="@color/text_dark_grey"
+                                    android:textAlignment="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.CASH.value}"
+                                    tools:text="Cash"/>
+                                <ImageView
+                                    android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/icon_edit"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_marginStart="4dp"
+                            app:strokeWidth="2dp"
+                            app:strokeColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS ? @color/color_code_payments : @color/regularColor}"
+                            style="@style/CardPrimary"
+                            android:id="@+id/card_payment_option_cashless"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+                                <TextView
+                                    style="@style/TextItemTitle"
+                                    android:textColor="@color/text_dark_grey"
+                                    android:textAlignment="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS.value}"
+                                    tools:text="Cashless"/>
+                                <ImageView
+                                    android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                                    android:layout_marginStart="16dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/icon_edit"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/controls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+                <Button
+                    android:id="@+id/button_save"
+                    android:backgroundTint="@color/color_code_payments"
+                    style="@style/RoundButton"
+                    android:text="@string/save"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

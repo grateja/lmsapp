@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".app.joborders.create.gallery.CreateJobOrderGalleryFragment">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.joborders.create.CreateJobOrderViewModel" />
+    </data>
+    <LinearLayout
+        android:visibility="@{viewModel.saved}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/button_add_picture"
+            style="@style/RoundButtonNeutral.Small"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/neutral"
+            android:src="@drawable/ic_menu_camera"
+            android:scaleType="fitCenter"
+            android:text="add picture"/>
+
+        <ImageButton
+            android:id="@+id/button_browse_picture"
+            style="@style/RoundButtonNeutral.Small"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/neutral"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_menu_gallery"
+            android:text="add picture" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_job_order_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:clipToPadding="false"
+            tools:itemCount="10"
+            tools:listitem="@layout/recycler_item_job_order_picture"/>
+    </LinearLayout>
+</layout>

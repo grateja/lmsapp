@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.auth.AuthActionDialogActivity">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.auth.AuthDialogViewModel" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        app:contentPadding="20dp"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@{viewModel.message}"/>
+                <TextView
+                    android:text="@{viewModel.roles.toString()}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle">
+                    <Button
+                        android:text="Patt"
+                        style="@style/RoundButtonNeutral.Small"
+                        android:id="@+id/button_auth_method_pattern"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:text="Pass"
+                        style="@style/RoundButtonNeutral.Small"
+                        android:id="@+id/button_auth_method_password"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <!--                    <Button-->
+                    <!--                        android:text="Bio"-->
+                    <!--                        style="@style/RoundButtonNeutral.Small"-->
+                    <!--                        android:id="@+id/button_auth_method_biometric"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"/>-->
+                    <Button
+                        android:text=""
+                        style="@style/RoundButtonNeutral.Small"
+                        android:id="@+id/button_privilege"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    app:errorEnabled="true"
+                    app:errorText="@{viewModel.validation.get(`userName`)}">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/textInputCashlessProvider"
+                        android:completionThreshold="0"
+                        android:padding="12dp"
+                        android:text="@={viewModel.userName}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
+                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`userName`)}"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    app:cardCornerRadius="3dp"-->
+<!--                    app:strokeWidth="1dp"-->
+<!--                    app:strokeColor="@color/teal_700"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <Spinner-->
+<!--                        android:id="@+id/spinner_email"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"/>-->
+
+<!--                </com.google.android.material.card.MaterialCardView>-->
+
+<!--                <com.google.android.material.textfield.TextInputLayout-->
+<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="@string/email"-->
+<!--                    app:errorEnabled="true"-->
+<!--                    app:errorText="@{viewModel.validation.get(`email`)}">-->
+
+<!--                    <com.google.android.material.textfield.TextInputEditText-->
+<!--                        android:text="@={viewModel.email}"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:inputType="textEmailAddress"-->
+<!--                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`email`)}"-->
+<!--                        android:maxLines="1" />-->
+<!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD}"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    app:errorEnabled="true"
+                    app:errorText="@{viewModel.validation.get(`password`)}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:text="@={viewModel.password}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`password`)}"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:visibility="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/buttonCancel"
+                        style="@style/RoundButtonNeutral"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel"/>
+                    <View
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"/>
+                    <Button
+                        android:id="@+id/buttonOk"
+                        style="@style/RoundButtonPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ok"/>
+                </LinearLayout>
+                <com.itsxtt.patternlock.PatternLockView
+                    android:visibility="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PATTERN}"
+                    android:id="@+id/pattern_lock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+<!--        </androidx.core.widget.NestedScrollView>-->
+    </com.google.android.material.card.MaterialCardView>
+</layout>

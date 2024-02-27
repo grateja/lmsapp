@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.gallery.picture_browser.PictureCaptureActivity">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.gallery.picture_browser.PictureCaptureViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.Group
+            android:visibility="@{viewModel.uri == null}"
+            android:id="@+id/camera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:constraint_referenced_ids="camera_view,button_camera">
+
+        </androidx.constraintlayout.widget.Group>
+
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/camera_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageButton
+            android:visibility="@{!viewModel.capturing &amp;&amp; viewModel.uri == null}"
+            android:background="@color/transparent"
+            android:id="@+id/button_camera"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/icon_camera_capture"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ProgressBar
+            android:visibility="@{viewModel.capturing}"
+            android:id="@+id/progressBar"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/image_preview"
+            android:visibility="@{viewModel.uri != null}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/camera_controls" />
+
+        <LinearLayout
+            android:visibility="@{viewModel.uri != null}"
+            android:id="@+id/camera_controls"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:divider="@drawable/divider_10"
+            android:showDividers="middle">
+            <Button
+                android:id="@+id/button_ok"
+                style="@style/RoundButtonPrimary"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/ok"/>
+            <Button
+                android:id="@+id/button_discard"
+                style="@style/RoundButtonNeutral"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/discard"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

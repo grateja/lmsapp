@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.room.entities.EntityJobOrderPaymentListItem" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardItemList.FullWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/icon_date"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/icon_date"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/label_date_paid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.datePaid}"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/icon_date"
+                app:layout_constraintTop_toTopOf="@id/icon_date"
+                app:layout_constraintBottom_toBottomOf="@id/icon_date"
+                tools:text="Oct 24, 2022 8:40 AM" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_date"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/icon_date" />
+
+            <TextView
+                android:id="@+id/labelCustomer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:text="@{viewModel.customerName}"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/labelDiscountedAmount"
+                app:layout_constraintStart_toStartOf="@+id/label_date_paid"
+                app:layout_constraintTop_toBottomOf="@id/divider_date"
+                tools:text="Maricar Tolentino" />
+
+
+            <TextView
+                android:id="@+id/label_job_order_refs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{`JO#[`+viewModel.jobOrderReference+`]`}"
+                app:layout_constraintStart_toStartOf="@+id/label_date_paid"
+                app:layout_constraintTop_toBottomOf="@id/labelCustomer"
+                tools:text="[090965]" />
+
+            <TextView
+                android:id="@+id/label_payment_option"
+                android:text="@{viewModel.paymentOption()}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="CASH"/>
+
+            <TextView
+                android:id="@+id/labelDiscountedAmount"
+                style="@style/TextPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:peso="@{viewModel.amountDue}"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_date"
+                tools:text="P 140.0" />
+
+            <TextView
+                android:visibility="@{!viewModel.orNumber.isEmpty()}"
+                android:id="@+id/label_or_number"
+                android:text="@{`OR#` + viewModel.orNumber}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelDiscountedAmount"
+                tools:text="OR#000001"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

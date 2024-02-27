@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.app_settings.ip.AppSettingsIPAddressActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.app_settings.ip.IPAddressSettingsViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_margin="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <include
+            android:id="@+id/card_prefix"
+            layout="@layout/incl_settings_params"
+            app:label="@{`Network Prefix`}"
+            app:value="@{viewModel.prefix}"/>
+        <include
+            android:id="@+id/card_subnet"
+            layout="@layout/incl_settings_params"
+            app:label="@{`Subnet Mask`}"
+            app:value="@{viewModel.subnet}"/>
+        <include
+            android:id="@+id/card_endpoint"
+            layout="@layout/incl_settings_params"
+            app:label="@{`Endpoint`}"
+            app:value="@{viewModel.endpoint}"/>
+        <include
+            android:id="@+id/card_timeout"
+            layout="@layout/incl_settings_params"
+            app:label="@{`Connection Timeout`}"
+            app:value="@{viewModel.timeout.toString()}"/>
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:errorEnabled="true">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/textNetworkPrefix"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@={viewModel.ipSettings.networkPrefix}"-->
+<!--                android:hint="Network Prefix"-->
+<!--                android:maxLines="1" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:errorEnabled="true">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/textSubnetId"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@={viewModel.ipSettings.subnetId + ``}"-->
+<!--                android:hint="Subnet ID"-->
+<!--                android:inputType="number"-->
+<!--                android:maxLines="1" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:errorEnabled="true">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/textEndPoint"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@={viewModel.urlSettings.endPoint}"-->
+<!--                android:hint="End point"-->
+<!--                android:maxLines="1" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:errorEnabled="true">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/textConnectionTimeout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@={viewModel.urlSettings.connectionTimeout + ``}"-->
+<!--                android:hint="Connection timeout"-->
+<!--                android:inputType="number"-->
+<!--                android:maxLines="1" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+<!--        <Button-->
+<!--            style="@style/RoundButtonPrimary"-->
+<!--            android:id="@+id/buttonSave"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/save"/>-->
+    </LinearLayout>
+</layout>

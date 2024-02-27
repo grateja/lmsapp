@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.joborders.create.JobOrderCreateActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.joborders.create.CreateJobOrderViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/background_gradient_primary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/controls"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:background="@color/color_code_job_order"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true">
+                <androidx.appcompat.widget.Toolbar
+                    app:title="@{viewModel.saved ? `Create Job Order` : `*Create New Job Order`}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"/>
+                <com.google.android.material.card.MaterialCardView
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/darker_color_code_job_order_darker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:layout_scrollFlags="scroll|enterAlways|snap">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="40dp"
+                        android:layout_marginVertical="4dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/neutral"
+                            android:text="JOB ORDER#"/>
+                        <TextView
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/rammetto_one"
+                            android:textSize="20sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.jobOrderNumber}"
+                            tools:text="000034"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/job_order_info"
+                    android:name="com.vag.lmsapp.app.joborders.create.shared_ui.CreateJobOrderInfoFragment"
+                    android:layout_marginVertical="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout="@layout/fragment_create_job_order_info"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"/>
+            </com.google.android.material.appbar.AppBarLayout>
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:clipToPadding="false"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toTopOf="@id/controls">
+                <!--            Container -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:clipToPadding="false">
+
+                    <Button
+                        android:visibility="@{!viewModel.saved}"
+                        android:id="@+id/button_packages"
+                        style="@style/RoundButtonNeutral.JobOrder"
+                        android:text="Packages"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <include
+                        android:id="@+id/inclServicesLegend"
+                        layout="@layout/incl_legend_create_job_order"
+                        app:locked="@{viewModel.locked}"
+                        app:title="@{`SERVICES`}"
+                        app:hasItems="@{viewModel.hasServices}"
+                        app:prompt="@{`No Services selected`}"/>
+
+                    <!--                Products -->
+                    <include android:id="@+id/inclProductsLegend"
+                        layout="@layout/incl_legend_create_job_order"
+                        app:locked="@{viewModel.locked}"
+                        app:title="@{`PRODUCTS / CHEMICALS`}"
+                        app:hasItems="@{viewModel.hasProducts}"
+                        app:prompt="@{`(No selected products/chemicals)`}"/>
+                    <!--                Extras -->
+                    <include
+                        android:id="@+id/inclExtrasLegend"
+                        layout="@layout/incl_legend_create_job_order"
+                        app:locked="@{viewModel.locked}"
+                        app:title="@{`EXTRAS`}"
+                        app:hasItems="@{viewModel.hasExtras}"
+                        app:prompt="@{`No Services selected`}"/>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/job_order_delivery"
+                        android:name="com.vag.lmsapp.app.joborders.create.shared_ui.CreateJobOrderDeliveryFragment"
+                        android:layout_marginVertical="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_job_order_create_delivery"/>
+
+
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/job_order_discount"
+                        android:name="com.vag.lmsapp.app.joborders.create.shared_ui.CreateJobOrderDiscountFragment"
+                        android:layout_marginVertical="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_job_order_create_discount"/>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/job_order_summary"
+                        android:name="com.vag.lmsapp.app.joborders.create.shared_ui.CreateJobOrderSummaryFragment"
+                        android:layout_marginVertical="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_create_job_order_summary"/>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:visibility="@{!viewModel.deleted}"
+                        android:id="@+id/job_order_gallery"
+                        android:name="com.vag.lmsapp.app.joborders.create.gallery.CreateJobOrderGalleryFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_job_order_create_gallery"/>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:id="@+id/controls"
+            app:cardCornerRadius="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
+            <LinearLayout
+                android:visibility="@{!viewModel.deleted}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                <Button
+                    style="@style/RoundButtonNeutral.JobOrder"
+                    android:visibility="@{viewModel.saved}"
+                    android:id="@+id/buttonPrint"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/print" />
+                <Button
+                    style="@style/RoundButtonPrimary.JobOrder"
+                    android:visibility="@{viewModel.hasAny &amp;&amp; !viewModel.saved}"
+                    android:id="@+id/buttonSave"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.confirmStr}" />
+                <Button
+                    style="@style/RoundButtonPrimary.JobOrder"
+                    android:visibility="@{viewModel.saved &amp;&amp; viewModel.payment == null &amp;&amp; !viewModel.deleted}"
+                    android:id="@+id/buttonPayment"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/payment"/>
+                <Button
+                    style="@style/RoundButtonNeutral.JobOrder"
+                    android:visibility="@{viewModel.saved &amp;&amp; !viewModel.deleted}"
+                    android:id="@+id/buttonVoid"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delete"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

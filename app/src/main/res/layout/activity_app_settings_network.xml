@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.app_settings.developer.AppSettingsNetworkActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.app_settings.developer.DeveloperSettingsViewModel" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient_primary">
+        <LinearLayout
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                style="@style/Settings"
+                android:text="FAKE ACTIVATION"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Settings.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.SwitchCompat
+                        style="@style/Settings.ItemTerm"
+                        android:id="@+id/checkbox_fake_connection_mode_on"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.fakeConnectionMode}"
+                        android:text="Fake activation mode"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <include
+                        android:id="@+id/card_activation_delay"
+                        layout="@layout/incl_settings_params"
+                        app:label="@{`Fake activation delay`}"
+                        app:value="@{viewModel.fakeConnectionDelay.toString()}"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                style="@style/Settings"
+                android:text="NETWORK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Settings.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include
+                        android:id="@+id/card_prefix"
+                        layout="@layout/incl_settings_params"
+                        app:label="@{`Network Prefix`}"
+                        app:value="@{viewModel.prefix}"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <include
+                        android:id="@+id/card_subnet"
+                        layout="@layout/incl_settings_params"
+                        app:label="@{`Subnet Mask`}"
+                        app:value="@{viewModel.subnet}"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <include
+                        android:id="@+id/card_endpoint"
+                        layout="@layout/incl_settings_params"
+                        app:label="@{`Endpoint`}"
+                        app:value="@{viewModel.endpoint}"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <include
+                        android:id="@+id/card_timeout"
+                        layout="@layout/incl_settings_params"
+                        app:label="@{`Connection Timeout`}"
+                        app:value="@{viewModel.timeout.toString()}"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.products.edit.ProductAddEditActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.products.edit.ProductAddEditViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/controls">
+            <LinearLayout
+                android:padding="@dimen/activity_horizontal_margin"
+                android:id="@+id/mainContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clipToPadding="false">
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/RadioGroupCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:text="PRODUCT TYPE"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:selectedProductType="@={viewModel.model.productType}"
+                            android:orientation="horizontal"
+                            android:divider="@drawable/divider_20"
+                            android:showDividers="middle">
+                            <RadioButton
+                                android:id="@+id/radio_product_type_detergent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{com.vag.lmsapp.model.EnumProductType.DETERGENT.value}"/>
+                            <RadioButton
+                                android:id="@+id/radio_product_type_fab_con"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{com.vag.lmsapp.model.EnumProductType.FAB_CON.value}"/>
+                            <RadioButton
+                                android:id="@+id/radio_product_type_other"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{com.vag.lmsapp.model.EnumProductType.OTHER.value}"/>
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    app:errorEnabled="true"
+                    app:errorText="@{viewModel.validation.get(`name`)}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:text="@={viewModel.model.name}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`name`)}"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:divider="@drawable/divider_10"
+                    android:showDividers="middle">
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Price"
+                        app:errorEnabled="true"
+                        app:errorText="@{viewModel.validation.get(`price`)}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:text="@={viewModel.model.price + ``}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`price`)}"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Per"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Unit per serve"
+                        app:errorEnabled="true"
+                        app:errorText="@{viewModel.validation.get(`unitPerServe`)}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:text="@={viewModel.model.unitPerServe + ``}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`unitPerServe`)}"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        app:strokeColor="@color/darker_background"
+                        app:strokeWidth="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Unit">
+                        <Spinner
+                            android:id="@+id/spinnerMeasureUnit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:measureUnit="@={viewModel.model.measureUnit}"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:divider="@drawable/divider_10"-->
+<!--                    android:showDividers="middle">-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Current stock"
+                        app:errorEnabled="true"
+                        app:errorText="@{viewModel.validation.get(`currentStock`)}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:text="@={viewModel.model.currentStock + ``}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`currentStock`)}"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+<!--                    <com.google.android.material.card.MaterialCardView-->
+<!--                        app:strokeColor="@color/darker_background"-->
+<!--                        app:strokeWidth="1dp"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:layout_width="100dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:hint="Unit">-->
+<!--                        <Spinner-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:measureUnit="@{viewModel.model.measureUnit}"/>-->
+<!--                    </com.google.android.material.card.MaterialCardView>-->
+<!--                </LinearLayout>-->
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    style="@style/RadioGroupCard"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical">-->
+<!--                        <TextView-->
+<!--                            android:text="MEASURE UNIT"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                        <com.google.android.material.divider.MaterialDivider-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                        <RadioGroup-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:selectedMeasureUnit="@={viewModel.model.measureUnit}"-->
+<!--                            android:orientation="horizontal">-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_measure_unit_pcs"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{com.csi.palabakosys.model.EnumMeasureUnit.PCS.value}"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_measure_unit_sachet"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{com.csi.palabakosys.model.EnumMeasureUnit.SACHET.value}"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_measure_unit_pack"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{com.csi.palabakosys.model.EnumMeasureUnit.PACK.value}"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_measure_unit_milliliter"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{com.csi.palabakosys.model.EnumMeasureUnit.MILLILITER.value}"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_measure_unit_liter"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{com.csi.palabakosys.model.EnumMeasureUnit.LITER.value}"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_measure_unit_load"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{com.csi.palabakosys.model.EnumMeasureUnit.LOAD.value}"/>-->
+<!--                        </RadioGroup>-->
+<!--                    </LinearLayout>-->
+<!--                </com.google.android.material.card.MaterialCardView>-->
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <include
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/controls"
+            app:showDelete="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            layout="@layout/incl_controls_alter"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

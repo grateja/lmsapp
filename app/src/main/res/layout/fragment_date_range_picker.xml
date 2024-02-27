@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.dashboard.DateRangePickerFragment">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.dashboard.DashboardViewModel" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <!--            <TextView-->
+                <!--                android:visibility="@{viewModel.dateFilter.dateTo != null}"-->
+                <!--                android:text="From:"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"/>-->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/date_nav_view_pager_from"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <ImageButton
+                    android:id="@+id/button_switch_dates"
+                    android:visibility="@{viewModel.dateConflict != null}"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_switch" />
+                <!--            <TextView-->
+                <!--                android:visibility="@{viewModel.dateFilter.dateTo != null}"-->
+                <!--                android:text="To:"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"/>-->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:visibility="@{viewModel.dateFilter.dateTo != null}"
+                    android:id="@+id/date_nav_view_pager_to"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:visibility="@{viewModel.dateFilter.dateTo == null}"
+                    android:id="@+id/button_select_date_range"
+                    style="@style/RoundButtonNeutral.Small"
+                    android:text="Select date range"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="@{viewModel.dateConflict != null}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:src="@drawable/icon_warning"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+                <TextView
+                    android:layout_marginStart="8dp"
+                    style="@style/TextPrompt"
+                    tools:text="Start date cannot be after end date"
+                    android:text="@{viewModel.dateConflict}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+<!--            <TextView-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                tools:text="15 days"-->
+<!--                android:text="@{viewModel.days}"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"/>-->
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

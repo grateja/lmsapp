@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="radio_machine_type_regular_washer" type="id"/>
+    <item name="radio_machine_type_regular_dryer" type="id"/>
+    <item name="radio_machine_type_titan_washer" type="id"/>
+    <item name="radio_machine_type_titan_dryer" type="id"/>
+
+    <item name="radio_wash_type_hot" type="id"/>
+    <item name="radio_wash_type_warm" type="id"/>
+    <item name="radio_wash_type_cold" type="id"/>
+    <item name="radio_wash_type_delicate" type="id"/>
+    <item name="radio_wash_type_super" type="id"/>
+
+    <item name="radio_product_type_detergent" type="id"/>
+    <item name="radio_product_type_fab_con" type="id"/>
+    <item name="radio_product_type_other" type="id"/>
+</resources>

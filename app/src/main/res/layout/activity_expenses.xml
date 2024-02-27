@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.expenses.ExpensesActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.expenses.ExpensesViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:background="@color/secondary_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:elevation="24dp"
+            android:fitsSystemWindows="true">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/color_code_expenses"
+                android:animateLayoutChanges="true"
+                app:layout_scrollFlags="scroll|enterAlways|snap" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonCreateNew"
+                style="@style/RoundButtonPrimary"
+                android:backgroundTint="@color/color_code_expenses"
+                android:textColor="@color/black"
+                app:icon="@android:drawable/ic_menu_add"
+                app:iconSize="30dp"
+                app:iconGravity="textStart"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create new expense"
+                app:cornerRadius="25dp"
+                app:layout_scrollFlags="scroll|enterAlways|snap"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_date_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_margin="12dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:visibility="@{viewModel.dateFilter != null}"
+                        android:textColor="@color/teal_700"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:text="@{viewModel.dateFilter.toString()}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:visibility="@{viewModel.dateFilter == null}"
+                        android:textColor="@color/teal_700"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:text="Select dates"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <ImageButton
+                        android:visibility="@{viewModel.dateFilter != null}"
+                        android:id="@+id/button_clear_date_filter"
+                        android:background="@color/transparent"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="center"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerExpenses"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

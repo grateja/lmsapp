@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.app_settings.printer.browser.AppSettingsPrinterBrowserActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.app_settings.printer.browser.PrinterBrowserViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/background_gradient_secondary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_bluetooth"
+            style="@style/CardPrimary"
+            android:visibility="@{!viewModel.bluetoothEnabled}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/text_bluetooth_permission_prompt"
+                    style="@style/TextPrompt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/checkbox_bluetooth_state"/>
+
+                <CheckBox
+                    android:id="@+id/checkbox_bluetooth_state"
+                    android:checked="@{viewModel.bluetoothEnabled}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/text_bluetooth_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/checkbox_bluetooth_state"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_bluetooth_state"
+                    app:layout_constraintStart_toEndOf="@id/checkbox_bluetooth_state"
+                    android:text="Enable bluetooth"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+<!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:id="@+id/tab"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textAlignment="center"-->
+<!--            android:padding="12dp"-->
+<!--            style="@style/TextItemTitle"-->
+<!--            android:visibility="@{viewModel.bluetoothEnabled}"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/card_bluetooth"/>-->
+        <Button
+            android:id="@+id/button_location_service_toggle"
+            style="@style/RoundButtonNeutral"
+            android:visibility="@{!viewModel.locationEnabled}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/card_bluetooth"
+            android:text="Turn on location services to search nearby devices"/>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.bluetoothEnabled}"
+            app:layout_constraintTop_toBottomOf="@id/button_location_service_toggle"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/devices"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

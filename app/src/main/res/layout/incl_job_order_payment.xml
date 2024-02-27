@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.room.entities.EntityJobOrderPayment" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardItem"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="20dp"
+        app:cardElevation="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                style="@style/Caption.Term"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DATE PAID:"/>
+            <TextView
+                style="@style/Caption.Definition"
+                android:text="@{viewModel.createdAt}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Fab 29, 2023 5:00 PM"/>
+
+            <TextView
+                style="@style/Caption.Term"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PAYMENT METHOD:"/>
+            <TextView
+                style="@style/Caption.Definition"
+                android:text="@{viewModel.paymentMethod.toString()}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="CASH"/>
+
+            <TextView
+                style="@style/Caption.Term"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OR NUMBER:"/>
+            <TextView
+                style="@style/Caption.Definition"
+                android:text="@{viewModel.orNumber}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="00001"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+<!--    <TableLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        <TableRow>-->
+<!--            <TextView-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="DATE PAID"-->
+<!--                android:textStyle="bold"-->
+<!--                android:padding="8dp"-->
+<!--                android:background="#ECEFF1"-->
+<!--                android:textColor="#37474F" />-->
+<!--            <TextView-->
+<!--                android:text="@{viewModel.createdAt}"-->
+<!--                android:padding="8dp"-->
+<!--                tools:text="Feb 29, 2023 5:00 PM"-->
+<!--                android:background="#F5F5F5"-->
+<!--                android:textColor="#616161" />-->
+<!--        </TableRow>-->
+
+<!--        <com.google.android.material.divider.MaterialDivider/>-->
+
+<!--        <TableRow>-->
+<!--            <TextView-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="PAYMENT METHOD"-->
+<!--                android:textStyle="bold"-->
+<!--                android:padding="8dp"-->
+<!--                android:background="#ECEFF1"-->
+<!--                android:textColor="#37474F" />-->
+<!--            <TextView-->
+<!--                android:textAlignment="textEnd"-->
+<!--                android:text="@{viewModel.paymentMethod.toString()}"-->
+<!--                android:padding="8dp"-->
+<!--                android:background="#F5F5F5"-->
+<!--                android:textColor="#616161" />-->
+<!--        </TableRow>-->
+
+<!--        <com.google.android.material.divider.MaterialDivider/>-->
+
+<!--        <TableRow>-->
+<!--            <TextView-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="OR NUMBER"-->
+<!--                android:textStyle="bold"-->
+<!--                android:padding="8dp"-->
+<!--                android:background="#ECEFF1"-->
+<!--                android:textColor="#37474F" />-->
+<!--            <TextView-->
+<!--                android:textAlignment="textEnd"-->
+<!--                android:text="@{viewModel.orNumber}"-->
+<!--                android:padding="8dp"-->
+<!--                android:background="#F5F5F5"-->
+<!--                android:textColor="#616161" />-->
+<!--        </TableRow>-->
+
+<!--    </TableLayout>-->
+
+</layout>

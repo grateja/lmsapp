@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".app.customers.preview.CustomerDetailsFragment">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.customers.preview.CustomerPreviewViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/color_code_customers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/CardItemList.FullWidth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CUSTOMER"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextDefinition.Light"
+                    android:text="@{viewModel.customer.name}"
+                    tools:text="Tony Stark"/>
+                <TextView
+                    android:layout_marginTop="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CRN"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextDefinition.Light"
+                    android:text="@{viewModel.customer.crn}"
+                    tools:text="129184"/>
+                <TextView
+                    android:visibility="@{viewModel.customer.contactNumber != null}"
+                    android:layout_marginTop="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact number"/>
+                <TextView
+                    android:visibility="@{viewModel.customer.contactNumber != null}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextDefinition.Light"
+                    android:text="@{viewModel.customer.contactNumber}"
+                    tools:text="09171790031"/>
+                <TextView
+                    android:visibility="@{viewModel.customer.address != null}"
+                    android:layout_marginTop="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"/>
+                <TextView
+                    android:visibility="@{viewModel.customer.address != null}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextDefinition.Light"
+                    android:text="@{viewModel.customer.address}"
+                    tools:text="Blk 1 Lot 1 Phase 90"/>
+                <TextView
+                    android:visibility="@{viewModel.customer.email != null}"
+                    android:layout_marginTop="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email"/>
+                <TextView
+                    android:visibility="@{viewModel.customer.email != null}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextDefinition.Light"
+                    android:text="@{viewModel.customer.email}"
+                    tools:text="stark@avengers.com"/>
+
+
+                <LinearLayout
+                    android:layout_marginTop="18dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/divider_10"
+                    android:showDividers="middle"
+                    android:gravity="end">
+                    <Button
+                        android:id="@+id/button_create_new_job_order"
+                        style="@style/RoundButtonNeutral.Small"
+                        android:text="Create New Job Order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.canCreateJobOrder}"/>
+                    <Button
+                        android:id="@+id/button_edit"
+                        style="@style/RoundButtonNeutral.Small"
+                        android:text="@string/edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</layout>

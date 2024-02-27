@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.room.entities.EntityCustomerQueueService" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardItemList.FullWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+<!--            <ImageView-->
+<!--                android:id="@+id/icon_date"-->
+<!--                android:layout_width="22dp"-->
+<!--                android:layout_height="22dp"-->
+<!--                android:src="@drawable/icon_date"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"/>-->
+<!--            <TextView-->
+<!--                android:id="@+id/text_date"-->
+<!--                android:text="@{viewModel.latestJobOrderDate}"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toEndOf="@id/icon_date"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/icon_date"-->
+<!--                tools:text="Jan 5, 2023 10:54 AM"/>-->
+
+
+            <TextView
+                android:id="@+id/labelCRN"
+                style="@style/Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`CRN`+viewModel.crn}"
+                app:layout_constraintTop_toTopOf="@id/labelName"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="CRN03920"/>
+
+            <TextView
+                android:id="@+id/labelName"
+                style="@style/TextItemTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.customerName}"
+                app:layout_constraintEnd_toStartOf="@id/labelCRN"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Chris Hemsworth" />
+
+<!--            <com.google.android.material.divider.MaterialDivider-->
+<!--                android:id="@+id/divider_date"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labelName"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/labelAddress"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="sans-serif-thin"-->
+<!--                android:text="@{viewModel.address}"-->
+<!--                android:textColor="@color/black"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="@id/labelName"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labelName"-->
+<!--                tools:text="Sa dako paroon. Malayo sa kabihasnan" />-->
+            <TextView
+                android:id="@+id/labelAvailable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{viewModel.available + ` available`}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/labelName"
+                app:layout_constraintTop_toBottomOf="@id/labelName"
+                tools:text="3 available" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

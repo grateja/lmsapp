@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.main_menu.MenuItem" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center|start">
+            <ImageView
+                android:id="@+id/icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="12dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:imageResource="@{viewModel.imageResource}"/>
+            <TextView
+                android:id="@+id/tab"
+                app:layout_constraintTop_toTopOf="@id/icon"
+                app:layout_constraintStart_toEndOf="@id/icon"
+                style="@style/TextMenuItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.text}"
+                android:layout_marginStart="12dp"
+                tools:text="Some text"/>
+            <TextView
+                android:visibility="@{viewModel.description != null}"
+                android:id="@+id/text_description"
+                android:text="@{viewModel.description}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tab"
+                app:layout_constraintStart_toStartOf="@id/tab"
+                tools:text="Some description"/>
+            <ImageView
+                android:visibility="@{viewModel.menuItems != null}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/browse_right"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/text_description"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

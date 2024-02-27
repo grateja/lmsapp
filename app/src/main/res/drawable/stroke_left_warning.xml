@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetTop="-5dp"
+    android:insetRight="-5dp"
+    android:insetBottom="-5dp">
+
+    <shape android:shape="rectangle" android:thickness="2dp" >
+        <stroke
+            android:width="4dp"
+            android:color="@color/text_warning" />
+<!--        <solid android:background="@drawable/background_gradient_primary" />-->
+        <gradient
+            android:startColor="#14CA1E00"
+            android:centerColor="#08962300"
+            android:centerX="0.8"
+            android:endColor="@color/transparent"
+            android:angle="0" />
+    </shape>
+</inset>

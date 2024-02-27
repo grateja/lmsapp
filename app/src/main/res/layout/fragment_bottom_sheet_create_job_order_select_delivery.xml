@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".app.joborders.create.delivery.CreateJobOrderSelectDeliveryBottomSheetFragment">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.joborders.create.delivery.DeliveryViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingHorizontal="18dp"
+            app:behavior_peekHeight="500dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider_20"
+            android:showDividers="middle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labelTitle"
+                style="@style/TextTitleFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.label}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Regular Keme" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/icon_delivery_motorcycle"
+                app:imageResource="@{viewModel.profile.vehicle.icon}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelTitle" />
+
+            <TextView
+                android:id="@+id/label_km"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/options"
+                app:layout_constraintTop_toTopOf="@id/options"
+                app:layout_constraintBottom_toBottomOf="@id/options"
+                android:text="Km"/>
+            <LinearLayout
+                android:id="@+id/options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/controls"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/icon"
+                android:layout_marginVertical="12dp"
+                android:showDividers="middle"
+                android:divider="@drawable/divider_10">
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/RoundCard"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_ONLY ? @color/primary : @color/regularColor}"
+                    android:id="@+id/card_pickup_only"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="12dp"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:textColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_ONLY ? @color/primary : @color/text_dark_grey}"
+                            android:gravity="center"
+                            android:text="@{com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_ONLY.value}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            style="@style/TileTitle"
+                            android:textColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_ONLY ? @color/primary : @color/text_dark_grey}"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:peso="@{viewModel.profile.baseFare}"
+                            tools:text="P 40.0"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/RoundCard"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.DELIVERY_ONLY ? @color/primary : @color/regularColor}"
+                    android:id="@+id/card_delivery_only"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="12dp"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:textColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.DELIVERY_ONLY ? @color/primary : @color/text_dark_grey}"
+                            android:gravity="center"
+                            android:text="@{com.vag.lmsapp.model.EnumDeliveryOption.DELIVERY_ONLY.value}"
+                            tools:text="Delivery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            style="@style/TileTitle"
+                            android:textColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.DELIVERY_ONLY ? @color/primary : @color/text_dark_grey}"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:peso="@{viewModel.profile.baseFare}"
+                            tools:text="P 40.0"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/RoundCard"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_AND_DELIVERY ? @color/primary : @color/regularColor}"
+                    android:id="@+id/card_pickup_and_delivery"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="12dp"
+                        android:layout_gravity="center">
+                        <TextView
+                            android:textColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_AND_DELIVERY ? @color/primary : @color/text_dark_grey}"
+                            android:gravity="center"
+                            android:text="@{com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_AND_DELIVERY.value}"
+                            tools:text="Pick up &amp; Delivery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            style="@style/TileTitle"
+                            android:textColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_AND_DELIVERY ? @color/primary : @color/text_dark_grey}"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:peso="@{viewModel.profile.baseFare * 2}"
+                            tools:text="P 40.0"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <NumberPicker
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="130dp"
+                    android:value="@={viewModel.distance}"
+                    app:layout_constraintEnd_toStartOf="@+id/label_km"
+                    app:layout_constraintTop_toBottomOf="@+id/labelTitle" />
+            </LinearLayout>
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/recyclerDeliveryOptions"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/text_price"-->
+<!--                app:layout_constraintBottom_toTopOf="@id/controls"/>-->
+<!--                    <RadioGroup-->
+<!--                        android:id="@+id/radioDeliveryOption"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/deliverOptionDeliveryOnly"-->
+<!--                            android:text="@{ com.csi.palabakosys.model.DeliveryOption.DELIVERY_ONLY.toString() }"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/deliverOptionPickupOnly"-->
+<!--                            android:text="@{ com.csi.palabakosys.model.DeliveryOption.PICKUP_ONLY.toString() }"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/deliverOptionPickupAndDelivery"-->
+<!--                            android:text="@{ com.csi.palabakosys.model.DeliveryOption.PICKUP_AND_DELIVERY.toString() }"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                    </RadioGroup>-->
+            <LinearLayout
+                android:id="@+id/controls"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:divider="@drawable/divider_20"
+                android:showDividers="middle"
+                android:gravity="start">
+                <Button
+                    android:id="@+id/buttonCancel"
+                    style="@style/RoundButtonNeutral"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cancel" />
+                <Button
+                    android:id="@+id/buttonConfirm"
+                    style="@style/RoundButtonPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@{`Confirm (P` + viewModel.price + `)`}"
+                    tools:text="Confirm (P 120.0)"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

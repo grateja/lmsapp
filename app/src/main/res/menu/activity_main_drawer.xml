@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single" android:id="@+id/group_admin">
+        <item
+            android:id="@+id/nav_sales_report"
+            android:title="Sales"/>
+        <item
+            android:id="@+id/nav_user"
+            android:title="Users"/>
+    </group>
+
+    <group android:checkableBehavior="single" android:id="@+id/group_basic">
+        <item
+            android:id="@+id/nav_job_orders"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Job Orders" />
+        <item
+            android:id="@+id/nav_remote"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Remote" />
+        <item
+            android:id="@+id/nav_customers"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Customers" />
+        <item
+            android:id="@+id/nav_expenses"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Expenses" />
+    </group>
+    <group android:checkableBehavior="single" android:id="@+id/group_promo">
+        <item
+            android:id="@+id/nav_points"
+            android:title="Points"/>
+        <item
+            android:id="@+id/nav_discounts"
+            android:title="Discounts"/>
+        <item
+            android:id="@+id/nav_cashless_provider"
+            android:title="Cashless providers"/>
+    </group>
+    <item android:id="@+id/nav_account"
+        android:title="Account"/>
+</menu>

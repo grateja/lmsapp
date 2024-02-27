@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.expenses.edit.ExpenseAddEditActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.expenses.edit.ExpenseAddEditViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/controls"
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date"
+                app:errorEnabled="true"
+                app:errorText="@{viewModel.validation.get(`createdAt`)}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textDatePaid"
+                    android:text="@{viewModel.model.createdAt}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`createdAt`)}"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/labelRemarks"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Remarks"
+                app:errorEnabled="true"
+                app:errorText="@{viewModel.validation.get(`remarks`)}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textRemarks"
+                    android:text="@={viewModel.model.remarks}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`remarks`)}"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/label_tag"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tag"
+                app:errorEnabled="true"
+                app:errorText="@{viewModel.validation.get(`tag`)}">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/text_tag"
+                    android:completionThreshold="0"
+                    android:padding="12dp"
+                    android:text="@={viewModel.model.tag}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions"
+                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`tag`)}"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/labelAmount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Amount"
+                app:errorEnabled="true"
+                app:errorText="@{viewModel.validation.get(`amount`)}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textAmount"
+                    android:text="@={viewModel.model.amount + ``}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`amount`)}"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <include
+            android:id="@+id/controls"
+            app:showDelete="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            layout="@layout/incl_controls_alter"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

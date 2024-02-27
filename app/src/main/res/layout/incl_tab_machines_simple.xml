@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.tabs.TabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tabMachineType"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:tabSelectedTextColor="@color/color_code_machines"
+    app:tabIndicatorColor="@color/color_code_machines">
+    <com.google.android.material.tabs.TabItem
+        android:text="@string/regular_washer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <com.google.android.material.tabs.TabItem
+        android:text="@string/regular_dryer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <com.google.android.material.tabs.TabItem
+        android:text="@string/titan_washer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <com.google.android.material.tabs.TabItem
+        android:text="@string/titan_dryer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</com.google.android.material.tabs.TabLayout>

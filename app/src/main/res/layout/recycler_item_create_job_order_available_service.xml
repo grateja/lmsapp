@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.joborders.create.services.MenuServiceItem" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardMenuItem"
+        android:id="@+id/jobOrderMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textTitle"
+                style="@style/TextItemTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{viewModel.abbr()}"
+                app:layout_constraintEnd_toStartOf="@+id/cardPrice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="8Kg Regular Wash" />
+
+            <ImageView
+                android:id="@+id/iconMinute"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/minute_icon"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/textTitle"
+                app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+
+<!--            <androidx.constraintlayout.widget.Group-->
+<!--                android:visibility="@{viewModel.minutes != null}"-->
+<!--                android:id="@+id/groupMinute"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:constraint_referenced_ids="textMinutes, iconMinute" />-->
+            <TextView
+                android:textSize="12sp"
+                android:id="@+id/textMinutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.minutes + ` Minutes`}"
+                app:layout_constraintBottom_toBottomOf="@+id/iconMinute"
+                app:layout_constraintStart_toEndOf="@+id/iconMinute"
+                app:layout_constraintTop_toTopOf="@+id/iconMinute"
+                tools:text="36 Minutes"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardPrice"
+                style="@style/CardSpan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    style="@style/TextPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:peso="@{viewModel.price}"
+                    tools:text="P 70.00" />
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                app:contentPadding="4dp"
+                app:cardCornerRadius="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="@{viewModel.selected}"
+                app:layout_constraintEnd_toEndOf="@id/cardPrice"
+                app:layout_constraintTop_toBottomOf="@id/cardPrice">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icno_cart"
+                        android:layout_marginEnd="10dp"/>
+                    <TextView
+                        style="@style/Bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.quantityStr()}"
+                        tools:text="1 package"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+<!--            <TextView-->
+<!--                android:id="@+id/textLoads"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:visibility="@{viewModel.selected}"-->
+<!--                android:text="@{viewModel.quantityStr()}"-->
+<!--                android:textSize="12sp"-->
+<!--                android:layout_marginStart="24dp"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/textMinutes"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/textMinutes"-->
+<!--                tools:text="2 Loads" />-->
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/cardButtonDelete"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                app:cardCornerRadius="14dp"-->
+<!--                app:strokeColor="@color/card_selected"-->
+<!--                app:strokeWidth="1dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent">-->
+<!--                <ImageView-->
+<!--                    android:layout_width="23dp"-->
+<!--                    android:layout_height="23dp"-->
+<!--                    android:layout_margin="6dp"-->
+<!--                    android:background="@color/transparent"-->
+<!--                    android:scaleType="centerCrop"-->
+<!--                    android:src="@drawable/delete_icon" />-->
+<!--            </com.google.android.material.card.MaterialCardView>-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.customers.list.CustomerListItem" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardItemList.FullWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_jo_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.jobOrdersCountStr()}"
+                android:textColor="@{viewModel.paidAll() ? @color/teal_700 : @color/text_dark_grey}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="1/2 PAID" />
+
+            <TextView
+                android:id="@+id/labelCRN"
+                style="@style/Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{`CRN` + viewModel.customer.crn}"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/labelName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/labelName"
+                tools:text="CRN0392029" />
+
+            <TextView
+                android:id="@+id/labelName"
+                style="@style/Bold.Black"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.customer.name}"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/labelCRN"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Chris Hemsworth"/>
+            <TextView
+                android:id="@+id/label_last_job_order"
+                android:visibility="@{viewModel.lastVisit != null}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelName"
+                android:text="Last JO: "/>
+
+            <TextView
+                android:id="@+id/text_last_job_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:momentAgo="@{viewModel.lastVisit}"
+                app:layout_constraintTop_toTopOf="@id/label_last_job_order"
+                app:layout_constraintStart_toEndOf="@id/label_last_job_order"
+                tools:text="June 21, 2023"/>
+<!--            <TextView-->
+<!--                android:visibility="@{viewModel.customer.address != null}"-->
+<!--                android:id="@+id/labelAddress"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@{viewModel.customer.address}"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labelName"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                tools:text="Sa dako paroon. Malayo sa kabihasnan"/>-->
+<!--            <LinearLayout-->
+<!--                android:visibility="@{viewModel.totalJo > 0}"-->
+<!--                android:id="@+id/labelVisits"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labelAddress"-->
+<!--                app:layout_constraintStart_toStartOf="@id/labelAddress"-->
+<!--                android:orientation="horizontal">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="First JO: "/>-->
+<!--                <TextView-->
+<!--                    android:id="@+id/textFirstVisit"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/labelCRN"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    android:text="@{viewModel.firstVisit}"-->
+<!--                    tools:text="June 21, 2023"/>-->
+<!--                <TextView-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/symbol_bullet"/>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Last JO: "/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textLastVisit"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/textFirstVisit"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:momentAgo="@{viewModel.lastVisit}"-->
+<!--                    tools:text="June 21, 2023"/>-->
+<!--            </LinearLayout>-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

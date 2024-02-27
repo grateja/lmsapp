@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.extras.ExtrasItemFull" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardMenuItem"
+        android:id="@+id/cardDiscount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider_10"
+            android:showDividers="middle"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@drawable/divider_10"
+                android:showDividers="middle"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/TileSubTitle"
+                    android:id="@+id/textTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="12 KG Fold"
+                    android:text="@{viewModel.extras.name}"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Some description"
+                    android:text="@{viewModel.extras.category}"/>
+            </LinearLayout>
+            <TextView
+                style="@style/TextPrimary"
+                android:peso="@{viewModel.extras.price}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="P 500.00"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

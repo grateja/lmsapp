@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.remote.activate.RemoteActivationPreviewActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.remote.activate.RemoteActivationPreviewViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="380dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="18dp">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:visibility="@{viewModel.fakeActivationOn}"
+                    android:layout_marginVertical="18dp"
+                    android:text="Fake activation mode On"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <include
+                    layout="@layout/incl_machine_activation_details"
+                    app:machineName="@{viewModel.machine.machineName()}"
+                    app:customerName="@{viewModel.customer.name}"
+                    app:serviceName="@{viewModel.jobOrderService.label()}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.machineActivationQueue.message}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.validationMessage}"/>
+                <Button
+                    style="@style/RoundButton"
+                    android:backgroundTint="@color/color_code_machines"
+                    android:id="@+id/buttonActivate"
+                    android:visibility="@{viewModel.machineActivationQueue.canActivate()}"
+                    android:text="@{viewModel.activateButton}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:visibility="visible"/>
+                <Button
+                    style="@style/RoundButton"
+                    android:backgroundTint="@color/color_code_machines"
+                    android:id="@+id/buttonFix"
+                    android:visibility="@{viewModel.machineActivationQueue.isInconsistent()}"
+                    android:text="Fix"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:visibility="visible"/>
+                <Button
+                    style="@style/RoundButton"
+                    android:backgroundTint="@color/color_code_machines"
+                    android:id="@+id/buttonHide"
+                    android:visibility="@{viewModel.machineActivationQueue.connecting() || viewModel.machineActivationQueue.isSuccess()}"
+                    android:text="Hide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:visibility="visible"/>
+                <!--            <com.google.android.material.progressindicator.CircularProgressIndicator-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:visibility="@{viewModel.machineActivationQueue.status == com.csi.palabakosys.model.MachineConnectionStatus.CONNECTING}"-->
+                <!--                android:indeterminate="true"-->
+                <!--                android:layout_width="30dp"-->
+                <!--                android:layout_height="30dp"/>-->
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

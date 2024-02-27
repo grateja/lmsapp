@@ -1,0 +1,75 @@
+[versions]
+agp = "8.2.2"
+annotation = "1.7.1"
+camera-core = "1.3.1"
+databinding = "8.2.2"
+datastore = "1.0.0"
+escpos-thermalprinter-android = "3.3.0"
+fragment-ktx = "1.6.2"
+glide = "4.12.0"
+kotlin = "1.9.0"
+ksp = "1.8.10-1.0.9"
+activity-compose = "1.8.2"
+androidx-junit = "1.1.5"
+core-ktx = "1.12.0"
+espresso-core = "3.5.1"
+hilt-android = "2.49"
+junit = "4.13.2"
+lifecycle-runtime-ktx = "2.7.0"
+compose-bom = "2024.02.01"
+okhttp = "3.14.9"
+pattern-lock = "0.2.0"
+photoview = "2.3.0"
+play-services-location = "21.1.0"
+room = "2.6.1"
+appcompat = "1.6.1"
+material = "1.11.0"
+constraintlayout = "2.1.4"
+swiperefreshlayout = "1.1.0"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camera-core" }
+androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "camera-core" }
+androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camera-core" }
+androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "camera-core" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+androidx-databinding-compiler = { module = "androidx.databinding:databinding-compiler", version.ref = "databinding" }
+androidx-databinding-runtime = { module = "androidx.databinding:databinding-runtime", version.ref = "databinding" }
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment-ktx" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-material3-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+escpos-thermalprinter-android = { module = "com.github.dantsu:escpos-thermalprinter-android", version.ref = "escpos-thermalprinter-android" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
+junit = { module = "junit:junit", version.ref = "junit" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+pattern-lock = { module = "io.github.itsxtt:pattern-lock", version.ref = "pattern-lock" }
+photoview = { module = "com.github.chrisbanes:PhotoView", version.ref = "photoview" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+jetbrainsKotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
+#kspCompiler = { id = "com.google.devtools.ksp", version.ref = "ksp" }

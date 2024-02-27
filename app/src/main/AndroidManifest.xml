@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <application
+        android:name=".di.MyApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LMS2025">
+        <activity
+            android:name=".app.joborders.print.JobOrderPrintActivity"
+            android:exported="false"
+            android:theme="@style/Theme.LMS2025.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.pickup_and_deliveries.add_edit.AddEditDeliveryProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.app_settings.developer.AppSettingsNetworkActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.payment_list.PaymentListActivity"
+            android:exported="false"
+            android:label="Payments"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.payment.preview.PaymentPreviewActivity"
+            android:exported="false"
+            android:label="Payment"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.machines.usage.MachineUsageActivity"
+            android:exported="false"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.app_settings.user.AppSettingsUserAccountsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.app_settings.job_orders.AppSettingsJobOrdersActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.pickup_and_deliveries.PickupAndDeliveriesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.main_menu.SubMenuActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.shop_preferences.AppSettingsShopPreferencesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.dashboard.DashBoardActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.gallery.picture_preview.PicturePreviewActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.gallery.picture_browser.PictureCaptureActivity"
+            android:exported="false"
+            android:label="Take Photo"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.remote.queues.RemoteActivationQueuesActivity"
+            android:exported="false"
+            android:label="Select Service"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.remote.customer.RemoteActivationCustomerActivity"
+            android:exported="false"
+            android:label="Select customer"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.remote.RemoteActivationPanelActivity"
+            android:exported="false"
+            android:label="Remote Activation"
+            android:theme="@style/Theme.LMS2025.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.packages.edit.PackagesAddEditActivity"
+            android:exported="false"
+            android:label="Packages">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.packages.preview.PackagesPreviewActivity"
+            android:exported="false"
+            android:label="Packages">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.packages.PackagesActivity"
+            android:exported="false"
+            android:label="Packages">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.services.edit.AddEditServiceActivity"
+            android:exported="false"
+            android:label="Services">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.services.ServicesActivity"
+            android:exported="false"
+            android:label="Services">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.customers.preview.CustomerPreviewActivity"
+            android:exported="false"
+            android:label="Customer Details"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.unpaid.prompt.JobOrdersUnpaidPromptActivity"
+            android:exported="false"
+            android:label="Unpaid Job Orders"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.customers.list.CustomersActivity"
+            android:exported="false"
+            android:label="Customers"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.app_settings.printer.browser.AppSettingsPrinterBrowserActivity"
+            android:exported="false"
+            android:label="Printer Settings">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.extras.edit.ExtrasAddEditActivity"
+            android:exported="false"
+            android:label="Extras Services">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.extras.ExtrasActivity"
+            android:exported="false"
+            android:label="Extras Services"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.products.edit.ProductAddEditActivity"
+            android:exported="false"
+            android:label="Products">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.products.ProductsActivity"
+            android:exported="false"
+            android:label="Products"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.discounts.edit.DiscountAddEditActivity"
+            android:exported="false"
+            android:label="Discounts">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.discounts.DiscountsActivity"
+            android:exported="false"
+            android:label="Discounts"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.expenses.edit.ExpenseAddEditActivity"
+            android:exported="false"
+            android:label="Expenses"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.expenses.ExpensesActivity"
+            android:exported="false"
+            android:label="Expenses"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.create.packages.JobOrderCreateSelectPackageActivity"
+            android:exported="false"
+            android:label="Select Package">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.cancel.JobOrderCancelActivity"
+            android:exported="false"
+            android:label="Cancel Job Order"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.list.JobOrderListActivity"
+            android:exported="false"
+            android:label="Job Orders"
+            android:theme="@style/Theme.LMS2025.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.remote.running.RemoteActivationRunningActivity"
+            android:exported="false"
+            android:label="Remote Panel"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.remote.activate.RemoteActivationPreviewActivity"
+            android:exported="false"
+            android:label="Remote Activation"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <service
+            android:name=".services.MachineActivationService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false"
+            android:foregroundServiceType="specialUse" />
+        <service
+            android:name=".services.PrinterService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false"
+            android:foregroundServiceType="specialUse"/>
+
+        <activity
+            android:name=".app.machines.addedit.MachinesAddEditActivity"
+            android:exported="false"
+            android:label="Machines">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.machines.MachinesActivity"
+            android:exported="false"
+            android:label="Machines"
+            android:theme="@style/Theme.LMS2025.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.auth.AuthActionDialogActivity"
+            android:exported="false"
+            android:label="Authentication required"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.payment.JobOrderPaymentActivity"
+            android:exported="false"
+            android:label="Payment"
+            android:theme="@style/LightActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.app_settings.printer.SettingsPrinterActivity"
+            android:exported="false"
+            android:label="Printer Settings">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.preview.JobOrderPreviewActivity"
+            android:exported="false"
+            android:label="Preview Job Order">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.app_settings.ip.AppSettingsIPAddressActivity"
+            android:exported="false"
+            android:label="IP Address Settings">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.create.discount.JobOrderCreateSelectDiscountActivity"
+            android:exported="false"
+            android:label="Select Discount">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.create.extras.JobOrderCreateSelectExtrasActivity"
+            android:exported="false"
+            android:label="Select Extras Services">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.create.delivery.JobOrderCreateSelectDeliveryActivity"
+            android:exported="false"
+            android:label="Select Delivery">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.create.products.JobOrderCreateSelectProductsActivity"
+            android:exported="false"
+            android:label="Select Products">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.create.services.JobOrderCreateSelectWashDryActivity"
+            android:exported="false"
+            android:label="Select Machine Services">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.create.JobOrderCreateActivity"
+            android:exported="false"
+            android:theme="@style/Theme.LMS2025.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".app.joborders.create.customer.JobOrderCreateSelectCustomerActivity"
+            android:exported="false"
+            android:label="Select Customer"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+        <activity
+            android:name=".app.main_menu.MainActivity"
+            android:exported="true"
+            android:noHistory="false"
+            android:theme="@style/Theme.LMS2025.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.vag.lmsapp.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

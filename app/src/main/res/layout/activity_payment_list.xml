@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.payment_list.PaymentListActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.payment_list.PaymentListViewModel" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="24dp"
+            android:background="@color/color_code_payments"
+            android:fitsSystemWindows="true">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                app:layout_scrollFlags="scroll|snap|enterAlways"/>
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/card_date_range"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_scrollFlags="scroll|enterAlways|snap">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_margin="12dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <TextView-->
+<!--                        android:visibility="@{viewModel.dateFilter != null}"-->
+<!--                        android:textColor="@color/teal_700"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:text="@{viewModel.dateFilter.toString()}"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"/>-->
+<!--                    <TextView-->
+<!--                        android:visibility="@{viewModel.dateFilter == null}"-->
+<!--                        android:textColor="@color/teal_700"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:text="Select dates"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"/>-->
+<!--                    <ImageButton-->
+<!--                        android:visibility="@{viewModel.dateFilter != null}"-->
+<!--                        android:id="@+id/button_clear_date_filter"-->
+<!--                        android:background="@color/transparent"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:scaleType="center"-->
+<!--                        android:src="@android:drawable/ic_menu_close_clear_cancel" />-->
+<!--                </LinearLayout>-->
+<!--            </com.google.android.material.card.MaterialCardView>-->
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_payment_list"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/card_aggr_result"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_aggr_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="TOTAL COUNT:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="@{viewModel.aggrResult.count + ``}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="1 Result"/>
+                    <TextView
+                        android:text="SUM:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:peso="@{viewModel.aggrResult.sum}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="P 12.2"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

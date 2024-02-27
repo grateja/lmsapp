@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.services.ServicesActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.services.ServicesViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/tabMachineType"
+            layout="@layout/incl_tab_machines_simple"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/inclMachines"
+            app:layout_constraintTop_toBottomOf="@id/tabMachineType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            layout="@layout/incl_create_job_order_available_services" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
