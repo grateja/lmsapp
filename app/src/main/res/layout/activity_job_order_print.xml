@@ -77,7 +77,7 @@
                     android:visibility="@{!viewModel.bluetoothEnabled}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Turn On Bluetooth"
+                    android:text="@{viewModel.permitted ? `Turn on bluetooth` : `Allow app to use bluetooth`}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>

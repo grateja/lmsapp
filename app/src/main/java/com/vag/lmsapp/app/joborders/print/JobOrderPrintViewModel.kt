@@ -41,6 +41,9 @@ constructor(
     val bluetoothEnabled = MutableLiveData(false)
     val printerName = printerSettings.printerName
 
+    private val _permitted = MutableLiveData<Boolean>()
+    val permitted: LiveData<Boolean> = _permitted
+
     private val _printState = MutableLiveData(EnumPrintState.READY)
     val printState: LiveData<EnumPrintState> = _printState
     val buttonPrimaryAction = MediatorLiveData<String>().apply {
@@ -555,6 +558,10 @@ constructor(
 
     fun setBluetoothAvailability(available: Boolean) {
         isBluetoothAvailable.value = available
+    }
+
+    fun setPermissionStatus(status: Boolean) {
+        _permitted.value = status
     }
 
     sealed class DataState {

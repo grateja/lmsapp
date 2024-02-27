@@ -97,6 +97,7 @@ class JobOrderPrintActivity : AppCompatActivity() {
             addAction(PrinterService.PRINT_ACTION)
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter)
+        viewModel.setPermissionStatus(helper.permitted())
     }
 
     override fun onPause() {

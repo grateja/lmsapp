@@ -24,6 +24,10 @@ class BluetoothPrinterHelper(private val activity: AppCompatActivity) {
         }
     }
 
+    fun permitted(): Boolean {
+        return bluetoothHelper.hasPermissions()
+    }
+
     private var _onBluetoothAvailabilityChanged: ((Boolean) -> Unit)? = null
     private var _onBluetoothEnabled: ((Boolean) -> Unit)? = null
     private var _onBondedDeviceLoaded: ((List<PrinterDevice>) -> Unit)? = null
