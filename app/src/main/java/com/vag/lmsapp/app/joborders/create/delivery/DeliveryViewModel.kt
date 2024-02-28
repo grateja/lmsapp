@@ -29,10 +29,22 @@ constructor(
         fun update() {
             val baseFare = profile.value?.baseFare ?: 0f
             val pricePerKm = profile.value?.pricePerKm ?: 0f
-            val distance = distance.value ?: 0
+            val distance = (distance.value ?: 0).toFloat()
             val option = deliveryOption.value?.charge ?: 0
+            val minDistance = profile.value?.minDistance ?: 0f
 
-            value = ((distance * pricePerKm) + baseFare) * option
+//            value = ((distance * pricePerKm) + baseFare) * option
+            value = if (distance > minDistance) {
+                // Calculate additional charge for distance exceeding minDistance
+                val additionalDistance = distance - minDistance
+                val additionalCharge = additionalDistance * pricePerKm
+
+                // Combine base fare, additional charge, and option charge
+                (baseFare + additionalCharge) * option
+            } else {
+                // Charge only base fare if distance is less than minDistance
+                baseFare * option
+            }
         }
         addSource(distance) { update()}
         addSource(deliveryOption) { update() }

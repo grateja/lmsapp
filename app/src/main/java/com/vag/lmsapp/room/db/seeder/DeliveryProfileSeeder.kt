@@ -9,12 +9,12 @@ class DeliveryProfileSeeder(dao: DaoDeliveryProfile): EntitySeederImpl<EntityDel
     override fun items(): List<EntityDeliveryProfile> {
         return listOf(
             EntityDeliveryProfile(EnumDeliveryVehicle.TRIKE_PEDAL, 20f, 10f, 1f),
-            EntityDeliveryProfile(EnumDeliveryVehicle.TRIKE_ELECTRIC, 25f, 10f, 5f),
-            EntityDeliveryProfile(EnumDeliveryVehicle.MOTORCYCLE, 30f, 12f, 10f),
-            EntityDeliveryProfile(EnumDeliveryVehicle.TRICYCLE, 40f, 12f, 5f),
-            EntityDeliveryProfile(EnumDeliveryVehicle.SEDAN, 50f, 15f, 30f),
-            EntityDeliveryProfile(EnumDeliveryVehicle.MPV, 60f, 15f, 50f),
-            EntityDeliveryProfile(EnumDeliveryVehicle.SMALL_VAN, 70f, 17f, 100f),
+            EntityDeliveryProfile(EnumDeliveryVehicle.TRIKE_ELECTRIC, 25f, 10f, 1f),
+            EntityDeliveryProfile(EnumDeliveryVehicle.MOTORCYCLE, 30f, 12f, 2f),
+            EntityDeliveryProfile(EnumDeliveryVehicle.TRICYCLE, 40f, 12f, 2f),
+            EntityDeliveryProfile(EnumDeliveryVehicle.SEDAN, 50f, 15f, 3f),
+            EntityDeliveryProfile(EnumDeliveryVehicle.MPV, 60f, 15f, 3f),
+            EntityDeliveryProfile(EnumDeliveryVehicle.SMALL_VAN, 70f, 17f, 3f),
         )
     }
 }

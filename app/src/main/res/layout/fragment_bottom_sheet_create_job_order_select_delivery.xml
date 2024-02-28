@@ -11,12 +11,12 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:paddingHorizontal="18dp"
             app:behavior_peekHeight="500dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@drawable/divider_20"
@@ -43,6 +43,17 @@
                 app:layout_constraintTop_toBottomOf="@id/labelTitle" />
 
             <TextView
+                android:textAlignment="center"
+                style="@style/CardTitle"
+                android:layout_marginVertical="18dp"
+                android:id="@+id/label_minimum_fare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{`Base fare + P` + viewModel.profile.pricePerKm + `/km after ` + viewModel.profile.minDistance + `km`}"
+                app:layout_constraintTop_toBottomOf="@id/icon"
+                tools:text="Base fare + P 10/km after 2km"/>
+
+            <TextView
                 android:id="@+id/label_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,7 +68,7 @@
                 app:layout_constraintBottom_toTopOf="@id/controls"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/icon"
+                app:layout_constraintTop_toBottomOf="@id/label_minimum_fare"
                 android:layout_marginVertical="12dp"
                 android:showDividers="middle"
                 android:divider="@drawable/divider_10">
@@ -161,37 +172,6 @@
                     app:layout_constraintEnd_toStartOf="@+id/label_km"
                     app:layout_constraintTop_toBottomOf="@+id/labelTitle" />
             </LinearLayout>
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:visibility="gone"-->
-<!--                android:id="@+id/recyclerDeliveryOptions"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/text_price"-->
-<!--                app:layout_constraintBottom_toTopOf="@id/controls"/>-->
-<!--                    <RadioGroup-->
-<!--                        android:id="@+id/radioDeliveryOption"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content">-->
-<!--                        <RadioButton-->
-<!--                            android:id="@+id/deliverOptionDeliveryOnly"-->
-<!--                            android:text="@{ com.csi.palabakosys.model.DeliveryOption.DELIVERY_ONLY.toString() }"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"/>-->
-<!--                        <RadioButton-->
-<!--                            android:id="@+id/deliverOptionPickupOnly"-->
-<!--                            android:text="@{ com.csi.palabakosys.model.DeliveryOption.PICKUP_ONLY.toString() }"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"/>-->
-<!--                        <RadioButton-->
-<!--                            android:id="@+id/deliverOptionPickupAndDelivery"-->
-<!--                            android:text="@{ com.csi.palabakosys.model.DeliveryOption.PICKUP_AND_DELIVERY.toString() }"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"/>-->
-<!--                    </RadioGroup>-->
             <LinearLayout
                 android:id="@+id/controls"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -216,6 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textFontWeight="900"
                     android:text="@{`Confirm (P` + viewModel.price + `)`}"
                     tools:text="Confirm (P 120.0)"/>
             </LinearLayout>
