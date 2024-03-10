@@ -20,7 +20,6 @@ import com.vag.lmsapp.util.converters.*
     EntityDeliveryProfile::class,
     EntityProduct::class,
     EntityJobOrder::class,
-//    EntityJobOrderPackage::class,
     EntityJobOrderService::class,
     EntityJobOrderProduct::class,
     EntityJobOrderExtras::class,
@@ -37,7 +36,6 @@ import com.vag.lmsapp.util.converters.*
     EntityExpense::class,
     EntityInventoryLog::class,
     EntityDiscount::class,
-//    EntityCashlessProvider::class
 ], version = 13,
     exportSchema = true,
 )
@@ -53,7 +51,6 @@ import com.vag.lmsapp.util.converters.*
     ProductTypeConverter::class,
     ServiceTypeConverter::class,
     DiscountApplicableConverter::class,
-    DiscountTypeConverter::class,
     ActionPermissionConverter::class,
     PaymentStatusConverter::class,
     ArrayListConverter::class,

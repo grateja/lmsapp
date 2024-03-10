@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.model.EnumDiscountApplicable
-import com.vag.lmsapp.model.EnumDiscountType
 import com.vag.lmsapp.model.Rule
 import com.vag.lmsapp.room.entities.EntityDiscount
 import com.vag.lmsapp.room.repository.DiscountsRepository
@@ -25,7 +24,7 @@ constructor(
 ) : CreateViewModel<EntityDiscount>(repository) {
     fun get(id: UUID?) {
         viewModelScope.launch {
-            val entity = super.get(id, EntityDiscount(EnumDiscountType.PERCENTAGE, listOf(
+            val entity = super.get(id, EntityDiscount(listOf(
                 EnumDiscountApplicable.TOTAL_AMOUNT
             )))
 
@@ -56,12 +55,8 @@ constructor(
                 Rule.IsNumeric,
                 Rule.Min(1f, "Discount value cannot be 0"),
             ))
-            addRule("discountType", model.value?.discountType, arrayOf(Rule.Required))
 
-            if(model.value?.discountType == EnumDiscountType.PERCENTAGE) {
-                addRule("value", model.value?.value, arrayOf(Rule.Max(100f, "Discount cannot be greater than 100%")))
-            }
-
+            addRule("value", model.value?.value, arrayOf(Rule.Max(100f, "Discount cannot be greater than 100%")))
         }
         super.isInvalid(inputValidation)
     }

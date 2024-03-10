@@ -3,7 +3,6 @@ package com.vag.lmsapp.app.joborders.create.discount
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Ignore
-import com.vag.lmsapp.model.EnumDiscountType
 import com.vag.lmsapp.model.EnumDiscountApplicable
 //import com.csi.palabakosys.model.DiscountTypeEnum
 import kotlinx.parcelize.IgnoredOnParcel
@@ -22,9 +21,6 @@ data class MenuDiscount(
 
     @ColumnInfo(name = "applicable_to")
     val applicableTo: List<EnumDiscountApplicable>,
-
-    @ColumnInfo(name = "discount_type")
-    val discountType: EnumDiscountType,
 
     @ColumnInfo(name = "void")
     var isVoid: Boolean = false,
@@ -53,17 +49,11 @@ data class MenuDiscount(
     fun calculateDiscount(amount: Float, applicable: EnumDiscountApplicable) : Float {
         return if(!applicableTo.any{ it == applicable || it == EnumDiscountApplicable.TOTAL_AMOUNT})
             0f
-        else if(discountType == EnumDiscountType.PERCENTAGE)
-            computePercentage(amount)
         else
-            amount
+            computePercentage(amount)
     }
 
     override fun toString(): String {
-        return if(discountType == EnumDiscountType.PERCENTAGE) {
-            "$name ($value %)"
-        } else {
-            "$name (P $value)"
-        }
+        return "$name ($value %)"
     }
 }

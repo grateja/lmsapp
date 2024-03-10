@@ -19,7 +19,6 @@ class DiscountsActivity : FilterActivity() {
     private lateinit var binding: ActivityDiscountsBinding
     private val viewModel: DiscountsViewModel by viewModels()
     private val adapter = Adapter<EntityDiscount>(R.layout.recycler_item_discounts_full)
-//    private val addEditLauncher = ActivityLauncher(this)
 
     override var filterHint = "Search Discounts"
     override var toolbarBackground: Int = R.color.teal_700

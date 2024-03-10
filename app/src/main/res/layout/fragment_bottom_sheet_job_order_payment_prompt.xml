@@ -13,54 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/main_container"
             android:background="@drawable/background_gradient_secondary"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/paidAllPrompt"
-                app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="#FFFFF8"
-                app:strokeWidth="3dp"
-                app:strokeColor="#C2EC87"
-                app:contentPadding="24dp"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="@{viewModel.jobOrders.size() == 0}">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:divider="@drawable/divider_20"
-                    android:showDividers="middle">
-
-                    <ImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        app:srcCompat="@drawable/empty_list" />
-                    <TextView
-                        android:textAlignment="center"
-                        android:text="All Job Orders have been paid successfully"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                    <Button
-                        android:id="@+id/buttonOk"
-                        style="@style/RoundButtonNeutral"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ok"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <androidx.constraintlayout.widget.Group
-                android:visibility="@{viewModel.jobOrders.size > 0}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="mainContainer,controls"/>
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_app_bar"
                 app:cardBackgroundColor="@color/color_code_payments"
@@ -95,7 +50,6 @@
             </com.google.android.material.card.MaterialCardView>
             <LinearLayout
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:id="@+id/mainContainer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"

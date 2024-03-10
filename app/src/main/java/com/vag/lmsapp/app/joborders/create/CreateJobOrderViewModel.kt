@@ -336,7 +336,6 @@ constructor(
                 entity.name,
                 entity.value,
                 entity.applicableTo,
-                entity.discountType,
                 entity.isVoid,
                 entity.deletedAt,
             )
@@ -733,7 +732,6 @@ constructor(
                     it.discountRefId,
                     it.name,
                     it.value,
-                    it.discountType,
                     it.applicableTo,
                     it.isVoid,
                     jobOrder.id

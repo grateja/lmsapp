@@ -55,25 +55,6 @@
                     android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`value`)}"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:selectedDiscountType="@={viewModel.model.discountType}">
-
-                <RadioButton
-                    android:id="@+id/radio_discount_percentage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Percentage" />
-
-                <RadioButton
-                    android:id="@+id/radio_cashless_discount_fixed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fixed" />
-
-            </RadioGroup>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerDiscountApplicable"
                 android:layout_width="match_parent"

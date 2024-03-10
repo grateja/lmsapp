@@ -24,7 +24,6 @@ import androidx.databinding.InverseBindingListener
 import com.vag.lmsapp.R
 import com.vag.lmsapp.databinding.AlertDialogBinding
 import com.vag.lmsapp.databinding.AlertDialogTextInputBinding
-import com.vag.lmsapp.model.EnumDiscountType
 import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.model.EnumWashType
 import com.google.android.material.textfield.TextInputEditText
@@ -195,26 +194,6 @@ fun Instant.isToday(): Boolean {
 //    }
 //}
 
-@BindingAdapter("app:selectedDiscountType")
-fun setDiscountType(radioGroup: RadioGroup, discountType: EnumDiscountType?) {
-    val selectedId = when (discountType) {
-        EnumDiscountType.FIXED -> R.id.radio_cashless_discount_fixed
-        EnumDiscountType.PERCENTAGE -> R.id.radio_discount_percentage
-        else -> View.NO_ID
-    }
-    if (radioGroup.checkedRadioButtonId != selectedId) {
-        radioGroup.check(selectedId)
-    }
-}
-
-@InverseBindingAdapter(attribute = "app:selectedDiscountType", event = "android:checkedButtonAttrChanged")
-fun getDiscountType(radioGroup: RadioGroup): EnumDiscountType? {
-    return when (radioGroup.checkedRadioButtonId) {
-        R.id.radio_cashless_discount_fixed -> EnumDiscountType.FIXED
-        R.id.radio_discount_percentage -> EnumDiscountType.PERCENTAGE
-        else -> null
-    }
-}
 
 @BindingAdapter("android:checkedButtonAttrChanged")
 fun setCheckedButtonListener(radioGroup: RadioGroup, listener: InverseBindingListener?) {

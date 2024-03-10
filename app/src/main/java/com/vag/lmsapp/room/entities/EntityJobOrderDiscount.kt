@@ -2,8 +2,6 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.*
 import com.vag.lmsapp.model.EnumDiscountApplicable
-import com.vag.lmsapp.model.EnumDiscountType
-//import com.csi.palabakosys.model.DiscountTypeEnum
 import java.util.*
 
 @Entity(tableName = "job_order_discounts")
@@ -14,8 +12,6 @@ data class EntityJobOrderDiscount(
     val name: String,
 
     val value: Float,
-
-    val discountType: EnumDiscountType,
 
     @ColumnInfo(name = "applicable_to")
     val applicableTo: List<EnumDiscountApplicable>,

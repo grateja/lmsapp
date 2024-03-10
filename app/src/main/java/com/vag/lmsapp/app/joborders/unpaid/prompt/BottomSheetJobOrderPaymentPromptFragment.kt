@@ -52,9 +52,6 @@ class BottomSheetJobOrderPaymentPromptFragment: BaseModalFragment() {
         adapter.onItemClick = {
 //            previewJobOrder(it.id)
         }
-        binding.buttonOk.setOnClickListener {
-            dismiss()
-        }
     }
 
     private fun subscribeListeners() {

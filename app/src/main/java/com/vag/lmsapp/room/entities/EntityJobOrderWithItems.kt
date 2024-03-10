@@ -3,7 +3,6 @@ package com.vag.lmsapp.room.entities
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.vag.lmsapp.model.EnumDiscountApplicable
-import com.vag.lmsapp.model.EnumDiscountType
 
 data class EntityJobOrderWithItems (
     @Embedded var jobOrder: EntityJobOrder,
@@ -110,7 +109,6 @@ data class EntityJobOrderWithItems (
     fun discountInPeso() : Float {
         return discount?.let {
             if(it.deletedAt != null) return@let 0f
-            if(it.discountType == EnumDiscountType.FIXED) return@let it.value
             var total = 0f
             total += it.getDiscount(servicesTotal(), EnumDiscountApplicable.WASH_DRY_SERVICES)
             total += it.getDiscount(productsTotal(), EnumDiscountApplicable.PRODUCTS_CHEMICALS)
