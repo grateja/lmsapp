@@ -59,6 +59,9 @@ constructor(
 //    private val _locked = MutableLiveData(false)
 //    val locked: LiveData<Boolean> = _locked
 
+    private val _modified = MutableLiveData(false)
+    val modified: LiveData<Boolean> = _modified
+
     private val _saved = MutableLiveData(false)
     val saved: LiveData<Boolean> = _saved
 
@@ -385,6 +388,7 @@ constructor(
     fun setCustomerId(customerId: UUID) {
         _customerId.value = customerId
         _saved.value = false
+        _modified.value = true
     }
 
     fun syncPackages(packages: List<MenuJobOrderPackage>?) {
@@ -395,17 +399,20 @@ constructor(
         services?.let {
             jobOrderServices.value = it.toList()
             _saved.value = false
+            _modified.value = true
         }
     }
 
     fun syncProducts(products: List<MenuProductItem>?) {
         jobOrderProducts.value = products?.toMutableList()
         _saved.value = false
+        _modified.value = true
     }
 
     fun syncExtras(extrasItems: List<MenuExtrasItem>?) {
         jobOrderExtras.value = extrasItems?.toMutableList()
         _saved.value = false
+        _modified.value = true
     }
 
     fun setDeliveryCharge(deliveryCharge: DeliveryCharge?) {
@@ -416,6 +423,7 @@ constructor(
         }
         this.deliveryCharge.value = deliveryCharge
         _saved.value = false
+        _modified.value = true
     }
 
     fun applyDiscount(discount: MenuDiscount?) {
@@ -427,6 +435,7 @@ constructor(
             this.discount.value = discount
         }
         _saved.value = false
+        _modified.value = true
     }
 
     fun removeService(id: UUID?) {
@@ -446,6 +455,7 @@ constructor(
                     jobOrderServices.value = this.filter { it.serviceRefId != id }
                 }
                 _saved.value = false
+                _modified.value = true
             }
         }
     }
@@ -462,6 +472,7 @@ constructor(
                     jobOrderProducts.value = this.filter { it.productRefId != id }
                 }
                 _saved.value = false
+                _modified.value = true
             }
         }
     }
@@ -478,6 +489,7 @@ constructor(
                     jobOrderExtras.value = this.filter { it.extrasRefId != id }
                 }
                 _saved.value = false
+                _modified.value = true
             }
         }
     }
@@ -488,6 +500,7 @@ constructor(
         } else {
             createdAt.value = instant
             _saved.value = false
+            _modified.value = true
         }
     }
 
@@ -613,8 +626,14 @@ constructor(
     fun requestExit() {
         val hasAny = hasAny.value ?: false
         val saved = saved.value ?: false
+        val modified = _modified.value ?: false
         val jobOrderId = jobOrderId.value
-        val resultCode = if(saved) { RESULT_OK } else { RESULT_CANCELED }
+
+        // modified and not saved = canceled
+        // not modified = canceled
+        // modified but saved = ok
+
+        val resultCode = if(modified && saved) { RESULT_OK } else { RESULT_CANCELED }
         _dataState.value = DataState.RequestExit(
             (!saved && !hasAny) || saved,
             resultCode,

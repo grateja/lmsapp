@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
+import com.vag.lmsapp.app.joborders.JobOrderItemMinimal
+import com.vag.lmsapp.app.joborders.cancel.JobOrderCancelActivity
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
@@ -26,10 +28,11 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
     override var fullHeight: Boolean = true
     private lateinit var binding: FragmentBottomSheetJobOrderPreviewBinding
     private val viewModel: JobOrderPreviewViewModel by activityViewModels()
+    private val authLauncher = FragmentLauncher(this)
     private val launcher = FragmentLauncher(this)
-    private val servicesAdapter = Adapter<String>(R.layout.recycler_item_simple_item)
-    private val productsAdapter = Adapter<String>(R.layout.recycler_item_simple_item)
-    private val extrasAdapter = Adapter<String>(R.layout.recycler_item_simple_item)
+    private val servicesAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
+    private val productsAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
+    private val extrasAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,21 +58,33 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
         binding.buttonPrint.setOnClickListener {
             viewModel.openPrint()
         }
+        binding.buttonDelete.setOnClickListener {
+            requestAuthorization(ACTION_REQUEST_DELETE)
+        }
 
-        launcher.onOk = {
+        authLauncher.onOk = {
             if(it?.action == ACTION_REQUEST_UNLOCK) {
                 viewModel.openJobOrder()
+            } else if(it?.action == ACTION_REQUEST_DELETE) {
+                viewModel.openDelete()
             }
         }
 
+        launcher.onOk = {
+            if(it?.action == JobOrderCancelActivity.ACTION_DELETE_JOB_ORDER) {
+                dismiss()
+            }
+            viewModel.requireRefresh()
+        }
+
         viewModel.jobOrder.observe(viewLifecycleOwner, Observer {
-            it?.services?.map { it.serviceName }?.let {services ->
+            it?.services?.map { JobOrderItemMinimal(it.quantity, it.serviceName, it.price) }?.let {services ->
                 servicesAdapter.setData(services)
             }
-            it?.products?.map { it.productName }?.let {products ->
+            it?.products?.map { JobOrderItemMinimal(it.quantity, it.productName, it.price) }?.let {products ->
                 productsAdapter.setData(products)
             }
-            it?.extras?.map { it.extrasName }?.let {extras ->
+            it?.extras?.map { JobOrderItemMinimal(it.quantity, it.extrasName, it.price) }?.let {extras ->
                 extrasAdapter.setData(extras)
             }
         })
@@ -81,18 +96,16 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                         action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
                         putExtra(JOB_ORDER_ID, it.id.toString())
                     }
-                    startActivity(intent)
+                    launcher.launch(intent)
                     viewModel.resetState()
-                    dismiss()
                 }
                 is JobOrderPreviewViewModel.NavigationState.InitiatePayment -> {
                     val intent =Intent(context, JobOrderPaymentActivity::class.java).apply {
                         action = JobOrderCreateActivity.ACTION_SYNC_PAYMENT
                         putExtra(JobOrderPaymentActivity.CUSTOMER_ID, it.customerId.toString())
                     }
-                    startActivity(intent)
+                    launcher.launch(intent)
                     viewModel.resetState()
-                    dismiss()
                 }
                 is JobOrderPreviewViewModel.NavigationState.PreviewPayment -> {
                     val intent = Intent(context, PaymentPreviewActivity::class.java).apply {
@@ -100,15 +113,9 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                     }
                     startActivity(intent)
                     viewModel.resetState()
-                    dismiss()
                 }
                 is JobOrderPreviewViewModel.NavigationState.RequestEdit -> {
-                    val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
-                        action = ACTION_REQUEST_UNLOCK
-                        putExtra(AuthActionDialogActivity.MESSAGE, "Authentication Required")
-                        putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, arrayListOf(EnumActionPermission.MODIFY_JOB_ORDERS))
-                    }
-                    launcher.launch(intent)
+                    requestAuthorization(ACTION_REQUEST_UNLOCK)
                     viewModel.resetState()
                 }
                 is JobOrderPreviewViewModel.NavigationState.OpenPrint -> {
@@ -122,6 +129,13 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                     context?.showMessageDialog("Invalid operation", it.message)
                     viewModel.resetState()
                 }
+                is JobOrderPreviewViewModel.NavigationState.OpenDelete -> {
+                    val intent = Intent(context, JobOrderCancelActivity::class.java).apply {
+                        putExtra(JOB_ORDER_ID, it.id.toString())
+                    }
+                    launcher.launch(intent)
+                    viewModel.resetState()
+                }
                 else -> {}
             }
         })
@@ -129,7 +143,18 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
         return binding.root
     }
 
+    private fun requestAuthorization(authAction: String) {
+        val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
+            action = authAction
+            putExtra(AuthActionDialogActivity.MESSAGE, "Authentication Required")
+            putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, arrayListOf(EnumActionPermission.MODIFY_JOB_ORDERS))
+        }
+        authLauncher.launch(intent)
+        viewModel.resetState()
+    }
+
     companion object {
         const val ACTION_REQUEST_UNLOCK = "request_unlock"
+        const val ACTION_REQUEST_DELETE = "request_delete"
     }
 }

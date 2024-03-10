@@ -53,23 +53,54 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <TableLayout
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/RoundCard.NoElevation"
+                        android:layout_marginVertical="18dp"
+                        android:layout_marginHorizontal="18dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="18dp">
-                        <TableRow
-                            style="@style/DefinitionTermRow">
-                            <TextView android:text="Customer name:"/>
-                            <TextView android:text="@{viewModel.jobOrder.customer.name}"
-                                tools:text="Tony Stark"/>
-                        </TableRow>
-                        <TableRow
-                            style="@style/DefinitionTermRow">
-                            <TextView android:text="Date created:"/>
-                            <TextView android:text="@{viewModel.jobOrder.jobOrder.createdAt}"
-                                tools:text="Jan 1, 2024"/>
-                        </TableRow>
-                    </TableLayout>
+                        android:layout_height="wrap_content">
+                        <TableLayout
+                            android:layout_margin="12dp"
+                            style="@style/Caption.Definition"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TableRow
+                                android:layout_marginVertical="8dp">
+                                <TextView
+                                    android:text="CUSTOMER NAME"
+                                    android:layout_weight="1"/>
+                                <TextView
+                                    style="@style/Bold"
+                                    android:textAlignment="textEnd"
+                                    android:text="@{viewModel.jobOrder.customer.name}"
+                                    tools:text="Tony Stark"/>
+                            </TableRow>
+                            <TableRow
+                                android:layout_marginVertical="8dp">
+                                <TextView
+                                    android:text="DATE CREATED"
+                                    android:layout_weight="1"/>
+                                <TextView
+                                    style="@style/Bold"
+                                    android:textAlignment="textEnd"
+                                    android:text="@{viewModel.jobOrder.jobOrder.createdAt}"
+                                    tools:text="Jan 16, 2025 4:23 AM"/>
+                            </TableRow>
+                            <TableRow
+                                android:visibility="@{viewModel.jobOrder.paymentWithUser != null}"
+                                android:layout_marginVertical="8dp">
+                                <TextView
+                                    android:text="DATE PAID"
+                                    android:layout_weight="1"/>
+                                <TextView
+                                    style="@style/Bold"
+                                    android:textAlignment="textEnd"
+                                    android:text="@{viewModel.jobOrder.paymentWithUser.payment.createdAt}"
+                                    tools:text="Jan 17, 2025 8:23 AM"/>
+                            </TableRow>
+                        </TableLayout>
+                    </com.google.android.material.card.MaterialCardView>
                     <TextView
                         android:visibility="@{viewModel.jobOrder.services.size() > 0}"
                         style="@style/CardTitle"
@@ -240,6 +271,7 @@
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
             <LinearLayout
+                android:visibility="@{!viewModel.isDeleted}"
                 android:id="@+id/controls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

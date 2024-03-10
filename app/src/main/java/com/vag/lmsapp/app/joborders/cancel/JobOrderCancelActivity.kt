@@ -22,7 +22,7 @@ class JobOrderCancelActivity : AppCompatActivity() {
 
     companion object {
 //        const val JOB_ORDER_ID = "jobOrderId"
-//        const val ACTION_DELETE_JOB_ORDER = "deleteJobOrder"
+        const val ACTION_DELETE_JOB_ORDER = "deleteJobOrder"
     }
 
     private lateinit var binding: ActivityJobOrderCancelBinding
@@ -57,7 +57,7 @@ class JobOrderCancelActivity : AppCompatActivity() {
                 }
                 is DataState.SaveSuccess -> {
                     setResult(RESULT_OK, Intent().apply {
-                        action = intent.action
+                        action = ACTION_DELETE_JOB_ORDER
                         putExtra(JOB_ORDER_ID, it.data.toString())
                     })
                     finish()

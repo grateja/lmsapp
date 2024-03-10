@@ -432,6 +432,7 @@ class JobOrderCreateActivity : BaseActivity() {
 //        launcher.launch(intent)
 //    }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         viewModel.requestExit()

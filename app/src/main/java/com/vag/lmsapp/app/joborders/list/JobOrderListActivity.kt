@@ -113,7 +113,7 @@ class JobOrderListActivity : FilterActivity() {
 
     private fun createNewJo() {
         val intent = Intent(this, JobOrderCreateActivity::class.java)
-        startActivity(intent)
+        addEditLauncher.launch(intent)
     }
 
     private fun selectCustomer() {
@@ -175,6 +175,17 @@ class JobOrderListActivity : FilterActivity() {
             println("awesome")
         })
 
+        viewModelPreview.navigationState.observe(this, Observer {
+            when(it) {
+                is JobOrderPreviewViewModel.NavigationState.RequireRefresh -> {
+                    viewModel.filter(true)
+                    viewModelPreview.resetState()
+                }
+
+                else -> {}
+            }
+        })
+
 //        viewModel.sortDirection.observe(this, Observer {
 //            viewModel.filter(true)
 //        })
@@ -197,10 +208,5 @@ class JobOrderListActivity : FilterActivity() {
 //        viewModel.includeVoid.observe(this, Observer {
 //            viewModel.filter(true)
 //        })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.filter(true)
     }
 }

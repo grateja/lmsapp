@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.joborders.JobOrderItemMinimal" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:divider="@drawable/divider_20"
+        android:showDividers="middle"
+        android:layout_marginVertical="8dp">
+        <TextView
+            tools:text="(1*)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`(` + viewModel.quantity + `*)`}"/>
+        <TextView
+            tools:text="Regular Wash"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.name}"
+            android:layout_weight="1"/>
+        <TextView
+            tools:text="P5.20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:peso="@{viewModel.price}"/>
+    </LinearLayout>
+</layout>

@@ -25,9 +25,9 @@ constructor(
 
     val jobOrder = _jobOrderId.switchMap { jobOrderRepository.getJobOrderWithItemsAsLiveData(it) }
 
-    val isLocked = MediatorLiveData<Boolean>().apply {
+    val isDeleted = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.jobOrder?.createdAt?.isToday() == false
+            value = it?.jobOrder?.entityJobOrderVoid != null
         }
     }
 
@@ -74,6 +74,15 @@ constructor(
             }
         }
     }
+    fun openDelete() {
+        _jobOrderId.value?.let {
+            _navigationState.value = NavigationState.OpenDelete(it)
+        }
+    }
+
+    fun requireRefresh() {
+        _navigationState.value = NavigationState.RequireRefresh
+    }
 
     sealed class NavigationState {
         data object StateLess: NavigationState()
@@ -81,7 +90,9 @@ constructor(
         data class InitiatePayment(val customerId: UUID): NavigationState()
         data class PreviewPayment(val paymentId: UUID): NavigationState()
         data class OpenPrint(val id: UUID) : NavigationState()
+        data class OpenDelete(val id: UUID) : NavigationState()
         data object RequestEdit: NavigationState()
         data class Invalidate(val message: String): NavigationState()
+        data object RequireRefresh: NavigationState()
     }
 }

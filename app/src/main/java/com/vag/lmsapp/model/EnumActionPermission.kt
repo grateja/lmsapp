@@ -8,7 +8,7 @@ enum class EnumActionPermission(val id: Int, val description: String) : Parcelab
     ALL(1000, "Full access to all features"),
     BASIC(1001, "Perform all basic operations"),
     VIEW_DAILY_REPORTS(1002, "View daily sales reports"),
-    CANCEL_JOB_ORDERS(1003, "Void or cancel job orders"),
+    DELETE_JOB_ORDERS(1003, "Delete job orders"),
     MODIFY_JOB_ORDERS(1004, "Remove or update items in job orders"),
     MODIFY_INVENTORY(1005, "Update inventory stocks"),
     MODIFY_SERVICES(1006, "Modify service prices"),
