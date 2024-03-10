@@ -26,6 +26,14 @@
                 android:text="@string/prompt_no_wifi_connectivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <include
+                android:id="@+id/tabMachineType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                layout="@layout/incl_tab_machines_simple"/>
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -37,14 +45,6 @@
                 android:orientation="vertical"
                 android:divider="@drawable/divider_20"
                 android:showDividers="middle">
-                <include
-                    android:id="@+id/tabMachineType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    layout="@layout/incl_tab_machines_simple"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                     android:id="@+id/recycler"

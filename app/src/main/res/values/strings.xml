@@ -30,7 +30,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="no_items_in_here">There\'s nothing here!</string>
-    <string name="delete">DELETE</string>
+    <string name="delete">Delete</string>
     <string name="confirm_delete">Confirm Delete?</string>
     <string name="remove">Remove</string>
     <string name="symbol_bullet">●</string>
@@ -42,7 +42,7 @@
     <string name="close">Close</string>
     <string name="email">Email</string>
     <string name="edit">Edit</string>
-    <string name="payment">View Payment</string>
+    <string name="payment">Payment</string>
     <string name="print">Print</string>
     <string name="locked_job_order_prompt">The Job Order cannot be modified if it was created on a previous date other than today or if it has already been paid.</string>
     <string name="remarks">Remarks</string>
@@ -71,6 +71,7 @@
     <string name="prompt_unpaid_limit_reached">This customer already hit the maximum limit for unpaid job orders. To continue, settle outstanding balances</string>
     <string name="what_do_you_want_to_print">What do you want to print?</string>
     <string name="no_results_found">No results found!</string>
+    <string name="summary">SUMMARY</string>
     <string-array name="jo_filter_by">
         <item>Date Paid</item>
         <item>Date Created</item>

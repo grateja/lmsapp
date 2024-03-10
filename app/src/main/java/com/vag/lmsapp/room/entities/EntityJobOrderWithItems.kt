@@ -119,4 +119,8 @@ data class EntityJobOrderWithItems (
             total
         } ?: 0f
     }
+
+    fun discountedAmount() : Float {
+        return subtotal() - discountInPeso()
+    }
 }

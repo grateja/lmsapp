@@ -115,77 +115,6 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-
-
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            android:visibility="@{viewModel.amountToPay > 0}"-->
-<!--            android:id="@+id/text_amount_to_pay"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/controls"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-<!--            <LinearLayout-->
-<!--                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal">-->
-<!--                <TextView-->
-<!--                    style="@style/TileTitle"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text="TOTAL"/>-->
-<!--                <TextView-->
-<!--                    android:peso="@{viewModel.amountToPay}"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    style="@style/TileTitle"-->
-<!--                    tools:text="P230.0"/>-->
-<!--            </LinearLayout>-->
-<!--        </com.google.android.material.card.MaterialCardView>-->
-<!--        <LinearLayout-->
-<!--            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/prompt_unpaid_limit_reached"-->
-<!--            android:orientation="horizontal">-->
-<!--            <LinearLayout-->
-<!--                android:visibility="@{viewModel.amountToPay > 0}"-->
-<!--                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal">-->
-<!--                <TextView-->
-<!--                    style="@style/TileTitle"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text="TOTAL"/>-->
-<!--                <TextView-->
-<!--                    android:peso="@{viewModel.amountToPay}"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    style="@style/TileTitle"-->
-<!--                    tools:text="P230.0"/>-->
-<!--            </LinearLayout>-->
-
-<!--            <Button-->
-<!--                android:enabled="@{viewModel.canCreateJobOrder}"-->
-<!--                android:id="@+id/buttonContinue"-->
-<!--                style="@style/RoundButtonNeutral"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/create_new"/>-->
-<!--            <Button-->
-<!--                android:id="@+id/buttonPayment"-->
-<!--                style="@style/RoundButtonPrimary"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/payment"/>-->
-<!--        </LinearLayout>-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/controls"
             android:layout_width="match_parent"
@@ -217,7 +146,7 @@
                 <TableRow>
                     <Button
                         android:enabled="@{viewModel.canCreateJobOrder}"
-                        android:id="@+id/buttonContinue"
+                        android:id="@+id/button_create_new"
                         style="@style/RoundButtonNeutral"
                         android:layout_weight="1"
                         android:layout_width="0dp"

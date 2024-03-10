@@ -2,7 +2,6 @@ package com.vag.lmsapp.app.joborders.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,6 +16,8 @@ import com.vag.lmsapp.model.JobOrderAdvancedFilter
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.viewmodels.ListViewModel
 import com.google.android.material.tabs.TabLayout
+import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
+import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +28,7 @@ class JobOrderListActivity : FilterActivity() {
 
     private lateinit var binding: ActivityJobOrderListBinding
     private val viewModel: JobOrderListViewModel by viewModels()
+    private val viewModelPreview: JobOrderPreviewViewModel by viewModels()
 
     override var filterHint = "Search customer name or CRN"
     override var toolbarBackground: Int = R.color.color_code_job_order
@@ -69,9 +71,6 @@ class JobOrderListActivity : FilterActivity() {
 //        }
 
         intent.extras?.getParcelable<JobOrderAdvancedFilter>(ADVANCED_FILTER).let {
-            Toast.makeText(this, it?.dateFilter.toString(), Toast.LENGTH_LONG).show()
-            println("advanced filter")
-            println(it?.dateFilter)
             viewModel.setAdvancedFilter(it ?: JobOrderAdvancedFilter())
         }
     }
@@ -86,11 +85,13 @@ class JobOrderListActivity : FilterActivity() {
 
     private fun subscribeEvents() {
         adapter.onItemClick = {
-            val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
-                action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
-                putExtra(JobOrderCreateActivity.JOB_ORDER_ID, it.id.toString())
-            }
-            addEditLauncher.launch(intent)
+            viewModelPreview.getByJobOrderId(it.id)
+            JobOrderPreviewBottomSheetFragment().show(supportFragmentManager, null)
+//            val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
+//                action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
+//                putExtra(JobOrderCreateActivity.JOB_ORDER_ID, it.id.toString())
+//            }
+//            addEditLauncher.launch(intent)
         }
         addEditLauncher.onOk = {
             viewModel.filter(true)
@@ -196,5 +197,10 @@ class JobOrderListActivity : FilterActivity() {
 //        viewModel.includeVoid.observe(this, Observer {
 //            viewModel.filter(true)
 //        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.filter(true)
     }
 }

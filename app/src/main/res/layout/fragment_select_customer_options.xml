@@ -9,6 +9,7 @@
             type="com.vag.lmsapp.app.joborders.create.CreateJobOrderViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -17,7 +18,6 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             app:behavior_peekHeight="1000dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
             android:orientation="vertical">
             <TextView
                 style="@style/TextTitleFragment"

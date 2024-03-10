@@ -20,7 +20,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@color/neutral"
-            android:src="@drawable/ic_menu_camera"
+            android:src="@drawable/icon_camera"
             android:scaleType="fitCenter"
             android:text="add picture"/>
 
@@ -31,7 +31,7 @@
             android:layout_height="100dp"
             android:background="@color/neutral"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_menu_gallery"
+            android:src="@drawable/icon_file_open"
             android:text="add picture" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_job_order_gallery"

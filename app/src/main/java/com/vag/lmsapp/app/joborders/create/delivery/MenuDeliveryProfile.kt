@@ -27,4 +27,8 @@ class MenuDeliveryProfile(
     @IgnoredOnParcel
     @Ignore
     var selected: Boolean = false
+
+    fun charges() : String {
+        return "Base fare + P $pricePerKm/km after ${minDistance}km"
+    }
 }

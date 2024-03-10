@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BottomSheetJobOrderPaymentFragment : BaseModalFragment() {
+    override var fullHeight = true
     private val viewModel: JobOrderPaymentViewModel by activityViewModels()
     private lateinit var binding: FragmentBottomSheetJobOrderPaymentBinding
 
@@ -49,10 +50,10 @@ class BottomSheetJobOrderPaymentFragment : BaseModalFragment() {
         })
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), theme)
-        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        dialog.behavior.isFitToContents = false
-        return dialog
-    }
+//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+//        val dialog = BottomSheetDialog(requireContext(), theme)
+//        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+//        dialog.behavior.isFitToContents = false
+//        return dialog
+//    }
 }

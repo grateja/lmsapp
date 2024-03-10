@@ -96,7 +96,6 @@
                     <include
                         android:id="@+id/inclServicesLegend"
                         layout="@layout/incl_legend_create_job_order"
-                        app:locked="@{viewModel.locked}"
                         app:title="@{`SERVICES`}"
                         app:hasItems="@{viewModel.hasServices}"
                         app:prompt="@{`No Services selected`}"/>
@@ -104,7 +103,6 @@
                     <!--                Products -->
                     <include android:id="@+id/inclProductsLegend"
                         layout="@layout/incl_legend_create_job_order"
-                        app:locked="@{viewModel.locked}"
                         app:title="@{`PRODUCTS / CHEMICALS`}"
                         app:hasItems="@{viewModel.hasProducts}"
                         app:prompt="@{`(No selected products/chemicals)`}"/>
@@ -112,7 +110,6 @@
                     <include
                         android:id="@+id/inclExtrasLegend"
                         layout="@layout/incl_legend_create_job_order"
-                        app:locked="@{viewModel.locked}"
                         app:title="@{`EXTRAS`}"
                         app:hasItems="@{viewModel.hasExtras}"
                         app:prompt="@{`No Services selected`}"/>
@@ -171,46 +168,147 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
-                <Button
-                    style="@style/RoundButtonNeutral.JobOrder"
-                    android:visibility="@{viewModel.saved}"
-                    android:id="@+id/buttonPrint"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/print" />
-                <Button
-                    style="@style/RoundButtonPrimary.JobOrder"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/button_confirm"
+                    style="@style/ButtonCard"
                     android:visibility="@{viewModel.hasAny &amp;&amp; !viewModel.saved}"
-                    android:id="@+id/buttonSave"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.confirmStr}" />
-                <Button
-                    style="@style/RoundButtonPrimary.JobOrder"
-                    android:visibility="@{viewModel.saved &amp;&amp; viewModel.payment == null &amp;&amp; !viewModel.deleted}"
-                    android:id="@+id/buttonPayment"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_margin="6dp"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/icon_confirm"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/confirm"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/button_payment"
+                    style="@style/ButtonCard"
+                    android:visibility="@{viewModel.saved}"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/payment"/>
-                <Button
-                    style="@style/RoundButtonNeutral.JobOrder"
-                    android:visibility="@{viewModel.saved &amp;&amp; !viewModel.deleted}"
-                    android:id="@+id/buttonVoid"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_margin="6dp"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/icon_payment"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/payment"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/button_print"
+                    style="@style/ButtonCard"
+                    android:visibility="@{viewModel.saved}"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/delete"/>
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_margin="6dp"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/icon_print"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/print"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/button_delete"
+                    style="@style/ButtonCard"
+                    android:visibility="@{viewModel.saved}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_margin="6dp"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/icon_delete"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/delete"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--                <Button-->
+<!--                    style="@style/RoundButtonNeutral.JobOrder"-->
+<!--                    android:visibility="@{viewModel.saved}"-->
+<!--                    android:id="@+id/buttonPrint"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/print" />-->
+<!--                <Button-->
+<!--                    style="@style/RoundButtonPrimary.JobOrder"-->
+<!--                    android:visibility="@{viewModel.hasAny &amp;&amp; !viewModel.saved}"-->
+<!--                    android:id="@+id/buttonSave"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@{viewModel.confirmStr}" />-->
+<!--                <Button-->
+<!--                    style="@style/RoundButtonPrimary.JobOrder"-->
+<!--                    android:visibility="@{viewModel.saved &amp;&amp; viewModel.payment == null &amp;&amp; !viewModel.deleted}"-->
+<!--                    android:id="@+id/buttonPayment"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/payment"/>-->
+<!--                <Button-->
+<!--                    style="@style/RoundButtonNeutral.JobOrder"-->
+<!--                    android:visibility="@{viewModel.saved &amp;&amp; !viewModel.deleted}"-->
+<!--                    android:id="@+id/buttonVoid"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/delete"/>-->
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

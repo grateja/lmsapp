@@ -53,7 +53,7 @@ class JobOrderCreateActivity : BaseActivity() {
 
         const val ACTION_SELECT_CUSTOMER = "searchCustomer"
         const val ACTION_MODIFY_DATETIME = "modifyDateTime"
-        const val ACTION_REQUEST_UNLOCK = "requestUnlock"
+//        const val ACTION_REQUEST_UNLOCK = "requestUnlock"
         const val ACTION_SYNC_PACKAGE = "package"
         const val ACTION_SYNC_SERVICES = "services"
         const val ACTION_SYNC_PRODUCTS = "products"
@@ -174,9 +174,9 @@ class JobOrderCreateActivity : BaseActivity() {
                         viewModel.save(it.userId)
                     }
                 }
-                ACTION_REQUEST_UNLOCK -> {
-                    viewModel.unlock()
-                }
+//                ACTION_REQUEST_UNLOCK -> {
+//                    viewModel.unlock()
+//                }
             }
         }
 
@@ -226,11 +226,11 @@ class JobOrderCreateActivity : BaseActivity() {
             viewModel.openExtras(null)
         }
 
-        viewModel.locked.observe(this, Observer {
-            servicesAdapter.lock(it)
-            productsAdapter.lock(it)
-            extrasAdapter.lock(it)
-        })
+//        viewModel.locked.observe(this, Observer {
+//            servicesAdapter.lock(it)
+//            productsAdapter.lock(it)
+//            extrasAdapter.lock(it)
+//        })
 
         viewModel.jobOrderServices.observe(this, Observer {
             servicesAdapter.setData(it.toMutableList())
@@ -248,13 +248,13 @@ class JobOrderCreateActivity : BaseActivity() {
             unpaidJobOrdersAdapter.setData(it)
         })
 
-        binding.buttonSave.setOnClickListener {
+        binding.buttonConfirm.setOnClickListener {
             viewModel.validate()
         }
         binding.buttonPayment.setOnClickListener {
             viewModel.openPayment()
         }
-        binding.buttonVoid.setOnClickListener {
+        binding.buttonDelete.setOnClickListener {
             viewModel.requestCancel()
         }
 
@@ -303,7 +303,7 @@ class JobOrderCreateActivity : BaseActivity() {
                 is CreateJobOrderViewModel.DataState.RequestCancel -> {
                     val intent = Intent(this, JobOrderCancelActivity::class.java).apply {
                         action = ACTION_DELETE_JOB_ORDER
-                        putExtra(JobOrderCancelActivity.JOB_ORDER_ID, it.jobOrderId.toString())
+                        putExtra(JOB_ORDER_ID, it.jobOrderId.toString())
                     }
                     launcher.launch(intent)
                     viewModel.resetState()
@@ -425,12 +425,12 @@ class JobOrderCreateActivity : BaseActivity() {
         startActivity(intent)
     }
 
-    private fun openAuthRequestUnlock() {
-        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-            action = ACTION_REQUEST_UNLOCK
-        }
-        launcher.launch(intent)
-    }
+//    private fun openAuthRequestUnlock() {
+//        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
+//            action = ACTION_REQUEST_UNLOCK
+//        }
+//        launcher.launch(intent)
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()

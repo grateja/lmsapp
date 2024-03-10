@@ -24,7 +24,7 @@ class JobOrderServiceItemAdapter: RecyclerView.Adapter<JobOrderServiceItemAdapte
 
     var onItemClick: ((MenuServiceItem) -> Unit) ? = null
     var onDeleteRequest: ((MenuServiceItem) -> Unit) ? = null
-    var locked: Boolean = false
+//    var locked: Boolean = false
 
     fun setData(services: MutableList<MenuServiceItem>) {
         list = services.filter { it.deletedAt == null }.toMutableList()
@@ -56,7 +56,7 @@ class JobOrderServiceItemAdapter: RecyclerView.Adapter<JobOrderServiceItemAdapte
             onItemClick?.invoke(r)
         }
 
-        holder.removeButton.visibility = if(locked) View.GONE else View.VISIBLE
+//        holder.removeButton.visibility = if(locked) View.GONE else View.VISIBLE
         holder.removeButton.setOnClickListener {
             onDeleteRequest?.invoke(r)
         }
@@ -66,8 +66,8 @@ class JobOrderServiceItemAdapter: RecyclerView.Adapter<JobOrderServiceItemAdapte
         return list.size
     }
 
-    fun lock(value: Boolean) {
-        locked = value
-        notifyDataSetChanged()
-    }
+//    fun lock(value: Boolean) {
+//        locked = value
+//        notifyDataSetChanged()
+//    }
 }

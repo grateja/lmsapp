@@ -49,7 +49,7 @@
                 android:id="@+id/label_minimum_fare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{`Base fare + P` + viewModel.profile.pricePerKm + `/km after ` + viewModel.profile.minDistance + `km`}"
+                android:text="@{viewModel.profile.charges()}"
                 app:layout_constraintTop_toBottomOf="@id/icon"
                 tools:text="Base fare + P 10/km after 2km"/>
 

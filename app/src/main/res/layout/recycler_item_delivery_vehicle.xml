@@ -30,16 +30,19 @@
                 app:imageResource="@{viewModel.vehicle.icon}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+
             <TextView
-                style="@style/TextItemTitle"
                 android:id="@+id/textTitle"
-                android:layout_width="wrap_content"
+                style="@style/TextItemTitle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                tools:text="Motorcycle"
+                android:layout_marginEnd="107dp"
                 android:text="@{viewModel.vehicle.toString()}"
+                app:layout_constraintEnd_toStartOf="@+id/cardPrice"
+                app:layout_constraintStart_toEndOf="@id/icon"
                 app:layout_constraintTop_toTopOf="@id/icon"
-                app:layout_constraintStart_toEndOf="@id/icon"/>
+                tools:text="Motorcycle" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardPrice"
@@ -60,13 +63,24 @@
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
+                android:id="@+id/label_charges"
+                style="@style/CardTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.charges()}"
+                app:layout_constraintEnd_toEndOf="@+id/text_description"
+                app:layout_constraintStart_toStartOf="@id/textTitle"
+                app:layout_constraintTop_toBottomOf="@id/textTitle"
+                tools:text="Base fare + P 10/km after 2km" />
+
+            <TextView
                 android:id="@+id/text_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.vehicle.description}"
                 app:layout_constraintEnd_toStartOf="@+id/cardPrice"
                 app:layout_constraintStart_toStartOf="@id/textTitle"
-                app:layout_constraintTop_toBottomOf="@id/textTitle"
+                app:layout_constraintTop_toBottomOf="@id/label_charges"
                 tools:text="Some description" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

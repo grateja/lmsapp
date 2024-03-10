@@ -20,6 +20,7 @@ import java.util.*
 
 @AndroidEntryPoint
 class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>() {
+    override var fullHeight: Boolean = true
     private val viewModel: AddEditCustomerViewModel by viewModels()
     private lateinit var binding: FragmentBottomSheetCustomerAddEditBinding
     private val launcher = FragmentLauncher(this)

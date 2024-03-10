@@ -48,6 +48,7 @@ constructor(
         }
         addSource(distance) { update()}
         addSource(deliveryOption) { update() }
+        addSource(profile) {update()}
     }
 
     private val _dataState = MutableLiveData<DataState<DeliveryCharge>>()

@@ -24,7 +24,7 @@ class JobOrderProductsItemAdapter: RecyclerView.Adapter<JobOrderProductsItemAdap
 
     var onItemClick: ((MenuProductItem) -> Unit) ? = null
     var onDeleteRequest: ((MenuProductItem) -> Unit) ? = null
-    var locked: Boolean = false
+//    var locked: Boolean = false
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -50,7 +50,7 @@ class JobOrderProductsItemAdapter: RecyclerView.Adapter<JobOrderProductsItemAdap
             onItemClick?.invoke(r)
         }
 
-        holder.removeButton.visibility = if(locked) View.GONE else View.VISIBLE
+//        holder.removeButton.visibility = if(locked) View.GONE else View.VISIBLE
         holder.removeButton.setOnClickListener {
             onDeleteRequest?.invoke(r)
         }
@@ -66,8 +66,8 @@ class JobOrderProductsItemAdapter: RecyclerView.Adapter<JobOrderProductsItemAdap
         notifyDataSetChanged()
     }
 
-    fun lock(value: Boolean) {
-        locked = value
-        notifyDataSetChanged()
-    }
+//    fun lock(value: Boolean) {
+//        locked = value
+//        notifyDataSetChanged()
+//    }
 }

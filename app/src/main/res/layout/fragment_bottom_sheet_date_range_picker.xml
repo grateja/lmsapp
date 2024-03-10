@@ -10,13 +10,13 @@
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
         <com.google.android.material.card.MaterialCardView
             style="@style/CardPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:behavior_peekHeight="1000dp"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+            app:behavior_peekHeight="1000dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

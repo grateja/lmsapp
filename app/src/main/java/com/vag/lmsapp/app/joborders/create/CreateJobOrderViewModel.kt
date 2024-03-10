@@ -56,8 +56,8 @@ constructor(
         object ProceedToSaveJO: DataState()
     }
 
-    private val _locked = MutableLiveData(false)
-    val locked: LiveData<Boolean> = _locked
+//    private val _locked = MutableLiveData(false)
+//    val locked: LiveData<Boolean> = _locked
 
     private val _saved = MutableLiveData(false)
     val saved: LiveData<Boolean> = _saved
@@ -246,12 +246,12 @@ constructor(
         } ?: 0f
     }
 
-    private fun isLocked() : Boolean {
-        return if(_locked.value == true) {
-            _dataState.value = DataState.InvalidOperation("Cannot modify locked Job Order")
-            true
-        } else false
-    }
+//    private fun isLocked() : Boolean {
+//        return if(_locked.value == true) {
+//            _dataState.value = DataState.InvalidOperation("Cannot modify locked Job Order")
+//            true
+//        } else false
+//    }
 
     /** endregion */
 
@@ -262,7 +262,7 @@ constructor(
             val jobOrderId = jobOrderId.value
             paymentRepository.getByJobOrderId(jobOrderId)?.let {
                 _payment.value = it
-                _locked.value = true
+//                _locked.value = true
             }
         }
     }
@@ -342,11 +342,11 @@ constructor(
             )
         }
         jobOrder.paymentWithUser?.let {
-            _locked.value = true
+//            _locked.value = true
             _payment.value = it
         }
         if(!jobOrder.jobOrder.createdAt.isToday()) {
-            _locked.value = true
+//            _locked.value = true
         }
         _saved.value = true
         _deleted.value = jobOrder.jobOrder.deletedAt != null || jobOrder.jobOrder.entityJobOrderVoid != null
@@ -496,49 +496,49 @@ constructor(
 
     /** region navigation */
     fun requestModifyDateTime() {
-        if(isLocked()) return
+//        if(isLocked()) return
         createdAt.value?.let {
             _dataState.value = DataState.ModifyDateTime(it)
         }
     }
 
     fun openPackages() {
-        if(isLocked()) return
+//        if(isLocked()) return
         jobOrderPackages.value.let {
             _dataState.value = DataState.OpenPackages(it)
         }
     }
 
     fun openServices(itemPreset: MenuServiceItem?) {
-        if(isLocked()) return
+//        if(isLocked()) return
         jobOrderServices.value.let {
             _dataState.value = DataState.OpenServices(it, itemPreset)
         }
     }
 
     fun openProducts(itemPreset: MenuProductItem?) {
-        if(isLocked()) return
+//        if(isLocked()) return
         jobOrderProducts.value.let {
             _dataState.value = DataState.OpenProducts(it, itemPreset)
         }
     }
 
     fun openExtras(itemPreset: MenuExtrasItem?) {
-        if(isLocked()) return
+//        if(isLocked()) return
         jobOrderExtras.value.let {
             _dataState.value = DataState.OpenExtras(it, itemPreset)
         }
     }
 
     fun openDelivery() {
-        if(isLocked()) return
+//        if(isLocked()) return
         deliveryCharge.value.let {
             _dataState.value = DataState.OpenDelivery(it)
         }
     }
 
     fun openDiscount() {
-        if(isLocked()) return
+//        if(isLocked()) return
         discount.value.let {
             _dataState.value = DataState.OpenDiscount(it)
         }
@@ -623,14 +623,14 @@ constructor(
         )
     }
 
-    fun unlock() {
-        _locked.value = false
-    }
+//    fun unlock() {
+//        _locked.value = false
+//    }
 
     /** endregion */
 
     fun save(userId: UUID) {
-        if(isLocked()) return
+//        if(isLocked()) return
         viewModelScope.launch {
             val jobOrderNumber = jobOrderNumber.value
             val customerId = currentCustomer.value?.id ?: return@launch
@@ -779,7 +779,7 @@ constructor(
         }
     }
     fun pickCustomer() {
-        if(isLocked()) return
+//        if(isLocked()) return
         val customerId = currentCustomer.value?.id
         val cannotSwitchCustomer = jobOrderServices.value?.any {
             it.used > 0

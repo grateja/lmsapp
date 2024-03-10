@@ -35,7 +35,9 @@ data class JobOrderListItem(
     val datePaid: Instant?,
 
     @ColumnInfo("cashless_provider")
-    val cashlessProvider: String?
+    val cashlessProvider: String?,
+
+    val locked: Boolean
 ) : Parcelable {
     fun paymentStatus() : String {
         return if(datePaid == null)

@@ -101,7 +101,7 @@ fun setDate(view: TextView, dateTime: Instant?) {
 @BindingAdapter("android:dateTime")
 fun setDateTime(view: TextView, dateTime: Instant?) {
     if(dateTime != null) {
-        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a")
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm a")
             .withZone(ZoneId.systemDefault())
         view.text = formatter.format(dateTime)
     }
@@ -277,7 +277,7 @@ fun Context.showDeleteConfirmationDialog(title: String? = "Delete this item", me
     }.show()
 }
 
-fun Context.showMessageDialog(title: String?, message: String?, onOk: (() -> Unit)?) {
+fun Context.showMessageDialog(title: String?, message: String?, onOk: (() -> Unit)? = null) {
     AlertDialog.Builder(this).apply {
         title?.let {
             setTitle(it)

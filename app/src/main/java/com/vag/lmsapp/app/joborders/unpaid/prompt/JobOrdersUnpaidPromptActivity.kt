@@ -55,7 +55,7 @@ class JobOrdersUnpaidPromptActivity : AppCompatActivity() {
         binding.buttonPayment.setOnClickListener {
             viewModel.openPayment()
         }
-        binding.buttonContinue.setOnClickListener {
+        binding.buttonCreateNew.setOnClickListener {
             viewModel.openJobOrder()
         }
         adapter.onItemClick = {
@@ -70,9 +70,6 @@ class JobOrdersUnpaidPromptActivity : AppCompatActivity() {
         viewModel.jobOrders.observe(this, Observer {
             adapter.setData(it)
         })
-//        viewModel.customer.observe(this, Observer {
-//            viewModel.load(it.id)
-//        })
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is JobOrdersUnpaidPromptViewModel.DataState.OpenPayment -> {

@@ -28,54 +28,6 @@
                 style="@style/Caption.Definition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-<!--                <TableRow-->
-<!--                    android:visibility="@{viewModel.servicesTotal > 0}"-->
-<!--                    android:layout_marginVertical="8dp">-->
-<!--                    <TextView-->
-<!--                        android:text="Wash &amp; Dry SERVICES"-->
-<!--                        android:layout_weight="1"/>-->
-<!--                    <TextView-->
-<!--                        style="@style/Bold"-->
-<!--                        android:textAlignment="textEnd"-->
-<!--                        android:peso="@{viewModel.servicesTotal}"-->
-<!--                        tools:text="P10.10"/>-->
-<!--                </TableRow>-->
-<!--                <TableRow-->
-<!--                    android:visibility="@{viewModel.productsTotal > 0}"-->
-<!--                    android:layout_marginVertical="8dp">-->
-<!--                    <TextView-->
-<!--                        android:text="PRODUCTS / CHEMICALS"-->
-<!--                        android:layout_weight="1"/>-->
-<!--                    <TextView-->
-<!--                        style="@style/Bold"-->
-<!--                        android:textAlignment="textEnd"-->
-<!--                        android:peso="@{viewModel.productsTotal}"-->
-<!--                        tools:text="P10.10"/>-->
-<!--                </TableRow>-->
-<!--                <TableRow-->
-<!--                    android:visibility="@{viewModel.extrasTotal > 0}"-->
-<!--                    android:layout_marginVertical="8dp">-->
-<!--                    <TextView-->
-<!--                        android:text="EXTRAS"-->
-<!--                        android:layout_weight="1"/>-->
-<!--                    <TextView-->
-<!--                        style="@style/Bold"-->
-<!--                        android:textAlignment="textEnd"-->
-<!--                        android:peso="@{viewModel.extrasTotal}"-->
-<!--                        tools:text="P10.10"/>-->
-<!--                </TableRow>-->
-<!--                <TableRow-->
-<!--                    android:visibility="@{viewModel.deliveryCharge != null}"-->
-<!--                    android:layout_marginVertical="8dp">-->
-<!--                    <TextView-->
-<!--                        android:text="PICKUP &amp; DELIVERY"-->
-<!--                        android:layout_weight="1"/>-->
-<!--                    <TextView-->
-<!--                        style="@style/Bold"-->
-<!--                        android:textAlignment="textEnd"-->
-<!--                        android:peso="@{viewModel.deliveryCharge.price}"-->
-<!--                        tools:text="P10.10"/>-->
-<!--                </TableRow>-->
                 <TableRow
                     android:layout_marginVertical="8dp">
                     <TextView

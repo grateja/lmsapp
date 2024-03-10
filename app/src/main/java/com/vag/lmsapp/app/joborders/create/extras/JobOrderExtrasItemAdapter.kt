@@ -24,7 +24,7 @@ class JobOrderExtrasItemAdapter: RecyclerView.Adapter<JobOrderExtrasItemAdapter.
 
     var onItemClick: ((MenuExtrasItem) -> Unit) ? = null
     var onDeleteRequest: ((MenuExtrasItem) -> Unit) ? = null
-    var locked: Boolean = false
+//    var locked: Boolean = false
 
     fun setData(services: List<MenuExtrasItem>) {
         list = services.filter { it.deletedAt == null }.toMutableList()
@@ -74,7 +74,7 @@ class JobOrderExtrasItemAdapter: RecyclerView.Adapter<JobOrderExtrasItemAdapter.
         holder.cardItem.setOnClickListener {
             onItemClick?.invoke(r)
         }
-        holder.removeButton.visibility = if(locked) View.GONE else View.VISIBLE
+//        holder.removeButton.visibility = if(locked) View.GONE else View.VISIBLE
         holder.removeButton.setOnClickListener {
             onDeleteRequest?.invoke(r)
         }
@@ -84,8 +84,8 @@ class JobOrderExtrasItemAdapter: RecyclerView.Adapter<JobOrderExtrasItemAdapter.
         return list.size
     }
 
-    fun lock(value: Boolean) {
-        locked = value
-        notifyDataSetChanged()
-    }
+//    fun lock(value: Boolean) {
+//        locked = value
+//        notifyDataSetChanged()
+//    }
 }

@@ -481,6 +481,7 @@
         <activity
             android:name=".app.joborders.create.customer.JobOrderCreateSelectCustomerActivity"
             android:exported="false"
+            android:noHistory="true"
             android:label="Select Customer"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
