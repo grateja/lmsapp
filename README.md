@@ -1,4 +1,6 @@
 <ul>
+    <li>Job order preview Gallery revamped</li>
+    <li>Replaced all @Insert to @Upsert</li>
     <li>Job order list refresh on modification implemented</li>
     <li>Job Order Minimal Item List</li>
     <li>Discount type removed</li>

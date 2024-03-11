@@ -21,6 +21,7 @@ interface DaoJobOrderQueues {
             " WHERE jos.svc_machine_type = :machineType" +
             "    AND jos.quantity > used" +
             "    AND jos.deleted_at IS NULL" +
+            "    AND jos.void = 0" +
             " GROUP BY customer_name" +
             " ORDER BY latest_job_order ASC")
     fun getCustomersByMachineType(machineType: EnumMachineType?) : LiveData<List<EntityCustomerQueueService>?>
@@ -46,6 +47,7 @@ interface DaoJobOrderQueues {
             " WHERE customer_id = :customerId" +
             "    AND jo.svc_machine_type = :machineType" +
             "    AND (quantity - used) > 0 " +
+            "    AND jo.void = 0 " +
             " GROUP BY service_name")
     fun getAvailableServicesAsLiveData(customerId: UUID, machineType: EnumMachineType): LiveData<List<EntityAvailableService>?>
 }

@@ -116,12 +116,13 @@
                         android:layout_marginHorizontal="18dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_view_services"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="false"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -170,6 +171,13 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                     </com.google.android.material.card.MaterialCardView>
 
+                    <TextView
+                        android:text="DELIVERY"
+                        style="@style/CardTitle"
+                        android:visibility="@{viewModel.jobOrder.deliveryCharge != null}"
+                        android:layout_marginHorizontal="18dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                     <com.google.android.material.card.MaterialCardView
                         android:visibility="@{viewModel.jobOrder.deliveryCharge != null}"
                         style="@style/RoundCard.NoElevation"
@@ -268,10 +276,32 @@
                             </TableRow>
                         </TableLayout>
                     </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_marginTop="18dp"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:background="@drawable/background_gradient_primary"
+                            android:id="@+id/recycler_job_order_gallery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            android:orientation="vertical"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
+                            tools:itemCount="4"
+                            tools:listitem="@layout/recycler_item_job_order_picture"
+                            app:layout_constraintTop_toBottomOf="@id/button_add_picture"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
             <LinearLayout
-                android:visibility="@{!viewModel.isDeleted}"
+                android:visibility="@{!viewModel.isDeleted &amp;&amp; !viewModel.previewOnly}"
                 android:id="@+id/controls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

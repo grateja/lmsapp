@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.vag.lmsapp.app.gallery.picture_browser.PictureCaptureActivity
 import com.vag.lmsapp.app.gallery.picture_preview.PhotoItem
 import com.vag.lmsapp.app.gallery.picture_preview.PicturePreviewActivity
@@ -17,6 +20,8 @@ import com.vag.lmsapp.app.joborders.create.CreateJobOrderViewModel
 import com.vag.lmsapp.databinding.FragmentJobOrderCreateGalleryBinding
 import com.vag.lmsapp.util.Constants.Companion.PICTURES_DIR
 import com.vag.lmsapp.util.FragmentLauncher
+import com.vag.lmsapp.util.calculateSpanCount
+import com.vag.lmsapp.util.setGridLayout
 import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import java.io.File
 import java.io.FileOutputStream
@@ -43,9 +48,7 @@ class CreateJobOrderGalleryFragment : Fragment() {
 
         binding.recyclerJobOrderGallery.adapter = adapter
 
-        viewModel.jobOrderPictures.observe(viewLifecycleOwner, Observer {
-            adapter.setData(it)
-        })
+        binding.recyclerJobOrderGallery.setGridLayout(requireContext(), 100.dp)
 
         subscribeEvents()
         subscribeListener()
@@ -53,6 +56,10 @@ class CreateJobOrderGalleryFragment : Fragment() {
     }
 
     private fun subscribeListener() {
+        viewModel.jobOrderPictures.observe(viewLifecycleOwner, Observer {
+            adapter.setData(it)
+        })
+
         viewModel.dataState.observe(viewLifecycleOwner, Observer {
             when(it) {
                 is CreateJobOrderViewModel.DataState.OpenCamera -> {

@@ -140,13 +140,20 @@
                         android:layout_height="wrap_content"
                         tools:layout="@layout/fragment_create_job_order_summary"/>
 
-                    <androidx.fragment.app.FragmentContainerView
+                    <com.google.android.material.card.MaterialCardView
                         android:visibility="@{!viewModel.deleted}"
-                        android:id="@+id/job_order_gallery"
-                        android:name="com.vag.lmsapp.app.joborders.create.gallery.CreateJobOrderGalleryFragment"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="20dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout="@layout/fragment_job_order_create_gallery"/>
+                        android:layout_height="wrap_content">
+                        <androidx.fragment.app.FragmentContainerView
+                            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                            android:id="@+id/job_order_gallery"
+                            android:name="com.vag.lmsapp.app.joborders.create.gallery.CreateJobOrderGalleryFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:layout="@layout/fragment_job_order_create_gallery"/>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -268,47 +275,6 @@
                             android:text="@string/delete"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
-                <!--                <Button-->
-<!--                    style="@style/RoundButtonNeutral.JobOrder"-->
-<!--                    android:visibility="@{viewModel.saved}"-->
-<!--                    android:id="@+id/buttonPrint"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/print" />-->
-<!--                <Button-->
-<!--                    style="@style/RoundButtonPrimary.JobOrder"-->
-<!--                    android:visibility="@{viewModel.hasAny &amp;&amp; !viewModel.saved}"-->
-<!--                    android:id="@+id/buttonSave"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@{viewModel.confirmStr}" />-->
-<!--                <Button-->
-<!--                    style="@style/RoundButtonPrimary.JobOrder"-->
-<!--                    android:visibility="@{viewModel.saved &amp;&amp; viewModel.payment == null &amp;&amp; !viewModel.deleted}"-->
-<!--                    android:id="@+id/buttonPayment"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/payment"/>-->
-<!--                <Button-->
-<!--                    style="@style/RoundButtonNeutral.JobOrder"-->
-<!--                    android:visibility="@{viewModel.saved &amp;&amp; !viewModel.deleted}"-->
-<!--                    android:id="@+id/buttonVoid"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/delete"/>-->
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

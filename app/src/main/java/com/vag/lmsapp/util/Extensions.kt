@@ -13,14 +13,18 @@ import android.util.Size
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.compose.ui.unit.Dp
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.vag.lmsapp.R
 import com.vag.lmsapp.databinding.AlertDialogBinding
 import com.vag.lmsapp.databinding.AlertDialogTextInputBinding
@@ -408,6 +412,62 @@ fun Context.calculateSpanCount(
 
     val spanCount = (parentWidthDp / columnWidth)
     return if (spanCount > 0) spanCount else 1
+}
+
+fun Context.calculateSpanCount(
+    columnWidth: Dp,
+    horizontalMargin: Dp? = null
+): Int {
+    val columnWidthPx = columnWidth.toPixels(this)
+
+    val marginPx = if (horizontalMargin == null) 0 else (horizontalMargin.toPixels(this) * 2)
+
+    val parentWidthPx = resources.displayMetrics.widthPixels - marginPx
+
+    val spanCount = (parentWidthPx / columnWidthPx)
+    return if (spanCount > 0) spanCount else 1
+}
+
+// Extension function for Dp to convert to pixels
+fun Dp.toPixels(context: Context): Int {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.value, context.resources.displayMetrics).toInt()
+}
+fun RecyclerView.calculateSpanCount(
+    context: Context,
+    columnWidth: Dp,
+    horizontalMargin: Dp? = null
+): Int {
+    val columnWidthPx = columnWidth.toPixels(context)
+
+    val marginPx = if (horizontalMargin == null) 0 else (horizontalMargin.toPixels(context) * 2)
+
+    val parentWidthPx = (this.parent as View).width - marginPx //resources.displayMetrics.widthPixels - marginPx
+
+    val spanCount = (parentWidthPx / columnWidthPx)
+    return if (spanCount > 0) spanCount else 1
+}
+
+fun RecyclerView.setGridLayout(
+    context: Context,
+    columnWidth: Dp,
+    horizontalMargin: Dp? = null
+) {
+    val parent = this.parent as View
+    val recycler = this
+    val columnWidthPx = columnWidth.toPixels(context)
+    val marginPx = if (horizontalMargin == null) 0 else (horizontalMargin.toPixels(context) * 2)
+
+    parent.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+
+            val parentWidthPx = parent.width - marginPx
+            val spanCount = (parentWidthPx / (columnWidthPx + marginPx)).toInt() // Adjust for margins
+            val col = maxOf(spanCount, 1) // Ensure at least 1 column
+
+            recycler.layoutManager = GridLayoutManager(context, col)
+            parent.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        }
+    })
 }
 
 fun LocalDate.toShort(): String {

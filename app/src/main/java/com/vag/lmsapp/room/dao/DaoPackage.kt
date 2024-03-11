@@ -34,7 +34,7 @@ interface DaoPackage : BaseDao<EntityPackage> {
             ", description, 1 as quantity FROM packages WHERE package_name LIKE '%' || :keyword || '%' AND deleted_at IS NULL")
     suspend fun getAll(keyword: String?): List<MenuJobOrderPackage>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertServices(packageServices: List<EntityPackageService>)
 
     @Query("DELETE FROM package_services WHERE deleted_at IS NOT NULL")
@@ -46,7 +46,7 @@ interface DaoPackage : BaseDao<EntityPackage> {
         clearServices()
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertExtras(packageExtras: List<EntityPackageExtras>)
 
     @Query("DELETE FROM package_extras WHERE deleted_at IS NOT NULL")
@@ -58,7 +58,7 @@ interface DaoPackage : BaseDao<EntityPackage> {
         clearExtras()
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertProducts(packageProducts: List<EntityPackageProduct>)
 
     @Query("DELETE FROM package_products WHERE deleted_at IS NOT NULL")

@@ -30,7 +30,7 @@ class PictureAdapter(private val context: Context) : RecyclerView.Adapter<Pictur
                 val uri = FileProvider.getUriForFile(context, FILE_PROVIDER, file)
 
                 val requestOptions = RequestOptions()
-                    .override(100)
+                    .override(240)
                     .centerCrop()
 
                 Glide.with(binding.root)

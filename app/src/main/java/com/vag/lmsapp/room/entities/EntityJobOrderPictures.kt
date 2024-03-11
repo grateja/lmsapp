@@ -7,7 +7,7 @@ import java.util.*
 @Entity(
     tableName = "job_order_pictures",
     foreignKeys = [
-        ForeignKey(entity = EntityJobOrder::class, parentColumns = ["id"], childColumns = ["job_order_id"], onDelete = ForeignKey.CASCADE)
+        ForeignKey(entity = EntityJobOrder::class, parentColumns = ["id"], childColumns = ["job_order_id"], onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE)
     ]
 )
 data class EntityJobOrderPictures(

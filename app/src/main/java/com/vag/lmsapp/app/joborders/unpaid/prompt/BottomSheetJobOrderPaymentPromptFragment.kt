@@ -20,6 +20,8 @@ import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.databinding.FragmentBottomSheetJobOrderPaymentPromptBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
+import com.vag.lmsapp.util.showMessageDialog
+import java.util.UUID
 
 class BottomSheetJobOrderPaymentPromptFragment: BaseModalFragment() {
     override var fullHeight = true
@@ -50,7 +52,7 @@ class BottomSheetJobOrderPaymentPromptFragment: BaseModalFragment() {
             viewModel.openJobOrder()
         }
         adapter.onItemClick = {
-//            previewJobOrder(it.id)
+            context?.showMessageDialog("Invalid operation", "Job order is locked and cannot be edited!")
         }
     }
 

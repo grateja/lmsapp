@@ -10,6 +10,8 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
+import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
+import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
 import com.vag.lmsapp.databinding.ActivityJobOrderPaymentBinding
 import com.vag.lmsapp.model.EnumPaymentMethod
 import com.vag.lmsapp.util.*
@@ -28,6 +30,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityJobOrderPaymentBinding
     private val viewModel: JobOrderPaymentViewModel by viewModels()
+    private val viewModelPreview: JobOrderPreviewViewModel by viewModels()
     private val fragment = BottomSheetJobOrderPaymentFragment()
 //    private lateinit var cashlessModalFragment: PaymentJoCashlessModalFragment
     private val adapter = JobOrderListPaymentAdapter(false)
@@ -98,11 +101,13 @@ class JobOrderPaymentActivity : AppCompatActivity() {
             viewModel.selectItem(it)
         }
         adapter.onItemClick = {
-            val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
-                action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
-                putExtra(JobOrderCreateActivity.JOB_ORDER_ID, it.id.toString())
-            }
-            startActivity(intent)
+            viewModelPreview.getByJobOrderId(it.id)
+            JobOrderPreviewBottomSheetFragment.newInstance(true).show(supportFragmentManager, null)
+//            val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
+//                action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
+//                putExtra(JobOrderCreateActivity.JOB_ORDER_ID, it.id.toString())
+//            }
+//            startActivity(intent)
         }
         binding.buttonSave.setOnClickListener {
             viewModel.validate()

@@ -18,22 +18,22 @@ import java.util.*
 
 @Dao
 interface DaoJobOrder {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     fun insertJobOrder(entityJobOrder: EntityJobOrder)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     fun insertJobOrderService(entityJobOrderService: List<EntityJobOrderService>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     fun insertJobOrderProduct(entityJobOrderProduct: List<EntityJobOrderProduct>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     fun insertJobOrderExtras(entityJobOrderExtras: List<EntityJobOrderExtras>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     fun insertDeliveryCharge(entityJobOrderDeliveryCharge: EntityJobOrderDeliveryCharge)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     fun insertDiscount(entityJobOrderDiscount: EntityJobOrderDiscount)
 
     @Delete
@@ -212,10 +212,10 @@ interface DaoJobOrder {
     @Query("SELECT * FROM job_order_pictures WHERE job_order_id = :jobOrderId ORDER BY created_at DESC")
     fun getPictures(jobOrderId: UUID?): LiveData<List<EntityJobOrderPictures>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun attachPicture(jobOrderPictures: EntityJobOrderPictures)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun attachPictures(jobOrderPictures: List<EntityJobOrderPictures>)
 
     @Query("DELETE FROM job_order_pictures WHERE id = :uriId")

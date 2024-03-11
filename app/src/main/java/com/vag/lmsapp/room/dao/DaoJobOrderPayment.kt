@@ -21,7 +21,7 @@ interface DaoJobOrderPayment {
     @Query("UPDATE job_orders SET payment_id = :paymentId WHERE id IN (:jobOrderIds)")
     fun setJobOrderPayment(paymentId: UUID, jobOrderIds: List<UUID>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     fun insertPayment(payment: EntityJobOrderPayment)
 
     @Transaction

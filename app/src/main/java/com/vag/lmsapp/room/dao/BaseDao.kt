@@ -5,7 +5,7 @@ import com.vag.lmsapp.room.entities.BaseEntity
 import java.time.Instant
 
 interface BaseDao<T : BaseEntity> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun save(data: T)
 
     @Delete
@@ -16,6 +16,6 @@ interface BaseDao<T : BaseEntity> {
         save(data)
     }
 
-    @Insert
+    @Upsert
     suspend fun saveAll(list: List<T>)
 }

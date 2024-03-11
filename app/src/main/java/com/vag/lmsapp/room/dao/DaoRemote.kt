@@ -13,7 +13,7 @@ interface DaoRemote {
     @Query("UPDATE machines SET time_activated = :timeActivated, total_minutes = :totalMinutes, service_activation_id = null, jo_service_id = :jobOrderServiceId, customer_id = :customerId WHERE id = :machineId")
     fun startMachine(machineId: UUID, jobOrderServiceId: UUID, customerId: UUID?, timeActivated: Instant?, totalMinutes: Int?)
 
-    @Insert
+    @Upsert
     fun insertMachineUsage(machineUsage: EntityMachineUsage)
 
     @Transaction
