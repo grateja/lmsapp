@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.joborders.create.gallery
+package com.vag.lmsapp.app.joborders.gallery
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,18 +11,18 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.vag.lmsapp.BR
 import com.vag.lmsapp.R
-import com.vag.lmsapp.databinding.RecyclerItemJobOrderPictureBinding
-import com.vag.lmsapp.room.entities.EntityJobOrderPictures
+import com.vag.lmsapp.app.gallery.picture_preview.PhotoItem
+import com.vag.lmsapp.databinding.RecyclerItemJobOrderPictureGridBinding
 import com.vag.lmsapp.util.Constants.Companion.FILE_PROVIDER
 import com.vag.lmsapp.util.Constants.Companion.PICTURES_DIR
 import java.io.File
 import java.io.FileNotFoundException
 
 class PictureAdapter(private val context: Context) : RecyclerView.Adapter<PictureAdapter.ViewHolder>() {
-    private var list: List<EntityJobOrderPictures> = emptyList()
-    inner class ViewHolder(private val binding: RecyclerItemJobOrderPictureBinding) : RecyclerView.ViewHolder(binding.root) {
+    private var list: List<PhotoItem> = emptyList()
+    inner class ViewHolder(private val binding: RecyclerItemJobOrderPictureGridBinding) : RecyclerView.ViewHolder(binding.root) {
         val imageView: ImageView = binding.imageViewJobOrderPicture
-        fun bind(model: EntityJobOrderPictures) {
+        fun bind(model: PhotoItem) {
             binding.setVariable(BR.viewModel, model)
             try {
                 val name = model.id.toString()
@@ -49,15 +49,15 @@ class PictureAdapter(private val context: Context) : RecyclerView.Adapter<Pictur
         }
     }
 
-    var onItemClick: ((EntityJobOrderPictures) -> Unit) ? = null
+    var onItemClick: ((PhotoItem) -> Unit) ? = null
 
-    fun setData(pictures: List<EntityJobOrderPictures>) {
+    fun setData(pictures: List<PhotoItem>) {
         list = pictures
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = RecyclerItemJobOrderPictureBinding.inflate(
+        val binding = RecyclerItemJobOrderPictureGridBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false

@@ -455,13 +455,13 @@ fun RecyclerView.setGridLayout(
     val parent = this.parent as View
     val recycler = this
     val columnWidthPx = columnWidth.toPixels(context)
-    val marginPx = if (horizontalMargin == null) 0 else (horizontalMargin.toPixels(context) * 2)
+    // val marginPx = if (horizontalMargin == null) 0 else (horizontalMargin.toPixels(context) * 2)
 
     parent.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
 
-            val parentWidthPx = parent.width - marginPx
-            val spanCount = (parentWidthPx / (columnWidthPx + marginPx)).toInt() // Adjust for margins
+            // val parentWidthPx = parent.width - marginPx
+            val spanCount = (recycler.width / (columnWidthPx)).toInt() // Adjust for margins
             val col = maxOf(spanCount, 1) // Ensure at least 1 column
 
             recycler.layoutManager = GridLayoutManager(context, col)

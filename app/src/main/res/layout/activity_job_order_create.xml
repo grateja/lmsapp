@@ -141,18 +141,34 @@
                         tools:layout="@layout/fragment_create_job_order_summary"/>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/job_order_gallery"
+                        style="@style/CardWrapper"
+                        android:layout_marginTop="18dp"
                         android:visibility="@{!viewModel.deleted}"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <androidx.fragment.app.FragmentContainerView
-                            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                            android:id="@+id/job_order_gallery"
-                            android:name="com.vag.lmsapp.app.joborders.create.gallery.CreateJobOrderGalleryFragment"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:layout="@layout/fragment_job_order_create_gallery"/>
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/CardTitle"
+                                android:text="PICTURES"/>
+                            <TextView
+                                android:visibility="@{viewModel.jobOrderPictures.size == 0}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_pictures_available_click_here_to_add"/>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_job_order_gallery"
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:nestedScrollingEnabled="false"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                android:orientation="horizontal"/>
+                        </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>

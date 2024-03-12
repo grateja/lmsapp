@@ -52,7 +52,7 @@
             android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
             tools:itemCount="4"
-            tools:listitem="@layout/recycler_item_job_order_picture"
+            tools:listitem="@layout/recycler_item_job_order_picture_grid"
             app:layout_constraintTop_toBottomOf="@id/button_add_picture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

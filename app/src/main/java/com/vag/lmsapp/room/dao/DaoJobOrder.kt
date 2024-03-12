@@ -3,6 +3,7 @@ package com.vag.lmsapp.room.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.vag.lmsapp.app.dashboard.data.JobOrderCounts
+import com.vag.lmsapp.app.gallery.picture_preview.PhotoItem
 import com.vag.lmsapp.app.joborders.list.JobOrderListItem
 import com.vag.lmsapp.app.joborders.list.JobOrderQueryResult
 import com.vag.lmsapp.app.joborders.list.JobOrderResultSummary
@@ -211,6 +212,9 @@ interface DaoJobOrder {
 
     @Query("SELECT * FROM job_order_pictures WHERE job_order_id = :jobOrderId ORDER BY created_at DESC")
     fun getPictures(jobOrderId: UUID?): LiveData<List<EntityJobOrderPictures>>
+
+    @Query("SELECT * FROM job_order_pictures WHERE job_order_id = :jobOrderId ORDER BY created_at DESC")
+    fun getPicturesAsLiveData(jobOrderId: UUID?): LiveData<List<PhotoItem>>
 
     @Upsert
     suspend fun attachPicture(jobOrderPictures: EntityJobOrderPictures)

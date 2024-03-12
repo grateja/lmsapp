@@ -31,7 +31,7 @@ constructor(
 
     val jobOrder = _jobOrderId.switchMap { jobOrderRepository.getJobOrderWithItemsAsLiveData(it) }
 
-    val jobOrderPictures = _jobOrderId.switchMap { jobOrderRepository.getPictures(it) }
+    val jobOrderPictures = _jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
 
     val isDeleted = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
@@ -39,19 +39,19 @@ constructor(
         }
     }
 
-    fun openPictures(currentId: UUID) {
-        jobOrderPictures.value?.let { _list ->
-            val index = _list.indexOfFirst { it.id == currentId }
-            _navigationState.value = NavigationState.OpenPictures(_list.map {
-                PhotoItem(it.id, it.createdAt)
-            }, index)
-        }
-    }
-    fun removePicture(uriId: UUID) {
-        viewModelScope.launch {
-            jobOrderRepository.removePicture(uriId)
-        }
-    }
+//    fun openPictures(currentId: UUID) {
+//        jobOrderPictures.value?.let { _list ->
+//            val index = _list.indexOfFirst { it.id == currentId }
+//            _navigationState.value = NavigationState.OpenPictures(_list.map {
+//                PhotoItem(it.id, it.createdAt)
+//            }, index)
+//        }
+//    }
+//    fun removePicture(uriId: UUID) {
+//        viewModelScope.launch {
+//            jobOrderRepository.removePicture(uriId)
+//        }
+//    }
     fun getByJobOrderId(jobOrderId: UUID) {
         _jobOrderId.value = jobOrderId
     }
@@ -109,6 +109,12 @@ constructor(
         _previewOnly.value = previewOnly
     }
 
+    fun openGallery() {
+        _jobOrderId.value?.let {
+            _navigationState.value = NavigationState.OpenGallery(it)
+        }
+    }
+
     sealed class NavigationState {
         data object StateLess: NavigationState()
         data class InitiateEdit(val id: UUID): NavigationState()
@@ -118,7 +124,7 @@ constructor(
         data class OpenDelete(val id: UUID) : NavigationState()
         data object RequestEdit: NavigationState()
         data class Invalidate(val message: String): NavigationState()
-        data class OpenPictures(val ids: List<PhotoItem>, val position: Int) : NavigationState()
+        data class OpenGallery(val jobOrderId: UUID): NavigationState()
 
         data object RequireRefresh: NavigationState()
     }

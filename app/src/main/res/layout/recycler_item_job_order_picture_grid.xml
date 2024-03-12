@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.room.entities.EntityJobOrderPictures" />
+            type="com.vag.lmsapp.app.gallery.picture_preview.PhotoItem" />
     </data>
     <FrameLayout
         android:layout_margin="2dp"
@@ -14,7 +14,7 @@
         <ImageView
             android:id="@+id/image_view_job_order_picture"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/image_deleted"
             tools:src="@drawable/icon_customer" />

@@ -49,7 +49,7 @@ constructor(
         data class RequestCancel(val jobOrderId: UUID?) : DataState()
         data class ModifyDateTime(val createdAt: Instant) : DataState()
         data class OpenCamera(val jobOrderId: UUID) : DataState()
-        data class OpenPictures(val ids: List<PhotoItem>, val position: Int) : DataState()
+        data class OpenPictures(val jobOrderId: UUID) : DataState()
         data class PickCustomer(val customerId: UUID?) : DataState()
         data class SearchCustomer(val customerId: UUID?) : DataState()
         data class OpenPrinter(val jobOrderId: UUID) : DataState()
@@ -90,7 +90,7 @@ constructor(
 
     private val jobOrderPackages = MutableLiveData<List<MenuJobOrderPackage>?>()
 
-    val jobOrderPictures = jobOrderId.switchMap { jobOrderRepository.getPictures(it) }
+    val jobOrderPictures = jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
 
     private val _preparedBy = MutableLiveData<String>()
     val preparedBy: LiveData<String> = _preparedBy
@@ -573,12 +573,9 @@ constructor(
         }
     }
 
-    fun openPictures(currentId: UUID) {
-        jobOrderPictures.value?.let { _list ->
-            val index = _list.indexOfFirst { it.id == currentId }
-            _dataState.value = DataState.OpenPictures(_list.map {
-                 PhotoItem(it.id, it.createdAt)
-            }, index)
+    fun openPictures() {
+        jobOrderId.value?.let {
+            _dataState.value = DataState.OpenPictures(it)
         }
     }
 

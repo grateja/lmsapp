@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.compose.ui.unit.dp
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
@@ -21,6 +22,7 @@ import com.vag.lmsapp.app.joborders.create.discount.MenuDiscount
 import com.vag.lmsapp.app.joborders.create.extras.JobOrderCreateSelectExtrasActivity
 import com.vag.lmsapp.app.joborders.create.extras.JobOrderExtrasItemAdapter
 import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
+import com.vag.lmsapp.app.joborders.gallery.PictureAdapter
 import com.vag.lmsapp.app.joborders.create.packages.JobOrderCreateSelectPackageActivity
 import com.vag.lmsapp.app.joborders.create.packages.MenuJobOrderPackage
 import com.vag.lmsapp.app.joborders.create.products.JobOrderCreateSelectProductsActivity
@@ -29,6 +31,7 @@ import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
 import com.vag.lmsapp.app.joborders.create.services.JobOrderCreateSelectWashDryActivity
 import com.vag.lmsapp.app.joborders.create.services.JobOrderServiceItemAdapter
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
+import com.vag.lmsapp.app.joborders.gallery.JobOrderGalleryBottomSheetFragment
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity.Companion.CUSTOMER_ID
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
@@ -75,6 +78,8 @@ class JobOrderCreateActivity : BaseActivity() {
     private val extrasAdapter = JobOrderExtrasItemAdapter()
     private val unpaidJobOrdersAdapter = Adapter<JobOrderPaymentMinimal>(R.layout.recycler_item_job_order_read_only)
     private val packageAdapter = Adapter<MenuJobOrderPackage>(R.layout.recycler_item_create_job_order_selected_package)
+    private val pictureListAdapter = PictureAdapter(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +93,8 @@ class JobOrderCreateActivity : BaseActivity() {
         binding.inclServicesLegend.recycler.adapter = servicesAdapter
         binding.inclProductsLegend.recycler.adapter = productsAdapter
         binding.inclExtrasLegend.recycler.adapter = extrasAdapter
+        binding.recyclerJobOrderGallery.adapter = pictureListAdapter
+        binding.recyclerJobOrderGallery.setGridLayout(this, 30.dp)
 
         subscribeEvents()
     }
@@ -109,6 +116,9 @@ class JobOrderCreateActivity : BaseActivity() {
         }
         binding.buttonPackages.setOnClickListener {
             viewModel.openPackages()
+        }
+        pictureListAdapter.onItemClick = {
+            viewModel.openPictures()
         }
 
         launcher.onOk = { result ->
@@ -191,7 +201,6 @@ class JobOrderCreateActivity : BaseActivity() {
             }
         }
 
-
         productsAdapter.apply {
             onItemClick = {
                 viewModel.openProducts(it)
@@ -226,12 +235,6 @@ class JobOrderCreateActivity : BaseActivity() {
             viewModel.openExtras(null)
         }
 
-//        viewModel.locked.observe(this, Observer {
-//            servicesAdapter.lock(it)
-//            productsAdapter.lock(it)
-//            extrasAdapter.lock(it)
-//        })
-
         viewModel.jobOrderServices.observe(this, Observer {
             servicesAdapter.setData(it.toMutableList())
         })
@@ -248,6 +251,10 @@ class JobOrderCreateActivity : BaseActivity() {
             unpaidJobOrdersAdapter.setData(it)
         })
 
+        viewModel.jobOrderPictures.observe(this, Observer {
+            pictureListAdapter.setData(it)
+        })
+
         binding.buttonConfirm.setOnClickListener {
             viewModel.validate()
         }
@@ -256,6 +263,9 @@ class JobOrderCreateActivity : BaseActivity() {
         }
         binding.buttonDelete.setOnClickListener {
             viewModel.requestCancel()
+        }
+        binding.jobOrderGallery.setOnClickListener {
+            viewModel.openPictures()
         }
 
         viewModel.dataState.observe(this, Observer {
@@ -282,6 +292,10 @@ class JobOrderCreateActivity : BaseActivity() {
                 }
                 is CreateJobOrderViewModel.DataState.OpenDiscount -> {
                     openDiscount(it.discount)
+                    viewModel.resetState()
+                }
+                is CreateJobOrderViewModel.DataState.OpenPictures -> {
+                    JobOrderGalleryBottomSheetFragment.newInstance(it.jobOrderId).show(supportFragmentManager, null)
                     viewModel.resetState()
                 }
                 is CreateJobOrderViewModel.DataState.ProceedToSaveJO -> {
@@ -424,13 +438,6 @@ class JobOrderCreateActivity : BaseActivity() {
         }
         startActivity(intent)
     }
-
-//    private fun openAuthRequestUnlock() {
-//        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-//            action = ACTION_REQUEST_UNLOCK
-//        }
-//        launcher.launch(intent)
-//    }
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {

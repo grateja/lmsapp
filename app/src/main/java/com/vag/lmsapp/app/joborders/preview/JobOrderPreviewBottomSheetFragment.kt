@@ -8,17 +8,15 @@ import android.view.ViewGroup
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
-import com.vag.lmsapp.app.gallery.picture_preview.PhotoItem
-import com.vag.lmsapp.app.gallery.picture_preview.PicturePreviewActivity
 import com.vag.lmsapp.app.joborders.JobOrderItemMinimal
 import com.vag.lmsapp.app.joborders.cancel.JobOrderCancelActivity
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.JOB_ORDER_ID
-import com.vag.lmsapp.app.joborders.create.gallery.PictureAdapter
+import com.vag.lmsapp.app.joborders.gallery.PictureAdapter
+import com.vag.lmsapp.app.joborders.gallery.JobOrderGalleryBottomSheetFragment
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.joborders.print.JobOrderPrintActivity
@@ -27,11 +25,8 @@ import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.FragmentLauncher
-import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.util.setGridLayout
-import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.showMessageDialog
-import java.util.ArrayList
 
 class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
     override var fullHeight: Boolean = true
@@ -56,7 +51,7 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
 
         binding.recyclerJobOrderGallery.adapter = adapter
 
-        binding.recyclerJobOrderGallery.setGridLayout(requireContext(), 100.dp)
+        binding.recyclerJobOrderGallery.setGridLayout(requireContext(), 30.dp)
 
         binding.recyclerViewServices.adapter = servicesAdapter
         binding.recyclerViewProducts.adapter = productsAdapter
@@ -120,8 +115,12 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                     launcher.launch(intent)
                     viewModel.resetState()
                 }
-                is JobOrderPreviewViewModel.NavigationState.OpenPictures -> {
-                    openPreview(it.ids, it.position)
+//                is JobOrderPreviewViewModel.NavigationState.OpenPictures -> {
+//                    openPreview(it.ids, it.position)
+//                    viewModel.resetState()
+//                }
+                is JobOrderPreviewViewModel.NavigationState.OpenGallery -> {
+                    JobOrderGalleryBottomSheetFragment.newInstance(it.jobOrderId).show(parentFragmentManager, null)
                     viewModel.resetState()
                 }
                 else -> {}
@@ -159,6 +158,9 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
         binding.buttonDelete.setOnClickListener {
             requestAuthorization(ACTION_REQUEST_DELETE)
         }
+        binding.jobOrderGallery.setOnClickListener {
+            viewModel.openGallery()
+        }
 
         authLauncher.onOk = {
             if(it?.action == ACTION_REQUEST_UNLOCK) {
@@ -176,23 +178,27 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
         }
 
         adapter.onItemClick = {
-            if(it.fileDeleted) {
-                requireContext().showDeleteConfirmationDialog("File deleted or corrupted", "Delete this file permanently?") {
-                    viewModel.removePicture(it.id)
-                }
-            } else {
-                viewModel.openPictures(it.id)
-            }
+            viewModel.openGallery()
         }
+
+//        adapter.onItemClick = {
+//            if(it.fileDeleted) {
+//                requireContext().showDeleteConfirmationDialog("File deleted or corrupted", "Delete this file permanently?") {
+//                    viewModel.removePicture(it.id)
+//                }
+//            } else {
+//                viewModel.openPictures(it.id)
+//            }
+//        }
     }
 
-    private fun openPreview(uriIds: List<PhotoItem>, index: Int) {
-        val intent = Intent(context, PicturePreviewActivity::class.java).apply {
-            putParcelableArrayListExtra(PicturePreviewActivity.FILENAME_IDS_EXTRA, ArrayList(uriIds))
-            putExtra(PicturePreviewActivity.INDEX, index)
-        }
-        startActivity(intent)
-    }
+//    private fun openPreview(uriIds: List<PhotoItem>, index: Int) {
+//        val intent = Intent(context, PicturePreviewActivity::class.java).apply {
+//            putParcelableArrayListExtra(PicturePreviewActivity.FILENAME_IDS_EXTRA, ArrayList(uriIds))
+//            putExtra(PicturePreviewActivity.INDEX, index)
+//        }
+//        startActivity(intent)
+//    }
     private fun requestAuthorization(authAction: String) {
         val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
             action = authAction

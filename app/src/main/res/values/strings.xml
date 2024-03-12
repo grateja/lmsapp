@@ -72,6 +72,7 @@
     <string name="what_do_you_want_to_print">What do you want to print?</string>
     <string name="no_results_found">No results found!</string>
     <string name="summary">SUMMARY</string>
+    <string name="no_pictures_available_click_here_to_add">No pictures available. Click here to add</string>
     <string-array name="jo_filter_by">
         <item>Date Paid</item>
         <item>Date Created</item>

@@ -114,6 +114,7 @@ constructor (
     }
 
     fun getPictures(jobOrderId: UUID?) = daoJobOrder.getPictures(jobOrderId)
+    fun getPicturesAsLiveData(jobOrderId: UUID?) = daoJobOrder.getPicturesAsLiveData(jobOrderId)
 
     suspend fun attachPicture(jobOrderPictures: EntityJobOrderPictures) {
         return daoJobOrder.attachPicture(jobOrderPictures)
