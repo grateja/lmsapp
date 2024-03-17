@@ -84,7 +84,7 @@ class JobOrderGalleryBottomSheetFragment : BaseModalFragment() {
         }
 
         cameraLauncher.onOk = {
-            it?.getStringExtra(PictureCaptureActivity.URI_EXTRA)?.let {
+            it?.getStringExtra(PictureCaptureActivity.URI_ID_EXTRA)?.let {
                 viewModel.attachPicture(UUID.fromString(it))
             }
         }

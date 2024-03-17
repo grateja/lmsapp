@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewViewModel" />
+            type="com.vag.lmsapp.app.joborders.payment.JobOrderPaymentViewModel" />
     </data>
     <com.google.android.material.card.MaterialCardView
         android:visibility="@{viewModel.payment != null}"

@@ -32,6 +32,7 @@ import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.model.EnumWashType
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.io.File
 import java.text.NumberFormat
 import java.time.Duration
 import java.time.Instant
@@ -468,6 +469,10 @@ fun RecyclerView.setGridLayout(
             parent.viewTreeObserver.removeOnGlobalLayoutListener(this)
         }
     })
+}
+
+fun Context.file(fileName: UUID?) : File {
+    return File(filesDir, Constants.PICTURES_DIR + fileName)
 }
 
 fun LocalDate.toShort(): String {

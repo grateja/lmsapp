@@ -1,5 +1,7 @@
 package com.vag.lmsapp.app.joborders.payment
 
+import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.*
 import com.vag.lmsapp.model.EnumPaymentMethod
 import com.vag.lmsapp.model.Rule
@@ -11,9 +13,12 @@ import com.vag.lmsapp.room.repository.CustomerRepository
 import com.vag.lmsapp.room.repository.JobOrderRepository
 import com.vag.lmsapp.room.repository.PaymentRepository
 import com.vag.lmsapp.settings.JobOrderSettingsRepository
+import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.InputValidation
+import com.vag.lmsapp.util.file
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.File
 import java.time.Instant
 import java.util.*
 import javax.inject.Inject
@@ -27,16 +32,23 @@ constructor(
     private val paymentRepository: PaymentRepository,
 //    private val appPreferenceRepository: AppPreferenceRepository,
     private val customerRepository: CustomerRepository,
-    private val dataStoreRepository: JobOrderSettingsRepository
-) : ViewModel() {
+    private val dataStoreRepository: JobOrderSettingsRepository,
+    application: Application
+) : AndroidViewModel(application) {
     sealed class DataState {
         object StateLess : DataState()
-        class OpenCashless(val cashless: EntityCashless?) : DataState()
+        class OpenImagePreview(val paymentId: UUID?) : DataState()
         class PaymentSuccess(val payment: EntityJobOrderPayment, val jobOrderIds: ArrayList<String>) : DataState()
         class InvalidInput(val inputValidation: InputValidation) : DataState()
         class InvalidOperation(val message: String) : DataState()
         class RequestModifyDateTime(val dateTime: Instant) : DataState()
-        object ValidationPassed: DataState()
+        data class OpenCamera(val paymentId: UUID): DataState()
+        data object OpenFile: DataState()
+        data class CopyFile(val paymentId: UUID, val uri: Uri): DataState()
+        data object ValidationPassed: DataState()
+        data object RemoveProofOfPayment: DataState()
+        data class OpenPromptReplacePictureWithCamera(val paymentId: UUID): DataState()
+        data object OpenPromptReplacePictureWithFile: DataState()
     }
 
     val requireOrNumber = dataStoreRepository.getAsLiveData(JobOrderSettingsRepository.JOB_ORDER_REQUIRE_OR_NUMBER, false)
@@ -52,8 +64,12 @@ constructor(
     private val _customerId = MutableLiveData<UUID>()
     val customer = _customerId.switchMap { customerRepository.getCustomerAsLiveData(it) }
 
-    private val _paymentId = MutableLiveData<UUID>()
+    private val _paymentId = MutableLiveData(UUID.randomUUID())
+    val paymentId: LiveData<UUID> = _paymentId
+
     val payment = _paymentId.switchMap { paymentRepository.getPaymentWithJobOrders(it) } //MutableLiveData<EntityJobOrderPaymentFull>()
+    val jobOrders = _paymentId.switchMap { paymentRepository.getJobOrdersByPaymentId(it) }
+
 //    val payment: LiveData<EntityJobOrderPaymentFull> = _payment
 
     private val _inputValidation = MutableLiveData(InputValidation())
@@ -65,13 +81,13 @@ constructor(
     private val _payableJobOrders = MutableLiveData<List<JobOrderPaymentMinimal>>()
     val payableJobOrders: LiveData<List<JobOrderPaymentMinimal>> = _payableJobOrders
 
-    val selectedJobOrders = MediatorLiveData<Int>().apply {
-        fun update() {
-            val items = _payableJobOrders.value
-            value = items?.filter { it.selected }?.size
-        }
-        addSource(_payableJobOrders) {update()}
-    }
+//    val selectedJobOrders = MediatorLiveData<Int>().apply {
+//        fun update() {
+//            val items = _payableJobOrders.value
+//            value = items?.filter { it.selected }?.size
+//        }
+//        addSource(_payableJobOrders) {update()}
+//    }
 
     val payableAmount = MediatorLiveData<Float>().apply {
         fun update() {
@@ -104,12 +120,32 @@ constructor(
         addSource(cashReceived){update()}
         addSource(amountToPay){update()}
     }
-
-//    private lateinit var paymentId: UUID
-
-//    private val _amountDue = MutableLiveData(0f)
-//    val amountDue: LiveData<Float> = _amountDue
-
+    fun requestOpenCamera() {
+        _paymentId.value?.let {id ->
+            if(getApplication<Application>().file(id).exists()) {
+                _dataState.value = DataState.OpenPromptReplacePictureWithCamera(id)
+            } else {
+                _dataState.value = DataState.OpenCamera(id)
+            }
+        }
+    }
+    fun requestOpenFile() {
+        _paymentId.value?.let {id ->
+            if(getApplication<Application>().file(id).exists()) {
+                _dataState.value = DataState.OpenPromptReplacePictureWithFile
+            } else {
+                _dataState.value = DataState.OpenFile
+            }
+        }
+    }
+    fun attachUri(uri: Uri?) {
+        val paymentId = _paymentId.value ?: return
+        val _uri = uri ?: return
+        _dataState.value = DataState.CopyFile(paymentId, _uri)
+    }
+    fun openImagePreview() {
+        _dataState.value = DataState.OpenImagePreview(paymentId.value)
+    }
     fun resetState() {
         _dataState.value = DataState.StateLess
     }
@@ -226,6 +262,8 @@ constructor(
                 )
             } else null
 
+            val id = _paymentId.value!!
+
             val datePaid = datePaid.value ?: Instant.now()
 
             val payableJobOrders = payableJobOrders.value
@@ -233,7 +271,7 @@ constructor(
             val jobOrderIds = payableJobOrders?.filter { it.selected }?.map { it.id } ?: return@launch
 
             val payment = EntityJobOrderPayment(
-                UUID.randomUUID(),
+                id,
                 paymentMethod.value!!,
                 amountToPay.value ?: 0f,
                 cashReceived.value?.toFloatOrNull() ?: 0f,
@@ -284,5 +322,22 @@ constructor(
 
     fun setPaymentMethod(method: EnumPaymentMethod) {
         paymentMethod.value = method
+    }
+
+    fun deletePicture() {
+        _paymentId.value.toString().let { uri ->
+            try {
+                val filesDir = getApplication<Application>().filesDir
+                File(filesDir, Constants.PICTURES_DIR + uri).let { _file ->
+                    if(_file.exists()) {
+                        _file.delete()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _dataState.value = DataState.RemoveProofOfPayment
+            }
+        }
     }
 }

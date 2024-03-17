@@ -147,28 +147,45 @@
                         android:visibility="@{!viewModel.deleted}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:id="@+id/text_title_gallery"
                                 style="@style/CardTitle"
-                                android:text="PICTURES"/>
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="PICTURES"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/icon_browse_right"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/browse_right"
+                                app:layout_constraintBottom_toBottomOf="@+id/text_title_gallery"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/text_title_gallery" />
                             <TextView
+                                android:id="@+id/text_label_gallery_prompt"
                                 android:visibility="@{viewModel.jobOrderPictures.size == 0}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/no_pictures_available_click_here_to_add"/>
+                                android:text="@string/no_pictures_available_click_here_to_add"
+                                app:layout_constraintTop_toBottomOf="@id/icon_browse_right"/>
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recycler_job_order_gallery"
                                 android:layout_width="match_parent"
                                 android:layout_height="30dp"
                                 android:nestedScrollingEnabled="false"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                android:orientation="horizontal"/>
-                        </LinearLayout>
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toBottomOf="@id/text_label_gallery_prompt"
+                                app:layout_constraintStart_toStartOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>

@@ -68,9 +68,14 @@ class PictureAdapter(private val context: Context) : RecyclerView.Adapter<Pictur
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val r = list[position]
         holder.bind(r)
-        holder.itemView.setOnClickListener {
-            onItemClick?.invoke(r)
+        onItemClick?.let { event ->
+            holder.itemView.setOnClickListener {
+                event.invoke(r)
+            }
         }
+//        holder.itemView.setOnClickListener {
+//            onItemClick?.invoke(r)
+//        }
     }
 
     override fun getItemCount(): Int {

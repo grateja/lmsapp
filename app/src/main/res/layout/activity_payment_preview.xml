@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewViewModel" />
+            type="com.vag.lmsapp.app.joborders.payment.JobOrderPaymentViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -181,6 +181,13 @@
                         android:layout_height="wrap_content"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                 </com.google.android.material.card.MaterialCardView>
+                <androidx.fragment.app.FragmentContainerView
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    android:id="@+id/fragment_proof_of_payment"
+                    android:name="com.vag.lmsapp.app.joborders.payment.ProofOfPaymentFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout="@layout/fragment_proof_of_payment"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 <!--        <com.google.android.material.card.MaterialCardView-->

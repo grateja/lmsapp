@@ -117,9 +117,9 @@ class JobOrderCreateActivity : BaseActivity() {
         binding.buttonPackages.setOnClickListener {
             viewModel.openPackages()
         }
-        pictureListAdapter.onItemClick = {
-            viewModel.openPictures()
-        }
+//        pictureListAdapter.onItemClick = {
+//            viewModel.openPictures()
+//        }
 
         launcher.onOk = { result ->
             val data = result.data

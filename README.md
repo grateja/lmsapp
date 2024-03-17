@@ -1,4 +1,5 @@
 <ul>
+    <li>Proof of payment added</li>
     <li>Job order gallery abstracted into SSOT</li>
     <li>Job order preview Gallery revamped</li>
     <li>Replaced all @Insert to @Upsert</li>

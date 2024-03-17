@@ -3,6 +3,7 @@ package com.vag.lmsapp.room.entities
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import kotlinx.parcelize.Parcelize
+import java.util.UUID
 
 @Parcelize
 data class EntityCashless(

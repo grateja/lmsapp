@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vag.lmsapp.R
 import com.vag.lmsapp.databinding.ActivityPictureCaptureBinding
 import com.vag.lmsapp.util.Constants.Companion.PICTURES_DIR
@@ -22,7 +23,7 @@ import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.showDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import java.util.*
+import java.util.UUID
 
 @AndroidEntryPoint
 class PictureCaptureActivity : AppCompatActivity() {
@@ -52,7 +53,7 @@ class PictureCaptureActivity : AppCompatActivity() {
 
     private fun takePhoto() {
         val mediaDir = File(filesDir, PICTURES_DIR)
-        val name = UUID.randomUUID().toString()
+        val name = intent.getStringExtra(URI_ID_EXTRA) ?: UUID.randomUUID().toString()
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(File(mediaDir, name)).build()
 
@@ -149,7 +150,7 @@ class PictureCaptureActivity : AppCompatActivity() {
 
     companion object {
         //        const val JOB_ORDER_ID_EXTRA = "jobOrderId"
-        const val URI_EXTRA = "uri"
+        const val URI_ID_EXTRA = "uri"
         //        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private val REQUIRED_PERMISSIONS =
             mutableListOf(
@@ -185,6 +186,8 @@ class PictureCaptureActivity : AppCompatActivity() {
         val file = File(filesDir, "pictures/$fileName")
         Glide.with(binding.root)
             .load(file)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(binding.imagePreview)
     }
 
@@ -198,7 +201,7 @@ class PictureCaptureActivity : AppCompatActivity() {
             when(it) {
                 is PictureCaptureViewModel.NavigationState.Capture -> {
                     setResult(RESULT_OK, Intent().apply {
-                        putExtra(URI_EXTRA, it.uri)
+                        putExtra(URI_ID_EXTRA, it.uri)
                     })
                     viewModel.resetState()
                     finish()

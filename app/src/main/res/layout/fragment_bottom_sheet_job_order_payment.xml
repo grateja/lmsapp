@@ -12,44 +12,42 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
                 android:layout_marginHorizontal="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/controls">
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <TextView
+                        style="@style/TextTitleFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{`Pay ` + viewModel.paymentMethod.value}"
+                        tools:text="Pay Cashless"
+                        android:layout_weight="1"/>
+                    <ImageButton
+                        android:id="@+id/button_done"
+                        android:contentDescription="@string/Continue"
+                        android:src="@drawable/icon_confirm"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:scaleType="centerCrop"
+                        android:padding="8dp"
+                        android:background="@drawable/background_selector"/>
+                </LinearLayout>
+
                 <TextView
-                    style="@style/TextTitleFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{`Pay ` + viewModel.paymentMethod.value}"
-                    tools:text="Pay Cashless"/>
-
-
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:hint="Date Paid"-->
-<!--                    app:errorEnabled="true"-->
-<!--                    app:errorText="@{viewModel.inputValidation.get(`datePaid`)}">-->
-
-<!--                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                        android:id="@+id/textDatePaid"-->
-<!--                        android:text="@{viewModel.datePaid}"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:inputType="none"-->
-<!--                        android:focusable="false"-->
-<!--                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`datePaid`)}"-->
-<!--                        android:maxLines="1" />-->
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
+                    android:text="@{`Please pay: P ` + viewModel.amountToPay + ``}"
+                    tools:text="Please pay: P 202.20"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
@@ -70,20 +68,6 @@
                         android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`cashReceived`)}"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-<!--                <TextView-->
-<!--                    style="@style/Caption.Term"-->
-<!--                    android:visibility="@{viewModel.change > 0}"-->
-<!--                    android:text="Change: "-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"/>-->
-<!--                <TextView-->
-<!--                    style="@style/Caption.Definition"-->
-<!--                    android:visibility="@{viewModel.change > 0}"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:peso="@{viewModel.change}"-->
-<!--                    tools:text="P 50.0"/>-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
@@ -164,32 +148,85 @@
                         android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`orNumber`)}"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-            <com.google.android.material.card.MaterialCardView
-                app:cardBackgroundColor="@color/white"
-                android:id="@+id/controls"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-                <com.google.android.material.divider.MaterialDivider
+                <androidx.fragment.app.FragmentContainerView
+                    android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                    android:id="@+id/fragment_proof_of_payment"
+                    android:name="com.vag.lmsapp.app.joborders.payment.ProofOfPaymentFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
-                <Button
-                    android:id="@+id/button_ok"
-                    android:text="@string/ok"
-                    android:visibility="@{viewModel.payment == null}"
-                    style="@style/RoundButton"
-                    android:backgroundTint="@color/color_code_payments"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-            </com.google.android.material.card.MaterialCardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    tools:layout="@layout/fragment_proof_of_payment"/>
+<!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/fragment_title"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Proof of payment"-->
+<!--                            android:textSize="16sp"-->
+<!--                            app:layout_constraintBottom_toBottomOf="@+id/button_add_picture"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/button_add_picture" />-->
+
+<!--                        <ImageButton-->
+<!--                            android:id="@+id/button_add_picture"-->
+<!--                            android:layout_width="50dp"-->
+<!--                            android:layout_height="50dp"-->
+<!--                            android:background="@drawable/background_selector"-->
+<!--                            android:padding="10dp"-->
+<!--                            android:scaleType="fitCenter"-->
+<!--                            android:src="@drawable/icon_camera"-->
+<!--                            android:text="add picture"-->
+<!--                            app:layout_constraintEnd_toStartOf="@+id/button_browse_picture"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/button_close" />-->
+
+<!--                        <ImageButton-->
+<!--                            android:id="@+id/button_browse_picture"-->
+<!--                            android:layout_width="50dp"-->
+<!--                            android:layout_height="50dp"-->
+<!--                            android:layout_marginEnd="18dp"-->
+<!--                            android:background="@drawable/background_selector"-->
+<!--                            android:padding="10dp"-->
+<!--                            android:scaleType="centerInside"-->
+<!--                            android:src="@drawable/icon_file_open"-->
+<!--                            android:text="add picture"-->
+<!--                            app:layout_constraintEnd_toStartOf="@+id/divider_button_close"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/button_add_picture" />-->
+
+<!--                        <com.google.android.material.divider.MaterialDivider-->
+<!--                            android:id="@+id/divider_button_close"-->
+<!--                            android:layout_width="1dp"-->
+<!--                            android:layout_height="50dp"-->
+<!--                            android:layout_marginHorizontal="8dp"-->
+<!--                            app:layout_constraintBottom_toBottomOf="@+id/button_close"-->
+<!--                            app:layout_constraintEnd_toStartOf="@+id/button_close"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/button_close" />-->
+
+<!--                        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                            android:layout_margin="6dp"-->
+<!--                            android:id="@+id/button_close"-->
+<!--                            android:layout_width="50dp"-->
+<!--                            android:layout_height="50dp"-->
+<!--                            android:src="@drawable/icon_close"-->
+<!--                            android:padding="8dp"-->
+<!--                            android:scaleType="centerInside"-->
+<!--                            android:background="@drawable/background_selector"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"/>-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/image_view_proof_of_payment"-->
+<!--                            android:layout_width="150dp"-->
+<!--                            android:layout_height="150dp"-->
+<!--                            android:layout_marginTop="18dp"-->
+<!--                            android:src="@drawable/no_preview_available"-->
+<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toBottomOf="@+id/fragment_title" />-->
+<!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

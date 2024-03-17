@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.vag.lmsapp.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
 import javax.inject.Inject
@@ -45,7 +46,8 @@ constructor(
     fun discard() {
         _uri.value?.let { uri ->
             try {
-                File(getApplication<Application>().filesDir, uri).let { _file ->
+                val filesDir = getApplication<Application>().filesDir
+                File(filesDir, Constants.PICTURES_DIR + uri).let { _file ->
                     if(_file.exists()) {
                         _file.delete()
                     }
@@ -56,17 +58,6 @@ constructor(
                 _uri.value = null
                 _navigationState.value = NavigationState.Discard
             }
-//            val file = uri.path?.let { File(it) }
-//            if(file?.exists() == true ) {
-//                if (file.delete()) {
-//                    _dataState.value = DataState.DeleteSuccess(uri)
-//                    _uri.value = null
-//                } else {
-//                    println("file not deleted")
-//                }
-//            } else {
-//                println("file not found")
-//            }
         }
     }
 

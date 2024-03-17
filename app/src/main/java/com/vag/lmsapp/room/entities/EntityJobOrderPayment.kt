@@ -39,7 +39,6 @@ data class EntityJobOrderPayment(
 
     @Embedded
     var jobPaymentVoid: EntityJobOrderVoid? = null,
-
 ) : BaseEntity() {
     fun change() : Float {
         return cashReceived - amountDue
