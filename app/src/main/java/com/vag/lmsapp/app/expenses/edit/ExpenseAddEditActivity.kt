@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.expenses.edit
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -36,6 +37,9 @@ class ExpenseAddEditActivity(
 
         subscribeListeners()
         subscribeEvents()
+
+        window.statusBarColor = getColor(R.color.color_code_expenses)
+        binding.textAmount.selectAllOnFocus()
     }
 
     private fun subscribeEvents() {
@@ -96,8 +100,9 @@ class ExpenseAddEditActivity(
         })
     }
 
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
         viewModel.requestExit()
     }
 

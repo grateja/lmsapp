@@ -1,4 +1,7 @@
 <ul>
+    <li>OnBackPressed() restored</li>
+    <li>Bug fixed product quantity deductions</li>
+    <li>Expense activity added appbar</li>
     <li>Proof of payment added</li>
     <li>Job order gallery abstracted into SSOT</li>
     <li>Job order preview Gallery revamped</li>

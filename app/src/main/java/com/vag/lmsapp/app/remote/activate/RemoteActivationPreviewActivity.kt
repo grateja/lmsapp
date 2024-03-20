@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.remote.activate
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -131,11 +132,11 @@ class RemoteActivationPreviewActivity : AppCompatActivity() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
     }
 
-    @Override
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
+        // super.onBackPressed()
         viewModel.dismiss()
-//        super.onBackPressed()
     }
 
     private val receiver = object: BroadcastReceiver() {

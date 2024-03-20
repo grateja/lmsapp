@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.joborders.create
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -440,8 +441,9 @@ class JobOrderCreateActivity : BaseActivity() {
     }
 
     @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
+        // super.onBackPressed()
         viewModel.requestExit()
     }
 

@@ -20,8 +20,7 @@ abstract class DaoProduct : BaseDao<EntityProduct> {
     @Query("SELECT * FROM products WHERE name LIKE '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY name")
     abstract suspend fun filter(keyword: String): List<ProductItemFull>
 
-    @Query("SELECT *, current_stock - COALESCE((SELECT (:newQuantity - quantity) FROM job_order_products WHERE id = :joProductId), :newQuantity) as available FROM products WHERE id = :productId AND available < 0")
-    // @Query("SELECT products.name FROM products WHERE id = :productId AND current_stock < :quantity")
+    @Query("SELECT *, current_stock - (COALESCE((SELECT (:newQuantity - quantity) FROM job_order_products WHERE id = :joProductId), :newQuantity) * unit_per_serve) as available FROM products WHERE id = :productId AND available < 0")
     abstract suspend fun checkAvailability(productId: UUID, joProductId: UUID?, newQuantity: Int) : EntityProduct?
 
     suspend fun checkAll(products: List<MenuProductItem>) : String? {

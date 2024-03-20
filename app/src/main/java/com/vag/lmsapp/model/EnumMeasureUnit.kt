@@ -1,10 +1,9 @@
 package com.vag.lmsapp.model
 
 enum class EnumMeasureUnit(val value: String) {
-    PCS("pcs"),
-    SACHET("sachet"),
+    PCS("pcs."),
+    SACHET("Sachet"),
     MILLILITER("mL"),
-    LITER("L"),
     LOAD("Load"),
     PACK("Pack");
     override fun toString() : String {

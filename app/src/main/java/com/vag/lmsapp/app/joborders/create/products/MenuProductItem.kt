@@ -59,6 +59,10 @@ class MenuProductItem(
     fun quantityStr() : String {
         return "*$quantity " + serving()
     }
+
+    fun currentStockStr() : String {
+        return "$currentStock $measureUnit remaining"
+    }
 }
 
 // ariel sachet

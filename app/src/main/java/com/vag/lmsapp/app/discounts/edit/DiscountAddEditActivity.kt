@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.discounts.edit
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -64,8 +65,10 @@ class DiscountAddEditActivity(
         })
     }
 
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
+        // super.onBackPressed()
         viewModel.requestExit()
     }
 

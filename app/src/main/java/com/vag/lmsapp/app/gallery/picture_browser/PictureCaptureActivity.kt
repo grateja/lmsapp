@@ -1,6 +1,7 @@
 package com.vag.lmsapp.app.gallery.picture_browser
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -226,8 +227,10 @@ class PictureCaptureActivity : AppCompatActivity() {
         })
     }
 
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
+        // super.onBackPressed()
         viewModel.requestExit()
     }
 }

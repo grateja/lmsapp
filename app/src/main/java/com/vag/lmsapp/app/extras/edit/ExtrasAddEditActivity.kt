@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.extras.edit
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
@@ -56,8 +57,10 @@ class ExtrasAddEditActivity(
         })
     }
 
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
+        // super.onBackPressed()
         viewModel.requestExit()
     }
 

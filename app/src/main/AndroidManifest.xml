@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
     <application
         android:name=".di.MyApplication"
         android:allowBackup="true"
@@ -359,14 +360,14 @@
             android:name=".services.MachineActivationService"
             android:enabled="true"
             android:exported="false"
-            android:stopWithTask="false"
-            android:foregroundServiceType="specialUse" />
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false" />
         <service
             android:name=".services.PrinterService"
             android:enabled="true"
             android:exported="false"
-            android:stopWithTask="false"
-            android:foregroundServiceType="specialUse"/>
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false" />
 
         <activity
             android:name=".app.machines.addedit.MachinesAddEditActivity"
@@ -409,14 +410,6 @@
             android:name=".app.app_settings.printer.SettingsPrinterActivity"
             android:exported="false"
             android:label="Printer Settings">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".app.joborders.preview.JobOrderPreviewActivity"
-            android:exported="false"
-            android:label="Preview Job Order">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -481,8 +474,8 @@
         <activity
             android:name=".app.joborders.create.customer.JobOrderCreateSelectCustomerActivity"
             android:exported="false"
-            android:noHistory="true"
             android:label="Select Customer"
+            android:noHistory="true"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
             android:name=".app.main_menu.MainActivity"
@@ -495,6 +488,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.vag.lmsapp.fileprovider"

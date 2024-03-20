@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app
 
+import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
@@ -7,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 
 open class EndingActivity : AppCompatActivity() {
     private var doubleclick = false
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
+        // super.onBackPressed()
         if(doubleclick) {
 //            super.onBackPressed()
             moveTaskToBack(true)

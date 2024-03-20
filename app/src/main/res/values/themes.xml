@@ -23,15 +23,16 @@
     </style>
 
     <style name="LightActionBar" parent="Theme.LMS2025.NoActionBar">
-        <item name="android:windowLightStatusBar">true</item> <!-- Set to true to use light status bar text -->
+        <item name="android:windowLightStatusBar">true
+        </item> <!-- Set to true to use light status bar text -->
     </style>
 
-<!--    <style name="Theme.LMS2022.NoActionBar.Dashboard" parent="Theme.LMS2022.NoActionBar">-->
-<!--        <item name="android:statusBarColor">@color/color_code_dashboard</item>-->
-<!--    </style>-->
-<!--    <style name="Theme.LMS2022.NoActionBar.JobOrder" parent="Theme.LMS2022.NoActionBar">-->
-<!--        <item name="android:statusBarColor">@color/color_code_job_order</item>-->
-<!--    </style>-->
+    <!--    <style name="Theme.LMS2022.NoActionBar.Dashboard" parent="Theme.LMS2022.NoActionBar">-->
+    <!--        <item name="android:statusBarColor">@color/color_code_dashboard</item>-->
+    <!--    </style>-->
+    <!--    <style name="Theme.LMS2022.NoActionBar.JobOrder" parent="Theme.LMS2022.NoActionBar">-->
+    <!--        <item name="android:statusBarColor">@color/color_code_job_order</item>-->
+    <!--    </style>-->
 
     <style name="Theme.LMS2022.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

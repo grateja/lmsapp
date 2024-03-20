@@ -42,7 +42,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.currentStock + ``}"
+                android:text="@{viewModel.currentStockStr}"
                 app:layout_constraintStart_toStartOf="@+id/textTitle"
                 app:layout_constraintTop_toBottomOf="@id/textTitle"
                 tools:text="100 pcs available" />

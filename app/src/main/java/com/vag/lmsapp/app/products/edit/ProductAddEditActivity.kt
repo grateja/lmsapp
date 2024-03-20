@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.products.edit
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
@@ -92,8 +93,9 @@ class ProductAddEditActivity(
         })
     }
 
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-        super.onBackPressed()
         viewModel.requestExit()
     }
 
