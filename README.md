@@ -1,4 +1,5 @@
 <ul>
+    <li>Shop information settings and Job Order settings merged</li>
     <li>OnBackPressed() restored</li>
     <li>Bug fixed product quantity deductions</li>
     <li>Expense activity added appbar</li>

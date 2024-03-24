@@ -88,7 +88,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".app.app_settings.job_orders.AppSettingsJobOrdersActivity"
+            android:name=".app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -103,13 +103,6 @@
         </activity>
         <activity
             android:name=".app.main_menu.SubMenuActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".app.shop_preferences.AppSettingsShopPreferencesActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

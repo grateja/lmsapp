@@ -1,4 +1,4 @@
-package com.vag.lmsapp.preferences
+package com.vag.lmsapp.app.app_settings.developer
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -7,7 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class PrinterSettings(
     val name: String?,
     val address: String?,
-//    val dpi: Int,
     val width: Float,
     val character: Int
 ) : Parcelable

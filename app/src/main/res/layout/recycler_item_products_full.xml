@@ -7,7 +7,7 @@
             type="com.vag.lmsapp.app.products.ProductItemFull" />
     </data>
     <com.google.android.material.card.MaterialCardView
-        style="@style/CardMenuItem"
+        style="@style/CardItemList.FullWidth"
         android:id="@+id/cardDiscount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

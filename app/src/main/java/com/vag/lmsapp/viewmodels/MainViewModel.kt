@@ -4,9 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.main_menu.MenuItem
-//import com.csi.palabakosys.adapters.MainMenuAdapter
-//import com.csi.palabakosys.datastates.MainViewStateEvent
-import com.vag.lmsapp.preferences.AppPreferenceRepository
 import com.vag.lmsapp.room.dao.DaoPackage
 import com.vag.lmsapp.room.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +14,6 @@ import javax.inject.Inject
 class MainViewModel
 @Inject
 constructor(
-    appPreferenceRepository: AppPreferenceRepository,
     private val userRepository: UserRepository,
     private val daoPackage: DaoPackage
 ) : ViewModel()

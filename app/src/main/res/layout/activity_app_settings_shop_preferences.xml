@@ -2,28 +2,28 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".app.shop_preferences.AppSettingsShopPreferencesActivity">
+    tools:context=".app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity">
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.shop_preferences.ShopPreferencesViewModel" />
+            type="com.vag.lmsapp.app.app_settings.shop_preferences.AppSettingsShopPreferencesViewModel" />
     </data>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_gradient_primary">
         <LinearLayout
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             android:orientation="vertical">
             <TextView
                 android:text="SHOP PREFERENCES"
-                style="@style/Settings"
+                style="@style/CardTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <com.google.android.material.card.MaterialCardView
-                style="@style/Settings.Card"
+                style="@style/RoundCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -55,6 +55,41 @@
                         android:id="@+id/card_email"
                         app:label="@{`EMAIL`}"
                         app:value="@{viewModel.email}"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="JORDER"
+                style="@style/CardTitle"/>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/RoundCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include layout="@layout/incl_settings_params"
+                        android:id="@+id/card_max_unpaid_jo"
+                        app:label="@{`Maximum number of unpaid job order per customer`}"
+                        app:value="@{viewModel.jobOrderMaxUnpaid.toString()}"/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_require_or_number"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="Require OR Number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.requireOrNumber}" />
+                    <TextView
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="If checked, the system will not allow empty OR# upon saving."/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

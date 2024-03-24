@@ -1,4 +1,4 @@
-package com.vag.lmsapp.preferences
+package com.vag.lmsapp.app.app_settings.developer
 
 class UrlSettings(
     var endPoint: String,

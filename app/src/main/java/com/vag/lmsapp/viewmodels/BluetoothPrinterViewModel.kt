@@ -3,7 +3,6 @@ package com.vag.lmsapp.viewmodels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vag.lmsapp.preferences.AppPreferenceRepository
 import com.vag.lmsapp.util.PrinterHelper
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothConnection
@@ -14,7 +13,6 @@ import javax.inject.Inject
 class BluetoothPrinterViewModel
 @Inject
 constructor(
-    val appPreferenceRepository: AppPreferenceRepository
 ): ViewModel() {
     private lateinit var printerHelper: PrinterHelper
     private val connection: BluetoothConnection? = null
