@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.app_settings.user.UserPreview" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardItemList.FullWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/labelName"
+                style="@style/Bold.Black"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.user.name}"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/label_role"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Chris Hemsworth"/>
+
+            <TextView
+                android:id="@+id/label_role"
+                style="@style/Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.user.role.toString()}"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/labelName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/labelName"
+                tools:text="admin" />
+
+            <TextView
+                android:id="@+id/label_last_job_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelName"
+                android:text="@{viewModel.user.email}"
+                tools:text="chris@l.co"/>
+
+            <TextView
+                android:visibility="@{!viewModel.user.contactNumber.isEmpty()}"
+                android:id="@+id/text_last_job_order"
+                android:text="@{` /` + viewModel.user.contactNumber}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/label_last_job_order"
+                app:layout_constraintStart_toEndOf="@id/label_last_job_order"
+                tools:text="/09keme"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.permissionStr()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/label_last_job_order"
+                tools:text="3 permissions" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

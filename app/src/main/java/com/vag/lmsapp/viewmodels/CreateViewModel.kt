@@ -15,6 +15,7 @@ open class CreateViewModel<T : BaseEntity> (private val iRepository: IRepository
     val crudActionEnum = MutableLiveData(CRUDActionEnum.CREATE)
     val dataState = MutableLiveData<DataState<T>>()
     val model = MutableLiveData<T?>()
+    val message = MutableLiveData<String>()
 
     protected val entityId = MutableLiveData<UUID?>()
 
@@ -39,8 +40,10 @@ open class CreateViewModel<T : BaseEntity> (private val iRepository: IRepository
     protected fun isInvalid(inputValidation: InputValidation) : Boolean {
         val isInvalid = inputValidation.isInvalid()
 
-        dataState.value = if (isInvalid)
+        dataState.value = if (isInvalid){
+            message.value = "Input validation failed. Please review input fields!"
             DataState.InvalidInput(inputValidation)
+        }
         else
             DataState.ValidationPassed
 
@@ -50,6 +53,7 @@ open class CreateViewModel<T : BaseEntity> (private val iRepository: IRepository
     }
 
     open fun save() {
+        message.value = ""
         model.value?.let {
             viewModelScope.launch {
                 iRepository.save(it).let {

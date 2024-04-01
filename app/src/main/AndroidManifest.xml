@@ -33,6 +33,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
         <activity
+            android:name=".app.app_settings.user.change_password.AppSettingsChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".app.app_settings.user.preview.UserAccountPreviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.joborders.print.JobOrderPrintActivity"
             android:exported="false"
             android:theme="@style/Theme.LMS2025.NoActionBar">
@@ -81,7 +87,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".app.app_settings.user.AppSettingsUserAccountsActivity"
+            android:name=".app.app_settings.user.list.AppSettingsUserAccountsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

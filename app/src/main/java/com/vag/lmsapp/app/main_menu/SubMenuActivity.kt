@@ -12,6 +12,7 @@ import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivitySubMenuBinding
 import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
 import com.vag.lmsapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,7 +48,7 @@ class SubMenuActivity : AppCompatActivity() {
         mainViewModel.navigationState.observe(this, Observer {
             when(it) {
                 is MainViewModel.NavigationState.OpenMenu -> {
-                    openMenu(it.menuItem)
+                    openMenu(it.menuItem, it.loginCredentials)
                     mainViewModel.resetState()
                 }
                 is MainViewModel.NavigationState.RequestAuthentication -> {
@@ -86,14 +87,17 @@ class SubMenuActivity : AppCompatActivity() {
         authLauncher.launch(intent)
     }
 
-    private fun openMenu(menuItem: MenuItem) {
+    private fun openMenu(menuItem: MenuItem, loginCredentials: LoginCredentials?) {
         val intent = if(menuItem.menuItems != null)
             Intent(this, SubMenuActivity::class.java).apply {
-                putParcelableArrayListExtra(SubMenuActivity.SUB_MENU_ITEMS_EXTRA, ArrayList(menuItem.menuItems))
-                putExtra(SubMenuActivity.SUB_MENU_TITLE_EXTRA, menuItem.text)
+                putParcelableArrayListExtra(SUB_MENU_ITEMS_EXTRA, ArrayList(menuItem.menuItems))
+                putExtra(SUB_MENU_TITLE_EXTRA, menuItem.text)
+                println("login credentials")
+                println(loginCredentials)
             }
         else
             Intent(this, menuItem.activityClass)
+        intent.putExtra(AUTH_ID, loginCredentials?.userId.toString())
 
         startActivity(intent)
     }

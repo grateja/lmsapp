@@ -15,6 +15,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#009688</color>
+    <color name="primary_highlight">#E8F8F6</color>
     <color name="primary_variant">#3700b3</color>
     <color name="secondary">#03dac6</color>
     <color name="secondary_variant">#018786</color>

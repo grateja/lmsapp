@@ -1,6 +1,7 @@
 package com.vag.lmsapp.room.repository
 
 import androidx.lifecycle.LiveData
+import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.room.dao.DaoUser
 import com.vag.lmsapp.room.entities.EntityUser
 import java.lang.Exception
@@ -20,6 +21,8 @@ constructor (
         return daoUser.get(id)
     }
 
+    fun getByRoleAsLiveData(role: Role?) = daoUser.getByRoleAsLiveData(role)
+
     suspend fun getAdmin() : EntityUser? {
         return daoUser.getAdmin()
     }
@@ -32,14 +35,7 @@ constructor (
         return daoUser.getByEmailAndPassword(email, password)
     }
 
-    suspend fun getAll() : List<EntityUser> {
-        try {
-            return daoUser.getAll()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return emptyList()
-    }
+    suspend fun getAll() = daoUser.getAll()
 
     fun getCurrentUserByEmail(email: String?): LiveData<EntityUser?> {
         return daoUser.getByEmailLiveData(email)
@@ -50,4 +46,12 @@ constructor (
     }
 
     fun getAllEmails() = daoUser.getAllEmails()
+
+    fun getByIdAsLiveData(id: UUID?) = daoUser.getByIdAsLiveData(id)
+
+    suspend fun checkName(name: String?) = daoUser.checkName(name)
+
+    suspend fun checkEmail(email: String?) = daoUser.checkEmail(email)
+
+    suspend fun changePassword(userId: UUID, newPassword: String) = daoUser.changePassword(userId, newPassword)
 }

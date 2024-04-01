@@ -3,6 +3,8 @@ package com.vag.lmsapp.room.dao
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
+import com.vag.lmsapp.app.app_settings.user.UserPreview
+import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.room.entities.EntityUser
 import java.util.ArrayList
 import java.util.UUID
@@ -18,6 +20,9 @@ abstract class DaoUser : BaseDao<EntityUser> {
     @Query("SELECT * FROM users")
     abstract suspend fun getAll() : List<EntityUser>
 
+    @Query("SELECT * FROM users WHERE :role IS NULL OR role = :role")
+    abstract fun getByRoleAsLiveData(role: Role?) : LiveData<List<UserPreview>>
+
     @Query("SELECT * FROM users WHERE role = 'admin'")
     abstract suspend fun getAdmin() : EntityUser?
 
@@ -32,4 +37,16 @@ abstract class DaoUser : BaseDao<EntityUser> {
 
     @Query("SELECT email FROM users WHERE deleted_at IS NULL")
     abstract fun getAllEmails(): LiveData<List<String>>
+
+    @Query("SELECT * FROM users WHERE id = :id")
+    abstract fun getByIdAsLiveData(id: UUID?): LiveData<UserPreview>
+
+    @Query("SELECT EXISTS(SELECT * FROM users WHERE name LIKE :name AND deleted_at IS NULL)")
+    abstract suspend fun checkName(name: String?): Boolean
+
+    @Query("SELECT EXISTS(SELECT * FROM users WHERE email LIKE :email AND deleted_at IS NULL)")
+    abstract suspend fun checkEmail(email: String?): Boolean
+
+    @Query("UPDATE users SET password = :newPassword WHERE id = :userId")
+    abstract suspend fun changePassword(userId: UUID, newPassword: String)
 }

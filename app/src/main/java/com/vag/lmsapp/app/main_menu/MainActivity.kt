@@ -20,7 +20,7 @@ import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.app.packages.PackagesActivity
 import com.vag.lmsapp.app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity
 import com.vag.lmsapp.app.app_settings.printer.SettingsPrinterActivity
-import com.vag.lmsapp.app.app_settings.user.AppSettingsUserAccountsActivity
+import com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsActivity
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
@@ -133,7 +133,7 @@ class MainActivity : EndingActivity() {
                         "Pickup and Delivery",
                         "Configure pickup and delivery options.",
                         PickupAndDeliveriesActivity::class.java,
-                        permissions = listOf(EnumActionPermission.MODIFY_SERVICES)
+                        permissions = listOf(EnumActionPermission.MODIFY_DELIVERIES)
                     ),
                     MenuItem(
                         "Package",
@@ -226,7 +226,7 @@ class MainActivity : EndingActivity() {
         val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
             action = AuthActionDialogActivity.AUTH_ACTION
             menuItem.permissions?.let {
-                putParcelableArrayListExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(it))
+                putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(it))
             }
         }
         authLauncher.launch(intent)

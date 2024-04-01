@@ -12,7 +12,7 @@ class UsersSeeder(private val daoUser: DaoUser) : EntitySeederImpl<EntityUser>(d
 //                listOf(EnumActionPermission.ALL), "",
 //                arrayListOf(4)
 //            ),
-            EntityUser(Role.ADMIN, "Admin", "admin@dev.com", "123",
+            EntityUser(Role.OWNER, "Admin", "admin@dev.com", "123",
                 listOf(
                     EnumActionPermission.ALL,
                 ),"",

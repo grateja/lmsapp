@@ -23,7 +23,7 @@ class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>() {
     override var fullHeight: Boolean = true
     private val viewModel: AddEditCustomerViewModel by viewModels()
     private lateinit var binding: FragmentBottomSheetCustomerAddEditBinding
-    private val launcher = FragmentLauncher(this)
+//    private val launcher = FragmentLauncher(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,9 +42,9 @@ class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>() {
             val name = arguments?.getString("name")
             viewModel.get(it.toUUID(), name)
         }
-        arguments?.getBoolean("showSearchButton")?.let {
-            viewModel.toggleSearchVisibility(it)
-        }
+//        arguments?.getBoolean("showSearchButton")?.let {
+//            viewModel.toggleSearchVisibility(it)
+//        }
         return binding.root
     }
 
@@ -57,11 +57,11 @@ class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>() {
             it.hideKeyboard()
             viewModel.validate()
         }
-        launcher.onOk = {
-            it?.getStringExtra(CUSTOMER_ID).toUUID()?.let {
-                viewModel.replace(it)
-            }
-        }
+//        launcher.onOk = {
+//            it?.getStringExtra(CUSTOMER_ID).toUUID()?.let {
+//                viewModel.replace(it)
+//            }
+//        }
     }
 
     private fun subscribeListeners() {

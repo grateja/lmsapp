@@ -77,9 +77,14 @@ open class Adapter<R>(private val layoutId: Int) : RecyclerView.Adapter<Adapter.
     override fun onBindViewHolder(holder: ViewHolder<R>, position: Int) {
         val r = list[position]
         holder.bind(r)
-        holder.itemView.setOnClickListener {
-            onItemClick?.invoke(r)
+        onItemClick?.let {event ->
+            holder.itemView.setOnClickListener {
+                event.invoke(r)
+            }
         }
+//        holder.itemView.setOnClickListener {
+//            onItemClick?.invoke(r)
+//        }
         //setFadeAnimation(holder.itemView, position)
         println("on bind view holder position $position item count $itemCount")
         println(position)

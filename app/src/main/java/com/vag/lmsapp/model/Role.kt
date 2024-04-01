@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 enum class Role(val value: String) : Parcelable {
     STAFF("staff"),
-    ADMIN("admin");
+    OWNER("owner");
 //    DEVELOPER("developer");
 
     override fun toString(): String {

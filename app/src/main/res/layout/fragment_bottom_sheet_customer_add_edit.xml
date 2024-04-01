@@ -60,30 +60,6 @@
                 android:layout_height="wrap_content"
                 android:visibility="invisible" />
 
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/card_button_search"-->
-<!--                android:visibility="@{viewModel.showSearchButton}"-->
-<!--                style="@style/CardRoundButton"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="24dp">-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:gravity="center">-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="30dp"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:src="@drawable/ic_search_black_24dp"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Search customer"/>-->
-<!--                </LinearLayout>-->
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/labelCRN"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"

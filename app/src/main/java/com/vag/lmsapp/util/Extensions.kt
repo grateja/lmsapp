@@ -520,3 +520,11 @@ fun today() : Long {
     val zonedDateTime = ZonedDateTime.now()
     return zonedDateTime.toInstant().toEpochMilli()
 }
+
+fun <T> MutableList<T>.addOrRemove(item: T) {
+    if (!this.contains(item)) {
+        this.add(item)
+    } else {
+        this.remove(item)
+    }
+}

@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
-            name="showDelete"
-            type="Boolean" />
+            name="viewModel"
+            type="com.vag.lmsapp.viewmodels.CreateViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/message"
+        <com.google.android.material.card.MaterialCardView
+            android:visibility="@{viewModel.message != null &amp;&amp; viewModel.message != ``}"
+            app:strokeColor="@color/danger"
+            app:strokeWidth="1dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/dark_caption"
+            app:contentPadding="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/danger"
+                android:text="@{viewModel.message}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Invalid input"/>
+        </com.google.android.material.card.MaterialCardView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +50,7 @@
             <Button
                 android:id="@+id/buttonDelete"
                 style="@style/RoundButtonDanger"
-                android:visibility="@{showDelete}"
+                android:visibility="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
