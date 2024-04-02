@@ -13,10 +13,10 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.app.gallery.picture_browser.PictureCaptureActivity
 import com.vag.lmsapp.app.gallery.picture_preview.PhotoItem
 import com.vag.lmsapp.app.gallery.picture_preview.PicturePreviewActivity
-import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.databinding.FragmentJobOrderGalleryBottomSheetBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.util.Constants
+import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.FragmentLauncher
 import com.vag.lmsapp.util.setGridLayout
 import com.vag.lmsapp.util.showDeleteConfirmationDialog

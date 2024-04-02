@@ -19,6 +19,9 @@ import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.toUUID
 import com.vag.lmsapp.viewmodels.ListViewModel
 import com.google.android.material.appbar.AppBarLayout
+import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
+import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
+import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
@@ -59,11 +62,12 @@ class CustomerPreviewActivity : AppCompatActivity() {
             jobOrdersViewModel.loadMore()
         }
         adapter.onItemClick = {
-            val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
-                action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
-                putExtra(JobOrderCreateActivity.JOB_ORDER_ID, it.id.toString())
-            }
-            startActivity(intent)
+            JobOrderPreviewBottomSheetFragment.newInstance(true, it.id).show(supportFragmentManager, null)
+//            val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
+//                action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
+//                putExtra(JOB_ORDER_ID, it.id.toString())
+//            }
+//            startActivity(intent)
         }
         binding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             when {

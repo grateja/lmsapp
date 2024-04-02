@@ -1,4 +1,7 @@
 <ul>
+    <li>Job Order preview read only implemented</li>
+    <li>CustomerPreview.JobOrderList to bottomSheet</li>
+    <li>User account implemented with permission assignment</li>
     <li>Shop information settings and Job Order settings merged</li>
     <li>OnBackPressed() restored</li>
     <li>Bug fixed product quantity deductions</li>

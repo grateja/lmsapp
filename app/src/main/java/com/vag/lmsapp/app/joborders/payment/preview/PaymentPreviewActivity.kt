@@ -15,8 +15,10 @@ import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
 import com.vag.lmsapp.app.joborders.payment.JobOrderListPaymentAdapter
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity.Companion.PAYMENT_ID
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentViewModel
+import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
 import com.vag.lmsapp.databinding.ActivityPaymentPreviewBinding
 import com.vag.lmsapp.util.Constants
+import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -48,11 +50,12 @@ class PaymentPreviewActivity : AppCompatActivity() {
     }
 
     private fun openJobOrder(jobOrderId: UUID) {
-        val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
-            putExtra(JobOrderCreateActivity.JOB_ORDER_ID, jobOrderId.toString())
-            action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
-        }
-        startActivity(intent)
+        JobOrderPreviewBottomSheetFragment.newInstance(true, jobOrderId).show(supportFragmentManager, null)
+//        val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
+//            putExtra(JOB_ORDER_ID, jobOrderId.toString())
+//            action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
+//        }
+//        startActivity(intent)
     }
 
     private fun subscribeEvents() {

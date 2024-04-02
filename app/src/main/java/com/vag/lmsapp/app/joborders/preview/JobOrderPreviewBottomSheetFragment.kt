@@ -14,7 +14,6 @@ import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.joborders.JobOrderItemMinimal
 import com.vag.lmsapp.app.joborders.cancel.JobOrderCancelActivity
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
-import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.app.joborders.gallery.PictureAdapter
 import com.vag.lmsapp.app.joborders.gallery.JobOrderGalleryBottomSheetFragment
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
@@ -24,9 +23,12 @@ import com.vag.lmsapp.databinding.FragmentBottomSheetJobOrderPreviewBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.Constants
+import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.FragmentLauncher
 import com.vag.lmsapp.util.setGridLayout
 import com.vag.lmsapp.util.showMessageDialog
+import com.vag.lmsapp.util.toUUID
+import java.util.UUID
 
 class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
     override var fullHeight: Boolean = true
@@ -59,6 +61,9 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
 
         arguments?.getBoolean(STATE_PREVIEW_ONLY)?.let {
             viewModel.setPreviewOnly(it)
+        }
+        arguments?.getString(JOB_ORDER_ID).toUUID()?.let {
+            viewModel.getByJobOrderId(it)
         }
 
         subscribeEvents()
@@ -213,10 +218,11 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
         const val ACTION_REQUEST_UNLOCK = "request_unlock"
         const val ACTION_REQUEST_DELETE = "request_delete"
         private const val STATE_PREVIEW_ONLY = "read_only"
-        fun newInstance(previewOnly: Boolean) : JobOrderPreviewBottomSheetFragment {
+        fun newInstance(previewOnly: Boolean, jobOrderId: UUID) : JobOrderPreviewBottomSheetFragment {
             return JobOrderPreviewBottomSheetFragment().apply {
                 arguments = Bundle().apply {
                     putBoolean(STATE_PREVIEW_ONLY, previewOnly)
+                    putString(JOB_ORDER_ID, jobOrderId.toString())
                 }
             }
         }

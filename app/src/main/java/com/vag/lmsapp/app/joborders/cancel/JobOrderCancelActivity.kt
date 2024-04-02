@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.LoginCredentials
-import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.databinding.ActivityJobOrderCancelBinding
 import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint

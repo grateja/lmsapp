@@ -17,6 +17,7 @@ import com.vag.lmsapp.databinding.ActivityAppSettingsUserAccountsBinding
 import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
 import com.vag.lmsapp.util.Constants.Companion.USER_ID
+import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 
@@ -25,6 +26,7 @@ class AppSettingsUserAccountsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAppSettingsUserAccountsBinding
     private val viewModel: AppSettingsUserAccountsViewModel by viewModels()
     private val adapter = Adapter<UserPreview>(R.layout.recycler_item_user_list_item)
+    private var authId: UUID? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,8 @@ class AppSettingsUserAccountsActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.recyclerViewUsers.adapter = adapter
+
+        authId = intent.getStringExtra(AUTH_ID).toUUID()
 
         subscribeEvents()
         subscribeListeners()
@@ -72,7 +76,7 @@ class AppSettingsUserAccountsActivity : AppCompatActivity() {
     private fun openUserPreview(userId: UUID) {
         val intent = Intent(this, UserAccountPreviewActivity::class.java).apply {
             putExtra(USER_ID, userId.toString())
-            putExtra(AUTH_ID, intent.getStringExtra(AUTH_ID))
+            putExtra(AUTH_ID, authId)
         }
         startActivity(intent)
     }

@@ -10,5 +10,6 @@ class Constants {
         const val DATE_RANGE_FILTER = "dateFilter"
         const val ID = "id"
         const val USER_ID = "user_id"
+        const val JOB_ORDER_ID = "jobOrderId"
     }
 }

@@ -24,6 +24,7 @@ class UserAccountPreviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserAccountPreviewBinding
     private val adapter = Adapter<String>(R.layout.recycler_item_simple_item)
     private var authId: UUID? = null
+    private var userId: UUID? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class UserAccountPreviewActivity : AppCompatActivity() {
         subscribeEvents()
         subscribeListeners()
 
-        intent.getStringExtra(USER_ID).toUUID()?.let {
+        userId = intent.getStringExtra(USER_ID).toUUID()?.also {
             viewModel.setUserId(it)
         }
         authId = intent.getStringExtra(AUTH_ID).toUUID()?.also {
@@ -52,23 +53,13 @@ class UserAccountPreviewActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.cardEditAccountInfo.setOnClickListener {
-            viewModel.openEdit()
+            UserAccountAddEditBottomSheetFragment.newInstance(userId!!).show(supportFragmentManager, null)
         }
     }
 
     private fun subscribeListeners() {
         viewModel.user.observe(this, Observer {
             adapter.setData(it.user.permissions.map {it.toString()})
-        })
-        viewModel.navigationState.observe(this, Observer {
-            when(it) {
-                is UserAccountPreviewViewModel.NavigationState.OpenEdit -> {
-                    UserAccountAddEditBottomSheetFragment.newInstance(it.userId).show(supportFragmentManager, null)
-                    viewModel.resetState()
-                }
-
-                else -> {}
-            }
         })
     }
 }

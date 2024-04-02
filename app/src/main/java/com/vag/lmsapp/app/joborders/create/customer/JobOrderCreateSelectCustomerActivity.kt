@@ -15,6 +15,7 @@ import com.vag.lmsapp.app.joborders.unpaid.prompt.BottomSheetJobOrderPaymentProm
 import com.vag.lmsapp.app.joborders.unpaid.prompt.JobOrdersUnpaidPromptActivity.Companion.OPEN_PAYMENT_ACTION
 import com.vag.lmsapp.app.joborders.unpaid.prompt.JobOrdersUnpaidPromptViewModel
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateSelectCustomerBinding
+import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.util.showConfirmationDialog
 import com.vag.lmsapp.util.toUUID
@@ -131,7 +132,7 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
         if(customer.hasUnpaidJoToday != null) {
             showConfirmationDialog("Unpaid job order detected!", "The selected customer has an unpaid job order created today. Would you like to load it instead?") {
                 intent.action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
-                intent.putExtra(JobOrderCreateActivity.JOB_ORDER_ID, customer.hasUnpaidJoToday.toString())
+                intent.putExtra(JOB_ORDER_ID, customer.hasUnpaidJoToday.toString())
                 setResult(RESULT_OK, intent)
                 finish()
             }

@@ -30,7 +30,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityJobOrderPaymentBinding
     private val viewModel: JobOrderPaymentViewModel by viewModels()
-    private val viewModelPreview: JobOrderPreviewViewModel by viewModels()
+//    private val viewModelPreview: JobOrderPreviewViewModel by viewModels()
     private val fragment = BottomSheetJobOrderPaymentFragment()
 //    private lateinit var cashlessModalFragment: PaymentJoCashlessModalFragment
     private val adapter = JobOrderListPaymentAdapter(false)
@@ -101,8 +101,8 @@ class JobOrderPaymentActivity : AppCompatActivity() {
             viewModel.selectItem(it)
         }
         adapter.onItemClick = {
-            viewModelPreview.getByJobOrderId(it.id)
-            JobOrderPreviewBottomSheetFragment.newInstance(true).show(supportFragmentManager, null)
+//            viewModelPreview.getByJobOrderId(it.id)
+            JobOrderPreviewBottomSheetFragment.newInstance(true, it.id).show(supportFragmentManager, null)
 //            val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
 //                action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
 //                putExtra(JobOrderCreateActivity.JOB_ORDER_ID, it.id.toString())

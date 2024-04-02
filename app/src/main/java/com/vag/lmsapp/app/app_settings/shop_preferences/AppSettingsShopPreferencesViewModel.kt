@@ -37,25 +37,25 @@ constructor(
     }
     fun showEditShopName() {
         (shopName.value ?: "").let {
-            navigationState.value = SettingsNavigationState.OpenStringSettings(it, JobOrderSettingsRepository.SHOP_NAME,"Edit shop name", "")
+            navigationState.value = SettingsNavigationState.OpenStringSettings(it, JobOrderSettingsRepository.SHOP_NAME,"Edit shop name", "It will be printed in the Job Order and Claim stub!")
         }
     }
 
     fun showEditAddress() {
         (address.value ?: "").let {
-            navigationState.value = SettingsNavigationState.OpenStringSettings(it, JobOrderSettingsRepository.ADDRESS,"Edit shop address", "")
+            navigationState.value = SettingsNavigationState.OpenStringSettings(it, JobOrderSettingsRepository.ADDRESS,"Edit shop address", "It will be printed in the Job Order and Claim stub!")
         }
     }
 
     fun showEditContactNumber() {
         (contactNumber.value ?: "").let {
-            navigationState.value = SettingsNavigationState.OpenStringSettings(it, JobOrderSettingsRepository.CONTACT_NUMBER,"Edit shop contact number", "")
+            navigationState.value = SettingsNavigationState.OpenStringSettings(it, JobOrderSettingsRepository.CONTACT_NUMBER,"Edit shop contact number", "It will be printed in the Job Order and Claim stub!")
         }
     }
 
     fun showEditEmail() {
         (email.value ?: "").let {
-            navigationState.value = SettingsNavigationState.OpenStringSettings(it, JobOrderSettingsRepository.EMAIL,"Edit shop email", "")
+            navigationState.value = SettingsNavigationState.OpenStringSettings(it, JobOrderSettingsRepository.EMAIL,"Edit shop email", "It will be printed in the Job Order and Claim stub!")
         }
     }
 }

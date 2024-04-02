@@ -295,8 +295,7 @@ inline fun <reified T> Context.showTextInputDialog(
     title: String?,
     message: String?,
     initialValue: T?,
-//    key: String? = null,
-    crossinline onOk: (value: T?/*, key: String*/) -> Unit
+    crossinline onOk: (value: T?) -> Unit
 ) {
     val binding: AlertDialogTextInputBinding = DataBindingUtil.inflate(
         LayoutInflater.from(this),

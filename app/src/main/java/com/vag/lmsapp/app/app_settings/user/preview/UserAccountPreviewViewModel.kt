@@ -18,9 +18,6 @@ class UserAccountPreviewViewModel
 constructor(
     private val repository: UserRepository
 ) : ViewModel() {
-    private val _navigationState = MutableLiveData<NavigationState>()
-    val navigationState: LiveData<NavigationState> = _navigationState
-
     private val _userId = MutableLiveData<UUID>()
     val user = _userId.switchMap { repository.getByIdAsLiveData(it) }
 
@@ -47,20 +44,5 @@ constructor(
 
     fun setUserId(userId: UUID) {
         _userId.value = userId
-    }
-
-    fun resetState() {
-        _navigationState.value = NavigationState.Stateless
-    }
-
-    fun openEdit() {
-        _userId.value?.let {
-            _navigationState.value = NavigationState.OpenEdit(it)
-        }
-    }
-
-    sealed class NavigationState {
-        data object Stateless: NavigationState()
-        data class OpenEdit(val userId: UUID): NavigationState()
     }
 }

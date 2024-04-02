@@ -85,8 +85,7 @@ class JobOrderListActivity : FilterActivity() {
 
     private fun subscribeEvents() {
         adapter.onItemClick = {
-            viewModelPreview.getByJobOrderId(it.id)
-            JobOrderPreviewBottomSheetFragment.newInstance(false).show(supportFragmentManager, null)
+            JobOrderPreviewBottomSheetFragment.newInstance(false, it.id).show(supportFragmentManager, null)
 //            val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
 //                action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
 //                putExtra(JobOrderCreateActivity.JOB_ORDER_ID, it.id.toString())

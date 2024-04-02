@@ -41,6 +41,7 @@ import com.vag.lmsapp.app.joborders.print.JobOrderPrintActivity
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateBinding
 import com.vag.lmsapp.util.*
 import com.vag.lmsapp.util.Constants.Companion.ID
+import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.collections.ArrayList
@@ -48,7 +49,6 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class JobOrderCreateActivity : BaseActivity() {
     companion object {
-        const val JOB_ORDER_ID = "jobOrderId"
         const val CUSTOMER_EXTRA = "customer"
         const val ACTION_LOAD_BY_CUSTOMER_ID = "loadByCustomerId"
         const val ACTION_LOAD_BY_JOB_ORDER_ID = "loadByJobOrderId"
