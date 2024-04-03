@@ -85,9 +85,18 @@ fun getProductType(view: TextInputEditText) : EnumProductType? {
 @BindingAdapter("android:text")
 fun setText(view: TextView, dateTime: Instant?) {
     if(dateTime != null) {
+        val now = Instant.now()
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy hh:mm a")
             .withZone(ZoneId.systemDefault())
-        view.text = formatter.format(dateTime)
+
+        val formattedDateTime = if (dateTime.atZone(ZoneId.systemDefault()).toLocalDate() == now.atZone(ZoneId.systemDefault()).toLocalDate()) {
+            // If the date is today, display just the time
+            val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+            "Today, " + timeFormatter.format(dateTime.atZone(ZoneId.systemDefault()))
+        } else {
+            formatter.format(dateTime)
+        }
+        view.text = formattedDateTime
     } else {
         view.text = ""
     }

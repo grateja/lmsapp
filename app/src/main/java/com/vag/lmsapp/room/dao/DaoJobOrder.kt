@@ -106,7 +106,8 @@ interface DaoJobOrder {
             "    WHEN jo.payment_id IS NOT NULL OR date(jo.created_at / 1000, 'unixepoch', 'localtime') != date('now', 'localtime') THEN 1" +
             "    ELSE 0" +
             " END AS locked" +
-            " FROM job_orders jo JOIN customers cu ON jo.customer_id = cu.id LEFT JOIN job_order_payments pa ON jo.payment_id = pa.id " +
+            " FROM job_orders jo " +
+            " JOIN customers cu ON jo.customer_id = cu.id LEFT JOIN job_order_payments pa ON jo.payment_id = pa.id " +
             " WHERE " +
             " (cu.name LIKE '%' || :keyword || '%'" +
             "       OR jo.job_order_number LIKE '%' || :keyword || '%'" +
@@ -231,4 +232,16 @@ interface DaoJobOrder {
             "     FROM job_orders WHERE (date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom " +
             "         OR (:dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) AND deleted_at IS NULL AND void_date IS NULL")
     fun getDashboardJobOrders(dateFrom: LocalDate, dateTo: LocalDate?): LiveData<JobOrderCounts>
+
+
+    @Query("SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, pa.created_at as date_paid, pa.cashless_provider, " +
+            " CASE " +
+            "    WHEN jo.payment_id IS NOT NULL OR date(jo.created_at / 1000, 'unixepoch', 'localtime') != date('now', 'localtime') THEN 1" +
+            "    ELSE 0" +
+            " END AS locked" +
+            " FROM job_orders jo " +
+            " JOIN customers cu ON jo.customer_id = cu.id LEFT JOIN job_order_payments pa ON jo.payment_id = pa.id " +
+            " WHERE " +
+            " cu.id = :customerId AND pa.id IS NULL AND jo.deleted_at IS NULL AND jo.void_date IS NULL AND pa.deleted_at IS NULL AND pa.void_date IS NULL")
+    fun getUnpaidJobOrdersAsLiveData(customerId: UUID): LiveData<List<JobOrderListItem>>
 }

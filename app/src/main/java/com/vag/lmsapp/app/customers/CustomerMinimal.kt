@@ -14,9 +14,6 @@ data class CustomerMinimal(
     var address: String?,
     var unpaid: Int,
 
-    @ColumnInfo(name ="unpaid_jo_id_today")
-    var hasUnpaidJoToday: UUID?,
-
     @ColumnInfo(name = "last_job_order")
     var lastJobOrder: Instant?,
 

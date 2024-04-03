@@ -178,22 +178,22 @@ constructor(
 
                 if((itemizedJo == true && tab == TAB_JOB_ORDER) || (itemizedClaimStub == true && tab == TAB_CLAIM_STUB)) {
                     items.addAll(
-                        jobOrder?.services?.takeIf { it.isNotEmpty() }?.map {
+                        jobOrder?.services?.filter { !it.isVoid && it.deletedAt == null }?.takeIf { it.isNotEmpty() }?.map {
                             PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), it.serviceName, it.price * it.quantity)
                         }?.let { listOf(PrinterItem.Header("SERVICES")) + it } ?: emptyList()
                     )
                     items.addAll(
-                        jobOrder?.products?.takeIf { it.isNotEmpty() } ?.map {
+                        jobOrder?.products?.filter { !it.isVoid && it.deletedAt == null }?.takeIf { it.isNotEmpty() } ?.map {
                             PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), it.productName, it.price * it.quantity)
                         }?.let { listOf(PrinterItem.Header("PRODUCTS")) + it } ?: emptyList()
                     )
                     items.addAll(
-                        jobOrder?.extras?.takeIf { it.isNotEmpty() }?.map {
+                        jobOrder?.extras?.filter { !it.isVoid && it.deletedAt == null }?.takeIf { it.isNotEmpty() }?.map {
                             PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), it.extrasName, it.price * it.quantity)
                         }?.let { listOf(PrinterItem.Header("EXTRAS")) + it } ?: emptyList()
                     )
                     items.addAll(
-                        jobOrder?.deliveryCharge?.let {
+                        jobOrder?.deliveryCharge?.takeIf { !it.isVoid && it.deletedAt == null }?.let {
                             listOf(
                                 PrinterItem.Header(it.deliveryOption.value),
                                 PrinterItem.ListItem(characters, showPrice, it.distance, "KM${it.vehicle.value}", it.price)
@@ -204,9 +204,9 @@ constructor(
                 }
 
                 val subtotal = jobOrder?.subtotal() ?: 0.0f
-                val discountInPeso = jobOrder?.discountInPeso() ?: 0.0f
+                val discountInPeso = jobOrder?.takeIf { it.discount?.isVoid != true  && it.discount?.deletedAt == null }?.discountInPeso() ?: 0.0f
 
-                val discount = jobOrder?.discount?.let { discount ->
+                val discount = jobOrder?.takeIf { it.discount?.isVoid != true && it.discount?.deletedAt == null }?.discount?.let { discount ->
                     PrinterItem.ListItem(characters, true, 0f, "${discount.name} discount", discountInPeso)
                 }
 

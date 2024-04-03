@@ -34,6 +34,8 @@ class AddEditServiceActivity(
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        binding.controls.viewModel = viewModel
+
         subscribeListeners()
 //        subscribeEvents()
 

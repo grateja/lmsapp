@@ -135,13 +135,13 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
             adapter.setData(it)
         })
         viewModel.jobOrder.observe(viewLifecycleOwner, Observer {
-            it?.services?.map { JobOrderItemMinimal(it.quantity, it.serviceName, it.price) }?.let {services ->
+            it?.services?.filter { !it.isVoid && it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.serviceName, it.price) }?.let {services ->
                 servicesAdapter.setData(services)
             }
-            it?.products?.map { JobOrderItemMinimal(it.quantity, it.productName, it.price) }?.let {products ->
+            it?.products?.filter { !it.isVoid && it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.productName, it.price) }?.let {products ->
                 productsAdapter.setData(products)
             }
-            it?.extras?.map { JobOrderItemMinimal(it.quantity, it.extrasName, it.price) }?.let {extras ->
+            it?.extras?.filter { !it.isVoid && it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.extrasName, it.price) }?.let {extras ->
                 extrasAdapter.setData(extras)
             }
         })

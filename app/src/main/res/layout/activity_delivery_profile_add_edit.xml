@@ -63,10 +63,9 @@
         </androidx.core.widget.NestedScrollView>
         <include
             android:id="@id/controls"
-            layout="@layout/incl_controls_alter"
+            layout="@layout/incl_controls_crud"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            app:showDelete="@{false}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>

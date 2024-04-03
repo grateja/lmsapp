@@ -33,25 +33,48 @@ constructor(
 
     val jobOrderPictures = _jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
 
+    val isLocked = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
+            value = it?.paymentWithUser != null || it?.jobOrder?.createdAt?.isToday() != true
+        }
+    }
+
     val isDeleted = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
             value = it?.jobOrder?.entityJobOrderVoid != null
         }
     }
 
-//    fun openPictures(currentId: UUID) {
-//        jobOrderPictures.value?.let { _list ->
-//            val index = _list.indexOfFirst { it.id == currentId }
-//            _navigationState.value = NavigationState.OpenPictures(_list.map {
-//                PhotoItem(it.id, it.createdAt)
-//            }, index)
-//        }
-//    }
-//    fun removePicture(uriId: UUID) {
-//        viewModelScope.launch {
-//            jobOrderRepository.removePicture(uriId)
-//        }
-//    }
+    val hasService = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
+            value = it?.services?.any { !it.isVoid && it.deletedAt == null }
+        }
+    }
+
+    val hasProduct = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
+            value = it?.products?.any { !it.isVoid && it.deletedAt == null }
+        }
+    }
+
+    val hasExtras = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
+            value = it?.extras?.any { !it.isVoid && it.deletedAt == null }
+        }
+    }
+
+    val hasDelivery = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
+            value =it?.deliveryCharge != null && it.deliveryCharge?.isVoid != true && it.deliveryCharge?.deletedAt == null
+        }
+    }
+
+    val hasDiscount = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
+            value = it?.discount != null && it.discount?.isVoid != true && it.discount?.deletedAt == null
+        }
+    }
+
     fun getByJobOrderId(jobOrderId: UUID) {
         _jobOrderId.value = jobOrderId
     }

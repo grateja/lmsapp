@@ -25,7 +25,7 @@
                 style="@style/TextTitleFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.crudActionEnum.toString(` Customer`)}"
+                android:text="@{viewModel.enumCRUDAction.toString(` Customer`)}"
                 tools:text="Edit customer"/>
 
             <LinearLayout

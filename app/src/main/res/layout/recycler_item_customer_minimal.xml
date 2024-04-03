@@ -48,7 +48,7 @@
                 android:text="@{viewModel.address}"
                 app:layout_constraintTop_toBottomOf="@id/labelName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/buttonEdit"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Sa dako paroon. Malayo sa kabihasnan"/>
             <TextView
                 android:id="@+id/labelUnpaid"
@@ -58,7 +58,7 @@
                 android:text="@{viewModel.unpaid + ` unpaid JO`}"
                 app:layout_constraintTop_toBottomOf="@id/labelAddress"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/buttonEdit"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="10 unpaid"/>
             <androidx.constraintlayout.widget.Group
                 android:visibility="@{viewModel.lastJobOrder != null}"
@@ -81,25 +81,25 @@
                 app:layout_constraintTop_toBottomOf="@id/labelUnpaid"
                 app:layout_constraintStart_toEndOf="@id/label_last_job_order"/>
 
-            <com.google.android.material.card.MaterialCardView
-                app:cardElevation="1dp"
-                android:id="@+id/buttonEdit"
-                style="@style/CardRoundButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="2dp"
-                android:layout_marginTop="17dp"
-                android:text="@string/edit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/labelCRN">
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                app:cardElevation="1dp"-->
+<!--                android:id="@+id/buttonEdit"-->
+<!--                style="@style/CardRoundButton"-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_margin="2dp"-->
+<!--                android:layout_marginTop="17dp"-->
+<!--                android:text="@string/edit"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/labelCRN">-->
 
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/icon_edit" />
-            </com.google.android.material.card.MaterialCardView>
+<!--                <ImageView-->
+<!--                    android:layout_width="22dp"-->
+<!--                    android:layout_height="22dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:src="@drawable/icon_edit" />-->
+<!--            </com.google.android.material.card.MaterialCardView>-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

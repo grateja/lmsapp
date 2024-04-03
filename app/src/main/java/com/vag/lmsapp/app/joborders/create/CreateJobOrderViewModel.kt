@@ -3,7 +3,6 @@ package com.vag.lmsapp.app.joborders.create
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import androidx.lifecycle.*
-import com.vag.lmsapp.app.gallery.picture_preview.PhotoItem
 import com.vag.lmsapp.app.joborders.create.delivery.DeliveryCharge
 import com.vag.lmsapp.app.joborders.create.discount.MenuDiscount
 import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
@@ -12,6 +11,7 @@ import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
 import com.vag.lmsapp.model.EnumDiscountApplicable
 import com.vag.lmsapp.room.entities.*
+import com.vag.lmsapp.room.repository.ActivityLogRepository
 import com.vag.lmsapp.room.repository.CustomerRepository
 import com.vag.lmsapp.room.repository.JobOrderRepository
 import com.vag.lmsapp.room.repository.PaymentRepository
@@ -29,6 +29,7 @@ class CreateJobOrderViewModel
 
 @Inject
 constructor(
+    private val activityLogRepository: ActivityLogRepository,
     private val jobOrderRepository: JobOrderRepository,
     private val paymentRepository: PaymentRepository,
     private val productsRepository: ProductRepository,
@@ -354,8 +355,15 @@ constructor(
         _deleted.value = jobOrder.jobOrder.deletedAt != null || jobOrder.jobOrder.entityJobOrderVoid != null
     }
 
-    fun setJobOrder(joId: UUID?, forced: Boolean) {
-        if(jobOrderId.value != null && !forced) return
+    fun loadEmptyJobOrder() {
+        viewModelScope.launch {
+            jobOrderId.value = UUID.randomUUID()
+            createdAt.value = Instant.now()
+            jobOrderNumber.value = jobOrderRepository.getNextJONumber()
+        }
+    }
+
+    fun loadByJobOrderId(joId: UUID?) {
         viewModelScope.launch {
             jobOrderRepository.getJobOrderWithItems(joId).let {
                 _customerId.value = it?.jobOrder?.customerId

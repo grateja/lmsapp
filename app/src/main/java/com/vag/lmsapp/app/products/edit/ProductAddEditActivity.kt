@@ -29,6 +29,8 @@ class ProductAddEditActivity(
         binding.lifecycleOwner = this
         binding.spinnerMeasureUnit.adapter = ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1, EnumMeasureUnit.values())
 
+        binding.controls.viewModel = viewModel
+
         subscribeListeners()
         subscribeEvents()
 

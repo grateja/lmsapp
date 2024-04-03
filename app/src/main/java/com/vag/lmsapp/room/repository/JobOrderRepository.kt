@@ -131,4 +131,6 @@ constructor (
     suspend fun attachPictures(jobOrderPictures: List<EntityJobOrderPictures>) = daoJobOrder.attachPictures(jobOrderPictures)
 
     fun getDashboard(dateFilter: DateFilter) = daoJobOrder.getDashboardJobOrders(dateFilter.dateFrom, dateFilter.dateTo)
+
+    fun getUnpaidJobOrdersAsLiveData(customerId: UUID) = daoJobOrder.getUnpaidJobOrdersAsLiveData(customerId)
 }

@@ -70,8 +70,7 @@
             </com.google.android.material.textfield.TextInputLayout>
             <include
                 android:id="@+id/controls"
-                app:showDelete="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
-                layout="@layout/incl_controls_alter"/>
+                layout="@layout/incl_controls_crud"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

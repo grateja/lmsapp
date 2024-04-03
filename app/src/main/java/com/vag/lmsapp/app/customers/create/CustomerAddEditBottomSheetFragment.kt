@@ -77,7 +77,6 @@ class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>() {
                         it.data.crn!!,
                         it.data.address,
                         0,
-                        null,
                         null
                     ))
                     viewModel.resetState()

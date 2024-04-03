@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.app.app_settings.SettingsViewModel
 import com.vag.lmsapp.app.app_settings.printer.browser.PrinterDevice
+import com.vag.lmsapp.room.entities.EntityActivityLog
+import com.vag.lmsapp.room.repository.ActivityLogRepository
 import com.vag.lmsapp.settings.PrinterSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -17,6 +19,7 @@ class PrinterSettingsViewModel
 
 @Inject
 constructor(
+    private val activityLogRepository: ActivityLogRepository,
     private val repository: PrinterSettingsRepository,
     @ApplicationContext context: Context
 ) : SettingsViewModel(repository) {

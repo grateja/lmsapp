@@ -26,6 +26,8 @@ class PackagesAddEditActivity(
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        binding.controls.viewModel = viewModel
+
         subscribeEvents()
         subscribeListeners()
     }

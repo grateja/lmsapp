@@ -23,6 +23,8 @@ class AddEditDeliveryProfileActivity : CrudActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        binding.controls.viewModel = viewModel
+
         binding.textBaseFare.selectAllOnFocus()
         binding.textPricePerKm.selectAllOnFocus()
 

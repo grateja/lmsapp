@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
+import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.customers.CustomerMinimal
 import com.vag.lmsapp.app.customers.create.CustomerAddEditBottomSheetFragment
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
@@ -32,7 +33,7 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
     private val unpaidPromptViewModel: JobOrdersUnpaidPromptViewModel by viewModels()
     private lateinit var binding: ActivityJobOrderCreateSelectCustomerBinding
     private lateinit var customerModal: CustomerAddEditBottomSheetFragment
-    private val customersAdapter = CustomersAdapterMinimal()
+    private val customersAdapter = Adapter<CustomerMinimal>(R.layout.recycler_item_customer_minimal)
 
     override var filterHint = "Search Customer Name/CRN"
     override var toolbarBackground: Int = R.color.color_code_customers
@@ -51,14 +52,12 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
 
         subscribeListeners()
         subscribeEvents()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.filter(true)
         intent.getStringExtra(CUSTOMER_ID).toUUID()?.let {
             viewModel.setCurrentCustomerId(it)
         }
+
+        viewModel.filter(true)
     }
 
     private fun subscribeListeners() {
@@ -100,6 +99,34 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
                 else -> {}
             }
         })
+        viewModel.navigationState.observe(this, Observer {
+            when(it) {
+                is SelectCustomerViewModel.NavigationState.SelectCustomer -> {
+                    val intent = Intent(JobOrderCreateActivity.ACTION_SELECT_CUSTOMER).apply {
+                        putExtra(CUSTOMER_ID, it.customerId.toString())
+                    }
+                    setResult(RESULT_OK, intent)
+                    finish()
+                    viewModel.resetState()
+                }
+
+                is SelectCustomerViewModel.NavigationState.EditCustomer -> {
+                    editCustomer(it.customerId)
+                    viewModel.resetState()
+                }
+
+                is SelectCustomerViewModel.NavigationState.SelectJobOrder -> {
+                    val intent = Intent(JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID).apply {
+                        putExtra(JOB_ORDER_ID, it.jobOrderId.toString())
+                    }
+                    setResult(RESULT_OK, intent)
+                    finish()
+                    viewModel.resetState()
+                }
+
+                else -> {}
+            }
+        })
     }
 
     override fun onAddButtonClick() {
@@ -116,37 +143,36 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
 //            }
 //        }
         customersAdapter.onItemClick = {
-            checkCustomer(it)
-//            open(it)
+            previewCustomer(it.id)
         }
-        customersAdapter.onEdit = {
-            editCustomer(it.id)
-        }
+//        customersAdapter.onEdit = {
+//            editCustomer(it.id)
+//        }
         customersAdapter.onScrollAtTheBottom = {
             viewModel.loadMore()
         }
     }
 
-    private fun checkCustomer(customer: CustomerMinimal) {
-        val intent = Intent()
-        if(customer.hasUnpaidJoToday != null) {
-            showConfirmationDialog("Unpaid job order detected!", "The selected customer has an unpaid job order created today. Would you like to load it instead?") {
-                intent.action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
-                intent.putExtra(JOB_ORDER_ID, customer.hasUnpaidJoToday.toString())
-                setResult(RESULT_OK, intent)
-                finish()
-            }
-        } else if(customer.unpaid > 0) {
-//            viewModel.checkIfCustomerCanCreateNewJobOrder(customer)
-            openUnpaidJobOrderPrompt(customer)
-        } else {
-            selectCustomer(customer.id)
-//            intent.action = JobOrderCreateActivity.ACTION_SELECT_CUSTOMER
-//            intent.putExtra(CUSTOMER_ID, customer.id.toString())
-//            setResult(RESULT_OK, intent)
-//            finish()
-        }
+    private fun previewCustomer(customerId: UUID) {
+        viewModel.checkCustomer(customerId)
+        SelectCustomerPreviewBottomSheetFragment().show(supportFragmentManager, null)
     }
+
+//    private fun checkCustomer(customer: CustomerMinimal) {
+//        val intent = Intent()
+//        if(customer.hasUnpaidJoToday != null) {
+//            showConfirmationDialog("Unpaid job order detected!", "The selected customer has an unpaid job order created today. Would you like to load it instead?") {
+//                intent.action = JobOrderCreateActivity.ACTION_LOAD_BY_JOB_ORDER_ID
+//                intent.putExtra(JOB_ORDER_ID, customer.hasUnpaidJoToday.toString())
+//                setResult(RESULT_OK, intent)
+//                finish()
+//            }
+//        } else if(customer.unpaid > 0) {
+//            openUnpaidJobOrderPrompt(customer)
+//        } else {
+//            selectCustomer(customer.id)
+//        }
+//    }
 
     private fun selectCustomer(customerId: UUID) {
         intent.action = JobOrderCreateActivity.ACTION_SELECT_CUSTOMER
@@ -168,7 +194,7 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
         customerModal.show(supportFragmentManager, "KEME")
         customerModal.onOk = {
             it?.let {
-                checkCustomer(it)
+                previewCustomer(it.id)
             }
         }
     }

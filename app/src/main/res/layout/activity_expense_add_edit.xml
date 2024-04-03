@@ -111,13 +111,12 @@
             </LinearLayout>
             <include
                 android:id="@+id/controls"
-                app:showDelete="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                layout="@layout/incl_controls_alter"/>
+                layout="@layout/incl_controls_crud"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

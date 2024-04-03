@@ -27,6 +27,7 @@ class ExtrasAddEditActivity(
         binding = DataBindingUtil.setContentView(this, R.layout.activity_extras_add_edit)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.controls.viewModel = viewModel
 
         subscribeListeners()
     }

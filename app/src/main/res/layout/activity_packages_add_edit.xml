@@ -54,9 +54,8 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
         <include
-            app:showDelete="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
             android:id="@+id/controls"
-            layout="@layout/incl_controls_alter"
+            layout="@layout/incl_controls_crud"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

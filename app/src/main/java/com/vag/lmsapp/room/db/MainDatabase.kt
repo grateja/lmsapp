@@ -36,6 +36,7 @@ import com.vag.lmsapp.util.converters.*
     EntityExpense::class,
     EntityInventoryLog::class,
     EntityDiscount::class,
+    EntityActivityLog::class,
 ], version = 13,
     exportSchema = true,
 )
@@ -55,7 +56,8 @@ import com.vag.lmsapp.util.converters.*
     PaymentStatusConverter::class,
     ArrayListConverter::class,
     LocalDateConverters::class,
-    JoFilterByConverter::class
+    JoFilterByConverter::class,
+    CrudActionConverter::class
 )
 abstract class MainDatabase : RoomDatabase() {
     abstract fun daoUser() : DaoUser
@@ -81,6 +83,7 @@ abstract class MainDatabase : RoomDatabase() {
     abstract fun daoJobOrderProduct(): DaoJobOrderProduct
     abstract fun daoJobOrderExtras(): DaoJobOrderExtras
     abstract fun daoJobOrderPickupDelivery(): DaoJobOrderPickupDelivery
+    abstract fun daoActivityLog(): DaoActivityLog
 
     companion object {
         private const val DATABASE_NAME: String = "main_db"

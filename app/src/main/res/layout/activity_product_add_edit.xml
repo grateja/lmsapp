@@ -237,8 +237,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/controls"
-            app:showDelete="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
             app:layout_constraintBottom_toBottomOf="parent"
-            layout="@layout/incl_controls_alter"/>
+            layout="@layout/incl_controls_crud"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

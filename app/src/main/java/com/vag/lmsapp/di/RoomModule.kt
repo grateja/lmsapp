@@ -159,6 +159,12 @@ object RoomModule {
         return mainDatabase.daoRemote()
     }
 
+    @Singleton
+    @Provides
+    fun provideActivityLogDao(mainDatabase: MainDatabase) : DaoActivityLog {
+        return mainDatabase.daoActivityLog()
+    }
+
 //    @Singleton
 //    @Provides
 //    fun appPreferenceRepository(@ApplicationContext context: Context) : AppPreferenceRepository {

@@ -17,16 +17,18 @@
             android:id="@+id/main_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/fragment_title"
                 style="@style/TextTitleFragment"
-                android:layout_marginHorizontal="18dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
                 android:text="@{`JO#: ` + viewModel.jobOrder.jobOrder.jobOrderNumber}"
-                tools:text="JO#: 102391"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                tools:text="JO#: 102391" />
+
             <androidx.appcompat.widget.AppCompatImageButton
                 android:layout_margin="6dp"
                 android:id="@+id/button_close"
@@ -48,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/title_divider"
-                app:layout_constraintBottom_toTopOf="@id/controls">
+                app:layout_constraintBottom_toTopOf="@id/card_prompt_locked">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,14 +104,14 @@
                         </TableLayout>
                     </com.google.android.material.card.MaterialCardView>
                     <TextView
-                        android:visibility="@{viewModel.jobOrder.services.size() > 0}"
+                        android:visibility="@{viewModel.hasService}"
                         style="@style/CardTitle"
                         android:text="SERVICES"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="18dp"/>
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="@{viewModel.jobOrder.services.size() > 0}"
+                        android:visibility="@{viewModel.hasService}"
                         style="@style/RoundCard.NoElevation"
                         app:contentPadding="16dp"
                         android:layout_marginBottom="18dp"
@@ -127,14 +129,14 @@
 
                     <TextView
                         style="@style/CardTitle"
-                        android:visibility="@{viewModel.jobOrder.products.size() > 0}"
+                        android:visibility="@{viewModel.hasProduct}"
                         android:text="PRODUCTS"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="18dp"/>
                     <com.google.android.material.card.MaterialCardView
                         style="@style/RoundCard.NoElevation"
-                        android:visibility="@{viewModel.jobOrder.products.size() > 0}"
+                        android:visibility="@{viewModel.hasProduct}"
                         app:contentPadding="16dp"
                         android:layout_marginHorizontal="18dp"
                         android:layout_marginBottom="18dp"
@@ -150,14 +152,14 @@
 
                     <TextView
                         style="@style/CardTitle"
-                        android:visibility="@{viewModel.jobOrder.extras.size() > 0}"
+                        android:visibility="@{viewModel.hasExtras}"
                         android:text="EXTRAS"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="18dp"/>
                     <com.google.android.material.card.MaterialCardView
                         style="@style/RoundCard.NoElevation"
-                        android:visibility="@{viewModel.jobOrder.extras.size() > 0}"
+                        android:visibility="@{viewModel.hasExtras}"
                         app:contentPadding="16dp"
                         android:layout_marginHorizontal="18dp"
                         android:layout_marginBottom="18dp"
@@ -174,7 +176,7 @@
                     <TextView
                         android:text="DELIVERY"
                         style="@style/CardTitle"
-                        android:visibility="@{viewModel.jobOrder.deliveryCharge != null}"
+                        android:visibility="@{viewModel.hasDelivery}"
                         android:layout_marginHorizontal="18dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -238,7 +240,7 @@
                                     tools:text="P10.10"/>
                             </TableRow>
                             <TableRow
-                                android:visibility="@{viewModel.jobOrder.discount != null}"
+                                android:visibility="@{viewModel.hasDiscount}"
                                 android:layout_marginVertical="8dp">
                                 <TextView
                                     android:text="@{viewModel.jobOrder.discount.name}"
@@ -251,7 +253,7 @@
                                     tools:text="P10.10"/>
                             </TableRow>
                             <TableRow
-                                android:visibility="@{viewModel.jobOrder.discount != null}"
+                                android:visibility="@{viewModel.hasDiscount}"
                                 android:layout_marginVertical="8dp">
                                 <TextView
                                     android:text="Discounted amount"
@@ -325,6 +327,30 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="@{viewModel.isLocked}"
+                app:cardCornerRadius="0dp"
+                style="@style/CardPrimary.Danger"
+                android:id="@+id/card_prompt_locked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/controls">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:divider="@drawable/divider_20"
+                    android:showDividers="middle">
+                    <ImageView
+                        android:src="@drawable/icon_locked"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/locked_job_order_prompt"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
             <LinearLayout
                 android:id="@+id/controls"
                 android:layout_width="match_parent"

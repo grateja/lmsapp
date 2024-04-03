@@ -3,7 +3,12 @@ package com.vag.lmsapp.room.entities
 import androidx.room.*
 import java.util.*
 
-@Entity(tableName = "job_orders")
+@Entity(
+    tableName = "job_orders",
+    foreignKeys = [
+        ForeignKey(entity = EntityJobOrderPayment::class, parentColumns = ["id"], childColumns = ["payment_id"], onDelete = ForeignKey.SET_NULL, onUpdate = ForeignKey.CASCADE)
+    ]
+)
 open class EntityJobOrder(
     @ColumnInfo(name = "job_order_number")
     var jobOrderNumber: String?,

@@ -65,10 +65,9 @@
         </LinearLayout>
         <include
             android:id="@+id/controls"
-            app:showDelete="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            layout="@layout/incl_controls_alter"
+            layout="@layout/incl_controls_crud"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

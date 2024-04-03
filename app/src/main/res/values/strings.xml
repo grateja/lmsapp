@@ -99,4 +99,5 @@
         <item>Paid and Unpaid</item>
     </string-array>
     <string name="title_activity_test_compose">TestComposeActivity</string>
+    <string name="max_unpaid_job_orders_reached">This customer has already reached the maximum allowed number of outstanding unpaid job orders.</string>
 </resources>

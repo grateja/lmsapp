@@ -28,6 +28,8 @@ class DiscountAddEditActivity(
         binding.lifecycleOwner = this
         binding.recyclerDiscountApplicable.adapter = discountApplicableAdapter
 
+        binding.controls.viewModel = viewModel
+
         subscribeListeners()
         subscribeEvents()
     }

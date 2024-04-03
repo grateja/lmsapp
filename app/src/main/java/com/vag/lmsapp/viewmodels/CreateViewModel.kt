@@ -3,7 +3,7 @@ package com.vag.lmsapp.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vag.lmsapp.model.CRUDActionEnum
+import com.vag.lmsapp.model.EnumCRUDAction
 import com.vag.lmsapp.room.entities.BaseEntity
 import com.vag.lmsapp.room.repository.IRepository
 import com.vag.lmsapp.util.*
@@ -12,7 +12,7 @@ import java.util.UUID
 
 open class CreateViewModel<T : BaseEntity> (private val iRepository: IRepository<T>) : ViewModel() {
     val validation = MutableLiveData(InputValidation())
-    val crudActionEnum = MutableLiveData(CRUDActionEnum.CREATE)
+    val enumCRUDAction = MutableLiveData(EnumCRUDAction.CREATE)
     val dataState = MutableLiveData<DataState<T>>()
     val model = MutableLiveData<T?>()
     val message = MutableLiveData<String>()
@@ -87,10 +87,10 @@ open class CreateViewModel<T : BaseEntity> (private val iRepository: IRepository
 
             iRepository.get(id).let { t->
                 if(t == null) {
-                    crudActionEnum.value = CRUDActionEnum.CREATE
+                    enumCRUDAction.value = EnumCRUDAction.CREATE
                     model.value = initialModel
                 } else {
-                    crudActionEnum.value = CRUDActionEnum.UPDATE
+                    enumCRUDAction.value = EnumCRUDAction.UPDATE
                     model.value = t
                 }
 

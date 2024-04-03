@@ -52,6 +52,7 @@ class JobOrderCreateActivity : BaseActivity() {
         const val CUSTOMER_EXTRA = "customer"
         const val ACTION_LOAD_BY_CUSTOMER_ID = "loadByCustomerId"
         const val ACTION_LOAD_BY_JOB_ORDER_ID = "loadByJobOrderId"
+        const val ACTION_LOAD_EMPTY_JOB_ORDER = "loadEmptyJobOrder"
         const val PAYLOAD_EXTRA = "payload"
         const val ITEM_PRESET_EXTRA = "itemPreset"
 
@@ -98,18 +99,34 @@ class JobOrderCreateActivity : BaseActivity() {
         binding.recyclerJobOrderGallery.setGridLayout(this, 30.dp)
 
         subscribeEvents()
+
+        when(intent.action) {
+            ACTION_LOAD_BY_JOB_ORDER_ID -> {
+                intent.getStringExtra(JOB_ORDER_ID).toUUID()?.let {
+                    viewModel.loadByJobOrderId(it)
+                }
+            }
+            ACTION_LOAD_BY_CUSTOMER_ID -> {
+                intent.getStringExtra(CUSTOMER_ID).toUUID()?.let {
+                    viewModel.loadByCustomer(it)
+                }
+            }
+            ACTION_LOAD_EMPTY_JOB_ORDER -> {
+                viewModel.loadEmptyJobOrder()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
 
-        intent.getStringExtra(JOB_ORDER_ID).toUUID().let {
-            viewModel.setJobOrder(it, false)
-        }
-
-        intent.getStringExtra(CUSTOMER_EXTRA)?.toUUID()?.let {
-            viewModel.loadByCustomer(it)
-        }
+//        intent.getStringExtra(JOB_ORDER_ID).toUUID().let {
+//            viewModel.loadByJobOrderId(it, false)
+//        }
+//
+//        intent.getStringExtra(CUSTOMER_EXTRA)?.toUUID()?.let {
+//            viewModel.loadByCustomer(it)
+//        }
     }
     private fun subscribeEvents() {
         binding.buttonPrint.setOnClickListener {
@@ -146,7 +163,7 @@ class JobOrderCreateActivity : BaseActivity() {
                 }
                 ACTION_LOAD_BY_JOB_ORDER_ID -> {
                     data.getStringExtra(JOB_ORDER_ID).toUUID()?.let {
-                        viewModel.setJobOrder(it, true)
+                        viewModel.loadByJobOrderId(it)
                     }
                 }
                 ACTION_SYNC_SERVICES -> {

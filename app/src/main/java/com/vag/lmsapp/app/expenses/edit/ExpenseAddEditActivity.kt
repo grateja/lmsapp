@@ -35,6 +35,8 @@ class ExpenseAddEditActivity(
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        binding.controls.viewModel = viewModel
+
         subscribeListeners()
         subscribeEvents()
 

@@ -7,6 +7,7 @@ import androidx.room.Transaction
 import com.vag.lmsapp.app.customers.CustomerMinimal
 import com.vag.lmsapp.app.customers.list.CustomerListItem
 import com.vag.lmsapp.app.customers.list.CustomerQueryResult
+import com.vag.lmsapp.app.joborders.JobOrderItemMinimal
 import com.vag.lmsapp.room.entities.EntityCustomer
 import java.time.LocalDate
 import java.util.UUID
@@ -23,7 +24,7 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
     suspend fun getLastCRN() : String?
 
 //    @Query("SELECT id, crn, name, address, (SELECT COUNT(*) FROM job_orders WHERE payment_id IS NULL AND customer_id = customers.id AND job_orders.deleted_at IS NULL and job_orders.void_date IS NULL) as unpaid FROM customers WHERE name LIKE '%' || :keyword || '%' OR crn like '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY unpaid DESC, name ASC  LIMIT :itemPerPage OFFSET :offset")
-    @Query("SELECT date(jo.created_at / 1000, 'unixepoch', 'localtime') as jo_date, date('now', 'localtime') as date_now, (c.id = :customerId) as selected, c.id, c.crn, c.name, c.address, COALESCE(COUNT(jo.id), 0) AS unpaid, MAX(jo.created_at) AS last_job_order, MAX(CASE WHEN jo.payment_id IS NULL AND date(jo.created_at / 1000, 'unixepoch', 'localtime') = date('now', 'localtime') THEN jo.id ELSE null END) AS unpaid_jo_id_today " +
+    @Query("SELECT date(jo.created_at / 1000, 'unixepoch', 'localtime') as jo_date, date('now', 'localtime') as date_now, (c.id = :customerId) as selected, c.id, c.crn, c.name, c.address, COALESCE(COUNT(jo.id), 0) AS unpaid, MAX(jo.created_at) AS last_job_order" +
         " FROM customers c" +
         " LEFT JOIN job_orders jo ON jo.payment_id IS NULL AND jo.customer_id = c.id AND jo.deleted_at IS NULL AND jo.void_date IS NULL" +
         " WHERE (c.id = :customerId " +

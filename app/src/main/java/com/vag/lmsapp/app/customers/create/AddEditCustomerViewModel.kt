@@ -1,9 +1,6 @@
 package com.vag.lmsapp.app.customers.create
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.vag.lmsapp.model.CRUDActionEnum
 import com.vag.lmsapp.model.Rule
 import com.vag.lmsapp.room.entities.EntityCustomer
 import com.vag.lmsapp.room.repository.CustomerRepository

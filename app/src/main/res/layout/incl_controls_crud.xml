@@ -50,7 +50,7 @@
             <Button
                 android:id="@+id/buttonDelete"
                 style="@style/RoundButtonDanger"
-                android:visibility="@{viewModel.crudActionEnum == com.vag.lmsapp.model.CRUDActionEnum.UPDATE}"
+                android:visibility="@{viewModel.enumCRUDAction == com.vag.lmsapp.model.EnumCRUDAction.UPDATE}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

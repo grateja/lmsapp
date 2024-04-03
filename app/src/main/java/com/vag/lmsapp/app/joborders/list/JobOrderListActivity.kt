@@ -111,14 +111,16 @@ class JobOrderListActivity : FilterActivity() {
     }
 
     private fun createNewJo() {
-        val intent = Intent(this, JobOrderCreateActivity::class.java)
+        val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
+            action = JobOrderCreateActivity.ACTION_LOAD_EMPTY_JOB_ORDER
+        }
         addEditLauncher.launch(intent)
     }
 
-    private fun selectCustomer() {
-        val intent = Intent(this, JobOrderCreateSelectCustomerActivity::class.java)
-        startActivity(intent)
-    }
+//    private fun selectCustomer() {
+//        val intent = Intent(this, JobOrderCreateSelectCustomerActivity::class.java)
+//        startActivity(intent)
+//    }
 
     private fun openDateFilter(dateFilter: DateFilter) {
         dateRangeDialog = BottomSheetDateRangePickerFragment.getInstance(dateFilter)

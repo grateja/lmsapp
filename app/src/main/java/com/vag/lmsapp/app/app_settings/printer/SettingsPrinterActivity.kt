@@ -30,7 +30,6 @@ class SettingsPrinterActivity : AppCompatActivity() {
 
     private val viewModel: PrinterSettingsViewModel by viewModels()
 
-
     private lateinit var binding: ActivityAppSettingsPrinterBinding
 
     private val launcher = ActivityLauncher(this)

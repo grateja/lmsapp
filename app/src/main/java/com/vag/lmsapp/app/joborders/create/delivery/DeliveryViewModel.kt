@@ -25,7 +25,7 @@ constructor(
     val distance = MutableLiveData(1)
     val profile = MutableLiveData<MenuDeliveryProfile>()
 
-    val price = MediatorLiveData<Float>().apply {
+    val price = MediatorLiveData<Float>(0f).apply {
         fun update() {
             val baseFare = profile.value?.baseFare ?: 0f
             val pricePerKm = profile.value?.pricePerKm ?: 0f
@@ -97,6 +97,12 @@ constructor(
         val distance = this.distance.value?.toFloat()
         val price = price.value //option!!.charge * ((profile!!.pricePerKm * distance!!) + profile.baseFare)
         val deletedAt = if(delete) { Instant.now() } else { null }
+
+        println("price")
+        println(price)
+
+        println("profile")
+        println(profile)
 
         val deliveryCharge = DeliveryCharge(profile!!.deliveryProfileRefId, profile.vehicle, distance!!, option!!, price!!, deletedAt)
         this._dataState.value = DataState.SaveSuccess(deliveryCharge)

@@ -3,7 +3,7 @@ package com.vag.lmsapp.app.app_settings.user.add_edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.vag.lmsapp.model.CRUDActionEnum
+import com.vag.lmsapp.model.EnumCRUDAction
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.model.Rule
@@ -79,7 +79,7 @@ constructor(
                     addError("email", "Email already taken")
                 }
 
-                if(crudActionEnum.value == CRUDActionEnum.CREATE) {
+                if(enumCRUDAction.value == EnumCRUDAction.CREATE) {
                     addRule("password", user?.password, arrayOf(Rule.Required))
                     addRule("confirmPassword", confirmPassword.value, arrayOf(Rule.Required, Rule.Matched(user?.password, "Password do not matched!")))
                 }
