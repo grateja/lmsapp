@@ -8,11 +8,9 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.app.customers.CustomerMinimal
-import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity.Companion.CUSTOMER_ID
 import com.vag.lmsapp.databinding.FragmentBottomSheetCustomerAddEditBinding
 import com.vag.lmsapp.fragments.ModalFragment
 import com.vag.lmsapp.util.DataState
-import com.vag.lmsapp.util.FragmentLauncher
 import com.vag.lmsapp.util.hideKeyboard
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint

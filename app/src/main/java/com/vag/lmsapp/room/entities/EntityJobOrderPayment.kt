@@ -6,14 +6,6 @@ import java.util.*
 
 @Entity(
     tableName = "job_order_payments",
-//    foreignKeys = [
-//        ForeignKey(
-//            entity = EntityUser::class,
-//            parentColumns = ["id"],
-//            childColumns = ["userId"],
-//            onDelete = ForeignKey.CASCADE
-//        )
-//    ]
 )
 data class EntityJobOrderPayment(
     @PrimaryKey(autoGenerate = false)
@@ -36,9 +28,9 @@ data class EntityJobOrderPayment(
 
     @Embedded
     var entityCashless: EntityCashless? = null,
-
-    @Embedded
-    var jobOrderPaymentVoid: EntityJobOrderVoid? = null,
+//
+//    @Embedded
+//    var jobOrderPaymentVoid: EntityJobOrderVoid? = null,
 ) : BaseEntity() {
     fun change() : Float {
         return cashReceived - amountDue

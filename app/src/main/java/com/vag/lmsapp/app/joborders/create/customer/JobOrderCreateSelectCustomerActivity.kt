@@ -11,11 +11,11 @@ import com.vag.lmsapp.app.customers.CustomerMinimal
 import com.vag.lmsapp.app.customers.create.CustomerAddEditBottomSheetFragment
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
-import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity.Companion.CUSTOMER_ID
 import com.vag.lmsapp.app.joborders.unpaid.prompt.BottomSheetJobOrderPaymentPromptFragment
 import com.vag.lmsapp.app.joborders.unpaid.prompt.JobOrdersUnpaidPromptActivity.Companion.OPEN_PAYMENT_ACTION
 import com.vag.lmsapp.app.joborders.unpaid.prompt.JobOrdersUnpaidPromptViewModel
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateSelectCustomerBinding
+import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.util.showConfirmationDialog

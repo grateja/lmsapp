@@ -5,12 +5,9 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
-import com.vag.lmsapp.app.gallery.picture_preview.PhotoItem
 import com.vag.lmsapp.room.repository.JobOrderRepository
 import com.vag.lmsapp.util.isToday
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -35,43 +32,77 @@ constructor(
 
     val isLocked = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.paymentWithUser != null || it?.jobOrder?.createdAt?.isToday() != true
+            value = it?.paymentWithUser != null || it?.jobOrder?.createdAt?.isToday() != true || it.jobOrder.entityJobOrderVoid != null
         }
     }
 
     val isDeleted = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
+            value = it?.jobOrder?.deletedAt != null
+        }
+    }
+
+    val isVoid = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
             value = it?.jobOrder?.entityJobOrderVoid != null
         }
     }
 
+    val allowEdit = MediatorLiveData<Boolean>().apply {
+        fun update() {
+            val jobOrder = jobOrder.value
+            value = jobOrder?.jobOrder?.entityJobOrderVoid == null
+                    && jobOrder?.paymentWithUser == null
+                    && jobOrder?.jobOrder?.deletedAt == null
+                    && _previewOnly.value != true
+        }
+        addSource(jobOrder) {update()}
+        addSource(_previewOnly) {update()}
+    }
+
+    val allowDelete = MediatorLiveData<Boolean>().apply {
+        fun update() {
+            val jobOrder = jobOrder.value
+            value = jobOrder?.jobOrder?.entityJobOrderVoid == null
+                    && jobOrder?.paymentWithUser == null
+                    && jobOrder?.jobOrder?.deletedAt == null
+        }
+        addSource(jobOrder) {update()}
+    }
+
     val hasService = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.services?.any { !it.isVoid && it.deletedAt == null }
+            value = it?.services?.any { it.deletedAt == null }
         }
     }
 
     val hasProduct = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.products?.any { !it.isVoid && it.deletedAt == null }
+            value = it?.products?.any { it.deletedAt == null }
         }
     }
 
     val hasExtras = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.extras?.any { !it.isVoid && it.deletedAt == null }
+            value = it?.extras?.any { it.deletedAt == null }
         }
     }
 
     val hasDelivery = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value =it?.deliveryCharge != null && it.deliveryCharge?.isVoid != true && it.deliveryCharge?.deletedAt == null
+            value =it?.deliveryCharge != null && it.deliveryCharge?.deletedAt == null
         }
     }
 
     val hasDiscount = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.discount != null && it.discount?.isVoid != true && it.discount?.deletedAt == null
+            value = it?.discount != null && it.discount?.deletedAt == null
+        }
+    }
+
+    val hasPayment = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
+            value = it?.paymentWithUser != null && it.paymentWithUser?.payment?.deletedAt == null
         }
     }
 
@@ -108,13 +139,24 @@ constructor(
         }
     }
 
+//    fun makePayment() {
+//        jobOrder.value?.customer?.id?.let {
+//            _navigationState.value = NavigationState.MakePayment(it)
+//        }
+//    }
+//    fun editPayment() {
+//        jobOrder.value?.jobOrder?.paymentId?.let {
+//            _navigationState.value = NavigationState.EditPayment(it)
+//        }
+//    }
     fun openPayment() {
-        jobOrder.value?.jobOrder?.let {
-            val paymentId = it.paymentId
-            if(paymentId == null) {
-                _navigationState.value = NavigationState.InitiatePayment(it.customerId)
-            } else {
-                _navigationState.value = NavigationState.PreviewPayment(paymentId)
+        if(hasPayment.value == true) {
+            jobOrder.value?.jobOrder?.paymentId?.let {
+                _navigationState.value = NavigationState.OpenPayment(it)
+            }
+        } else {
+            jobOrder.value?.customer?.id?.let {
+                _navigationState.value = NavigationState.MakePayment(it)
             }
         }
     }
@@ -141,8 +183,8 @@ constructor(
     sealed class NavigationState {
         data object StateLess: NavigationState()
         data class InitiateEdit(val id: UUID): NavigationState()
-        data class InitiatePayment(val customerId: UUID): NavigationState()
-        data class PreviewPayment(val paymentId: UUID): NavigationState()
+        data class MakePayment(val customerId: UUID): NavigationState()
+        data class OpenPayment(val paymentId: UUID): NavigationState()
         data class OpenPrint(val id: UUID) : NavigationState()
         data class OpenDelete(val id: UUID) : NavigationState()
         data object RequestEdit: NavigationState()

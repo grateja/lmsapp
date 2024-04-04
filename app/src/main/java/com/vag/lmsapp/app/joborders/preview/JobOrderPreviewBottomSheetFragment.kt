@@ -23,7 +23,9 @@ import com.vag.lmsapp.databinding.FragmentBottomSheetJobOrderPreviewBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.Constants
+import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
+import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
 import com.vag.lmsapp.util.FragmentLauncher
 import com.vag.lmsapp.util.setGridLayout
 import com.vag.lmsapp.util.showMessageDialog
@@ -83,17 +85,17 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                     launcher.launch(intent)
                     viewModel.resetState()
                 }
-                is JobOrderPreviewViewModel.NavigationState.InitiatePayment -> {
+                is JobOrderPreviewViewModel.NavigationState.MakePayment -> {
                     val intent =Intent(context, JobOrderPaymentActivity::class.java).apply {
-                        action = JobOrderCreateActivity.ACTION_SYNC_PAYMENT
-                        putExtra(JobOrderPaymentActivity.CUSTOMER_ID, it.customerId.toString())
+                        action = JobOrderPaymentActivity.ACTION_LOAD_BY_CUSTOMER
+                        putExtra(CUSTOMER_ID, it.customerId.toString())
                     }
                     launcher.launch(intent)
                     viewModel.resetState()
                 }
-                is JobOrderPreviewViewModel.NavigationState.PreviewPayment -> {
+                is JobOrderPreviewViewModel.NavigationState.OpenPayment -> {
                     val intent = Intent(context, PaymentPreviewActivity::class.java).apply {
-                        putExtra(JobOrderPaymentActivity.PAYMENT_ID, it.paymentId.toString())
+                        putExtra(PAYMENT_ID, it.paymentId.toString())
                     }
                     startActivity(intent)
                     viewModel.resetState()
@@ -135,13 +137,13 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
             adapter.setData(it)
         })
         viewModel.jobOrder.observe(viewLifecycleOwner, Observer {
-            it?.services?.filter { !it.isVoid && it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.serviceName, it.price) }?.let {services ->
+            it?.services?.filter { it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.serviceName, it.price) }?.let {services ->
                 servicesAdapter.setData(services)
             }
-            it?.products?.filter { !it.isVoid && it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.productName, it.price) }?.let {products ->
+            it?.products?.filter { it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.productName, it.price) }?.let {products ->
                 productsAdapter.setData(products)
             }
-            it?.extras?.filter { !it.isVoid && it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.extrasName, it.price) }?.let {extras ->
+            it?.extras?.filter { it.deletedAt == null }?.map { JobOrderItemMinimal(it.quantity, it.extrasName, it.price) }?.let {extras ->
                 extrasAdapter.setData(extras)
             }
         })
@@ -163,20 +165,28 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
         binding.buttonDelete.setOnClickListener {
             requestAuthorization(ACTION_REQUEST_DELETE)
         }
+        binding.labelLocked.setOnClickListener {
+            context?.let {
+                it.showMessageDialog(
+                    "Job order is locked!",
+                    it.getString(R.string.locked_job_order_prompt)
+                )
+            }
+        }
         binding.jobOrderGallery.setOnClickListener {
             viewModel.openGallery()
         }
 
         authLauncher.onOk = {
-            if(it?.action == ACTION_REQUEST_UNLOCK) {
+            if(it.data?.action == ACTION_REQUEST_UNLOCK) {
                 viewModel.openJobOrder()
-            } else if(it?.action == ACTION_REQUEST_DELETE) {
+            } else if(it.data?.action == ACTION_REQUEST_DELETE) {
                 viewModel.openDelete()
             }
         }
 
         launcher.onOk = {
-            if(it?.action == JobOrderCancelActivity.ACTION_DELETE_JOB_ORDER) {
+            if(it.data?.action == JobOrderCancelActivity.ACTION_DELETE_JOB_ORDER) {
                 dismiss()
             }
             viewModel.requireRefresh()

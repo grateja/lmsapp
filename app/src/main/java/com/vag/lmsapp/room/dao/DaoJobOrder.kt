@@ -171,9 +171,9 @@ interface DaoJobOrder {
 
     @Query("UPDATE job_orders SET void_by = :userId, void_remarks = :remarks, void_date = :voidDate WHERE id = :jobOrderId")
     suspend fun voidJobOrder(jobOrderId: UUID, userId: UUID?, remarks: String?, voidDate: Instant? = Instant.now())
-
-    @Query("UPDATE job_order_payments SET void_by = :userId, void_remarks = :remarks, void_date = :voidDate WHERE id = :paymentId")
-    suspend fun voidPayment(paymentId: UUID?, userId: UUID?, remarks: String?, voidDate: Instant? = Instant.now())
+//
+//    @Query("UPDATE job_order_payments SET void_by = :userId, void_remarks = :remarks, void_date = :voidDate WHERE id = :paymentId")
+//    suspend fun voidPayment(paymentId: UUID?, userId: UUID?, remarks: String?, voidDate: Instant? = Instant.now())
 
     @Query("UPDATE job_order_services SET void = 1 WHERE job_order_id = :jobOrderId")
     suspend fun voidServices(jobOrderId: UUID)
@@ -200,7 +200,7 @@ interface DaoJobOrder {
         val paymentId = jobOrderWithItems.paymentWithUser?.payment?.id
 
         voidJobOrder(jobOrderId, jobOrderVoid.voidByUserId, jobOrderVoid.remarks)
-        voidPayment(paymentId, jobOrderVoid.voidByUserId, jobOrderVoid.remarks)
+//        voidPayment(paymentId, jobOrderVoid.voidByUserId, jobOrderVoid.remarks)
         jobOrderWithItems.products?.onEach {
             returnProduct(it.productId, it.quantity)
         }
@@ -242,6 +242,6 @@ interface DaoJobOrder {
             " FROM job_orders jo " +
             " JOIN customers cu ON jo.customer_id = cu.id LEFT JOIN job_order_payments pa ON jo.payment_id = pa.id " +
             " WHERE " +
-            " cu.id = :customerId AND pa.id IS NULL AND jo.deleted_at IS NULL AND jo.void_date IS NULL AND pa.deleted_at IS NULL AND pa.void_date IS NULL")
+            " cu.id = :customerId AND pa.id IS NULL AND jo.deleted_at IS NULL AND jo.void_date IS NULL AND pa.deleted_at IS NULL")
     fun getUnpaidJobOrdersAsLiveData(customerId: UUID): LiveData<List<JobOrderListItem>>
 }

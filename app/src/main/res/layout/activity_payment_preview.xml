@@ -10,11 +10,12 @@
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 app:title="Payment preview"
                 android:background="@color/color_code_payments"
                 android:layout_width="match_parent"
@@ -79,18 +80,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="16dp">
-                            <!--                        <TableRow-->
-                            <!--                            android:id="@+id/card_date_paid"-->
-                            <!--                            style="@style/DefinitionTermRow">-->
-                            <!--                            <TextView-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:text="Date"/>-->
-                            <!--                            <TextView android:text="@{viewModel.payment.payment.createdAt}"-->
-                            <!--                                android:textAlignment="textEnd"-->
-                            <!--                                android:layout_weight="1"-->
-                            <!--                                tools:text="January 12, 2023"/>-->
-                            <!--                        </TableRow>-->
                             <TableRow
                                 style="@style/DefinitionTermRow">
                                 <TextView android:text="Total Amount Paid"
@@ -182,6 +171,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                 </com.google.android.material.card.MaterialCardView>
                 <androidx.fragment.app.FragmentContainerView
+                    android:layout_marginTop="18dp"
                     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                     android:id="@+id/fragment_proof_of_payment"
                     android:name="com.vag.lmsapp.app.joborders.payment.ProofOfPaymentFragment"
@@ -190,36 +180,5 @@
                     tools:layout="@layout/fragment_proof_of_payment"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            app:cardBackgroundColor="@color/white"-->
-<!--            app:cardElevation="0dp"-->
-<!--            app:contentPadding="12dp"-->
-<!--            app:cardCornerRadius="20dp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical">-->
-<!--                <TextView-->
-<!--                    style="@style/Caption.Term"-->
-<!--                    android:text="JOB ORDER REFERENCES"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"/>-->
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/recycler_job_order_list"-->
-<!--                    style="@style/Caption.Definition"-->
-<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"/>-->
-<!--            </LinearLayout>-->
-<!--        </com.google.android.material.card.MaterialCardView>-->
-<!--        <androidx.fragment.app.FragmentContainerView-->
-<!--            android:id="@+id/job_order_payment"-->
-<!--            android:name="com.csi.palabakosys.app.joborders.create.shared_ui.CreateJobOrderPaymentFragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:layout="@layout/fragment_create_job_order_payment"/>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -1,10 +1,12 @@
 package com.vag.lmsapp.app.auth
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResult
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,8 +19,9 @@ import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.showDialog
 import com.itsxtt.patternlock.PatternLockView
+import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.util.FragmentLauncher
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 @AndroidEntryPoint
 class AuthActionDialogActivity : AppCompatActivity() {
@@ -28,11 +31,34 @@ class AuthActionDialogActivity : AppCompatActivity() {
         const val MESSAGE = "message"
         const val PERMISSIONS_EXTRA = "permissions"
         const val ROLES_EXTRA = "roles"
+        const val LAUNCH_CODE = "launchCode"
 
         @SuppressLint("Returns Login Credentials if Authentication succeeded")
         const val RESULT = "LoginCredential"
+
+        fun launch(context: Context, launcher: ActivityLauncher, permissions: List<EnumActionPermission>, onOk: ((ActivityResult) -> Unit) ?) {
+            launcher.onOk = {
+                onOk?.invoke(it)
+            }
+            val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
+                putExtra(MESSAGE, "Authentication Required")
+                putExtra(PERMISSIONS_EXTRA, ArrayList(permissions))
+            }
+            launcher.launch(intent)
+        }
+
+        fun launch(context: Context, launcher: FragmentLauncher, permissions: List<EnumActionPermission>, onOk: ((ActivityResult) -> Unit) ?) {
+            launcher.onOk = {
+                onOk?.invoke(it)
+            }
+            val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
+                putExtra(MESSAGE, "Authentication Required")
+                putExtra(PERMISSIONS_EXTRA, ArrayList(permissions))
+            }
+            launcher.launch(intent)
+        }
     }
-    
+
     private lateinit var binding: ActivityAuthActionDialogBinding
     private val viewModel: AuthDialogViewModel by viewModels()
     private val privilegeAdapter = Adapter<String>(R.layout.recycler_item_simple_item)
@@ -116,6 +142,7 @@ class AuthActionDialogActivity : AppCompatActivity() {
                 is DataState.SaveSuccess -> {
                     setResult(RESULT_OK, Intent().apply {
                         action = intent.action
+                        putExtra(LAUNCH_CODE, intent.getIntExtra(LAUNCH_CODE, -1))
                         putExtra(RESULT, it.data)
                     })
                     finish()

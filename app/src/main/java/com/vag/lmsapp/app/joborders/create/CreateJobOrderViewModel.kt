@@ -16,7 +16,6 @@ import com.vag.lmsapp.room.repository.CustomerRepository
 import com.vag.lmsapp.room.repository.JobOrderRepository
 import com.vag.lmsapp.room.repository.PaymentRepository
 import com.vag.lmsapp.room.repository.ProductRepository
-import com.vag.lmsapp.util.isToday
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -44,7 +43,8 @@ constructor(
         data class OpenExtras(val list: List<MenuExtrasItem>?, val item: MenuExtrasItem?): DataState()
         data class OpenDelivery(val deliveryCharge: DeliveryCharge?): DataState()
         data class OpenDiscount(val discount: MenuDiscount?): DataState()
-        data class OpenPayment(val customerId: UUID, val paymentId: UUID?) : DataState()
+        data class OpenPayment(val paymentId: UUID) : DataState()
+        data class MakePayment(val customerId: UUID) : DataState()
         data class InvalidOperation(val message: String, val errorCode: String? = null): DataState()
         data class RequestExit(val canExit: Boolean, val resultCode: Int, val jobOrderId: UUID?) : DataState()
         data class RequestCancel(val jobOrderId: UUID?) : DataState()
@@ -93,11 +93,13 @@ constructor(
 
     val jobOrderPictures = jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
 
+    val payment = jobOrderId.switchMap { paymentRepository.getPaymentWithJobOrdersAsLiveData(it) }
+
     private val _preparedBy = MutableLiveData<String>()
     val preparedBy: LiveData<String> = _preparedBy
 
-    private val _payment = MutableLiveData<EntityJobOrderPaymentFull>()
-    val payment: LiveData<EntityJobOrderPaymentFull> = _payment
+//    private val _payment = MutableLiveData<EntityJobOrderPaymentFull>()
+//    val payment: LiveData<EntityJobOrderPaymentFull> = _payment
 
     /** region mediator live data */
 
@@ -261,15 +263,15 @@ constructor(
 
     /** region setter functions */
 
-    fun loadPayment() {
-        viewModelScope.launch {
-            val jobOrderId = jobOrderId.value
-            paymentRepository.getByJobOrderId(jobOrderId)?.let {
-                _payment.value = it
-//                _locked.value = true
-            }
-        }
-    }
+//    fun loadPayment() {
+//        viewModelScope.launch {
+//            val jobOrderId = jobOrderId.value
+//            paymentRepository.getByJobOrderId(jobOrderId)?.let {
+//                _payment.value = it
+////                _locked.value = true
+//            }
+//        }
+//    }
 
     private fun prepare(jobOrder: EntityJobOrderWithItems) {
         _preparedBy.value = jobOrder.user?.name
@@ -344,13 +346,13 @@ constructor(
                 entity.deletedAt,
             )
         }
-        jobOrder.paymentWithUser?.let {
+//        jobOrder.paymentWithUser?.let {
+////            _locked.value = true
+//            _payment.value = it
+//        }
+//        if(!jobOrder.jobOrder.createdAt.isToday()) {
 //            _locked.value = true
-            _payment.value = it
-        }
-        if(!jobOrder.jobOrder.createdAt.isToday()) {
-//            _locked.value = true
-        }
+//        }
         _saved.value = true
         _deleted.value = jobOrder.jobOrder.deletedAt != null || jobOrder.jobOrder.entityJobOrderVoid != null
     }
@@ -572,7 +574,12 @@ constructor(
         if(saved.value != true) {
             _dataState.value = DataState.InvalidOperation("The Job Order has not been saved yet!")
         }
-        _dataState.value = DataState.OpenPayment(currentCustomer.value!!.id, payment.value?.payment?.id)
+        val paymentId = payment.value?.payment?.id
+        if(paymentId != null) {
+            _dataState.value = DataState.OpenPayment(paymentId)
+        } else {
+            _dataState.value = DataState.MakePayment(currentCustomer.value!!.id)
+        }
     }
 
     fun openCamera() {

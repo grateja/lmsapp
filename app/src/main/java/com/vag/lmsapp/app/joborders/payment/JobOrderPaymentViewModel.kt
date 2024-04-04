@@ -67,10 +67,8 @@ constructor(
     private val _paymentId = MutableLiveData(UUID.randomUUID())
     val paymentId: LiveData<UUID> = _paymentId
 
-    val payment = _paymentId.switchMap { paymentRepository.getPaymentWithJobOrders(it) } //MutableLiveData<EntityJobOrderPaymentFull>()
+    val payment = _paymentId.switchMap { paymentRepository.getPaymentWithJobOrdersAsLiveData(it) } //MutableLiveData<EntityJobOrderPaymentFull>()
     val jobOrders = _paymentId.switchMap { paymentRepository.getJobOrdersByPaymentId(it) }
-
-//    val payment: LiveData<EntityJobOrderPaymentFull> = _payment
 
     private val _inputValidation = MutableLiveData(InputValidation())
     val inputValidation: LiveData<InputValidation> = _inputValidation
@@ -80,14 +78,6 @@ constructor(
 
     private val _payableJobOrders = MutableLiveData<List<JobOrderPaymentMinimal>>()
     val payableJobOrders: LiveData<List<JobOrderPaymentMinimal>> = _payableJobOrders
-
-//    val selectedJobOrders = MediatorLiveData<Int>().apply {
-//        fun update() {
-//            val items = _payableJobOrders.value
-//            value = items?.filter { it.selected }?.size
-//        }
-//        addSource(_payableJobOrders) {update()}
-//    }
 
     val payableAmount = MediatorLiveData<Float>().apply {
         fun update() {
@@ -152,11 +142,6 @@ constructor(
 
     fun getPayment(paymentId: UUID) {
         _paymentId.value = paymentId
-//        viewModelScope.launch {
-//            paymentRepository.getPaymentWithJobOrders(paymentId)?.let {
-//                _payment.value = it
-//            }
-//        }
     }
 
     fun getUnpaidByCustomerId(customerId: UUID) {
@@ -167,16 +152,6 @@ constructor(
             }
         }
     }
-
-//    private suspend fun getPayment(paymentId: UUID): EntityJobOrderPayment? {
-//        return paymentRepository.get(paymentId)?.let {
-//            paymentMethod.value = it.paymentMethod
-//            orNumber.value = it.orNumber
-//            cashless.value = it.entityCashless
-//            _amountDue.value = it.amountDue
-//            it
-//        }
-//    }
 
     fun clearError(key: String) {
         _inputValidation.value = _inputValidation.value?.removeError(key)
@@ -237,7 +212,6 @@ constructor(
                 )
             )
         } else {
-//            validation.addError("paymentMethod", "Please select payment option!")
             _dataState.value = DataState.InvalidOperation("Please select payment option!")
             return
         }
@@ -285,14 +259,6 @@ constructor(
             _dataState.value = DataState.PaymentSuccess(payment, ArrayList(jobOrderIds.map {it.toString()}))
         }
     }
-
-//    fun openCashless() {
-//        _dataState.value = DataState.OpenCashless(cashless.value)
-//    }
-//
-//    fun setCashless(cashless: EntityCashless?) {
-//        this.cashless.value = cashless
-//    }
 
     fun selectItem(jobOrder: JobOrderPaymentMinimal) {
         _payableJobOrders.value = _payableJobOrders.value?.apply {

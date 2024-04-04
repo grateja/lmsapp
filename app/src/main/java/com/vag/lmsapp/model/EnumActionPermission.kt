@@ -21,8 +21,8 @@ enum class EnumActionPermission(val id: Int, val description: String) : Parcelab
     MODIFY_SETTINGS_IPADDRESS(1013, "Can modify IP address settings"),
     MODIFY_USERS(1014, "Can modify user accounts"),
     MODIFY_CUSTOMER_DETAILS(1015, "Can remove or update items in job orders"),
-    MODIFY_SETTINGS_SHOP_DETAILS(1016, "Can modify shop details. (Shop name, address, contact number)");
-
+    MODIFY_SETTINGS_SHOP_DETAILS(1016, "Can modify shop details. (Shop name, address, contact number)"),
+    MODIFY_JOB_ORDER_PAYMENTS(1017, "Can modify job order payments");
     override fun toString() : String {
         return description
     }

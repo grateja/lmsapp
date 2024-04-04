@@ -23,6 +23,9 @@ import com.vag.lmsapp.databinding.FragmentProofOfPaymentBinding
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.FragmentLauncher
 import com.vag.lmsapp.util.file
+import com.vag.lmsapp.util.hide
+import com.vag.lmsapp.util.remove
+import com.vag.lmsapp.util.show
 import com.vag.lmsapp.util.showConfirmationDialog
 import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.toUUID
@@ -104,12 +107,12 @@ class ProofOfPaymentFragment : Fragment() {
         }
 
         launcher.onOk = {
-            it?.getStringExtra(PictureCaptureActivity.URI_ID_EXTRA).toUUID()?.let {
+            it.data?.getStringExtra(PictureCaptureActivity.URI_ID_EXTRA).toUUID()?.let {
                 loadProofOfPayment(it)
             }
         }
         fileLauncher.onOk = {
-            viewModel.attachUri(it?.data)
+            viewModel.attachUri(it.data?.data)
         }
         binding.imageViewProofOfPayment.setOnClickListener {
             viewModel.openImagePreview()
@@ -137,25 +140,26 @@ class ProofOfPaymentFragment : Fragment() {
 //            val name = paymentId.toString()
 //            val file = File(requireContext().filesDir, Constants.PICTURES_DIR + name)
             val file = requireContext().file(paymentId)
-            val uri = FileProvider.getUriForFile(requireContext(), Constants.FILE_PROVIDER, file)
+            if(file.exists()) {
+                binding.imageViewProofOfPayment.show()
+                val uri = FileProvider.getUriForFile(requireContext(), Constants.FILE_PROVIDER, file)
 
-            val requestOptions = RequestOptions()
-                .override(240)
-                .centerCrop()
+                val requestOptions = RequestOptions()
+                    .override(240)
+                    .centerCrop()
 
-            Glide.with(binding.root)
-                .load(uri)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .apply(requestOptions)
-                .into(binding.imageViewProofOfPayment)
-        } catch (ioEx: FileNotFoundException) {
-            ioEx.printStackTrace()
-            ContextCompat.getDrawable(requireContext(), R.drawable.no_preview_available)?.let {
-                binding.imageViewProofOfPayment.setImageDrawable(it)
+                Glide.with(binding.root)
+                    .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .apply(requestOptions)
+                    .into(binding.imageViewProofOfPayment)
+            } else {
+                binding.imageViewProofOfPayment.remove()
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            binding.imageViewProofOfPayment.remove()
         }
     }
 

@@ -19,7 +19,7 @@ constructor (
         return daoPayment.get(id)
     }
 
-    fun getPaymentWithJobOrders(id: UUID) = daoPayment.getPaymentWithJobOrders(id)
+    fun getPaymentWithJobOrdersAsLiveData(id: UUID) = daoPayment.getPaymentWithJobOrdersAsLiveData(id)
 
     suspend fun save(payment: EntityJobOrderPayment, jobOrderIds: List<UUID>) : EntityJobOrderPayment {
         return daoPayment.save(payment, jobOrderIds)

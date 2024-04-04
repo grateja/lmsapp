@@ -45,12 +45,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="12dp"
-                app:layout_constraintTop_toBottomOf="@id/fragment_title"/>
+                app:layout_constraintTop_toBottomOf="@id/button_close"/>
+
+            <ImageView
+                android:visibility="@{viewModel.isLocked}"
+                android:id="@+id/imageView"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/icon_locked"
+                app:layout_constraintStart_toStartOf="@+id/fragment_title"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_title" />
+
+            <TextView
+                android:visibility="@{viewModel.isLocked}"
+                android:id="@+id/label_locked"
+                style="@style/Bold.Black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textSize="11sp"
+                android:text="Locked"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView" />
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/title_divider"
-                app:layout_constraintBottom_toTopOf="@id/card_prompt_locked">
+                app:layout_constraintBottom_toTopOf="@id/controls">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -90,7 +112,7 @@
                                     tools:text="Jan 16, 2025 4:23 AM"/>
                             </TableRow>
                             <TableRow
-                                android:visibility="@{viewModel.jobOrder.paymentWithUser != null}"
+                                android:visibility="@{viewModel.hasPayment}"
                                 android:layout_marginVertical="8dp">
                                 <TextView
                                     android:text="DATE PAID"
@@ -327,31 +349,13 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
-            <com.google.android.material.card.MaterialCardView
-                android:visibility="@{viewModel.isLocked}"
-                app:cardCornerRadius="0dp"
-                style="@style/CardPrimary.Danger"
-                android:id="@+id/card_prompt_locked"
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/control_divider"
+                app:layout_constraintBottom_toTopOf="@id/controls"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/controls">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:divider="@drawable/divider_20"
-                    android:showDividers="middle">
-                    <ImageView
-                        android:src="@drawable/icon_locked"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/locked_job_order_prompt"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_height="1dp"/>
             <LinearLayout
+                android:visibility="@{!viewModel.isVoid}"
                 android:id="@+id/controls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -360,7 +364,7 @@
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="@{!viewModel.isDeleted &amp;&amp; !viewModel.previewOnly}"
+                    android:visibility="@{viewModel.allowEdit}"
                     android:id="@+id/button_edit"
                     style="@style/ButtonCard"
                     android:layout_width="wrap_content"
@@ -389,7 +393,7 @@
                     style="@style/ButtonCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@{viewModel.jobOrder.paymentWithUser != null ? @color/background_success : @color/white}"
+                    app:cardBackgroundColor="@{viewModel.hasPayment ? @color/background_success : @color/white}"
                     android:layout_weight="1">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -402,10 +406,10 @@
                         <ImageView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:src="@{viewModel.jobOrder.paymentWithUser != null ? @drawable/icon_payment_done : @drawable/icon_payment}"
+                            android:src="@{viewModel.hasPayment ? @drawable/icon_payment_done : @drawable/icon_payment}"
                             tools:src="@drawable/icon_payment_done"/>
                         <TextView
-                            android:textColor="@{viewModel.jobOrder.paymentWithUser != null ? @color/primary : @color/black}"
+                            android:textColor="@{viewModel.hasPayment ? @color/primary : @color/black}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/payment"/>
@@ -436,6 +440,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
                 <com.google.android.material.card.MaterialCardView
+                    android:visibility="@{viewModel.allowDelete}"
                     android:id="@+id/button_delete"
                     style="@style/ButtonCard"
                     android:layout_width="wrap_content"

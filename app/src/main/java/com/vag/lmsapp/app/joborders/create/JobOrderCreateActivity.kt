@@ -34,14 +34,15 @@ import com.vag.lmsapp.app.joborders.create.services.JobOrderServiceItemAdapter
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
 import com.vag.lmsapp.app.joborders.gallery.JobOrderGalleryBottomSheetFragment
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
-import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity.Companion.CUSTOMER_ID
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.joborders.print.JobOrderPrintActivity
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateBinding
 import com.vag.lmsapp.util.*
+import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
+import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.collections.ArrayList
@@ -65,7 +66,7 @@ class JobOrderCreateActivity : BaseActivity() {
         const val ACTION_SYNC_EXTRAS = "extras"
         const val ACTION_SYNC_DELIVERY = "delivery"
         const val ACTION_SYNC_DISCOUNT = "discount"
-        const val ACTION_SYNC_PAYMENT = "payment"
+//        const val ACTION_SYNC_PAYMENT = "payment"
         const val ACTION_DELETE_JOB_ORDER = "deleteJobOrder"
         const val ACTION_CONFIRM_SAVE = "auth"
     }
@@ -191,9 +192,9 @@ class JobOrderCreateActivity : BaseActivity() {
                         viewModel.applyDiscount(it)
                     }
                 }
-                ACTION_SYNC_PAYMENT -> {
-                    viewModel.loadPayment()
-                }
+//                ACTION_SYNC_PAYMENT -> {
+//                    viewModel.loadPayment()
+//                }
                 ACTION_DELETE_JOB_ORDER -> {
                     finish()
                 }
@@ -329,7 +330,11 @@ class JobOrderCreateActivity : BaseActivity() {
                     viewModel.resetState()
                 }
                 is CreateJobOrderViewModel.DataState.OpenPayment -> {
-                    openPayment(it.customerId, it.paymentId)
+                    openPayment(it.paymentId)
+                    viewModel.resetState()
+                }
+                is CreateJobOrderViewModel.DataState.MakePayment -> {
+                    makePayment(it.customerId)
                     viewModel.resetState()
                 }
                 is CreateJobOrderViewModel.DataState.RequestCancel -> {
@@ -436,17 +441,20 @@ class JobOrderCreateActivity : BaseActivity() {
         launcher.launch(intent)
     }
 
-    private fun openPayment(customerId: UUID, paymentId: UUID?) {
-        val intent = if(paymentId != null) {
-            Intent(this, PaymentPreviewActivity::class.java).apply {
-                putExtra(JobOrderPaymentActivity.PAYMENT_ID, paymentId.toString())
-            }
-        } else {
-            Intent(this, JobOrderPaymentActivity::class.java).apply {
-                action = ACTION_SYNC_PAYMENT
-                putExtra(JobOrderPaymentActivity.CUSTOMER_ID, customerId.toString())
-            }
+    private fun makePayment(customerId: UUID) {
+        val intent = Intent(this, JobOrderPaymentActivity::class.java).apply {
+            action = JobOrderPaymentActivity.ACTION_LOAD_BY_CUSTOMER
+            putExtra(CUSTOMER_ID, customerId.toString())
         }
+
+        launcher.launch(intent)
+    }
+
+    private fun openPayment(paymentId: UUID?) {
+        val intent = Intent(this, PaymentPreviewActivity::class.java).apply {
+            putExtra(PAYMENT_ID, paymentId.toString())
+        }
+
         launcher.launch(intent)
     }
 

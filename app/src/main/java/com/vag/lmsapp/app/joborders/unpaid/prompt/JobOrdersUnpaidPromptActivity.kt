@@ -14,6 +14,7 @@ import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.databinding.ActivityJobOrdersUnpaidPromptBinding
 import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -93,7 +94,7 @@ class JobOrdersUnpaidPromptActivity : AppCompatActivity() {
     private fun openPayment(customerId: UUID) {
         val intent = Intent(this, JobOrderPaymentActivity::class.java).apply {
             action = OPEN_PAYMENT_ACTION
-            putExtra(JobOrderPaymentActivity.CUSTOMER_ID, customerId.toString())
+            putExtra(CUSTOMER_ID, customerId.toString())
         }
         launcher.launch(intent)
     }

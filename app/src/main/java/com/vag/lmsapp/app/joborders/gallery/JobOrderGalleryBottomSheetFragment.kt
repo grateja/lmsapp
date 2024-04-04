@@ -84,7 +84,7 @@ class JobOrderGalleryBottomSheetFragment : BaseModalFragment() {
         }
 
         cameraLauncher.onOk = {
-            it?.getStringExtra(PictureCaptureActivity.URI_ID_EXTRA)?.let {
+            it.data?.getStringExtra(PictureCaptureActivity.URI_ID_EXTRA)?.let {
                 viewModel.attachPicture(UUID.fromString(it))
             }
         }
@@ -92,7 +92,7 @@ class JobOrderGalleryBottomSheetFragment : BaseModalFragment() {
             val imageUris = mutableListOf<Uri>()
             val names = mutableListOf<UUID>()
 
-            it?.clipData?.let { clipData ->
+            it.data?.clipData?.let { clipData ->
                 for (i in 0 until clipData.itemCount) {
                     val uri = clipData.getItemAt(i).uri
                     imageUris.add(uri)

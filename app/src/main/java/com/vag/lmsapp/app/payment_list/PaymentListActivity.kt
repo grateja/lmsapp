@@ -8,12 +8,12 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.dashboard.data.DateFilter
-import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity.Companion.PAYMENT_ID
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityPaymentListBinding
 import com.vag.lmsapp.room.entities.EntityJobOrderPaymentListItem
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
+import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint

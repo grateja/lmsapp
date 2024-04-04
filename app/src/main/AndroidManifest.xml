@@ -33,6 +33,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
         <activity
+            android:name=".app.joborders.payment.delete.JobOrderPaymentDeleteActivity"
+            android:label="Delete payment"
+            android:exported="false" />
+        <activity
             android:name=".app.app_settings.user.change_password.AppSettingsChangePasswordActivity"
             android:exported="false" />
         <activity
