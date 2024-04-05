@@ -24,12 +24,12 @@ class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityMo
         val data = arguments?.getParcelable<QuantityModel>("data")
         binding.viewModel = data
 
-        if(data?.quantity == 0) {
+        if(data?.quantity == 0f) {
             binding.buttonRemove.visibility = View.GONE
         }
 
         binding.buttonConfirm.setOnClickListener {
-            if(binding.textQuantity.text.toString().toInt() > 0) {
+            if(binding.textQuantity.text.toString().toFloat() > 0f) {
                 onOk?.invoke(binding.viewModel!!)
                 dismiss()
             }

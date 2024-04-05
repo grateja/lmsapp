@@ -51,7 +51,8 @@ constructor(
         data object OpenPromptReplacePictureWithFile: DataState()
     }
 
-    val requireOrNumber = dataStoreRepository.getAsLiveData(JobOrderSettingsRepository.JOB_ORDER_REQUIRE_OR_NUMBER, false)
+    val requireOrNumber = dataStoreRepository.requireOrNumber
+    val requirePictureOnCashlessPayment = dataStoreRepository.requirePictureOnCashlessPayment
     val paymentMethod = MutableLiveData<EnumPaymentMethod>()
     val cashReceived = MutableLiveData("")
     val cashlessAmount = MutableLiveData("")
@@ -211,6 +212,13 @@ constructor(
                     Rule.Required
                 )
             )
+            if(requirePictureOnCashlessPayment.value == true) {
+                _paymentId.value?.let {
+                    if(!getApplication<Application>().file(it).exists()) {
+                        validation.addError("proofOfPayment", "Proof of payment is required!")
+                    }
+                }
+            }
         } else {
             _dataState.value = DataState.InvalidOperation("Please select payment option!")
             return

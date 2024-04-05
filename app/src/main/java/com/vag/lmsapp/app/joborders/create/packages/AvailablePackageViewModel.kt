@@ -55,7 +55,7 @@ constructor(
         val packageItem =
             availablePackages.value?.find { it.packageRefId == quantityModel.id }?.apply {
                 this.selected = true
-                this.quantity = quantityModel.quantity
+                this.quantity = quantityModel.quantity.toInt()
                 this.deletedAt = null
             }
         _dataState.value = DataState.UpdatePackage(packageItem!!)

@@ -13,6 +13,7 @@ constructor(
     companion object {
         const val JOB_ORDER_MAX_UNPAID = "jobOrderSettingsMaxUnpaidLimitKeme"
         const val JOB_ORDER_REQUIRE_OR_NUMBER = "requireOrNumberKeme"
+        const val JOB_ORDER_REQUIRE_PICTURE_ON_CASHLESS_PAYMENT = "requirePictureOnCashlessPayment"
 
         const val SHOP_NAME = "shopName"
         const val ADDRESS = "address"
@@ -25,8 +26,14 @@ constructor(
     val address = getAsLiveData(ADDRESS, "")
     val contactNumber = getAsLiveData(CONTACT_NUMBER, "")
     val email = getAsLiveData(EMAIL, "")
+    val requirePictureOnCashlessPayment = getAsLiveData(
+        JOB_ORDER_REQUIRE_PICTURE_ON_CASHLESS_PAYMENT, false)
 
     suspend fun updateRequireOrNumber(value: Boolean) {
         update(value, JOB_ORDER_REQUIRE_OR_NUMBER)
+    }
+
+    suspend fun updateRequirePictureOnCashlessPayment(value: Boolean) {
+        update(value, JOB_ORDER_REQUIRE_PICTURE_ON_CASHLESS_PAYMENT)
     }
 }

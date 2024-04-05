@@ -71,7 +71,7 @@ class AvailableProductsViewModel
                 this.deletedAt = Instant.now()
             }
             this.selected = false
-            this.quantity = 0
+            this.quantity = 0f
             dataState.value = DataState.UpdateProduct(this)
         }
     }

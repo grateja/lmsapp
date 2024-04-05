@@ -137,8 +137,6 @@ class ProofOfPaymentFragment : Fragment() {
 
     private fun loadProofOfPayment(paymentId: UUID?) {
         try {
-//            val name = paymentId.toString()
-//            val file = File(requireContext().filesDir, Constants.PICTURES_DIR + name)
             val file = requireContext().file(paymentId)
             if(file.exists()) {
                 binding.imageViewProofOfPayment.show()
@@ -154,6 +152,7 @@ class ProofOfPaymentFragment : Fragment() {
                     .skipMemoryCache(true)
                     .apply(requestOptions)
                     .into(binding.imageViewProofOfPayment)
+                viewModel.clearError("proofOfPayment")
             } else {
                 binding.imageViewProofOfPayment.remove()
             }

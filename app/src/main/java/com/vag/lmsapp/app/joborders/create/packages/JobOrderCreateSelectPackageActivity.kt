@@ -82,7 +82,7 @@ class JobOrderCreateSelectPackageActivity : AppCompatActivity() {
 
     private fun itemClick(item: MenuJobOrderPackage) {
         requestModifyQuantity(
-            QuantityModel(item.packageRefId, item.packageName, item.quantity, QuantityModel.TYPE_PACKAGE)
+            QuantityModel(item.packageRefId, item.packageName, item.quantity.toFloat(), QuantityModel.TYPE_PACKAGE)
         )
     }
 

@@ -21,7 +21,7 @@ abstract class DaoProduct : BaseDao<EntityProduct> {
     abstract suspend fun filter(keyword: String): List<ProductItemFull>
 
     @Query("SELECT *, current_stock - (COALESCE((SELECT (:newQuantity - quantity) FROM job_order_products WHERE id = :joProductId), :newQuantity) * unit_per_serve) as available FROM products WHERE id = :productId AND available < 0")
-    abstract suspend fun checkAvailability(productId: UUID, joProductId: UUID?, newQuantity: Int) : EntityProduct?
+    abstract suspend fun checkAvailability(productId: UUID, joProductId: UUID?, newQuantity: Float) : EntityProduct?
 
     suspend fun checkAll(products: List<MenuProductItem>) : String? {
         val unavailable = mutableListOf<String>()

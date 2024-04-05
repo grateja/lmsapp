@@ -90,6 +90,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="If checked, the system will not allow empty OR# upon saving."/>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_require_picture_on_cashless_payment"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="Require picture on cashless payment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.requirePictureOnCashlessPayment}" />
+                    <TextView
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="If checked, the system will not allow empty proof of payment upon saving."/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

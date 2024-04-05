@@ -28,7 +28,7 @@ data class EntityJobOrderProduct(
     val unitPerServe: Float,
 
     @ColumnInfo(name = "quantity")
-    var quantity: Int,
+    var quantity: Float,
 
     @ColumnInfo(name = "product_type")
     var productType: EnumProductType,

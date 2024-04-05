@@ -74,7 +74,7 @@ data class EntityPackageWithItems(
                     it.service.id,
                     it.service.name.toString(),
                     it.service.price,
-                    it.serviceCrossRef.quantity,
+                    it.serviceCrossRef.quantity.toFloat(),
                     it.serviceCrossRef.deletedAt,
                 )
             }.toList())
@@ -98,7 +98,7 @@ data class EntityPackageWithItems(
                     it.extras.id,
                     it.extras.name.toString(),
                     it.extras.price,
-                    it.extrasCrossRef.quantity,
+                    it.extrasCrossRef.quantity.toFloat(),
                     it.extrasCrossRef.deletedAt,
                 )
             }.toList())

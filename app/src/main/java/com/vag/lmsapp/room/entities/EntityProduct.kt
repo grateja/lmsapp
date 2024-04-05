@@ -14,7 +14,7 @@ class EntityProduct(
     var price: Float,
 
     @ColumnInfo(name = "current_stock")
-    var currentStock: Int,
+    var currentStock: Float,
 
     @ColumnInfo(name = "measure_unit")
     var measureUnit: EnumMeasureUnit,
@@ -25,7 +25,7 @@ class EntityProduct(
     @ColumnInfo(name = "product_type")
     var productType: EnumProductType?
 ) : BaseEntity() {
-    constructor() : this(null, 0f, 0, EnumMeasureUnit.PCS, 0f, EnumProductType.OTHER)
+    constructor() : this(null, 0f, 0f, EnumMeasureUnit.PCS, 0f, EnumProductType.OTHER)
 
     fun currentStockStr() : String {
         return "$currentStock $measureUnit remaining"

@@ -68,7 +68,7 @@ constructor(
                 return
             }
             selected = true
-            quantity = quantityModel.quantity
+            quantity = quantityModel.quantity.toInt()
             deletedAt = null
         }
         dataState.value = DataState.UpdateService(service!!)

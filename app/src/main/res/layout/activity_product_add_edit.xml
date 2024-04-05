@@ -160,7 +160,7 @@
                             android:text="@={viewModel.model.currentStock + ``}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"
+                            android:inputType="number|numberDecimal"
                             android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`currentStock`)}"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>

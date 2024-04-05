@@ -32,6 +32,9 @@ class AppSettingsShopPreferencesActivity : AppCompatActivity() {
         binding.switchRequireOrNumber.setOnCheckedChangeListener { _, checked ->
             viewModel.updateRequireOrNumber(checked)
         }
+        binding.switchRequirePictureOnCashlessPayment.setOnCheckedChangeListener { _, checked ->
+            viewModel.updateRequirePictureOnCashlessPayment(checked)
+        }
         binding.cardShopName.card.setOnClickListener {
             viewModel.showEditShopName()
         }

@@ -1,4 +1,3 @@
 <ul>
-    <li>auth launcher created</li>
-    <li>Delete job order payment implemented</li>
+    <li>Product stock/quantity changed to Float</li>
 </ul>

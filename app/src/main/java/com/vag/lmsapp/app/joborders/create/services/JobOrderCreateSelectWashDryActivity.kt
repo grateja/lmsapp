@@ -55,7 +55,7 @@ class JobOrderCreateSelectWashDryActivity : AppCompatActivity() {
 
     private fun itemClick(serviceItem: MenuServiceItem) {
         requestModifyQuantity(
-            QuantityModel(serviceItem.serviceRefId, serviceItem.abbr(), serviceItem.quantity, QuantityModel.TYPE_SERVICE)
+            QuantityModel(serviceItem.serviceRefId, serviceItem.abbr(), serviceItem.quantity.toFloat(), QuantityModel.TYPE_SERVICE)
         )
     }
 

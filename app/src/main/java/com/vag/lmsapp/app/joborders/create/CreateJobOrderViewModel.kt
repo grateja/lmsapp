@@ -318,7 +318,7 @@ constructor(
                     joPrd.measureUnit,
                     joPrd.unitPerServe,
                     joPrd.quantity,
-                    0,
+                    0f,
                     joPrd.productType,
                     joPrd.isVoid,
                     joPrd.deletedAt).apply {

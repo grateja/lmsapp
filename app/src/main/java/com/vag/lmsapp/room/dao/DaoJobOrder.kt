@@ -44,7 +44,7 @@ interface DaoJobOrder {
     fun deleteServices(services: List<EntityJobOrderService>)
 
     @Query("UPDATE products SET current_stock = current_stock - (COALESCE((SELECT (:newQuantity - quantity) FROM job_order_products WHERE id = :joProductId), :newQuantity) * unit_per_serve) WHERE id = :productId")
-    fun updateQuantity(productId: String?, joProductId: String?, newQuantity: Int)
+    fun updateQuantity(productId: String?, joProductId: String?, newQuantity: Float)
 
     @Transaction
     suspend fun save(entityJobOrderWithItems: EntityJobOrderWithItems) {
@@ -191,7 +191,7 @@ interface DaoJobOrder {
     suspend fun voidDiscounts(jobOrderId: UUID)
 
     @Query("UPDATE products SET current_stock = (current_stock + (:quantity * unit_per_serve)) WHERE id = :productId")
-    suspend fun returnProduct(productId: UUID, quantity: Int)
+    suspend fun returnProduct(productId: UUID, quantity: Float)
 
 
     @Transaction

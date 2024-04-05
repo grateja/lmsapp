@@ -74,7 +74,12 @@ class JobOrderCreateSelectExtrasActivity : AppCompatActivity() {
 
     private fun itemClick(extrasItem: MenuExtrasItem) {
         requestModifyQuantity(
-            QuantityModel(extrasItem.extrasRefId, extrasItem.name, extrasItem.quantity, QuantityModel.TYPE_EXTRAS)
+            QuantityModel(
+                extrasItem.extrasRefId,
+                extrasItem.name,
+                extrasItem.quantity.toFloat(),
+                QuantityModel.TYPE_EXTRAS
+            )
         )
     }
 

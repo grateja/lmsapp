@@ -27,10 +27,10 @@ class MenuProductItem(
     @ColumnInfo(name = "unit_per_serve")
     val unitPerServe: Float,
 
-    var quantity: Int = 1,
+    var quantity: Float = 1f,
 
     @ColumnInfo(name = "current_stock")
-    var currentStock: Int,
+    var currentStock: Float,
 
     @ColumnInfo(name = "product_type")
     val productType: EnumProductType,

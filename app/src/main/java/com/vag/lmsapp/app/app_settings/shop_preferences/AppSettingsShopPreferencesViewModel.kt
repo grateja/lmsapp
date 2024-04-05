@@ -17,11 +17,18 @@ constructor(
 ): SettingsViewModel(repository) {
     val jobOrderMaxUnpaid = repository.maxUnpaidJobOrderLimit
     val requireOrNumber = repository.requireOrNumber
+    val requirePictureOnCashlessPayment = repository.requirePictureOnCashlessPayment
 
     val shopName = repository.shopName
     val address = repository.address
     val contactNumber = repository.contactNumber
     val email = repository.email
+
+    fun updateRequirePictureOnCashlessPayment(value: Boolean) {
+        viewModelScope.launch {
+            repository.updateRequirePictureOnCashlessPayment(value)
+        }
+    }
     fun updateRequireOrNumber(value: Boolean) {
         viewModelScope.launch {
             repository.updateRequireOrNumber(value)

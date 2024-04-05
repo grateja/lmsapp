@@ -46,8 +46,8 @@ class DatabaseSeeder(val db: MainDatabase) {
 
                         packageExtras.add(EntityPackageExtras(_package.id, fold8kg.id, 1))
 
-                        packageProducts.add(EntityPackageProduct(_package.id, ariel.id, 1))
-                        packageProducts.add(EntityPackageProduct(_package.id, downy.id, 1))
+                        packageProducts.add(EntityPackageProduct(_package.id, ariel.id, 1f))
+                        packageProducts.add(EntityPackageProduct(_package.id, downy.id, 1f))
                     } else if(_package.packageName == "Titan Package") {
 
                         packageServices.add(EntityPackageService(_package.id, titanWash.id, 1))
@@ -55,8 +55,8 @@ class DatabaseSeeder(val db: MainDatabase) {
 
                         packageExtras.add(EntityPackageExtras(_package.id, fold12kg.id, 1))
 
-                        packageProducts.add(EntityPackageProduct(_package.id, ariel.id, 2))
-                        packageProducts.add(EntityPackageProduct(_package.id, downy.id, 2))
+                        packageProducts.add(EntityPackageProduct(_package.id, ariel.id, 2f))
+                        packageProducts.add(EntityPackageProduct(_package.id, downy.id, 2f))
                     }
 
                     db.daoJobOrderPackage().insertServices(packageServices)

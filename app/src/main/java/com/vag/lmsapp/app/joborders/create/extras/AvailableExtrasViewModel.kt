@@ -54,7 +54,7 @@ constructor(
     fun putService(quantityModel: QuantityModel) {
         val service = availableExtras.value?.find { it.extrasRefId == quantityModel.id }?.apply {
             selected = true
-            quantity = quantityModel.quantity
+            quantity = quantityModel.quantity.toInt()
             deletedAt = null
         }
         dataState.value = DataState.UpdateService(service!!)
