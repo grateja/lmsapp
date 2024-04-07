@@ -90,6 +90,7 @@
                             android:textColor="@{viewModel.deliveryOption == com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_ONLY ? @color/primary : @color/text_dark_grey}"
                             android:gravity="center"
                             android:text="@{com.vag.lmsapp.model.EnumDeliveryOption.PICKUP_ONLY.value}"
+                            tools:text="Pickup"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
                         <TextView
@@ -98,7 +99,7 @@
                             android:gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:peso="@{viewModel.profile.baseFare}"
+                            android:peso="@{viewModel.pickupOrDeliveryOnly}"
                             tools:text="P 40.0"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -129,7 +130,7 @@
                             android:gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:peso="@{viewModel.profile.baseFare}"
+                            android:peso="@{viewModel.pickupOrDeliveryOnly}"
                             tools:text="P 40.0"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -160,7 +161,7 @@
                             android:gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:peso="@{viewModel.profile.baseFare * 2}"
+                            android:peso="@{viewModel.pickupAndDelivery}"
                             tools:text="P 40.0"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -197,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textFontWeight="900"
-                    android:text="@{`Confirm (P` + viewModel.price + `)`}"
+                    android:text="@{`Confirm (P` + viewModel.totalPrice + `)`}"
                     tools:text="Confirm (P 120.0)"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

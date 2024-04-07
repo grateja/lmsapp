@@ -25,7 +25,7 @@ constructor(
     val distance = MutableLiveData(1)
     val profile = MutableLiveData<MenuDeliveryProfile>()
 
-    val price = MediatorLiveData<Float>(0f).apply {
+    val totalPrice = MediatorLiveData<Float>(0f).apply {
         fun update() {
             val baseFare = profile.value?.baseFare ?: 0f
             val pricePerKm = profile.value?.pricePerKm ?: 0f
@@ -44,6 +44,56 @@ constructor(
             } else {
                 // Charge only base fare if distance is less than minDistance
                 baseFare * option
+            }
+        }
+        addSource(distance) { update()}
+        addSource(deliveryOption) { update() }
+        addSource(profile) {update()}
+    }
+
+    val pickupOrDeliveryOnly = MediatorLiveData<Float>().apply {
+        fun update() {
+            val baseFare = profile.value?.baseFare ?: 0f
+            val pricePerKm = profile.value?.pricePerKm ?: 0f
+            val distance = (distance.value ?: 0).toFloat()
+            val minDistance = profile.value?.minDistance ?: 0f
+
+//            value = ((distance * pricePerKm) + baseFare) * option
+            value = if (distance > minDistance) {
+                // Calculate additional charge for distance exceeding minDistance
+                val additionalDistance = distance - minDistance
+                val additionalCharge = additionalDistance * pricePerKm
+
+                // Combine base fare, additional charge, and option charge
+                (baseFare + additionalCharge)
+            } else {
+                // Charge only base fare if distance is less than minDistance
+                baseFare
+            }
+        }
+        addSource(distance) { update()}
+        addSource(deliveryOption) { update() }
+        addSource(profile) {update()}
+    }
+
+    val pickupAndDelivery = MediatorLiveData<Float>().apply {
+        fun update() {
+            val baseFare = profile.value?.baseFare ?: 0f
+            val pricePerKm = profile.value?.pricePerKm ?: 0f
+            val distance = (distance.value ?: 0).toFloat()
+            val minDistance = profile.value?.minDistance ?: 0f
+
+//            value = ((distance * pricePerKm) + baseFare) * option
+            value = if (distance > minDistance) {
+                // Calculate additional charge for distance exceeding minDistance
+                val additionalDistance = distance - minDistance
+                val additionalCharge = additionalDistance * pricePerKm
+
+                // Combine base fare, additional charge, and option charge
+                (baseFare + additionalCharge) * 2
+            } else {
+                // Charge only base fare if distance is less than minDistance
+                baseFare * 2
             }
         }
         addSource(distance) { update()}
@@ -95,7 +145,7 @@ constructor(
         }
 
         val distance = this.distance.value?.toFloat()
-        val price = price.value //option!!.charge * ((profile!!.pricePerKm * distance!!) + profile.baseFare)
+        val price = totalPrice.value //option!!.charge * ((profile!!.pricePerKm * distance!!) + profile.baseFare)
         val deletedAt = if(delete) { Instant.now() } else { null }
 
         println("price")
