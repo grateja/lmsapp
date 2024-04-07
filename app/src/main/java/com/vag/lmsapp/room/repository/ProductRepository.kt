@@ -35,4 +35,7 @@ constructor (
     suspend fun checkAll(products: List<MenuProductItem>) : String? {
         return daoProduct.checkAll(products)
     }
+
+    fun getProductPreviewAsLiveData(productId: UUID) = daoProduct.getProductPreviewAsLiveData(productId)
+    fun getProductAsLiveData(productId: UUID?) = daoProduct.getAsLiveData(productId)
 }

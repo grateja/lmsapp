@@ -1,8 +1,10 @@
 package com.vag.lmsapp.room.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
 import com.vag.lmsapp.app.products.ProductItemFull
+import com.vag.lmsapp.app.products.preview.ProductPreview
 import com.vag.lmsapp.room.entities.EntityProduct
 import java.util.UUID
 
@@ -51,4 +53,10 @@ abstract class DaoProduct : BaseDao<EntityProduct> {
 //            "No available stocks for: ${unavailable.joinToString(", ")}."
         } else null
     }
+
+    @Query("SELECT * FROM products WHERE id = :productId AND deleted_at IS NULL")
+    abstract fun getProductPreviewAsLiveData(productId: UUID): LiveData<ProductPreview>
+
+    @Query("SELECT * FROM products WHERE id = :productId AND deleted_at IS NULL")
+    abstract fun getAsLiveData(productId: UUID?): LiveData<EntityProduct?>
 }

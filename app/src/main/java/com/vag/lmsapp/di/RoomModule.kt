@@ -90,6 +90,11 @@ object RoomModule {
     }
     @Singleton
     @Provides
+    fun provideDaoInventoryLog(mainDatabase: MainDatabase) : DaoInventoryLog {
+        return mainDatabase.daoInventoryLog()
+    }
+    @Singleton
+    @Provides
     fun provideDaoDeliveryProfile(mainDatabase: MainDatabase) : DaoDeliveryProfile {
         return mainDatabase.daoDeliveryProfile()
     }

@@ -8,9 +8,11 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.products.edit.ProductAddEditActivity
+import com.vag.lmsapp.app.products.preview.ProductPreviewBottomSheetFragment
 import com.vag.lmsapp.databinding.ActivityProductsBinding
 import com.vag.lmsapp.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 
 @AndroidEntryPoint
 class ProductsActivity : FilterActivity() {
@@ -40,7 +42,8 @@ class ProductsActivity : FilterActivity() {
             openAddEdit(null)
         }
         adapter.onItemClick = {
-            openAddEdit(it)
+            openPreview(it.product.id)
+//            openAddEdit(it)
         }
         addEditLauncher.onOk = {
             val expenseId = it.data?.getStringExtra(CrudActivity.ENTITY_ID).toUUID()
@@ -52,6 +55,10 @@ class ProductsActivity : FilterActivity() {
             putExtra(CrudActivity.ENTITY_ID, item?.product?.id.toString())
         }
         addEditLauncher.launch(intent)
+    }
+
+    private fun openPreview(productId: UUID) {
+        ProductPreviewBottomSheetFragment.newInstance(productId).show(supportFragmentManager, null)
     }
 
     private fun subscribeListeners() {

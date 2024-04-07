@@ -13,5 +13,6 @@ class Constants {
         const val JOB_ORDER_ID = "jobOrderId"
         const val CUSTOMER_ID = "customerId"
         const val PAYMENT_ID = "paymentId"
+        const val PRODUCT_ID = "productId"
     }
 }

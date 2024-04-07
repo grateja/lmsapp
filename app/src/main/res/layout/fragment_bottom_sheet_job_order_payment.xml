@@ -106,7 +106,7 @@
                         android:text="@={viewModel.cashlessAmount}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number|numberDecimal"
+                        android:inputType="numberDecimal"
                         android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`cashlessAmount`)}"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>

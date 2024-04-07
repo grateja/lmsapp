@@ -52,7 +52,7 @@ class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityMo
             binding.buttonMinus.isEnabled = true
             binding.textQuantity.apply {
                 setText(
-                    (text.toString().toInt().plus(1)).toString()
+                    (text.toString().toFloat().plus(1)).toString()
                 )
             }
         }

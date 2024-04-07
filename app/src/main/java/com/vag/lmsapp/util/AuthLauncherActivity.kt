@@ -1,7 +1,6 @@
 package com.vag.lmsapp.util
 
 import android.content.Intent
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
@@ -9,7 +8,7 @@ import com.vag.lmsapp.app.auth.AuthActionDialogActivity.Companion.LAUNCH_CODE
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.model.EnumActionPermission
 
-class AuthLauncher(private val activity: AppCompatActivity) {
+class AuthLauncherActivity(private val activity: AppCompatActivity) {
     var onOk: ((LoginCredentials, Int) -> Unit) ? = null
     var onCancel: (() -> Unit) ? = null
     private var active = false

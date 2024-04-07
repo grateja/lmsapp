@@ -5,23 +5,23 @@ import androidx.room.Entity
 import java.util.*
 
 @Entity(tableName = "inventory_log")
-class EntityInventoryLog : BaseEntity() {
+data class EntityInventoryLog(
     @ColumnInfo(name = "product_id")
-    var productId: UUID? = null
-//
-//    @ColumnInfo(name = "product_name")
-//    var productName: String? = null
+    var productId: UUID? = null,
 
     @ColumnInfo(name = "receipt_number")
-    var receiptNumber: String? = null
+    var receiptNumber: String? = null,
 
-    var quantity: Float = 0f
+    var quantity: Float = 0f,
 
     @ColumnInfo(name = "total_amount")
-    var totalAmount: Float = 0f
+    var totalAmount: Float = 0f,
 
     @ColumnInfo(name = "user_id")
-    var userId: UUID? = null
+    var userId: UUID? = null,
 
-    var remarks: String? = null
-}
+    var remarks: String? = null,
+
+    @ColumnInfo(name = "expense_id")
+    var expenseId: UUID? = null
+) : BaseEntity()

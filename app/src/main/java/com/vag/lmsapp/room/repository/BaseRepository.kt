@@ -3,6 +3,7 @@ package com.vag.lmsapp.room.repository
 import com.vag.lmsapp.room.dao.BaseDao
 import com.vag.lmsapp.room.entities.BaseEntity
 import java.time.Instant
+import java.util.UUID
 
 abstract class BaseRepository<Entity : BaseEntity>(
     private val crudDao: BaseDao<Entity>
