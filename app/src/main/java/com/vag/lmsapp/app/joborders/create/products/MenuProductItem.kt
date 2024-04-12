@@ -7,7 +7,6 @@ import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.model.EnumMeasureUnit
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import java.time.Instant
 import java.util.*
 
 @Parcelize
@@ -38,8 +37,8 @@ class MenuProductItem(
     @ColumnInfo(name = "void")
     var isVoid: Boolean = false,
 
-    @ColumnInfo(name = "deleted_at")
-    var deletedAt: Instant? = null,
+    @ColumnInfo(name = "deleted")
+    var deleted: Boolean = false,
 ) : Parcelable {
     @IgnoredOnParcel
     @Ignore
@@ -54,6 +53,14 @@ class MenuProductItem(
         return if(unitPerServe == 1f) { "" } else {
             "$unitPerServe"
         } + "$measureUnit"
+    }
+
+    fun total(): Float {
+        return quantity * price
+    }
+
+    fun quantityStrAbbr() : String {
+        return "($quantity * P$price)"
     }
 
     fun quantityStr() : String {

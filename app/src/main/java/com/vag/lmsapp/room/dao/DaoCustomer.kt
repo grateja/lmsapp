@@ -14,35 +14,38 @@ import java.util.UUID
 
 @Dao
 interface DaoCustomer : BaseDao<EntityCustomer> {
-    @Query("SELECT * FROM customers WHERE id = :id AND deleted_at IS NULL")
+    @Query("SELECT * FROM customers WHERE id = :id AND deleted = 0")
     suspend fun get(id: UUID) : EntityCustomer?
 
-    @Query("SELECT * FROM customers WHERE name LIKE '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY name LIMIT 10")
+    @Query("SELECT * FROM customers WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 ORDER BY name LIMIT 10")
     suspend fun getAll(keyword: String) : List<EntityCustomer>
 
-    @Query("SELECT crn FROM customers WHERE deleted_at IS NULL ORDER BY crn DESC")
+    @Query("SELECT crn FROM customers WHERE deleted = 0 ORDER BY crn DESC")
     suspend fun getLastCRN() : String?
 
 //    @Query("SELECT id, crn, name, address, (SELECT COUNT(*) FROM job_orders WHERE payment_id IS NULL AND customer_id = customers.id AND job_orders.deleted_at IS NULL and job_orders.void_date IS NULL) as unpaid FROM customers WHERE name LIKE '%' || :keyword || '%' OR crn like '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY unpaid DESC, name ASC  LIMIT :itemPerPage OFFSET :offset")
     @Query("SELECT date(jo.created_at / 1000, 'unixepoch', 'localtime') as jo_date, date('now', 'localtime') as date_now, (c.id = :customerId) as selected, c.id, c.crn, c.name, c.address, COALESCE(COUNT(jo.id), 0) AS unpaid, MAX(jo.created_at) AS last_job_order" +
         " FROM customers c" +
-        " LEFT JOIN job_orders jo ON jo.payment_id IS NULL AND jo.customer_id = c.id AND jo.deleted_at IS NULL AND jo.void_date IS NULL" +
+        " LEFT JOIN job_orders jo ON jo.payment_id IS NULL AND jo.customer_id = c.id AND jo.deleted = 0 AND jo.void_date IS NULL" +
         " WHERE (c.id = :customerId " +
         "    OR c.name LIKE '%' || :keyword || '%'" +
         "    OR c.crn LIKE '%' || :keyword || '%')" +
-        "    AND c.deleted_at IS NULL" +
+        "    AND c.deleted = 0" +
         " GROUP BY c.id, c.crn, c.name, c.address" +
         " ORDER BY selected DESC, unpaid DESC, c.name ASC LIMIT :itemPerPage OFFSET :offset")
     suspend fun getCustomersMinimal(keyword: String?, itemPerPage: Int, offset: Int, customerId: UUID?): List<CustomerMinimal>
 
     @Query("SELECT cu.*, " +
             "SUM(CASE WHEN jo.payment_id IS NOT NULL THEN 1 ELSE 0 END) AS paid_count, " +
-            "COUNT(jo.id) as total_jo, MIN(jo.created_at) AS first_visit, MAX(jo.created_at) AS last_visit FROM customers cu LEFT JOIN job_orders jo ON jo.customer_id = cu.id WHERE " +
+            "SUM(CASE WHEN jo.void_date IS NULL THEN 1 ELSE 0 END) as total_jo, " +
+            "MIN(CASE WHEN jo.void_date IS NULL THEN jo.created_at END) AS first_visit, " +
+            "MAX(CASE WHEN jo.void_date IS NULL THEN jo.created_at END) AS last_visit " +
+            "FROM customers cu LEFT JOIN job_orders jo ON jo.customer_id = cu.id WHERE " +
             "((:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders)) OR " +
-            "(:hideAllWithoutJO = 0) AND (cu.name LIKE '%' || :keyword || '%' OR cu.crn LIKE '%' || :keyword || '%') AND cu.deleted_at IS NULL) " +
+            "(:hideAllWithoutJO = 0) AND (cu.name LIKE '%' || :keyword || '%' OR cu.crn LIKE '%' || :keyword || '%') AND cu.deleted = 0) " +
             "AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR " +
-            "(:dateFrom IS NOT NULL AND :dateTo IS NULL AND datetime(cu.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR " +
-            "(:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND datetime(cu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) " +
+            "(:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(cu.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR " +
+            "(:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(cu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) " +
             "GROUP BY cu.id " +
             "ORDER BY " +
             "CASE WHEN :orderBy = 'Name' AND :sortDirection = 'ASC' THEN cu.name END ASC, " +
@@ -57,10 +60,10 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
     fun load(keyword: String?, orderBy: String?, sortDirection: String?, offset: Int, hideAllWithoutJO: Boolean, dateFrom: LocalDate?, dateTo: LocalDate?): List<CustomerListItem>
 
 
-    @Query("SELECT COUNT(*) FROM customers WHERE (name LIKE '%' || :keyword || '%' OR crn like '%' || :keyword || '%' AND deleted_at IS NULL) " +
-        "AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR " +
-                "(:dateFrom IS NOT NULL AND :dateTo IS NULL AND datetime(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR " +
-                "(:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND datetime(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) "
+    @Query("SELECT COUNT(*) FROM customers WHERE (name LIKE '%' || :keyword || '%' OR crn like '%' || :keyword || '%' AND deleted = 0) " +
+            "AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR " +
+            "(:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR " +
+            "(:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) "
     )
     fun count(keyword: String?, dateFrom: LocalDate?, dateTo: LocalDate?) : Int
 
@@ -72,18 +75,20 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
         )
     }
 
-    @Query("SELECT EXISTS(SELECT * FROM customers WHERE name LIKE :name AND deleted_at IS NULL)")
+    @Query("SELECT EXISTS(SELECT * FROM customers WHERE name LIKE :name AND deleted = 0)")
     suspend fun checkName(name: String?): Boolean
 
-    @Query("SELECT * FROM customers WHERE crn LIKE :crn AND deleted_at IS NULL LIMIT 1")
+    @Query("SELECT * FROM customers WHERE crn LIKE :crn AND deleted = 0 LIMIT 1")
     suspend fun getCustomerMinimalByCRN(crn: String?): EntityCustomer?
 
-    @Query("SELECT COUNT(*) FROM customers WHERE datetime(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom OR ( :dateTo IS NOT NULL AND datetime(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo )")
+    @Query("SELECT COUNT(*) FROM customers WHERE " +
+            "     (date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom " +
+            "         OR (:dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) AND deleted = 0")
     fun getDashboardCustomer(dateFrom: LocalDate, dateTo: LocalDate?): LiveData<Int>
 
-    @Query("SELECT * FROM customers WHERE id = :customerId AND deleted_at IS NULL")
+    @Query("SELECT * FROM customers WHERE id = :customerId AND deleted = 0")
     fun getCustomerAsLiveData(customerId: UUID?): LiveData<EntityCustomer>
 
-    @Query("SELECT COUNT(*) < :limit OR :limit = 0 FROM job_orders WHERE customer_id = :customerId AND payment_id IS NULL AND deleted_at IS NULL AND void_date IS NULL")
+    @Query("SELECT COUNT(*) < :limit OR :limit = 0 FROM job_orders WHERE customer_id = :customerId AND payment_id IS NULL AND deleted = 0 AND void_date IS NULL")
     fun canCreateJobOrder(customerId: UUID, limit: Int): LiveData<Boolean>
 }

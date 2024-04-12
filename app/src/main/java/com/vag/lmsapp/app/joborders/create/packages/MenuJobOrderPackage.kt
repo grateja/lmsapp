@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Ignore
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import java.time.Instant
 import java.util.*
 
 @Parcelize
@@ -30,8 +29,8 @@ data class MenuJobOrderPackage(
     @ColumnInfo(name = "total_price")
     var totalPrice: Float?,
 
-    @ColumnInfo(name = "deleted_at")
-    var deletedAt: Instant? = null
+    @ColumnInfo(name = "deleted")
+    var deleted: Boolean = false
 ) : Parcelable {
     @IgnoredOnParcel
     @Ignore

@@ -16,11 +16,11 @@ abstract class BaseEntity (uuid: UUID? = null) {
     @ColumnInfo(name = "updated_at")
     var updatedAt: Instant = Instant.now()
 
-    @ColumnInfo(name = "deleted_at")
-    var deletedAt: Instant? = null
+    @ColumnInfo(name = "deleted")
+    var deleted: Boolean = false
 
     @ColumnInfo(name = "sync")
-    var sync: Instant? = null
+    var sync: Boolean = false
 
     @ColumnInfo(name = "deleted_by")
     var deletedBy: UUID? = null

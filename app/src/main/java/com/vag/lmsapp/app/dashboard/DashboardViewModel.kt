@@ -29,7 +29,11 @@ constructor(
     private val _dateFilter = MutableLiveData(DateFilter(LocalDate.now(), null))
     val dateFilter: LiveData<DateFilter> = _dateFilter
 
-    val customerCount = _dateFilter.switchMap { customerRepository.getDashboard(it) }
+    val customerCount = _dateFilter.switchMap {
+        println("date filter customer")
+        println(it)
+        customerRepository.getDashboard(it)
+    }
     val jobOrderCount = _dateFilter.switchMap { jobOrderRepository.getDashboard(it) }
     val expenses = _dateFilter.switchMap { expensesRepository.getDashboard(it) }
     val jobOrderServices = _dateFilter.switchMap { jobOrderServiceRepository.getDashboard(it) }

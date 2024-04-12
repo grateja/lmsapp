@@ -12,11 +12,13 @@
         android:layout_height="wrap_content">
 
         <ImageButton
+            android:visibility="gone"
             android:id="@+id/button_remove"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="#00FFFFFF"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,19 +43,6 @@
                     app:imageResource="@{viewModel.productType.icon}"/>
 
                 <TextView
-                    style="@style/Bold"
-                    android:id="@+id/textQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="@{viewModel.quantity + `*`}"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    tools:text="1*"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <TextView
                     android:id="@+id/textTitle"
                     android:textSize="20sp"
                     android:layout_width="0dp"
@@ -62,7 +51,19 @@
                     android:text="@{viewModel.name}"
                     tools:text="Ariel" />
 
-    <!--            <TextView-->
+                <TextView
+                    style="@style/Bold"
+                    android:id="@+id/textQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="@{viewModel.quantityStrAbbr()}"
+                    android:textSize="20sp"
+                    tools:text="(1*P15.0)"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <!--            <TextView-->
     <!--                android:id="@+id/textQuantity"-->
     <!--                android:textFontWeight="900"-->
     <!--                android:fontFamily="sans-serif-black"-->
@@ -84,7 +85,7 @@
                         style="@style/TextPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:peso="@{viewModel.price}"
+                        android:peso="@{viewModel.total()}"
                         tools:text="P 15.00" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>

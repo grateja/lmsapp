@@ -15,7 +15,7 @@ abstract class DaoJobOrderPickupDelivery {
             " WHERE (date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom" +
             "     OR ( :dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime')" +
             "          BETWEEN :dateFrom AND :dateTo))" +
-            "     AND (deleted_at IS NULL)" +
+            "     AND (deleted = 0)" +
             "     AND (void = 0)" +
             " GROUP BY vehicle")
     abstract fun getDashboard(dateFrom: LocalDate, dateTo: LocalDate?) : LiveData<List<EntityJobOrderPickupDeliveryAggrResult>>

@@ -63,7 +63,7 @@ data class EntityJobOrderWithItems (
     var paymentWithUser: EntityJobOrderPaymentFull? = null
 
     fun servicesTotal() : Float {
-        return services?.filter { it.deletedAt == null }?.let {
+        return services?.filter { !it.deleted }?.let {
             var result = 0f
             if(it.isNotEmpty()) {
                 result = it.map { s -> s.price * s.quantity } .reduce { sum, element ->
@@ -75,7 +75,7 @@ data class EntityJobOrderWithItems (
     }
 
     fun productsTotal() : Float {
-        return products?.filter { it.deletedAt == null }?.let {
+        return products?.filter { !it.deleted }?.let {
             var result = 0f
             if(it.isNotEmpty()) {
                 result = it.map { s -> s.price * s.quantity } .reduce { sum, element ->
@@ -87,7 +87,7 @@ data class EntityJobOrderWithItems (
     }
 
     fun extrasTotal() : Float {
-        return extras?.filter { it.deletedAt == null }?.let {
+        return extras?.filter { !it.deleted }?.let {
             var result = 0f
             if(it.isNotEmpty()) {
                 result = it.map { s -> s.price * s.quantity } .reduce { sum, element ->
@@ -108,7 +108,7 @@ data class EntityJobOrderWithItems (
 
     fun discountInPeso() : Float {
         return discount?.let {
-            if(it.deletedAt != null) return@let 0f
+            if(it.deleted) return@let 0f
             var total = 0f
             total += it.getDiscount(servicesTotal(), EnumDiscountApplicable.WASH_DRY_SERVICES)
             total += it.getDiscount(productsTotal(), EnumDiscountApplicable.PRODUCTS_CHEMICALS)

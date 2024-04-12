@@ -33,7 +33,7 @@ class JobOrderCreateSelectDiscountActivity : AppCompatActivity() {
         viewModel.discounts.observe(this, Observer {
             adapter.setData(it)
             intent.getParcelableExtra<MenuDiscount>(JobOrderCreateActivity.PAYLOAD_EXTRA)?.let { discount ->
-                if(discount.deletedAt == null) {
+                if(!discount.deleted) {
                     viewModel.setDiscount(discount)
                 }
             }

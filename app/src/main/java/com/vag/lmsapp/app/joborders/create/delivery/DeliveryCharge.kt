@@ -4,7 +4,6 @@ import android.os.Parcelable
 import com.vag.lmsapp.model.EnumDeliveryOption
 import com.vag.lmsapp.model.EnumDeliveryVehicle
 import kotlinx.parcelize.Parcelize
-import java.time.Instant
 import java.util.*
 
 @Parcelize
@@ -14,7 +13,7 @@ class DeliveryCharge(
     var distance: Float,
     var deliveryOption: EnumDeliveryOption = EnumDeliveryOption.PICKUP_AND_DELIVERY,
     var price: Float,
-    var deletedAt: Instant?,
+    var deleted: Boolean,
     var isVoid: Boolean = false,
 ) : Parcelable {
 

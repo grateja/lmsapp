@@ -1,7 +1,6 @@
 package com.vag.lmsapp.app.joborders.create.products
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
@@ -50,10 +49,13 @@ class JobOrderProductsItemAdapter: RecyclerView.Adapter<JobOrderProductsItemAdap
             onItemClick?.invoke(r)
         }
 
-//        holder.removeButton.visibility = if(locked) View.GONE else View.VISIBLE
-        holder.removeButton.setOnClickListener {
+        holder.cardItem.setOnLongClickListener {
             onDeleteRequest?.invoke(r)
+            true
         }
+//        holder.removeButton.setOnClickListener {
+//            onDeleteRequest?.invoke(r)
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -61,7 +63,7 @@ class JobOrderProductsItemAdapter: RecyclerView.Adapter<JobOrderProductsItemAdap
     }
 
     fun setData(jobOrderProducts: MutableList<MenuProductItem>) {
-        list = jobOrderProducts.filter { it.deletedAt == null }.toMutableList()
+        list = jobOrderProducts.filter { !it.deleted }.toMutableList()
 //        notifyItemRangeChanged(0, jobOrderProducts.size - 1)
         notifyDataSetChanged()
     }

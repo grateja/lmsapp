@@ -10,10 +10,10 @@ import java.util.UUID
 
 @Dao
 interface DaoInventoryLog : BaseDao<EntityInventoryLog> {
-    @Query("SELECT * FROM inventory_log WHERE id = :id AND deleted_at IS NULL")
+    @Query("SELECT * FROM inventory_log WHERE id = :id AND deleted = 0")
     suspend fun get(id: UUID) : EntityInventoryLog?
 
-    @Query("SELECT il.*, prd.name FROM inventory_log il JOIN products prd ON prd.id = il.product_id WHERE prd.name LIKE '%' || :keyword || '%' AND il.deleted_at IS NULL ORDER BY prd.name")
+    @Query("SELECT il.*, prd.name FROM inventory_log il JOIN products prd ON prd.id = il.product_id WHERE prd.name LIKE '%' || :keyword || '%' AND il.deleted = 0 ORDER BY prd.name")
     suspend fun getAll(keyword: String) : List<EntityInventoryLog>
 
     @Transaction

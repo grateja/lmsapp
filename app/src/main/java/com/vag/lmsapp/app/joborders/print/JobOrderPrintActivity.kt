@@ -187,7 +187,7 @@ class JobOrderPrintActivity : AppCompatActivity() {
         })
 
         viewModel.characterLength.observe(this, Observer {
-            binding.wrapper.layoutParams.width = getWidth(it)
+            binding.wrapper.layoutParams.width = getWidth(it) + 32
         })
 
         viewModel.items.observe(this, Observer {

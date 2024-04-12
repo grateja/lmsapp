@@ -48,8 +48,8 @@ class AvailableProductsViewModel
             availableProducts.value?.find { mpi.productRefId.toString() == it.productRefId.toString() }?.apply {
                 this.joProductItemId = mpi.joProductItemId
                 this.quantity = mpi.quantity
-                this.selected = mpi.deletedAt == null
-                this.deletedAt = mpi.deletedAt
+                this.selected = !mpi.deleted
+                this.deleted = mpi.deleted
             }
         }
     }
@@ -58,7 +58,7 @@ class AvailableProductsViewModel
         val product = availableProducts.value?.find { it.productRefId == quantityModel.id }?.apply {
             selected = true
             quantity = quantityModel.quantity
-            deletedAt = null
+            deleted = false
         }
         dataState.value = DataState.UpdateProduct(product!!)
     }
@@ -68,7 +68,7 @@ class AvailableProductsViewModel
             if(this.joProductItemId != null) {
                 // It's already in the database
                 // Just mark deleted
-                this.deletedAt = Instant.now()
+                this.deleted = true
             }
             this.selected = false
             this.quantity = 0f
@@ -91,7 +91,7 @@ class AvailableProductsViewModel
             }
 
             dataState.value = DataState.Submit(
-                list.filter { it.selected || it.deletedAt != null }
+                list.filter { it.selected || it.deleted }
             )
         }
     }

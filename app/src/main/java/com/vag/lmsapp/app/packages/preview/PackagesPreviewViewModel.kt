@@ -80,7 +80,7 @@ constructor(
                 it.serviceRefId,
                 it.quantity,
                 it.joServiceItemId ?: UUID.randomUUID(),
-                it.deletedAt
+                it.deleted
             )
         }?.let {
             viewModelScope.launch {
@@ -97,7 +97,7 @@ constructor(
                 it.productRefId,
                 it.quantity,
                 it.joProductItemId ?: UUID.randomUUID(),
-                it.deletedAt
+                it.deleted
             )
         }?.let {
             viewModelScope.launch {
@@ -114,7 +114,7 @@ constructor(
                 it.extrasRefId,
                 it.quantity,
                 it.joExtrasItemId ?: UUID.randomUUID(),
-                it.deletedAt
+                it.deleted
             )
         }?.let {
             viewModelScope.launch {
@@ -136,7 +136,7 @@ constructor(
                 it.serviceCrossRef.quantity,
                 0,
                 false,
-                it.serviceCrossRef.deletedAt
+                it.serviceCrossRef.deleted
             )
         }
         _navigationState.value = NavigationState.OpenWashDry(services)
@@ -155,7 +155,7 @@ constructor(
                 it.product.currentStock,
                 it.product.productType ?: EnumProductType.OTHER,
                 false,
-                it.productCrossRef.deletedAt
+                it.productCrossRef.deleted
             )
         }
         _navigationState.value = NavigationState.OpenProducts(products)
@@ -171,7 +171,7 @@ constructor(
                 it.extras.category,
                 it.extrasCrossRef.quantity,
                 false,
-                it.extrasCrossRef.deletedAt
+                it.extrasCrossRef.deleted
             )
         }
         _navigationState.value = NavigationState.OpenExtras(extras)

@@ -10,13 +10,13 @@ import java.util.UUID
 
 @Dao
 abstract class DaoExtras : BaseDao<EntityExtras> {
-    @Query("SELECT * FROM extras WHERE id = :id AND deleted_at IS NULL")
+    @Query("SELECT * FROM extras WHERE id = :id AND deleted = 0")
     abstract suspend fun get(id: UUID) : EntityExtras?
 
-    @Query("SELECT *, 1 as quantity, 0 as void FROM extras WHERE name LIKE '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY name")
+    @Query("SELECT *, 1 as quantity, 0 as void FROM extras WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 ORDER BY name")
     abstract suspend fun getAll(keyword: String) : List<MenuExtrasItem>
 
-    @Query("SELECT *, 1 as quantity FROM extras WHERE name LIKE '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY name")
+    @Query("SELECT *, 1 as quantity FROM extras WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 ORDER BY name")
     abstract suspend fun filter(keyword: String) : List<ExtrasItemFull>
 
     @Query("SELECT DISTINCT category FROM extras WHERE category IS NOT NULL ORDER BY category")

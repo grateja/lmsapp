@@ -111,26 +111,26 @@ constructor(
 //    }
     val hasServices = MediatorLiveData<Boolean>().apply {
         fun update() {
-            value = jobOrderServices.value?.filter { it.deletedAt == null }?.size!! > 0
+            value = jobOrderServices.value?.filter { !it.deleted }?.size!! > 0
         }
         addSource(jobOrderServices) { update() }
     }
     val hasProducts = MediatorLiveData<Boolean>().apply {
         fun update() {
-            value = jobOrderProducts.value?.filter { it.deletedAt == null }?.size!! > 0
+            value = jobOrderProducts.value?.filter { !it.deleted }?.size!! > 0
         }
         addSource(jobOrderProducts) { update() }
     }
     val hasExtras = MediatorLiveData<Boolean>().apply {
         fun update() {
-            value = jobOrderExtras.value?.filter { it.deletedAt == null }?.size!! > 0
+            value = jobOrderExtras.value?.filter { !it.deleted }?.size!! > 0
         }
         addSource(jobOrderExtras) { update() }
     }
     val hasDelivery = MediatorLiveData<Boolean>().apply {
         fun update() {
             value = deliveryCharge.value.let {
-                it != null && it.deletedAt == null
+                it != null && !it.deleted
             }
         }
         addSource(deliveryCharge) { update() }
@@ -138,7 +138,7 @@ constructor(
     val hasDiscount = MediatorLiveData<Boolean>().apply {
         fun update() {
             value = discount.value.let {
-                it != null && it.deletedAt == null
+                it != null && !it.deleted
             }
         }
         addSource(discount) { update() }
@@ -165,7 +165,7 @@ constructor(
     val discountInPeso = MediatorLiveData<Float>().apply {
         fun update() {
             value = discount.value?.let {
-                if(it.deletedAt != null) return@let 0f
+                if(it.deleted) return@let 0f
                 var total = 0f
                 total += it.calculateDiscount(serviceSubTotal(), EnumDiscountApplicable.WASH_DRY_SERVICES)
                 total += it.calculateDiscount(productSubTotal(), EnumDiscountApplicable.PRODUCTS_CHEMICALS)
@@ -207,7 +207,7 @@ constructor(
     /** region computed functions */
 
     private fun serviceSubTotal() : Float {
-        return jobOrderServices.value?.filter { it.deletedAt == null }?.let {
+        return jobOrderServices.value?.filter { !it.deleted  }?.let {
             var result = 0f
             if(it.isNotEmpty()) {
                 result = it.map { s -> s.price * s.quantity } .reduce { sum, element ->
@@ -219,7 +219,7 @@ constructor(
     }
 
     private fun productSubTotal() : Float {
-        return jobOrderProducts.value?.filter { it.deletedAt == null }?.let {
+        return jobOrderProducts.value?.filter { !it.deleted }?.let {
             var result = 0f
             if(it.isNotEmpty()) {
                 result = it.map { s -> s.price * s.quantity } .reduce { sum, element ->
@@ -231,7 +231,7 @@ constructor(
     }
 
     private fun extrasSubTotal() : Float {
-        return jobOrderExtras.value?.filter { it.deletedAt == null }?.let {
+        return jobOrderExtras.value?.filter { !it.deleted }?.let {
             var result = 0f
             if(it.isNotEmpty()) {
                 result = it.map { s -> s.price * s.quantity } .reduce { sum, element ->
@@ -244,7 +244,7 @@ constructor(
 
     private fun deliveryFee() : Float {
         return deliveryCharge.value?.let {
-            return if(it.deletedAt == null) {
+            return if( !it.deleted ) {
                 it.price
             } else {
                 0f
@@ -288,7 +288,7 @@ constructor(
                     joSvc.quantity,
                     joSvc.used,
                     joSvc.isVoid,
-                    joSvc.deletedAt).apply {
+                    joSvc.deleted).apply {
                     selected = true
                 }
             }
@@ -303,7 +303,7 @@ constructor(
                     joExtras.category,
                     joExtras.quantity,
                     joExtras.isVoid,
-                    joExtras.deletedAt).apply {
+                    joExtras.deleted).apply {
                     selected = true
                 }
             }
@@ -321,7 +321,7 @@ constructor(
                     0f,
                     joPrd.productType,
                     joPrd.isVoid,
-                    joPrd.deletedAt).apply {
+                    joPrd.deleted).apply {
                     selected = true
                 }
             }
@@ -333,7 +333,7 @@ constructor(
                 entity.distance,
                 entity.deliveryOption,
                 entity.price,
-                entity.deletedAt,
+                entity.deleted,
             )
         }
         jobOrder.discount?.let { entity ->
@@ -343,7 +343,7 @@ constructor(
                 entity.value,
                 entity.applicableTo,
                 entity.isVoid,
-                entity.deletedAt,
+                entity.deleted,
             )
         }
 //        jobOrder.paymentWithUser?.let {
@@ -354,7 +354,7 @@ constructor(
 //            _locked.value = true
 //        }
         _saved.value = true
-        _deleted.value = jobOrder.jobOrder.deletedAt != null || jobOrder.jobOrder.entityJobOrderVoid != null
+        _deleted.value = jobOrder.jobOrder.deleted || jobOrder.jobOrder.entityJobOrderVoid != null
     }
 
     fun loadEmptyJobOrder() {
@@ -428,7 +428,7 @@ constructor(
     fun setDeliveryCharge(deliveryCharge: DeliveryCharge?) {
         if(deliveryCharge == null) {
             this.deliveryCharge.value = this.deliveryCharge.value?.apply {
-                 this.deletedAt = Instant.now()
+                 this.deleted = true
             }
         }
         this.deliveryCharge.value = deliveryCharge
@@ -439,7 +439,7 @@ constructor(
     fun applyDiscount(discount: MenuDiscount?) {
         if(discount == null) {
             this.discount.value = this.discount.value?.apply {
-                this.deletedAt = Instant.now()
+                this.deleted = true
             }
         } else {
             this.discount.value = discount
@@ -459,7 +459,7 @@ constructor(
                 }
 
                 if(found.joServiceItemId != null) {
-                    found.deletedAt = Instant.now()
+                    found.deleted = true
                     jobOrderServices.value = this
                 } else {
                     jobOrderServices.value = this.filter { it.serviceRefId != id }
@@ -476,7 +476,7 @@ constructor(
 
             if(found != null) {
                 if(found.joProductItemId != null) {
-                    found.deletedAt = Instant.now()
+                    found.deleted = true
                     jobOrderProducts.value = this
                 } else {
                     jobOrderProducts.value = this.filter { it.productRefId != id }
@@ -493,7 +493,7 @@ constructor(
 
             if(found != null) {
                 if(found.joExtrasItemId != null) {
-                    found.deletedAt = Instant.now()
+                    found.deleted = true
                     jobOrderExtras.value = this
                 } else {
                     jobOrderExtras.value = this.filter { it.extrasRefId != id }
@@ -612,10 +612,10 @@ constructor(
 
         viewModelScope.launch {
             val products = jobOrderProducts.value?.filter {
-                it.deletedAt == null
+                !it.deleted
             }
 
-            if(products != null && products.isNotEmpty()) {
+            if(!products.isNullOrEmpty()) {
                 products.let {
                     val unavailable = productsRepository.checkAll(it)
                     if(unavailable != null) {
@@ -707,7 +707,7 @@ constructor(
                     ),
                     it.joServiceItemId ?: UUID.randomUUID()
                 ).apply {
-                    deletedAt = it.deletedAt
+                    deleted = it.deleted
                     this.createdAt = createdAt
                 }
             }
@@ -725,7 +725,7 @@ constructor(
                     it.isVoid,
                     it.joProductItemId ?: UUID.randomUUID()
                 ).apply {
-                    deletedAt = it.deletedAt
+                    deleted = it.deleted
                     this.createdAt = createdAt
                 }
             }
@@ -740,7 +740,7 @@ constructor(
                     it.isVoid,
                     it.joExtrasItemId ?: UUID.randomUUID()
                 ).apply {
-                    deletedAt = it.deletedAt
+                    deleted = it.deleted
                     this.createdAt = createdAt
                 }
             }
@@ -754,7 +754,7 @@ constructor(
                     it.isVoid,
                     jobOrder.id
                 ).apply {
-                    deletedAt = it.deletedAt
+                    deleted = it.deleted
                     this.createdAt = createdAt
                 }
             }
@@ -767,7 +767,7 @@ constructor(
                     it.isVoid,
                     jobOrder.id
                 ).apply {
-                    deletedAt = it.deletedAt
+                    deleted = it.deleted
                     this.createdAt = createdAt
                 }
             }

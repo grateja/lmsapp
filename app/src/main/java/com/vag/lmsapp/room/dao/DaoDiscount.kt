@@ -8,12 +8,12 @@ import java.util.UUID
 
 @Dao
 abstract class DaoDiscount : BaseDao<EntityDiscount> {
-    @Query("SELECT * FROM discounts WHERE id = :id AND deleted_at IS NULL")
+    @Query("SELECT * FROM discounts WHERE id = :id AND deleted = 0")
     abstract suspend fun get(id: UUID) : EntityDiscount?
 
-    @Query("SELECT *, 0 as void FROM discounts WHERE name LIKE '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY name")
+    @Query("SELECT *, 0 as void FROM discounts WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 ORDER BY name")
     abstract suspend fun getAll(keyword: String) : List<MenuDiscount>
 
-    @Query("SELECT * FROM discounts WHERE name LIKE '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY name")
+    @Query("SELECT * FROM discounts WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 ORDER BY name")
     abstract suspend fun filter(keyword: String): List<EntityDiscount>
 }

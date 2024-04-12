@@ -15,9 +15,9 @@ abstract class DaoService : BaseDao<EntityService> {
     @Query("SELECT * FROM services")
     abstract suspend fun getAll() : List<EntityService>
 
-    @Query("SELECT *, 1 as quantity, 0 as used, 0 as void FROM services WHERE deleted_at IS NULL")
+    @Query("SELECT *, 1 as quantity, 0 as used, 0 as void FROM services WHERE deleted = 0")
     abstract suspend fun menuItems() : List<MenuServiceItem>
 
-    @Query("SELECT * FROM services WHERE svc_machine_type = :machineType AND deleted_at IS NULL")
+    @Query("SELECT * FROM services WHERE svc_machine_type = :machineType AND deleted = 0")
     abstract fun getByMachineTypeAsLiveData(machineType: EnumMachineType?) : LiveData<List<EntityService>>
 }

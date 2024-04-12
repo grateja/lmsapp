@@ -7,7 +7,6 @@ import com.vag.lmsapp.model.EnumDiscountApplicable
 //import com.csi.palabakosys.model.DiscountTypeEnum
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import java.time.Instant
 import java.util.*
 
 @Parcelize
@@ -25,8 +24,8 @@ data class MenuDiscount(
     @ColumnInfo(name = "void")
     var isVoid: Boolean = false,
 
-    @ColumnInfo(name = "deleted_at")
-    var deletedAt: Instant?,
+    @ColumnInfo(name = "deleted")
+    var deleted: Boolean,
 ) : Parcelable {
     @Ignore
     @IgnoredOnParcel

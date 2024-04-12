@@ -20,7 +20,7 @@ interface DaoJobOrderQueues {
             " LEFT JOIN services w ON w.id = service_id" +
             " WHERE jos.svc_machine_type = :machineType" +
             "    AND jos.quantity > used" +
-            "    AND jos.deleted_at IS NULL" +
+            "    AND jos.deleted = 0" +
             "    AND jos.void = 0" +
             " GROUP BY customer_name" +
             " ORDER BY latest_job_order ASC")

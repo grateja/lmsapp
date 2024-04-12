@@ -8,7 +8,6 @@ import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.InputValidation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.util.*
 import javax.inject.Inject
 
@@ -146,7 +145,6 @@ constructor(
 
         val distance = this.distance.value?.toFloat()
         val price = totalPrice.value //option!!.charge * ((profile!!.pricePerKm * distance!!) + profile.baseFare)
-        val deletedAt = if(delete) { Instant.now() } else { null }
 
         println("price")
         println(price)
@@ -154,7 +152,14 @@ constructor(
         println("profile")
         println(profile)
 
-        val deliveryCharge = DeliveryCharge(profile!!.deliveryProfileRefId, profile.vehicle, distance!!, option!!, price!!, deletedAt)
+        val deliveryCharge = DeliveryCharge(
+            profile!!.deliveryProfileRefId,
+            profile.vehicle,
+            distance!!,
+            option!!,
+            price!!,
+            delete
+        )
         this._dataState.value = DataState.SaveSuccess(deliveryCharge)
     }
 

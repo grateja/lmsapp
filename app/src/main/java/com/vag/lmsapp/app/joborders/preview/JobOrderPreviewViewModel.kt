@@ -38,7 +38,7 @@ constructor(
 
     val isDeleted = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.jobOrder?.deletedAt != null
+            value = it?.jobOrder?.deleted == true
         }
     }
 
@@ -53,7 +53,7 @@ constructor(
             val jobOrder = jobOrder.value
             value = jobOrder?.jobOrder?.entityJobOrderVoid == null
                     && jobOrder?.paymentWithUser == null
-                    && jobOrder?.jobOrder?.deletedAt == null
+                    && jobOrder?.jobOrder?.deleted == false
                     && _previewOnly.value != true
         }
         addSource(jobOrder) {update()}
@@ -65,44 +65,44 @@ constructor(
             val jobOrder = jobOrder.value
             value = jobOrder?.jobOrder?.entityJobOrderVoid == null
                     && jobOrder?.paymentWithUser == null
-                    && jobOrder?.jobOrder?.deletedAt == null
+                    && jobOrder?.jobOrder?.deleted == false
         }
         addSource(jobOrder) {update()}
     }
 
     val hasService = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.services?.any { it.deletedAt == null }
+            value = it?.services?.any { !it.deleted }
         }
     }
 
     val hasProduct = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.products?.any { it.deletedAt == null }
+            value = it?.products?.any { !it.deleted }
         }
     }
 
     val hasExtras = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.extras?.any { it.deletedAt == null }
+            value = it?.extras?.any { !it.deleted }
         }
     }
 
     val hasDelivery = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value =it?.deliveryCharge != null && it.deliveryCharge?.deletedAt == null
+            value = it?.deliveryCharge != null && it.deliveryCharge?.deleted == false
         }
     }
 
     val hasDiscount = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.discount != null && it.discount?.deletedAt == null
+            value = it?.discount != null && it.discount?.deleted == false
         }
     }
 
     val hasPayment = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.paymentWithUser != null && it.paymentWithUser?.payment?.deletedAt == null
+            value = it?.paymentWithUser != null && it.paymentWithUser?.payment?.deleted == false
         }
     }
 

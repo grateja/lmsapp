@@ -24,6 +24,6 @@ data class EntityPackageService(
     @ColumnInfo(name = "id")
     val id: UUID = UUID.randomUUID(),
 
-    @ColumnInfo(name = "deleted_at")
-    var deletedAt: Instant? = null
+    @ColumnInfo(name = "deleted")
+    var deleted: Boolean = false
 )

@@ -13,11 +13,13 @@
         android:layout_height="wrap_content">
 
         <ImageButton
+            android:visibility="gone"
             android:id="@+id/button_remove"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="#00FFFFFF"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:src="@drawable/icon_close"
+            android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,19 +45,6 @@
                     app:imageResource="@{viewModel.machineType.icon}"/>
 
                 <TextView
-                    style="@style/Bold"
-                    android:id="@+id/textQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:text="@{viewModel.quantity + `*`}"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    tools:text="1*"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <TextView
                     style="@style/TextItemTitle"
                     android:id="@+id/textTitle"
                     android:layout_width="0dp"
@@ -63,6 +52,18 @@
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.abbr()}"
                     tools:text="8Kg Regular Wash" />
+
+                <TextView
+                    style="@style/Bold"
+                    android:id="@+id/textQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="@{viewModel.quantityStrAbbr()}"
+                    android:textSize="20sp"
+                    tools:text="(1*P70.0)"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPrice"
@@ -76,7 +77,7 @@
                         style="@style/TextPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:peso="@{viewModel.price}"
+                        android:peso="@{viewModel.total()}"
                         tools:text="P 70.00" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>

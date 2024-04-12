@@ -48,10 +48,10 @@ constructor(
                 msi.serviceRefId.toString() == it.serviceRefId.toString()
             }?.apply {
                 this.joServiceItemId = msi.joServiceItemId
-                this.selected = msi.deletedAt == null
+                this.selected = !msi.deleted
                 this.quantity = msi.quantity
                 this.used = msi.used
-                this.deletedAt = msi.deletedAt
+                this.deleted = msi.deleted
             }
         }
     }
@@ -69,7 +69,7 @@ constructor(
             }
             selected = true
             quantity = quantityModel.quantity.toInt()
-            deletedAt = null
+            deleted = false
         }
         dataState.value = DataState.UpdateService(service!!)
     }
@@ -83,7 +83,7 @@ constructor(
                     return
                 }
                 // Just mark deleted
-                this.deletedAt = Instant.now()
+                this.deleted = true
             }
             this.selected = false
 //            this.quantity = 1
@@ -92,7 +92,7 @@ constructor(
     }
 
     fun prepareSubmit() {
-        val list = availableServices.value?.filter { it.selected || it.deletedAt != null }
+        val list = availableServices.value?.filter { it.selected || it.deleted }
         list?.let { it ->
             dataState.value = DataState.Submit(it)
         }

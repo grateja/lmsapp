@@ -47,7 +47,7 @@ class JobOrderCreateSelectDeliveryActivity : AppCompatActivity() {
         viewModel.deliveryProfiles.observe(this, Observer {
             deliveryVehiclesAdapter.setData(it)
             intent.getParcelableExtra<DeliveryCharge>(JobOrderCreateActivity.PAYLOAD_EXTRA)?.let { deliveryCharge ->
-                if(deliveryCharge.deletedAt == null) {
+                if(!deliveryCharge.deleted) {
                     viewModel.setDeliveryCharge(deliveryCharge)
                 }
             }

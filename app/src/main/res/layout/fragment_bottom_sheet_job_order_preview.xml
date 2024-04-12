@@ -203,7 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <com.google.android.material.card.MaterialCardView
-                        android:visibility="@{viewModel.jobOrder.deliveryCharge != null}"
+                        android:visibility="@{viewModel.hasDelivery}"
                         style="@style/RoundCard.NoElevation"
                         android:layout_marginHorizontal="18dp"
                         android:layout_width="match_parent"

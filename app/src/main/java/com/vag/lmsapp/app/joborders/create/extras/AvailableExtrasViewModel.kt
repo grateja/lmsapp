@@ -44,9 +44,9 @@ constructor(
             availableExtras.value?.find { msi.extrasRefId == it.extrasRefId }?.apply {
                 println("selected")
                 this.joExtrasItemId = msi.joExtrasItemId
-                this.selected = msi.deletedAt == null
+                this.selected = !msi.deleted
                 this.quantity = msi.quantity
-                this.deletedAt = msi.deletedAt
+                this.deleted = msi.deleted
             }
         }
     }
@@ -55,7 +55,7 @@ constructor(
         val service = availableExtras.value?.find { it.extrasRefId == quantityModel.id }?.apply {
             selected = true
             quantity = quantityModel.quantity.toInt()
-            deletedAt = null
+            deleted = false
         }
         dataState.value = DataState.UpdateService(service!!)
     }
@@ -63,7 +63,7 @@ constructor(
     fun removeService(service: QuantityModel) {
         availableExtras.value?.find { it.extrasRefId == service.id }?.apply {
             if(this.joExtrasItemId != null) {
-                this.deletedAt = Instant.now()
+                this.deleted = true
             }
             this.selected = false
             dataState.value = DataState.UpdateService(this)
@@ -71,7 +71,7 @@ constructor(
     }
 
     fun prepareSubmit() {
-        val list = availableExtras.value?.filter { it.selected || it.deletedAt != null }
+        val list = availableExtras.value?.filter { it.selected || it.deleted }
         list?.let {
             dataState.value = DataState.Submit(it)
         }

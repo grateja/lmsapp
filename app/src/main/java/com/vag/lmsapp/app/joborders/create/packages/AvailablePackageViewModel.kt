@@ -46,7 +46,7 @@ constructor(
             availablePackages.value?.find {mjp.packageRefId == it.packageRefId}?.apply {
                 this.selected = true
                 this.quantity = mjp.quantity
-                this.deletedAt = mjp.deletedAt
+                this.deleted = mjp.deleted
             }
         }
     }
@@ -56,7 +56,7 @@ constructor(
             availablePackages.value?.find { it.packageRefId == quantityModel.id }?.apply {
                 this.selected = true
                 this.quantity = quantityModel.quantity.toInt()
-                this.deletedAt = null
+                this.deleted = false
             }
         _dataState.value = DataState.UpdatePackage(packageItem!!)
     }
@@ -64,7 +64,7 @@ constructor(
     fun removePackage(quantityModel: QuantityModel) {
         availablePackages.value?.find { it.packageRefId == quantityModel.id }?.apply {
             this.selected = false
-            this.deletedAt = Instant.now()
+            this.deleted = true
             _dataState.value = DataState.UpdatePackage(this)
         }
     }
@@ -160,12 +160,12 @@ constructor(
 
     fun prepareSubmit() {
         viewModelScope.launch {
-            val list = availablePackages.value?.filter { it.selected && it.deletedAt == null }
+            val list = availablePackages.value?.filter { it.selected && !it.deleted }
             val services = mutableListOf<MenuServiceItem>()
             val products = mutableListOf<MenuProductItem>()
             val extras = mutableListOf<MenuExtrasItem>()
-            var discount: MenuDiscount? = null
-            var deliveryCharge: DeliveryCharge? = null
+            val discount: MenuDiscount? = null
+            val deliveryCharge: DeliveryCharge? = null
 
             val ids = list?.map { it.packageRefId }
             repository.getByIds(ids).forEach { _entityPackage ->

@@ -67,6 +67,13 @@
                 app:layout_constraintTop_toTopOf="@id/label_last_job_order"
                 app:layout_constraintStart_toEndOf="@id/label_last_job_order"
                 tools:text="June 21, 2023"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/label_last_job_order"
+                app:layout_constraintStart_toStartOf="@id/label_last_job_order"
+                android:text="@{viewModel.customer.createdAt}"/>
 <!--            <TextView-->
 <!--                android:visibility="@{viewModel.customer.address != null}"-->
 <!--                android:id="@+id/labelAddress"-->

@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Ignore
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import java.time.Instant
 import java.util.UUID
 
 @Parcelize
@@ -26,12 +25,20 @@ class MenuExtrasItem(
     @ColumnInfo(name = "void")
     var isVoid: Boolean = false,
 
-    @ColumnInfo(name = "deleted_at")
-    var deletedAt: Instant? = null,
+    @ColumnInfo(name = "deleted")
+    var deleted: Boolean = false,
 ) : Parcelable {
     @IgnoredOnParcel
     @Ignore
     var selected = false
+
+    fun total(): Float {
+        return quantity * price
+    }
+
+    fun quantityStrAbbr() : String {
+        return "($quantity * P$price)"
+    }
 
     fun quantityStr() : String {
         return quantity.toString() + if(quantity == 1) {

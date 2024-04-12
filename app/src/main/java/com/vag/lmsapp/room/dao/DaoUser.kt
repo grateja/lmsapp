@@ -26,25 +26,25 @@ abstract class DaoUser : BaseDao<EntityUser> {
     @Query("SELECT * FROM users WHERE role = 'admin'")
     abstract suspend fun getAdmin() : EntityUser?
 
-    @Query("SELECT * FROM users WHERE email = :email AND deleted_at IS NULL LIMIT 1")
+    @Query("SELECT * FROM users WHERE email = :email AND deleted = 0 LIMIT 1")
     abstract fun getByEmailLiveData(email: String?): LiveData<EntityUser?>
 
-    @Query("SELECT * FROM users WHERE email = :email AND password = :password AND deleted_at IS NULL LIMIT 1")
+    @Query("SELECT * FROM users WHERE email = :email AND password = :password AND deleted = 0 LIMIT 1")
     abstract suspend fun getByEmailAndPassword(email: String, password: String): EntityUser?
 
-    @Query("SELECT * FROM users WHERE email = :email AND pattern_ids = :patternIds AND deleted_at IS NULL LIMIT 1")
+    @Query("SELECT * FROM users WHERE email = :email AND pattern_ids = :patternIds AND deleted = 0 LIMIT 1")
     abstract suspend fun getByEmailAndPattern(email: String, patternIds: ArrayList<Int>): EntityUser?
 
-    @Query("SELECT email FROM users WHERE deleted_at IS NULL")
+    @Query("SELECT email FROM users WHERE deleted = 0")
     abstract fun getAllEmails(): LiveData<List<String>>
 
     @Query("SELECT * FROM users WHERE id = :id")
     abstract fun getByIdAsLiveData(id: UUID?): LiveData<UserPreview>
 
-    @Query("SELECT EXISTS(SELECT * FROM users WHERE name LIKE :name AND deleted_at IS NULL)")
+    @Query("SELECT EXISTS(SELECT * FROM users WHERE name LIKE :name AND deleted = 0)")
     abstract suspend fun checkName(name: String?): Boolean
 
-    @Query("SELECT EXISTS(SELECT * FROM users WHERE email LIKE :email AND deleted_at IS NULL)")
+    @Query("SELECT EXISTS(SELECT * FROM users WHERE email LIKE :email AND deleted = 0)")
     abstract suspend fun checkEmail(email: String?): Boolean
 
     @Query("UPDATE users SET password = :newPassword WHERE id = :userId")

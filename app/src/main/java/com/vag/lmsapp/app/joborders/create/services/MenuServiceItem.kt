@@ -7,7 +7,6 @@ import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumWashType
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import java.time.Instant
 import java.util.UUID
 
 @Parcelize
@@ -36,8 +35,8 @@ class MenuServiceItem(
     @ColumnInfo(name = "void")
     var isVoid: Boolean = false,
 
-    @ColumnInfo(name = "deleted_at")
-    var deletedAt: Instant? = null,
+    @ColumnInfo(name = "deleted")
+    var deleted: Boolean = false,
 ) : Parcelable {
 
     @IgnoredOnParcel
@@ -50,6 +49,15 @@ class MenuServiceItem(
 //            name
 //        }
     }
+
+    fun total(): Float {
+        return quantity * price
+    }
+
+    fun quantityStrAbbr() : String {
+        return "($quantity * P$price)"
+    }
+
     fun quantityStr() : String {
         return "*$quantity" + if(quantity == 1) {
             " load"

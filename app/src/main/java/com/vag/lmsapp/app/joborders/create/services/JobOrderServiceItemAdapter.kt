@@ -1,7 +1,6 @@
 package com.vag.lmsapp.app.joborders.create.services
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
@@ -27,7 +26,7 @@ class JobOrderServiceItemAdapter: RecyclerView.Adapter<JobOrderServiceItemAdapte
 //    var locked: Boolean = false
 
     fun setData(services: MutableList<MenuServiceItem>) {
-        list = services.filter { it.deletedAt == null }.toMutableList()
+        list = services.filter { !it.deleted }.toMutableList()
         notifyDataSetChanged()
 //        notifyItemRangeChanged(0, services.size -1)
     }
@@ -57,9 +56,13 @@ class JobOrderServiceItemAdapter: RecyclerView.Adapter<JobOrderServiceItemAdapte
         }
 
 //        holder.removeButton.visibility = if(locked) View.GONE else View.VISIBLE
-        holder.removeButton.setOnClickListener {
+        holder.cardItem.setOnLongClickListener {
             onDeleteRequest?.invoke(r)
+            true
         }
+//        holder.removeButton.setOnClickListener {
+//            onDeleteRequest?.invoke(r)
+//        }
     }
 
     override fun getItemCount(): Int {

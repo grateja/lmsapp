@@ -12,7 +12,7 @@ interface BaseDao<T : BaseEntity> {
     suspend fun deletePermanent(data: T)
 
     suspend fun softDelete(data: T) {
-        data.deletedAt = Instant.now()
+        data.deleted = true
         save(data)
     }
 

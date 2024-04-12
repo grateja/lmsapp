@@ -75,7 +75,7 @@ data class EntityPackageWithItems(
                     it.service.name.toString(),
                     it.service.price,
                     it.serviceCrossRef.quantity.toFloat(),
-                    it.serviceCrossRef.deletedAt,
+                    it.serviceCrossRef.deleted,
                 )
             }.toList())
         }
@@ -87,7 +87,7 @@ data class EntityPackageWithItems(
                     it.product.name.toString(),
                     it.product.price,
                     it.productCrossRef.quantity,
-                    it.productCrossRef.deletedAt,
+                    it.productCrossRef.deleted,
                 )
             }.toList())
         }
@@ -99,11 +99,11 @@ data class EntityPackageWithItems(
                     it.extras.name.toString(),
                     it.extras.price,
                     it.extrasCrossRef.quantity.toFloat(),
-                    it.extrasCrossRef.deletedAt,
+                    it.extrasCrossRef.deleted,
                 )
             }.toList())
         }
 
-        return list.filter { it.deletedAt == null }
+        return list.filter { !it.deleted }
     }
 }
