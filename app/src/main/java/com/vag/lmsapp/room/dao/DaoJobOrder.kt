@@ -44,7 +44,7 @@ interface DaoJobOrder {
     fun deleteServices(services: List<EntityJobOrderService>)
 
     @Query("UPDATE products SET current_stock = current_stock - (COALESCE((SELECT (:newQuantity - quantity) FROM job_order_products WHERE id = :joProductId), :newQuantity) * unit_per_serve) WHERE id = :productId")
-    fun updateQuantity(productId: String?, joProductId: String?, newQuantity: Float)
+    fun updateQuantity(productId: String?, joProductId: String?, newQuantity: Int)
 
     @Transaction
     suspend fun save(entityJobOrderWithItems: EntityJobOrderWithItems) {
@@ -191,7 +191,7 @@ interface DaoJobOrder {
     suspend fun voidDiscounts(jobOrderId: UUID)
 
     @Query("UPDATE products SET current_stock = (current_stock + (:quantity * unit_per_serve)) WHERE id = :productId")
-    suspend fun returnProduct(productId: UUID, quantity: Float)
+    suspend fun returnProduct(productId: UUID, quantity: Int)
 
 
     @Transaction
@@ -234,14 +234,14 @@ interface DaoJobOrder {
     fun getDashboardJobOrders(dateFrom: LocalDate, dateTo: LocalDate?): LiveData<JobOrderCounts>
 
 
-    @Query("SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, pa.created_at as date_paid, pa.cashless_provider, " +
+    @Query("SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, " +
             " CASE " +
-            "    WHEN jo.payment_id IS NOT NULL OR date(jo.created_at / 1000, 'unixepoch', 'localtime') != date('now', 'localtime') THEN 1" +
+            "    WHEN date(jo.created_at / 1000, 'unixepoch', 'localtime') != date('now', 'localtime') THEN 1" +
             "    ELSE 0" +
             " END AS locked" +
             " FROM job_orders jo " +
-            " JOIN customers cu ON jo.customer_id = cu.id LEFT JOIN job_order_payments pa ON jo.payment_id = pa.id " +
+            " JOIN customers cu ON jo.customer_id = cu.id " +
             " WHERE " +
-            " cu.id = :customerId AND pa.id IS NULL AND jo.deleted = 0 AND jo.void_date IS NULL AND pa.deleted = 0")
+            " cu.id = :customerId AND jo.payment_id IS NULL AND jo.deleted = 0 AND jo.void_date IS NULL")
     fun getUnpaidJobOrdersAsLiveData(customerId: UUID): LiveData<List<JobOrderListItem>>
 }

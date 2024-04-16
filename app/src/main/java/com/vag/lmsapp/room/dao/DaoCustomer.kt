@@ -23,8 +23,15 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
     @Query("SELECT crn FROM customers WHERE deleted = 0 ORDER BY crn DESC")
     suspend fun getLastCRN() : String?
 
-//    @Query("SELECT id, crn, name, address, (SELECT COUNT(*) FROM job_orders WHERE payment_id IS NULL AND customer_id = customers.id AND job_orders.deleted_at IS NULL and job_orders.void_date IS NULL) as unpaid FROM customers WHERE name LIKE '%' || :keyword || '%' OR crn like '%' || :keyword || '%' AND deleted_at IS NULL ORDER BY unpaid DESC, name ASC  LIMIT :itemPerPage OFFSET :offset")
-    @Query("SELECT date(jo.created_at / 1000, 'unixepoch', 'localtime') as jo_date, date('now', 'localtime') as date_now, (c.id = :customerId) as selected, c.id, c.crn, c.name, c.address, COALESCE(COUNT(jo.id), 0) AS unpaid, MAX(jo.created_at) AS last_job_order" +
+    @Query("SELECT date(jo.created_at / 1000, 'unixepoch', 'localtime') as jo_date," +
+            " date('now', 'localtime') as date_now," +
+            " (c.id = :customerId) as selected," +
+            " c.id," +
+            " c.crn," +
+            " c.name," +
+            " c.address," +
+            " COALESCE(COUNT(jo.id), 0) AS unpaid," +
+            " MAX(jo.created_at) AS last_job_order" +
         " FROM customers c" +
         " LEFT JOIN job_orders jo ON jo.payment_id IS NULL AND jo.customer_id = c.id AND jo.deleted = 0 AND jo.void_date IS NULL" +
         " WHERE (c.id = :customerId " +
@@ -36,10 +43,10 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
     suspend fun getCustomersMinimal(keyword: String?, itemPerPage: Int, offset: Int, customerId: UUID?): List<CustomerMinimal>
 
     @Query("SELECT cu.*, " +
-            "SUM(CASE WHEN jo.payment_id IS NOT NULL THEN 1 ELSE 0 END) AS paid_count, " +
-            "SUM(CASE WHEN jo.void_date IS NULL THEN 1 ELSE 0 END) as total_jo, " +
-            "MIN(CASE WHEN jo.void_date IS NULL THEN jo.created_at END) AS first_visit, " +
-            "MAX(CASE WHEN jo.void_date IS NULL THEN jo.created_at END) AS last_visit " +
+            "SUM(CASE WHEN jo.id IS NOT NULL AND jo.payment_id IS NOT NULL THEN 1 ELSE 0 END) AS paid_count, " +
+            "SUM(CASE WHEN jo.id IS NOT NULL AND jo.void_date IS NULL THEN 1 ELSE 0 END) as total_jo, " +
+            "MIN(CASE WHEN jo.id IS NOT NULL AND jo.void_date IS NULL THEN jo.created_at END) AS first_visit, " +
+            "MAX(CASE WHEN jo.id IS NOT NULL AND jo.void_date IS NULL THEN jo.created_at END) AS last_visit " +
             "FROM customers cu LEFT JOIN job_orders jo ON jo.customer_id = cu.id WHERE " +
             "((:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders)) OR " +
             "(:hideAllWithoutJO = 0) AND (cu.name LIKE '%' || :keyword || '%' OR cu.crn LIKE '%' || :keyword || '%') AND cu.deleted = 0) " +

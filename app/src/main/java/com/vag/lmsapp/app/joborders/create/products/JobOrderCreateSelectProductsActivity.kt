@@ -77,15 +77,14 @@ class JobOrderCreateSelectProductsActivity : AppCompatActivity() {
     }
 
     private fun requestModifyQuantity(quantityModel: QuantityModel) {
-        modifyQuantityDialog = CreateJobOrderModifyQuantityBottomSheetFragment.getInstance(quantityModel).apply {
+        CreateJobOrderModifyQuantityBottomSheetFragment.newInstance(quantityModel, QuantityModel.TYPE_PRODUCT).apply {
             onOk = {
                 viewModel.putProduct(it)
             }
             onItemRemove = {
                 viewModel.removeProduct(it)
             }
-        }
-        modifyQuantityDialog.show(supportFragmentManager, this.toString())
+        }.show(supportFragmentManager, this.toString())
     }
 
     private fun submit(list: List<MenuProductItem>) {

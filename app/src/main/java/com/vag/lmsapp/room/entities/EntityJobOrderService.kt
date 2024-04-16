@@ -33,6 +33,6 @@ data class EntityJobOrderService(
     override var id: UUID,
 ) : BaseEntity(id) {
     fun label() : String {
-        return "$serviceName (${serviceRef.minutes} mins.)"
+        return "${serviceRef.machineType.abbr} $serviceName (${serviceRef.minutes} mins.)"
     }
 }

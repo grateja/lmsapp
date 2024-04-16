@@ -18,7 +18,7 @@ data class EntityPackageProduct(
     val productId: UUID,
 
     @ColumnInfo(name = "quantity")
-    val quantity: Float,
+    val quantity: Int,
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

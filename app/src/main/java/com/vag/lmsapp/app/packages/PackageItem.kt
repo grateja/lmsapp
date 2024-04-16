@@ -9,6 +9,6 @@ data class PackageItem(
     val serviceId: UUID,
     val name: String,
     val price: Float,
-    val quantity: Float,
+    val quantity: Int,
     var deleted: Boolean,
 ) : Parcelable

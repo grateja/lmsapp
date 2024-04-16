@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".app.joborders.create.shared_ui.CreateJobOrderModifyQuantityBottomSheetFragment">
+    tools:context=".app.joborders.create.shared_ui.ModifyQuantityBottomSheetFragment">
 
     <data>
         <variable
@@ -36,11 +36,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="Regular Keme"/>
-                    <NumberPicker
-                        android:id="@+id/number_picker_quantity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:value="@={viewModel.quantity}"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -71,6 +66,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@={viewModel.quantity + ``}"
                                 android:hint="Quantity"
+                                android:inputType="numberDecimal"
                                 android:maxLines="1" />
                         </com.google.android.material.textfield.TextInputLayout>
                         <Button

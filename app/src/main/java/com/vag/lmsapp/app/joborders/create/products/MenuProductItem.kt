@@ -26,7 +26,7 @@ class MenuProductItem(
     @ColumnInfo(name = "unit_per_serve")
     val unitPerServe: Float,
 
-    var quantity: Float = 1f,
+    var quantity: Int = 1,
 
     @ColumnInfo(name = "current_stock")
     var currentStock: Float,

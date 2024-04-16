@@ -28,7 +28,7 @@ data class EntityJobOrderProduct(
     val unitPerServe: Float,
 
     @ColumnInfo(name = "quantity")
-    var quantity: Float,
+    var quantity: Int,
 
     @ColumnInfo(name = "product_type")
     var productType: EnumProductType,
@@ -38,7 +38,4 @@ data class EntityJobOrderProduct(
 
     @PrimaryKey(autoGenerate = false)
     override var id: UUID,
-) : BaseEntity(id)/* {
-    constructor(jobOrderId: UUID?, productId: UUID, productName: String, price: Float, measureUnit: MeasureUnit, unitPerServe: Float, quantity: Int, isPackage: Boolean, productType: EnumProductType)
-     : this(jobOrderId, productId, productName, price, measureUnit, unitPerServe, quantity, isPackage, productType, null)
-}*/
+) : BaseEntity(id)

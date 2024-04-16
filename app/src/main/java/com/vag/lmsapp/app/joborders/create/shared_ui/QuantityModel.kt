@@ -8,7 +8,7 @@ import java.util.UUID
 class QuantityModel(
     val id: UUID,
     val name: String,
-    var quantity: Float = 0f,
+    var quantity: Int = 0,
     val type: String
 ) : Parcelable {
     companion object {

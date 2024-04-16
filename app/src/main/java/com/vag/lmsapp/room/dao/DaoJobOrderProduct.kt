@@ -11,7 +11,8 @@ import java.time.LocalDate
 abstract class DaoJobOrderProduct : BaseDao<EntityJobOrderProduct> {
     @Query("SELECT" +
             "     product_name," +
-            "     COUNT(*) as count," +
+            "     SUM(quantity) as count," +
+            "     unit_per_serve," +
             "     product_type," +
             "     measure_unit " +
             " FROM job_order_products" +

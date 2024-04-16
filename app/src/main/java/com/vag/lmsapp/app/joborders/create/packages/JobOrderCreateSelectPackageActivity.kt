@@ -82,20 +82,19 @@ class JobOrderCreateSelectPackageActivity : AppCompatActivity() {
 
     private fun itemClick(item: MenuJobOrderPackage) {
         requestModifyQuantity(
-            QuantityModel(item.packageRefId, item.packageName, item.quantity.toFloat(), QuantityModel.TYPE_PACKAGE)
+            QuantityModel(item.packageRefId, item.packageName, item.quantity, QuantityModel.TYPE_PACKAGE)
         )
     }
 
     private fun requestModifyQuantity(quantityModel: QuantityModel) {
-        modifyQuantityDialog = CreateJobOrderModifyQuantityBottomSheetFragment.getInstance(quantityModel).apply {
+        CreateJobOrderModifyQuantityBottomSheetFragment.newInstance(quantityModel, QuantityModel.TYPE_PACKAGE).apply {
             onOk = {
                 viewModel.putPackage(it)
             }
             onItemRemove = {
                 viewModel.removePackage(it)
             }
-        }
-        modifyQuantityDialog.show(supportFragmentManager, this.toString())
+        }.show(supportFragmentManager, this.toString())
     }
 
     private fun submit(data: AvailablePackageViewModel.DataState.Submit) {

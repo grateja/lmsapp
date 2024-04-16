@@ -26,6 +26,18 @@
 
             <TextView
                 android:layout_marginTop="18dp"
+                android:text="DATE TIME"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Today"
+                style="@style/TextItemTitle.Medium"
+                android:text="@{viewModel.machineUsage.activated}"/>
+
+            <TextView
+                android:layout_marginTop="18dp"
                 android:text="JOB ORDER#"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

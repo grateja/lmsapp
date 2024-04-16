@@ -39,6 +39,8 @@ class SelectCustomerPreviewBottomSheetFragment : BaseModalFragment() {
     private fun subscribeListeners() {
         viewModel.jobOrders.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
+            println("unpaid job orders")
+            println(it)
         })
     }
 

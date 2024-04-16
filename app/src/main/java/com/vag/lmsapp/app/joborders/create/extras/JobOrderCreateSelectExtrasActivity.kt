@@ -19,7 +19,7 @@ class JobOrderCreateSelectExtrasActivity : AppCompatActivity() {
 
     private val viewModel: AvailableExtrasViewModel by viewModels()
 
-    private lateinit var modifyQuantityDialog: CreateJobOrderModifyQuantityBottomSheetFragment
+//    private lateinit var modifyQuantityDialog: CreateJobOrderModifyQuantityBottomSheetFragment
 
     private val extrasAdapter = AvailableExtrasAdapter()
 
@@ -77,14 +77,14 @@ class JobOrderCreateSelectExtrasActivity : AppCompatActivity() {
             QuantityModel(
                 extrasItem.extrasRefId,
                 extrasItem.name,
-                extrasItem.quantity.toFloat(),
+                extrasItem.quantity,
                 QuantityModel.TYPE_EXTRAS
             )
         )
     }
 
     private fun requestModifyQuantity(quantityModel: QuantityModel) {
-        modifyQuantityDialog = CreateJobOrderModifyQuantityBottomSheetFragment.getInstance(quantityModel).apply {
+        CreateJobOrderModifyQuantityBottomSheetFragment.newInstance(quantityModel, QuantityModel.TYPE_EXTRAS).apply {
             onOk = {
                 if (it.type == QuantityModel.TYPE_EXTRAS) {
                     viewModel.putService(it)
@@ -93,8 +93,7 @@ class JobOrderCreateSelectExtrasActivity : AppCompatActivity() {
             onItemRemove = {
                 viewModel.removeService(it)
             }
-        }
-        modifyQuantityDialog.show(supportFragmentManager, this.toString())
+        }.show(supportFragmentManager, this.toString())
     }
 
     private fun submit(list: List<MenuExtrasItem>) {

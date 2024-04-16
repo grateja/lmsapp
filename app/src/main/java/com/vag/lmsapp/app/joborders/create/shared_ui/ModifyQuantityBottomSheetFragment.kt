@@ -1,17 +1,17 @@
 package com.vag.lmsapp.app.joborders.create.shared_ui
 
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.vag.lmsapp.databinding.FragmentBottomSheetCreateJobOrderModifyQuantityBinding
+import com.vag.lmsapp.databinding.FragmentBottomSheetModifyQuantityBinding
 import com.vag.lmsapp.fragments.ModalFragment
 
-class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityModel>() {
+class ModifyQuantityBottomSheetFragment : ModalFragment<QuantityModel>() {
 
-    private lateinit var binding: FragmentBottomSheetCreateJobOrderModifyQuantityBinding
+    private lateinit var binding: FragmentBottomSheetModifyQuantityBinding
     private val quantityViewModel: QuantityViewModel by viewModels()
 
     var onItemRemove: ((QuantityModel) -> Unit)? = null
@@ -21,25 +21,16 @@ class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityMo
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentBottomSheetCreateJobOrderModifyQuantityBinding.inflate(inflater, container, false)
+        binding = FragmentBottomSheetModifyQuantityBinding.inflate(inflater, container, false)
         val data = arguments?.getParcelable<QuantityModel>("data")
         binding.viewModel = data
 
         if(data?.quantity == 0) {
             binding.buttonRemove.visibility = View.GONE
         }
-//        arguments?.getString("type").let {
-//            if(it == QuantityModel.TYPE_PRODUCT) {
-//                binding.textQuantity.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED
-//            } else {
-//                binding.textQuantity.inputType = InputType.TYPE_CLASS_NUMBER
-//            }
-//            println("input type")
-//            println(it)
-//        }
 
         binding.buttonConfirm.setOnClickListener {
-            if(binding.textQuantity.text.toString().toInt() > 0) {
+            if(binding.textQuantity.text.toString().toFloat() > 0f) {
                 onOk?.invoke(binding.viewModel!!)
                 dismiss()
             }
@@ -62,7 +53,7 @@ class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityMo
             binding.buttonMinus.isEnabled = true
             binding.textQuantity.apply {
                 setText(
-                    (text.toString().toInt().plus(1)).toString()
+                    (text.toString().toFloat().plus(1)).toString()
                 )
             }
         }
@@ -72,33 +63,20 @@ class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityMo
             dismiss()
         }
 
-        binding.numberPickerQuantity.apply {
-            minValue = 1
-            maxValue = 100
-            scaleX = 2f
-            scaleY = 2f
-        }
-
         return binding.root
     }
 
     companion object {
-        fun newInstance(model: QuantityModel, type: String) : CreateJobOrderModifyQuantityBottomSheetFragment {
-            return CreateJobOrderModifyQuantityBottomSheetFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable("data", model)
-                    putString("type", type)
+        var instance: ModifyQuantityBottomSheetFragment? = null
+        fun getInstance(model: QuantityModel) : ModifyQuantityBottomSheetFragment {
+            if(instance == null || instance?.dismissed == true) {
+                instance = ModifyQuantityBottomSheetFragment().apply {
+                    arguments = Bundle().apply {
+                        putParcelable("data", model)
+                    }
                 }
             }
-//            if(instance == null || instance?.dismissed == true) {
-//                instance = CreateJobOrderModifyQuantityBottomSheetFragment().apply {
-//                    arguments = Bundle().apply {
-//                        putParcelable("data", model)
-//                        putInt("type", type)
-//                    }
-//                }
-//            }
-//            return instance as CreateJobOrderModifyQuantityBottomSheetFragment
+            return instance as ModifyQuantityBottomSheetFragment
         }
     }
 }

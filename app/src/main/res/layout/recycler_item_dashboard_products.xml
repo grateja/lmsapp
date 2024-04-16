@@ -18,7 +18,7 @@
             android:layout_weight="1"/>
         <TextView
             android:layout_margin="8dp"
-            android:text="@{viewModel.count + ` ` + viewModel.measureUnit}"
+            android:text="@{viewModel.quantityStr()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="1 Load(s)"/>

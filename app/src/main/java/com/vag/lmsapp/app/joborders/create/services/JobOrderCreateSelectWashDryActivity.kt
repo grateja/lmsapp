@@ -55,20 +55,19 @@ class JobOrderCreateSelectWashDryActivity : AppCompatActivity() {
 
     private fun itemClick(serviceItem: MenuServiceItem) {
         requestModifyQuantity(
-            QuantityModel(serviceItem.serviceRefId, serviceItem.abbr(), serviceItem.quantity.toFloat(), QuantityModel.TYPE_SERVICE)
+            QuantityModel(serviceItem.serviceRefId, serviceItem.abbr(), serviceItem.quantity, QuantityModel.TYPE_SERVICE)
         )
     }
 
     private fun requestModifyQuantity(quantityModel: QuantityModel) {
-        modifyQuantityDialog = CreateJobOrderModifyQuantityBottomSheetFragment.getInstance(quantityModel).apply {
+        CreateJobOrderModifyQuantityBottomSheetFragment.newInstance(quantityModel, QuantityModel.TYPE_SERVICE).apply {
             onOk = {
                 viewModel.putService(it)
             }
             onItemRemove = {
                 viewModel.removeService(it)
             }
-        }
-        modifyQuantityDialog.show(supportFragmentManager, this.toString())
+        }.show(supportFragmentManager, this.toString())
     }
 
     private fun subscribeEvents() {

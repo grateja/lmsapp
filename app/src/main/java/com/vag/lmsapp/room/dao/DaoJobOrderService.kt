@@ -11,7 +11,7 @@ import java.time.LocalDate
 abstract class DaoJobOrderService : BaseDao<EntityJobOrderService> {
     @Query("SELECT" +
             "     service_name," +
-            "     COUNT(*) as count," +
+            "     SUM(quantity) as count," +
             "     svc_machine_type," +
             "     svc_wash_type" +
             " FROM job_order_services" +
