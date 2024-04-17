@@ -395,7 +395,6 @@
             android:exported="false"
             android:label="Authentication required"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.MaterialComponents.Light.Dialog"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <meta-data
                 android:name="android.app.lib_name"

@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
 import com.vag.lmsapp.databinding.FragmentCustomerDetailsBinding
+import com.vag.lmsapp.util.showMessageDialog
 
 class CustomerDetailsFragment : Fragment() {
     private lateinit var binding: FragmentCustomerDetailsBinding
@@ -31,6 +33,16 @@ class CustomerDetailsFragment : Fragment() {
                 viewModel.prepareNewJobOrder()
             }
         }
+
+        viewModel.navigationState.observe(viewLifecycleOwner, Observer {
+            when(it) {
+                is CustomerPreviewViewModel.NavigationState.InvalidOperation -> {
+                    context?.showMessageDialog("Cannot create new Job Order", it.message)
+                    viewModel.resetState()
+                }
+                else -> {}
+            }
+        })
 
         return binding.root
     }

@@ -92,14 +92,19 @@
                     android:layout_height="wrap_content"
                     android:divider="@drawable/divider_10"
                     android:showDividers="middle"
-                    android:gravity="end">
+                    android:gravity="end|center_vertical">
+                    <ImageView
+                        android:id="@+id/icon_warning"
+                        android:visibility="@{!viewModel.canCreateJobOrder}"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/icon_warning"/>
                     <Button
                         android:id="@+id/button_create_new_job_order"
                         style="@style/RoundButtonNeutral.Small"
                         android:text="Create New Job Order"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.canCreateJobOrder}"/>
+                        android:layout_height="wrap_content"/>
                     <Button
                         android:id="@+id/button_edit"
                         style="@style/RoundButtonNeutral.Small"

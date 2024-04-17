@@ -32,6 +32,7 @@
                     app:customerName="@{viewModel.customer.name}"
                     app:serviceName="@{viewModel.jobOrderService.label()}"/>
                 <TextView
+                    android:textColor="@{viewModel.machineActivationQueue.status == com.vag.lmsapp.model.MachineConnectionStatus.FAILED ? @color/danger : @color/black}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.machineActivationQueue.message}"/>

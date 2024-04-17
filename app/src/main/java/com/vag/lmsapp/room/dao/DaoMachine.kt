@@ -24,7 +24,13 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
     @Query("SELECT * FROM machines ORDER BY stack_order")
     abstract fun getAllAsLiveData(): LiveData<List<EntityMachine>>
 
-    @Query("SELECT * FROM machines WHERE machine_type = :machineType ORDER BY stack_order")
+    @Query("SELECT m.*, " +
+            " SUM(CASE WHEN mu.id IS NOT NULL AND date(mu.created_at / 1000, 'unixepoch', 'localtime') = date('now', 'localtime') THEN 1 ELSE 0 END) AS usage_for_the_day" +
+            " FROM machines m " +
+            " LEFT JOIN machine_usages mu ON m.id = mu.machine_id" +
+            " WHERE machine_type = :machineType" +
+            " GROUP BY m.id" +
+            " ORDER BY stack_order")
     abstract fun getListAllAsLiveData(machineType: EnumMachineType): LiveData<List<MachineListItem>>
 
     @Query("SELECT * FROM machines WHERE id = :id")

@@ -10,6 +10,7 @@ import com.vag.lmsapp.BR
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.machines.MachineListItem
 import com.vag.lmsapp.databinding.RecyclerItemMachineTileBinding
+import java.util.UUID
 
 class RemotePanelAdapter : RecyclerView.Adapter<RemotePanelAdapter.ViewHolder>() {
     var handler = Handler(Looper.getMainLooper())

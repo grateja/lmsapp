@@ -1,7 +1,9 @@
 package com.vag.lmsapp.app.remote
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -11,6 +13,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.machines.options.BottomSheetMachineOptionsFragment
@@ -26,6 +29,8 @@ import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.calculateSpanCount
 import com.google.android.material.tabs.TabLayout
+import com.vag.lmsapp.model.MachineConnectionStatus
+import com.vag.lmsapp.util.showMessageDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +46,7 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
 
     private val launcher = ActivityLauncher(this)
 
-    fun isWifiConnected(): Boolean {
+    private fun isWifiConnected(): Boolean {
         val connectivityManager =
             getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -185,5 +190,25 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
 //
 //        val spanCount = parentWidth / columnWidth
 //        if (spanCount > 0) spanCount else 1
+    }
+
+    private val receiver = object: BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.getParcelableExtra<MachineActivationQueues>(MachineActivationService.ACTIVATION_QUEUES_EXTRA)?.let {
+                if(it.status == MachineConnectionStatus.FAILED) {
+                    showMessageDialog("Machine activation failed!", it.message)
+                }
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(MachineActivationService.MACHINE_ACTIVATION))
     }
 }

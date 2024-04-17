@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.tabs.TabLayoutMediator
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.databinding.ActivityAuthActionDialogBinding
@@ -21,6 +22,7 @@ import com.vag.lmsapp.util.showDialog
 import com.itsxtt.patternlock.PatternLockView
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.FragmentLauncher
+import com.vag.lmsapp.util.FragmentsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,28 +37,28 @@ class AuthActionDialogActivity : AppCompatActivity() {
 
         @SuppressLint("Returns Login Credentials if Authentication succeeded")
         const val RESULT = "LoginCredential"
-
-        fun launch(context: Context, launcher: ActivityLauncher, permissions: List<EnumActionPermission>, onOk: ((ActivityResult) -> Unit) ?) {
-            launcher.onOk = {
-                onOk?.invoke(it)
-            }
-            val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
-                putExtra(MESSAGE, "Authentication Required")
-                putExtra(PERMISSIONS_EXTRA, ArrayList(permissions))
-            }
-            launcher.launch(intent)
-        }
-
-        fun launch(context: Context, launcher: FragmentLauncher, permissions: List<EnumActionPermission>, onOk: ((ActivityResult) -> Unit) ?) {
-            launcher.onOk = {
-                onOk?.invoke(it)
-            }
-            val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
-                putExtra(MESSAGE, "Authentication Required")
-                putExtra(PERMISSIONS_EXTRA, ArrayList(permissions))
-            }
-            launcher.launch(intent)
-        }
+//
+//        fun launch(context: Context, launcher: ActivityLauncher, permissions: List<EnumActionPermission>, onOk: ((ActivityResult) -> Unit) ?) {
+//            launcher.onOk = {
+//                onOk?.invoke(it)
+//            }
+//            val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
+//                putExtra(MESSAGE, "Authentication Required")
+//                putExtra(PERMISSIONS_EXTRA, ArrayList(permissions))
+//            }
+//            launcher.launch(intent)
+//        }
+//
+//        fun launch(context: Context, launcher: FragmentLauncher, permissions: List<EnumActionPermission>, onOk: ((ActivityResult) -> Unit) ?) {
+//            launcher.onOk = {
+//                onOk?.invoke(it)
+//            }
+//            val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
+//                putExtra(MESSAGE, "Authentication Required")
+//                putExtra(PERMISSIONS_EXTRA, ArrayList(permissions))
+//            }
+//            launcher.launch(intent)
+//        }
     }
 
     private lateinit var binding: ActivityAuthActionDialogBinding

@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.machines
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.vag.lmsapp.room.entities.EntityCustomer
@@ -21,4 +22,7 @@ data class MachineListItem(
         entityColumn = "id"
     )
     val service: EntityJobOrderService?,
+
+    @ColumnInfo(name = "usage_for_the_day")
+    val usageForTheDay: Int,
 )

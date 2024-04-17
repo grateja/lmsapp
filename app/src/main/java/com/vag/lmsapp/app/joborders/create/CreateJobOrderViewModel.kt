@@ -191,6 +191,40 @@ constructor(
         addSource(discountInPeso) {update()}
     }
 
+    val discountApplicable = MediatorLiveData<Boolean>().apply {
+        fun update() {
+            discount.value?.let {
+                value = false
+                if(hasAny.value == true && it.applicableTo.find { it == EnumDiscountApplicable.TOTAL_AMOUNT } != null) {
+                    value = true
+                    return
+                }
+                if(hasServices.value == true && it.applicableTo.find { it == EnumDiscountApplicable.WASH_DRY_SERVICES } != null) {
+                    value = true
+                    return
+                }
+                if(hasProducts.value == true && it.applicableTo.find { it == EnumDiscountApplicable.PRODUCTS_CHEMICALS } != null) {
+                    value = true
+                    return
+                }
+                if(hasExtras.value == true && it.applicableTo.find { it == EnumDiscountApplicable.EXTRAS } != null) {
+                    value = true
+                    return
+                }
+                if(hasDelivery.value == true && it.applicableTo.find { it == EnumDiscountApplicable.DELIVERY } != null) {
+                    value = true
+                    return
+                }
+            }
+        }
+//        addSource(jobOrderServices) {update()}
+//        addSource(jobOrderProducts) {update()}
+//        addSource(jobOrderExtras) {update()}
+//        addSource(deliveryCharge) {update()}
+        addSource(hasAny) {update()}
+        addSource(discount) {update()}
+    }
+
     val confirmStr = MediatorLiveData<String>().apply {
         fun update() {
             val amount = discountedAmount.value ?: 0f
@@ -357,11 +391,14 @@ constructor(
         _deleted.value = jobOrder.jobOrder.deleted || jobOrder.jobOrder.entityJobOrderVoid != null
     }
 
-    fun loadEmptyJobOrder() {
+    fun loadEmptyJobOrder(customerId: UUID?) {
         viewModelScope.launch {
             jobOrderId.value = UUID.randomUUID()
             createdAt.value = Instant.now()
             jobOrderNumber.value = jobOrderRepository.getNextJONumber()
+            customerId?.let {
+                _customerId.value = it
+            }
         }
     }
 
@@ -597,6 +634,11 @@ constructor(
     fun validate() {
         if(currentCustomer.value == null) {
             _dataState.value = DataState.InvalidOperation("Select customer first!", "customer")
+            return
+        }
+
+        if(discountApplicable.value == false) {
+            _dataState.value = DataState.InvalidOperation("Discount not applicable")
             return
         }
 

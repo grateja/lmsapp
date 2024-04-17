@@ -88,6 +88,7 @@
                             android:layout_height="wrap_content"
                             tools:text="Birthday discount - 5.0%"/>
                         <TextView
+                            android:textColor="@{viewModel.discountApplicable ? @color/primary : @color/danger}"
                             android:text="@{viewModel.discount.applicableToStr()}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

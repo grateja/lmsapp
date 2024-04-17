@@ -19,8 +19,10 @@ import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.toUUID
 import com.vag.lmsapp.viewmodels.ListViewModel
 import com.google.android.material.appbar.AppBarLayout
+import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.ACTION_LOAD_EMPTY_JOB_ORDER
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
+import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
@@ -78,6 +80,9 @@ class CustomerPreviewActivity : AppCompatActivity() {
                 }
             }
         })
+        launcher.onOk = {
+            jobOrdersViewModel.filter(true)
+        }
     }
 
     private fun subscribeListeners() {
@@ -94,8 +99,8 @@ class CustomerPreviewActivity : AppCompatActivity() {
                 }
                 is CustomerPreviewViewModel.NavigationState.PrepareNewJobOrder -> {
                     val intent = Intent(this, JobOrderCreateActivity::class.java).apply {
-                        action = ACTION_LOAD_BY_CUSTOMER_ID
-                        putExtra(JobOrderCreateActivity.CUSTOMER_EXTRA, it.customerId.toString())
+                        action = ACTION_LOAD_EMPTY_JOB_ORDER
+                        putExtra(CUSTOMER_ID, it.customerId.toString())
                     }
                     launcher.launch(intent)
                 }

@@ -59,13 +59,18 @@ constructor(
 
     fun prepareNewJobOrder() {
         _customerId.value?.let {
-            _navigationState.value = NavigationState.PrepareNewJobOrder(it)
+            if(canCreateJobOrder.value == false) {
+                _navigationState.value = NavigationState.InvalidOperation("This customer reached the maximum number of unpaid Job Orders!")
+            } else {
+                _navigationState.value = NavigationState.PrepareNewJobOrder(it)
+            }
         }
     }
 
     sealed class NavigationState {
-        object StateLess: NavigationState()
+        data object StateLess: NavigationState()
         data class EditCustomer(val customerId: UUID): NavigationState()
         data class PrepareNewJobOrder(val customerId: UUID): NavigationState()
+        data class InvalidOperation(val message: String): NavigationState()
     }
 }

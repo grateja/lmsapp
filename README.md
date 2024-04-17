@@ -1,5 +1,7 @@
 <ul>
-    <li>Product quantity reverted to int from float.</li>
-    <li>Dashboard product and services quantity fixed</li>
-    <li>Machine usage history added date</li>
+    <li>Machine usage count for the day added</li>
+    <li>Machine activation failed message added</li>
+    <li>Bug fixed. Load empty job order by customer</li>
+    <li>Auth action dialog redesigned</li>
+    <li>MachineActivationService put error message in the notification</li>
 </ul>

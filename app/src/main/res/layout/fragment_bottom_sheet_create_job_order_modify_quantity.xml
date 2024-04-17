@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.joborders.create.shared_ui.QuantityModel" />
+            type="com.vag.lmsapp.app.joborders.create.shared_ui.QuantityViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,63 +26,65 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:divider="@drawable/divider_20"
                     android:showDividers="middle"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/labelTitle"
                         style="@style/TextTitleFragment"
-                        android:text="@{viewModel.name}"
+                        android:text="@{viewModel.model.name}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="Regular Keme"/>
                     <NumberPicker
+                        android:layout_gravity="center"
+                        android:scaleY="1.2"
+                        android:scaleX="1.2"
                         android:id="@+id/number_picker_quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:value="@={viewModel.quantity}"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:divider="@drawable/divider_10"
-                        android:showDividers="middle">
-                        <Button
-                            android:id="@+id/buttonMinus"
-                            android:enabled="@{viewModel.quantity > 1}"
-                            android:layout_width="40dp"
-                            android:layout_height="52dp"
-                            app:cornerRadius="50dp"
-                            app:backgroundTint="@color/neutral"
-                            android:textColor="@color/black"
-                            android:padding="0dp"
-                            android:text="-" />
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/labelQuantity"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            app:errorEnabled="true">
+                        android:value="@={viewModel.model.quantity}"/>
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:divider="@drawable/divider_10"-->
+<!--                        android:showDividers="middle">-->
+<!--                        <Button-->
+<!--                            android:id="@+id/buttonMinus"-->
+<!--                            android:enabled="@{viewModel.quantity > 1}"-->
+<!--                            android:layout_width="40dp"-->
+<!--                            android:layout_height="52dp"-->
+<!--                            app:cornerRadius="50dp"-->
+<!--                            app:backgroundTint="@color/neutral"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:padding="0dp"-->
+<!--                            android:text="-" />-->
+<!--                        <com.google.android.material.textfield.TextInputLayout-->
+<!--                            android:id="@+id/labelQuantity"-->
+<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:errorEnabled="true">-->
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/textQuantity"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@={viewModel.quantity + ``}"
-                                android:hint="Quantity"
-                                android:maxLines="1" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                        <Button
-                            android:id="@+id/buttonAdd"
-                            android:layout_width="40dp"
-                            android:layout_height="52dp"
-                            app:cornerRadius="50dp"
-                            app:backgroundTint="@color/neutral"
-                            android:textColor="@color/black"
-                            android:padding="0dp"
-                            android:text="+" />
-                    </LinearLayout>
+<!--                            <com.google.android.material.textfield.TextInputEditText-->
+<!--                                android:id="@+id/textQuantity"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@={viewModel.quantity + ``}"-->
+<!--                                android:hint="Quantity"-->
+<!--                                android:maxLines="1" />-->
+<!--                        </com.google.android.material.textfield.TextInputLayout>-->
+<!--                        <Button-->
+<!--                            android:id="@+id/buttonAdd"-->
+<!--                            android:layout_width="40dp"-->
+<!--                            android:layout_height="52dp"-->
+<!--                            app:cornerRadius="50dp"-->
+<!--                            app:backgroundTint="@color/neutral"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:padding="0dp"-->
+<!--                            android:text="+" />-->
+<!--                    </LinearLayout>-->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

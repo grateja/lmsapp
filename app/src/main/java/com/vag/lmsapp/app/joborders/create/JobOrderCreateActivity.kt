@@ -113,7 +113,8 @@ class JobOrderCreateActivity : BaseActivity() {
                 }
             }
             ACTION_LOAD_EMPTY_JOB_ORDER -> {
-                viewModel.loadEmptyJobOrder()
+                val customerId = intent.getStringExtra(CUSTOMER_ID).toUUID()
+                viewModel.loadEmptyJobOrder(customerId)
             }
         }
     }

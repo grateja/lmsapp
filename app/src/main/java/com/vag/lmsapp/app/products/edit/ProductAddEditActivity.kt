@@ -31,6 +31,10 @@ class ProductAddEditActivity(
 
         binding.controls.viewModel = viewModel
 
+        binding.textCurrentStock.selectAllOnFocus()
+        binding.textPrice.selectAllOnFocus()
+        binding.textUnitPerServe.selectAllOnFocus()
+
         subscribeListeners()
         subscribeEvents()
 

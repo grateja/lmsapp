@@ -75,6 +75,7 @@
                     app:errorText="@{viewModel.validation.get(`name`)}">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_name"
                         android:text="@={viewModel.model.name}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -98,6 +99,7 @@
                         app:errorText="@{viewModel.validation.get(`price`)}">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_price"
                             android:text="@={viewModel.model.price + ``}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -119,6 +121,7 @@
                         app:errorText="@{viewModel.validation.get(`unitPerServe`)}">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_unit_per_serve"
                             android:text="@={viewModel.model.unitPerServe + ``}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -157,6 +160,7 @@
                         app:errorText="@{viewModel.validation.get(`currentStock`)}">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_current_stock"
                             android:text="@={viewModel.model.currentStock + ``}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

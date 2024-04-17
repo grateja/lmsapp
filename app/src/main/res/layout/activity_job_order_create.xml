@@ -215,7 +215,7 @@
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:peso="@{viewModel.subtotal}"
+                    android:peso="@{viewModel.discountedAmount}"
                     tools:text="P 240.0"/>
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/button_confirm"

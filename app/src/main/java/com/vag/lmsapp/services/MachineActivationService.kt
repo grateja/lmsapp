@@ -143,6 +143,10 @@ class MachineActivationService : Service() {
             LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(MACHINE_ACTIVATION).apply {
                 putExtra(ACTIVATION_QUEUES_EXTRA, queue)
             })
+
+            val notification = getNotification(message)
+            startForeground(NOTIFICATION_ID, notification)
+
             Thread {
                 runBlocking {
                     delay(1000L)
@@ -159,8 +163,8 @@ class MachineActivationService : Service() {
         }
     }
 
-    private fun getNotification(machineName: String?): Notification {
-        val message = if(machineName == null) "Establishing connection" else "Connecting to $machineName..."
+    private fun getNotification(message: String?): Notification {
+//        val message = if(message == null) "Establishing connection" else "Connecting to $message..."
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             // 2
             .setContentTitle(this.getString(R.string.app_name))
@@ -223,7 +227,7 @@ class MachineActivationService : Service() {
 
                     queues.add(queue)
 
-                    startForeground(NOTIFICATION_ID, getNotification(machine?.machineName()))
+                    startForeground(NOTIFICATION_ID, getNotification("Connecting to ${machine?.machineName()}..."))
 
                     LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(MACHINE_ACTIVATION).apply {
                         putExtra(ACTIVATION_QUEUES_EXTRA, queue)
@@ -343,6 +347,12 @@ class MachineActivationService : Service() {
                 finishQueue(machine.id, MachineConnectionStatus.FAILED,"Invalid response from card terminal")
                 return false
             }
+        } catch (e: java.net.ConnectException) {
+            finishQueue(machine.id, MachineConnectionStatus.FAILED, "Failed to connect to card terminal")
+            return false
+        } catch (e: java.net.SocketTimeoutException) {
+            finishQueue(machine.id, MachineConnectionStatus.FAILED, "Connection to card terminal timed out")
+            return false
         } catch(e: NumberFormatException) {
             finishQueue(machine.id, MachineConnectionStatus.FAILED, "Request success but got an invalid response from the terminal")
             return false

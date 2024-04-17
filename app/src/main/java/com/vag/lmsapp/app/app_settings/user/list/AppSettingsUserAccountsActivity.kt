@@ -76,7 +76,7 @@ class AppSettingsUserAccountsActivity : AppCompatActivity() {
     private fun openUserPreview(userId: UUID) {
         val intent = Intent(this, UserAccountPreviewActivity::class.java).apply {
             putExtra(USER_ID, userId.toString())
-            putExtra(AUTH_ID, authId)
+            putExtra(AUTH_ID, authId.toString())
         }
         startActivity(intent)
     }
