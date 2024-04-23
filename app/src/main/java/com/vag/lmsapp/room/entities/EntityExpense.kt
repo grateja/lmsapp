@@ -2,9 +2,10 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.vag.lmsapp.util.DbColumns.Companion.EXPENSES
 import java.util.UUID
 
-@Entity(tableName = "expenses")
+@Entity(tableName = EXPENSES)
 data class EntityExpense(
     var remarks: String? = null,
     var amount: Float? = 0f,

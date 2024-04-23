@@ -3,8 +3,9 @@ package com.vag.lmsapp.room.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.vag.lmsapp.model.EnumDeliveryVehicle
+import com.vag.lmsapp.util.DbColumns.Companion.DELIVERY_PROFILES
 
-@Entity(tableName = "delivery_profiles")
+@Entity(tableName = DELIVERY_PROFILES)
 data class EntityDeliveryProfile(
     var vehicle: EnumDeliveryVehicle,
 

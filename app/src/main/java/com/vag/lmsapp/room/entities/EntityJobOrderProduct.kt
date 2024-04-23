@@ -5,9 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.model.EnumMeasureUnit
+import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDER_PRODUCTS
 import java.util.*
 
-@Entity(tableName = "job_order_products")
+@Entity(tableName = JOB_ORDER_PRODUCTS)
 data class EntityJobOrderProduct(
     @ColumnInfo(name = "job_order_id")
     var jobOrderId: UUID?,

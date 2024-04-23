@@ -2,9 +2,10 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.vag.lmsapp.util.DbColumns.Companion.INVENTORY_LOGS
 import java.util.*
 
-@Entity(tableName = "inventory_log")
+@Entity(tableName = INVENTORY_LOGS)
 data class EntityInventoryLog(
     @ColumnInfo(name = "product_id")
     var productId: UUID? = null,

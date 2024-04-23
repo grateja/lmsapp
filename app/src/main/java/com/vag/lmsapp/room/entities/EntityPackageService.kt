@@ -1,11 +1,12 @@
 package com.vag.lmsapp.room.entities
 
 import androidx.room.*
+import com.vag.lmsapp.util.DbColumns.Companion.PACKAGE_SERVICES
 import java.time.Instant
 import java.util.*
 
 @Entity(
-    tableName = "package_services",
+    tableName = PACKAGE_SERVICES,
     foreignKeys = [
         ForeignKey(entity = EntityPackage::class, parentColumns = ["id"], childColumns = ["package_id"], onDelete = ForeignKey.CASCADE)
     ]

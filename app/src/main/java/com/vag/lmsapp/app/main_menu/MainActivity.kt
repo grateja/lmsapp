@@ -21,8 +21,6 @@ import com.vag.lmsapp.app.packages.PackagesActivity
 import com.vag.lmsapp.app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity
 import com.vag.lmsapp.app.app_settings.printer.SettingsPrinterActivity
 import com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsActivity
-import com.vag.lmsapp.app.auth.AuthActionDialogActivity
-import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
 import com.vag.lmsapp.app.products.ProductsActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
@@ -33,6 +31,7 @@ import com.vag.lmsapp.databinding.ActivityMainBinding
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.ActivityContractsLauncher
 import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +41,7 @@ class MainActivity : EndingActivity() {
     private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
-    private val authLauncher = ActivityLauncher(this)
+    private val authLauncher = AuthLauncherActivity(this)
 
     private val adapter = Adapter<MenuItem>(R.layout.recycler_item_main_menu)
 
@@ -205,15 +204,16 @@ class MainActivity : EndingActivity() {
                 else -> {}
             }
         })
-        authLauncher.onOk = {
-            when(it.data?.action) {
-                AuthActionDialogActivity.AUTH_ACTION -> {
-                    it.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
-                        println("auth passed")
-                        mainViewModel.permissionGranted(it)
-                    }
-                }
-            }
+        authLauncher.onOk = { loginCredentials, code ->
+            mainViewModel.permissionGranted(loginCredentials)
+//            when(it.data?.action) {
+//                AuthActionDialogActivity.AUTH_ACTION -> {
+//                    it.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
+//                        println("auth passed")
+//                        mainViewModel.permissionGranted(loginCredentials)
+//                    }
+//                }
+//            }
         }
         adapter.onItemClick = {
             println("menu item")
@@ -223,13 +223,15 @@ class MainActivity : EndingActivity() {
     }
 
     private fun requestPermission(menuItem: MenuItem) {
-        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-            action = AuthActionDialogActivity.AUTH_ACTION
-            menuItem.permissions?.let {
-                putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(it))
-            }
+//        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
+//            action = AuthActionDialogActivity.AUTH_ACTION
+//            menuItem.permissions?.let {
+//                putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(it))
+//            }
+//        }
+        menuItem.permissions?.let {
+            authLauncher.launch(ArrayList(it), 1)
         }
-        authLauncher.launch(intent)
     }
 
     private fun openMenu(menuItem: MenuItem) {

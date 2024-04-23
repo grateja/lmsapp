@@ -49,6 +49,7 @@ class UserAccountPreviewActivity : AppCompatActivity() {
         binding.cardChangePassword.setOnClickListener {
             val intent = Intent(this, AppSettingsChangePasswordActivity::class.java).apply {
                 putExtra(AUTH_ID, authId.toString())
+                putExtra(USER_ID, userId.toString())
             }
             startActivity(intent)
         }

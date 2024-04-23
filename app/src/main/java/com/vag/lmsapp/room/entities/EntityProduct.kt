@@ -4,8 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.model.EnumMeasureUnit
+import com.vag.lmsapp.util.DbColumns.Companion.PRODUCTS
 
-@Entity(tableName = "products")
+@Entity(tableName = PRODUCTS)
 class EntityProduct(
     @ColumnInfo(name = "name")
     var name: String?,

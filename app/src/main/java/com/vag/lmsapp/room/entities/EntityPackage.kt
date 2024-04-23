@@ -2,8 +2,9 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.vag.lmsapp.util.DbColumns.Companion.PACKAGES
 
-@Entity(tableName = "packages")
+@Entity(tableName = PACKAGES)
 data class EntityPackage(
     @ColumnInfo(name = "package_name")
     var packageName: String,

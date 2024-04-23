@@ -98,9 +98,12 @@ class JobOrderListActivity : FilterActivity() {
         adapter.onScrollAtTheBottom = {
             viewModel.loadMore()
         }
-        binding.cardAddNew.setOnClickListener {
+//        binding.cardAddNew.setOnClickListener {
+//            createNewJo()
+////            selectCustomer()
+//        }
+        binding.buttonCreateNewJobOrder.setOnClickListener {
             createNewJo()
-//            selectCustomer()
         }
         binding.cardAdvancedOptions.setOnClickListener {
             viewModel.showAdvancedFilter()

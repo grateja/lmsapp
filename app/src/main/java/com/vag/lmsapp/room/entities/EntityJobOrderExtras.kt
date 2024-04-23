@@ -3,9 +3,10 @@ package com.vag.lmsapp.room.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDER_EXTRAS
 import java.util.*
 
-@Entity(tableName = "job_order_extras")
+@Entity(tableName = JOB_ORDER_EXTRAS)
 data class EntityJobOrderExtras(
     @ColumnInfo(name = "job_order_id")
     var jobOrderId: UUID?,

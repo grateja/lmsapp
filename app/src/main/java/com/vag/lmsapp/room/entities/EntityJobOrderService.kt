@@ -1,9 +1,10 @@
 package com.vag.lmsapp.room.entities
 
 import androidx.room.*
+import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDER_SERVICES
 import java.util.*
 
-@Entity(tableName = "job_order_services")
+@Entity(tableName = JOB_ORDER_SERVICES)
 data class EntityJobOrderService(
     @ColumnInfo(name = "job_order_id")
     var jobOrderId: UUID?,

@@ -38,7 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".app.app_settings.user.change_password.AppSettingsChangePasswordActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".app.app_settings.user.preview.UserAccountPreviewActivity"
             android:exported="false" />

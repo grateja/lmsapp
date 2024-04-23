@@ -1,14 +1,12 @@
 package com.vag.lmsapp.app.expenses.edit
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
-import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityExpenseAddEditBinding
 import com.vag.lmsapp.util.*
@@ -21,13 +19,13 @@ class ExpenseAddEditActivity(
 //    override var requireAuthOnDelete: Boolean = true
 ) : CrudActivity() {
     companion object {
-        const val MODIFY_DATE_ACTION = "modifyDate"
+        const val MODIFY_DATE_ACTION = 1
     }
 
     private lateinit var binding: ActivityExpenseAddEditBinding
     private val viewModel: ExpenseAddEditViewModel by viewModels()
     private val dateTimePicker = DateTimePicker(this)
-     private val launcher = ActivityLauncher(this)
+//     private val launcher = AuthLauncherActivity(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,17 +44,19 @@ class ExpenseAddEditActivity(
 
     private fun subscribeEvents() {
         binding.textDatePaid.setOnClickListener {
-            val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-                action = MODIFY_DATE_ACTION
-            }
-            launcher.launch(intent)
+            viewModel.showDateTimePicker()
+//            launcher.launch(emptyList(), MODIFY_DATE_ACTION)
+//            val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
+//                action = MODIFY_DATE_ACTION
+//            }
+//            launcher.launch(intent)
         }
 
-        launcher.onOk = {
-            if(it.data?.action == MODIFY_DATE_ACTION) {
-                dateTimePicker.show(viewModel.getDateCreated())
-            }
-        }
+//        launcher.onOk = { loginCredentials, code ->
+//            if(code == MODIFY_DATE_ACTION) {
+//                viewModel.showDateTimePicker()
+//            }
+//        }
 
         dateTimePicker.onDateTimeSelected = {
             viewModel.setDateCreated(it)
@@ -91,6 +91,16 @@ class ExpenseAddEditActivity(
                     viewModel.resetState()
                 }
 
+                else -> {}
+            }
+        })
+
+        viewModel.navigationState.observe(this, Observer {
+            when(it) {
+                is ExpenseAddEditViewModel.NavigationState.ShowDateTimePicker -> {
+                    dateTimePicker.show(it.dateTime)
+                    viewModel.resetNavigationState()
+                }
                 else -> {}
             }
         })

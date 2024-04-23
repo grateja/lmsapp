@@ -3,9 +3,10 @@ package com.vag.lmsapp.room.entities
 import androidx.room.*
 import com.vag.lmsapp.model.EnumDeliveryOption
 import com.vag.lmsapp.model.EnumDeliveryVehicle
+import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDER_DELIVERY_CHARGE
 import java.util.*
 
-@Entity(tableName = "job_order_delivery_charges")
+@Entity(tableName = JOB_ORDER_DELIVERY_CHARGE)
 data class EntityJobOrderDeliveryCharge(
     @ColumnInfo(name = "delivery_profile_id")
     val deliveryProfileId: UUID,

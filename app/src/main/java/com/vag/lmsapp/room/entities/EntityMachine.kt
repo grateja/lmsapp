@@ -4,9 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.util.DbColumns.Companion.MACHINES
 import java.util.*
 
-@Entity(tableName = "machines")
+@Entity(tableName = MACHINES)
 data class EntityMachine(
     @ColumnInfo(name = "stack_order")
     var stackOrder: Int?,

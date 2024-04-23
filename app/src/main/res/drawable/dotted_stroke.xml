@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background shape -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/neutral"
+                android:dashWidth="8dp"
+                android:dashGap="4dp" />
+            <corners android:radius="20dp" /> <!-- Set the same corner radius as the background -->
+        </shape>
+    </item>
+</layer-list>

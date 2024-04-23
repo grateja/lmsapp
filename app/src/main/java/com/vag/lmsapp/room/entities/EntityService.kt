@@ -4,8 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.util.DbColumns.Companion.SERVICES
 
-@Entity(tableName = "services")
+@Entity(tableName = SERVICES)
 class EntityService(
     @ColumnInfo(name = "name")
     var name: String?,

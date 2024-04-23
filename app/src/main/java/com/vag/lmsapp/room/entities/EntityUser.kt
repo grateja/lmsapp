@@ -4,8 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.model.Role
+import com.vag.lmsapp.util.DbColumns.Companion.USERS
 
-@Entity(tableName = "users")
+@Entity(tableName = USERS)
 class EntityUser(
     @ColumnInfo(name = "role")
     var role: Role,

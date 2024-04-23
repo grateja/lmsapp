@@ -113,7 +113,7 @@ constructor(
                                 _dataState.value = DataState.Invalidate("You do not have the necessary permissions to perform this action.")
                             } else {
                                 _dataState.value = DataState.SaveSuccess(
-                                    LoginCredentials(it.email, it.password, it.id, it.name)
+                                    LoginCredentials(it.email, it.password, it.id, it.name, it.role)
                                 )
                             }
                         } else {

@@ -1,10 +1,11 @@
 package com.vag.lmsapp.room.entities
 
 import androidx.room.*
+import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDERS
 import java.util.*
 
 @Entity(
-    tableName = "job_orders",
+    tableName = JOB_ORDERS,
     foreignKeys = [
         ForeignKey(entity = EntityJobOrderPayment::class, parentColumns = ["id"], childColumns = ["payment_id"], onDelete = ForeignKey.SET_NULL, onUpdate = ForeignKey.CASCADE)
     ]

@@ -2,10 +2,11 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.*
 import com.vag.lmsapp.model.EnumPaymentMethod
+import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDER_PAYMENTS
 import java.util.*
 
 @Entity(
-    tableName = "job_order_payments",
+    tableName = JOB_ORDER_PAYMENTS,
 )
 data class EntityJobOrderPayment(
     @PrimaryKey(autoGenerate = false)

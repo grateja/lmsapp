@@ -3,8 +3,9 @@ package com.vag.lmsapp.room.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.vag.lmsapp.model.EnumDiscountApplicable
+import com.vag.lmsapp.util.DbColumns.Companion.DISCOUNTS
 
-@Entity(tableName = "discounts")
+@Entity(tableName = DISCOUNTS)
 class EntityDiscount(
     var name: String? = null,
 

@@ -8,10 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
-import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivitySubMenuBinding
-import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
 import com.vag.lmsapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +25,7 @@ class SubMenuActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySubMenuBinding
 
     private val mainViewModel: MainViewModel by viewModels()
-    private val authLauncher = ActivityLauncher(this)
+    private val authLauncher = AuthLauncherActivity(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,15 +58,16 @@ class SubMenuActivity : AppCompatActivity() {
                 else -> {}
             }
         })
-        authLauncher.onOk = {
-            when(it.data?.action) {
-                AuthActionDialogActivity.AUTH_ACTION -> {
-                    it.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
-                        println("auth passed")
-                        mainViewModel.permissionGranted(it)
-                    }
-                }
-            }
+        authLauncher.onOk = { loginCredentials, code ->
+            mainViewModel.permissionGranted(loginCredentials)
+//            when(it.data?.action) {
+//                AuthActionDialogActivity.AUTH_ACTION -> {
+//                    it.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
+//                        println("auth passed")
+//                        mainViewModel.permissionGranted(loginCredentials)
+//                    }
+//                }
+//            }
         }
         adapter.onItemClick = {
             mainViewModel.openMenu(it)
@@ -75,16 +75,9 @@ class SubMenuActivity : AppCompatActivity() {
     }
 
     private fun requestPermission(menuItem: MenuItem) {
-        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-            action = AuthActionDialogActivity.AUTH_ACTION
-            menuItem.permissions?.let {
-                putParcelableArrayListExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(it))
-            }
-//            menuItem.roles?.let {
-//                putParcelableArrayListExtra(AuthActionDialogActivity.ROLES_EXTRA, ArrayList(it))
-//            }
+        menuItem.permissions?.let {
+            authLauncher.launch(ArrayList(it), 1)
         }
-        authLauncher.launch(intent)
     }
 
     private fun openMenu(menuItem: MenuItem, loginCredentials: LoginCredentials?) {

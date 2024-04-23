@@ -2,9 +2,10 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.*
 import com.vag.lmsapp.model.EnumDiscountApplicable
+import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDER_DISCOUNT
 import java.util.*
 
-@Entity(tableName = "job_order_discounts")
+@Entity(tableName = JOB_ORDER_DISCOUNT)
 data class EntityJobOrderDiscount(
     @ColumnInfo(name = "discount_id")
     val discountId: UUID?,

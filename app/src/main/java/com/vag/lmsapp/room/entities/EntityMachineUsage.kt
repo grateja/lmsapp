@@ -2,9 +2,10 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.vag.lmsapp.util.DbColumns.Companion.MACHINE_USAGES
 import java.util.*
 
-@Entity(tableName = "machine_usages")
+@Entity(tableName = MACHINE_USAGES)
 class EntityMachineUsage(
     @ColumnInfo(name = "machine_id")
     val machineId: UUID?,

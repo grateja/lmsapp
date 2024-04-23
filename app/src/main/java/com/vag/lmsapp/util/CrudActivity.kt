@@ -4,18 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import com.vag.lmsapp.R
-import com.vag.lmsapp.app.auth.AuthActionDialogActivity
-import com.vag.lmsapp.app.auth.LoginCredentials
 import java.util.*
 
 abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
     companion object {
         const val ENTITY_ID = "entity_id"
-        const val ACTION_SAVE = "save"
-        const val ACTION_DELETE = "delete"
+        const val ACTION_SAVE = 1
+        const val ACTION_DELETE = 2
     }
 
-    private lateinit var authLauncher: ActivityLauncher
+    private lateinit var authLauncher: AuthLauncherActivity
     private var buttonSave: Button? = null
     private var buttonDelete: Button? = null
     private var buttonCancel: Button? = null
@@ -39,11 +37,11 @@ abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
             requestExit()
         }
 
-        authLauncher.onOk = {
-            val loginCredentials = it.data?.getParcelableExtra<LoginCredentials>(
-                AuthActionDialogActivity.RESULT)
+        authLauncher.onOk = { loginCredentials, code ->
+//            val loginCredentials = it.data?.getParcelableExtra<LoginCredentials>(
+//                AuthActionDialogActivity.RESULT)
 
-            when (it.data?.action) {
+            when (code) {
                 ACTION_SAVE -> this.confirmSave(loginCredentials)
                 ACTION_DELETE ->  this.confirmDelete(loginCredentials)
             }
@@ -58,11 +56,11 @@ abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
         showDeleteDialog()
     }
 
-    protected open fun authenticate(action: String) {
-        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-            this.action = action
-        }
-        authLauncher.launch(intent)
+    protected open fun authenticate(code: Int) {
+//        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
+//            this.action = action
+//        }
+        authLauncher.launch(emptyList(), code)
     }
 
     private fun showDeleteDialog() {
@@ -92,7 +90,7 @@ abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        authLauncher = ActivityLauncher(this)
+        authLauncher = AuthLauncherActivity(this)
 
         intent.getStringExtra(ENTITY_ID).toUUID().let {
             this.get(it)
