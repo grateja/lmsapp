@@ -7,11 +7,5 @@ import com.vag.lmsapp.room.entities.EntityUser
 
 data class ExtrasItemFull (
     @Embedded
-    val extras: EntityExtras,
-
-    @Relation(
-        parentColumn = "deleted_by",
-        entityColumn = "id"
-    )
-    val deletedBy: EntityUser?,
+    val extras: EntityExtras
 )

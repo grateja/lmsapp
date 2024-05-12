@@ -30,12 +30,6 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun provideDaoShop(mainDatabase: MainDatabase) : DaoShop {
-        return mainDatabase.daoShop()
-    }
-
-    @Singleton
-    @Provides
     fun provideDaoMachine(mainDatabase: MainDatabase) : DaoMachine {
         return mainDatabase.daoMachine()
     }
@@ -168,6 +162,12 @@ object RoomModule {
     @Provides
     fun provideActivityLogDao(mainDatabase: MainDatabase) : DaoActivityLog {
         return mainDatabase.daoActivityLog()
+    }
+
+    @Singleton
+    @Provides
+    fun provideShopDao(mainDatabase: MainDatabase): DaoShop {
+        return mainDatabase.daoShop()
     }
 
 //    @Singleton

@@ -30,6 +30,7 @@ import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.calculateSpanCount
 import com.google.android.material.tabs.TabLayout
 import com.vag.lmsapp.model.MachineConnectionStatus
+import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.showMessageDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +39,7 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRemoteActivationPanelBinding
     private lateinit var machineOption: BottomSheetMachineOptionsFragment
     private val viewModel: RemotePanelViewModel by viewModels()
+    private val networkHelper = NetworkHelper(this)
 
     private val adapter = RemotePanelAdapter() //Adapter<MachineListItem>(R.layout.recycler_item_machine_tile)
 //    private val regularDryersAdapter = RemotePanelAdapter() //Adapter<MachineListItem>(R.layout.recycler_item_machine_tile)
@@ -84,6 +86,11 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
             getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         connectivityManager.registerDefaultNetworkCallback(wifiStateCallback)
+
+        networkHelper.suggestWifiNetwork(
+            getString(R.string.wifi_ssid),
+            getString(R.string.wifi_password)
+        )
     }
 
     private val wifiStateCallback = object: ConnectivityManager.NetworkCallback() {

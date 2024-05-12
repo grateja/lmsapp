@@ -2,9 +2,8 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import com.vag.lmsapp.util.DbColumns.Companion.SHOP
 
-@Entity(tableName = SHOP)
+@Entity(tableName = "shops")
 class EntityShop : BaseEntity() {
     @ColumnInfo(name = "name")
     var name: String? = null

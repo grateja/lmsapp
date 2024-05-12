@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">LMS App</string>
 
+    <string name="wifi_ssid">ELS-CSI ECCMS</string>
+    <string name="wifi_password">ewankodikoalam</string>
+
     <string name="ok">Okay</string>
     <string name="cancel">Cancel</string>
     <string name="password">Password</string>

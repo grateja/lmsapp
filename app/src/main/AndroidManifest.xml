@@ -33,12 +33,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
         <activity
-            android:name=".app.joborders.payment.delete.JobOrderPaymentDeleteActivity"
-            android:label="Delete payment"
+            android:name=".app.lms_live.register.RegisterWithQrCodeActivity"
             android:exported="false" />
         <activity
+            android:name=".app.joborders.payment.delete.JobOrderPaymentDeleteActivity"
+            android:exported="false"
+            android:label="Delete payment" />
+        <activity
             android:name=".app.app_settings.user.change_password.AppSettingsChangePasswordActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".app.app_settings.user.preview.UserAccountPreviewActivity"
             android:exported="false" />

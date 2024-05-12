@@ -15,9 +15,9 @@ constructor(
         const val JOB_ORDER_REQUIRE_OR_NUMBER = "requireOrNumberKeme"
         const val JOB_ORDER_REQUIRE_PICTURE_ON_CASHLESS_PAYMENT = "requirePictureOnCashlessPayment"
 
-        const val SHOP_NAME = "shopName"
+        const val SHOP_NAME = "name"
         const val ADDRESS = "address"
-        const val CONTACT_NUMBER = "contactNumber"
+        const val CONTACT_NUMBER = "contact_number"
         const val EMAIL = "email"
     }
     val maxUnpaidJobOrderLimit = getAsLiveData(JOB_ORDER_MAX_UNPAID, 3)

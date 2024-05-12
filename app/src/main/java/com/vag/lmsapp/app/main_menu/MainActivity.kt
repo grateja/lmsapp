@@ -25,6 +25,7 @@ import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
 import com.vag.lmsapp.app.products.ProductsActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
 import com.vag.lmsapp.app.dashboard.DashBoardActivity
+import com.vag.lmsapp.app.lms_live.register.RegisterWithQrCodeActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.services.ServicesActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
@@ -32,6 +33,7 @@ import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.ActivityContractsLauncher
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.AuthLauncherActivity
+import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,6 +46,7 @@ class MainActivity : EndingActivity() {
     private val authLauncher = AuthLauncherActivity(this)
 
     private val adapter = Adapter<MenuItem>(R.layout.recycler_item_main_menu)
+    private lateinit var networkHelper: NetworkHelper
 
     private val permissionRequestLauncher = ActivityContractsLauncher(this).apply {
         onOk = {
@@ -53,6 +56,13 @@ class MainActivity : EndingActivity() {
 
     private val menuItems by lazy {
         listOf(
+            MenuItem(
+                "QR code",
+                "Manage and track job orders.",
+                RegisterWithQrCodeActivity::class.java,
+                R.drawable.icon_job_orders,
+                backgroundColor = resources.getColor(R.color.color_code_job_order, null)
+            ),
             MenuItem(
                 "Dashboard",
                 "Generate and view sales reports.",
@@ -172,6 +182,10 @@ class MainActivity : EndingActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        networkHelper = NetworkHelper(this)
+        binding.buttonTest?.setOnClickListener {
+            networkHelper.removeWifiSuggestion("ELS-CSI ECCMS", "ewankodikoalam")
+        }
 
         adapter.setData(
             menuItems

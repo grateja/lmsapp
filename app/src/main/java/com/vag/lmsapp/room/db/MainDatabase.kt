@@ -10,8 +10,8 @@ import com.vag.lmsapp.room.migrations.*
 import com.vag.lmsapp.util.converters.*
 
 @Database(entities = [
-    EntityUser::class,
     EntityShop::class,
+    EntityUser::class,
     EntityMachine::class,
     EntityMachineRemarks::class,
     EntityMachineUsage::class,
@@ -61,7 +61,6 @@ import com.vag.lmsapp.util.converters.*
 )
 abstract class MainDatabase : RoomDatabase() {
     abstract fun daoUser() : DaoUser
-    abstract fun daoShop() : DaoShop
     abstract fun daoMachine() : DaoMachine
     abstract fun daoMachineRemarks() : DaoMachineRemarks
     abstract fun daoMachineUsage() : DaoMachineUsage
@@ -77,6 +76,7 @@ abstract class MainDatabase : RoomDatabase() {
     abstract fun daoInventoryLog() : DaoInventoryLog
     abstract fun daoDiscount() : DaoDiscount
 //    abstract fun daoCashlessProvider() : DaoCashlessProvider
+    abstract fun daoShop() : DaoShop
     abstract fun daoJobOrderQueues() : DaoJobOrderQueues
     abstract fun daoRemote() : DaoRemote
     abstract fun daoJobOrderService(): DaoJobOrderService

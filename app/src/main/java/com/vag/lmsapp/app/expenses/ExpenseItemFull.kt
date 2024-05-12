@@ -13,11 +13,5 @@ data class ExpenseItemFull(
         parentColumn = "created_by",
         entityColumn = "id"
     )
-    val createdBy: EntityUser,
-
-    @Relation(
-        parentColumn = "deleted_by",
-        entityColumn = "id"
-    )
-    val deletedBy: EntityUser?,
+    val createdBy: EntityUser
 )

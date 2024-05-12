@@ -7,11 +7,5 @@ import com.vag.lmsapp.room.entities.EntityUser
 
 data class ProductItemFull(
     @Embedded
-    val product: EntityProduct,
-
-    @Relation(
-        parentColumn = "deleted_by",
-        entityColumn = "id"
-    )
-    val deletedBy: EntityUser?,
+    val product: EntityProduct
 )

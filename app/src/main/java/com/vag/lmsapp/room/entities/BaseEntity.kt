@@ -21,7 +21,7 @@ abstract class BaseEntity (uuid: UUID? = null) {
 
     @ColumnInfo(name = "sync")
     var sync: Boolean = false
-
-    @ColumnInfo(name = "deleted_by")
-    var deletedBy: UUID? = null
+//
+//    @ColumnInfo(name = "deleted_by")
+//    var deletedBy: UUID? = null
 }

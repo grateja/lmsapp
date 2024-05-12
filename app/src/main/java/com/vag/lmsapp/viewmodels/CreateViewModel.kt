@@ -67,7 +67,7 @@ open class CreateViewModel<T : BaseEntity> (private val iRepository: IRepository
     open fun confirmDelete(deletedBy: UUID?, permanent: Boolean = false) {
         viewModelScope.launch {
             model.value?.let {
-                it.deletedBy = deletedBy
+//                it.deletedBy = deletedBy
                 if(iRepository.delete(it, permanent)) {
                     dataState.value = DataState.DeleteSuccess(it)
                 }

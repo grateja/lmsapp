@@ -22,4 +22,6 @@ constructor (
             e.printStackTrace()
         }
     }
+
+    fun getAsLiveData() = daoShop.getAsLiveData()
 }
