@@ -1,21 +1,26 @@
 package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
+import com.squareup.moshi.Json
 import java.time.Duration
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.*
 
 data class EntityActivationRef(
+    @Json(name = "time_activated")
     @ColumnInfo(name = "time_activated")
     var timeActivated: Instant?,
 
+    @Json(name = "total_minutes")
     @ColumnInfo(name = "total_minutes")
     var totalMinutes: Int?,
 
+    @Json(name = "jo_service_id")
     @ColumnInfo(name = "jo_service_id")
     var joServiceId: UUID?,
 
+    @Json(name = "customer_id")
     @ColumnInfo(name = "customer_id")
     var customerId: UUID?,
 ) {

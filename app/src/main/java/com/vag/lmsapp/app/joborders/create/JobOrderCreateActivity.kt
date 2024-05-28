@@ -38,6 +38,7 @@ import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.joborders.print.JobOrderPrintActivity
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateBinding
+import com.vag.lmsapp.services.LiveSyncService
 import com.vag.lmsapp.util.*
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.ID
@@ -329,6 +330,7 @@ class JobOrderCreateActivity : BaseActivity() {
                 is CreateJobOrderViewModel.DataState.SaveSuccess -> {
                     showDialog("Job Order saved successfully!")
                     viewModel.resetState()
+                    startSync(it.jobOrderId)
                 }
                 is CreateJobOrderViewModel.DataState.OpenPayment -> {
                     openPayment(it.paymentId)
@@ -486,5 +488,14 @@ class JobOrderCreateActivity : BaseActivity() {
                 backPressed = false
             }, 2000)
         }
+    }
+
+    private fun startSync(jobOrderId: UUID) {
+        val intent = LiveSyncService.getIntent(
+            this,
+            jobOrderId,
+            LiveSyncService.ACTION_SYNC_JOB_ORDER
+        )
+        startForegroundService(intent)
     }
 }

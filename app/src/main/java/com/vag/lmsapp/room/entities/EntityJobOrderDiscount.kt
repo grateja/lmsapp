@@ -1,12 +1,14 @@
 package com.vag.lmsapp.room.entities
 
 import androidx.room.*
+import com.squareup.moshi.Json
 import com.vag.lmsapp.model.EnumDiscountApplicable
 import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDER_DISCOUNT
 import java.util.*
 
 @Entity(tableName = JOB_ORDER_DISCOUNT)
 data class EntityJobOrderDiscount(
+    @Json(name = "discount_id")
     @ColumnInfo(name = "discount_id")
     val discountId: UUID?,
 
@@ -14,9 +16,11 @@ data class EntityJobOrderDiscount(
 
     val value: Float,
 
+    @Json(name = "applicable_to")
     @ColumnInfo(name = "applicable_to")
     val applicableTo: List<EnumDiscountApplicable>,
 
+    @Json(name = "void")
     @ColumnInfo(name = "void")
     var isVoid: Boolean = false,
 

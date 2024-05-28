@@ -78,6 +78,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.joText}"/>
+
                     <com.google.android.material.card.MaterialCardView
                         style="@style/RoundCard.NoElevation"
                         android:layout_marginVertical="18dp"

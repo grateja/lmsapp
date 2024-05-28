@@ -2,30 +2,28 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.squareup.moshi.Json
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.util.DbColumns.Companion.USERS
 
 @Entity(tableName = USERS)
-class EntityUser(
-    @ColumnInfo(name = "role")
-    var role: Role,
+class EntityUser : BaseEntity() {
+    var role: Role = Role.STAFF
 
-    @ColumnInfo(name = "name")
-    var name: String,
+    var name: String = ""
 
-    @ColumnInfo(name = "email")
-    var email: String,
+    var email: String = ""
 
-    @ColumnInfo(name = "password")
-    var password: String,
+    @Json(ignore = true)
+    var password: String = ""
 
-    @ColumnInfo(name = "permissions")
-    var permissions: List<EnumActionPermission>,
+    var permissions: List<EnumActionPermission> = listOf(EnumActionPermission.BASIC)
 
     @ColumnInfo(name = "contact_number")
-    var contactNumber: String? = null,
+    var contactNumber: String? = null
 
+    @Json(ignore = true)
     @ColumnInfo(name = "pattern_ids")
-    var patternIds: ArrayList<Int>,
-) : BaseEntity()
+    var patternIds: ArrayList<Int> = arrayListOf()
+}

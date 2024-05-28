@@ -14,6 +14,7 @@ import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
 import com.vag.lmsapp.databinding.ActivityJobOrderPaymentBinding
 import com.vag.lmsapp.model.EnumPaymentMethod
+import com.vag.lmsapp.services.LiveSyncService
 import com.vag.lmsapp.util.*
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
@@ -141,6 +142,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
                         putExtra(PAYMENT_ID, it.payment.id.toString())
                         putExtra(SELECTED_JOB_ORDER_IDS, it.jobOrderIds)
                     })
+                    startForegroundService(LiveSyncService.getIntent(this, it.payment.id, LiveSyncService.ACTION_SYNC_PAYMENT))
                     viewModel.resetState()
                     finish()
                 }

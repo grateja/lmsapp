@@ -3,29 +3,31 @@ package com.vag.lmsapp.room.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
 import com.vag.lmsapp.util.DbColumns.Companion.JOB_ORDER_EXTRAS
 import java.util.*
 
 @Entity(tableName = JOB_ORDER_EXTRAS)
 data class EntityJobOrderExtras(
+    @Json(name = "job_order_id")
     @ColumnInfo(name = "job_order_id")
     var jobOrderId: UUID?,
 
+    @Json(name = "extras_id")
     @ColumnInfo(name = "extras_id")
     var extrasId: UUID,
 
+    @Json(name = "extras_name")
     @ColumnInfo(name = "extras_name")
     var extrasName: String,
 
-    @ColumnInfo(name = "price")
     var price: Float,
 
-    @ColumnInfo(name = "quantity")
     var quantity: Int,
 
-    @ColumnInfo(name = "category")
     var category: String?,
 
+    @Json(name = "void")
     @ColumnInfo(name = "void")
     var isVoid: Boolean = false,
 

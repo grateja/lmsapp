@@ -21,4 +21,7 @@ abstract class DaoExtras : BaseDao<EntityExtras> {
 
     @Query("SELECT DISTINCT category FROM extras WHERE category IS NOT NULL ORDER BY category")
     abstract fun getCategories(): LiveData<List<String>>
+
+    @Query("SELECT * FROM extras WHERE sync = 0")
+    abstract suspend fun unSynced(): List<EntityExtras>
 }

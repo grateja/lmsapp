@@ -20,6 +20,7 @@ import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.app.packages.PackagesActivity
 import com.vag.lmsapp.app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity
 import com.vag.lmsapp.app.app_settings.printer.SettingsPrinterActivity
+import com.vag.lmsapp.app.app_settings.shop_info.ShopInfoActivity
 import com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsActivity
 import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
 import com.vag.lmsapp.app.products.ProductsActivity
@@ -30,6 +31,7 @@ import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.services.ServicesActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
 import com.vag.lmsapp.model.EnumActionPermission
+import com.vag.lmsapp.services.LiveSyncService
 import com.vag.lmsapp.util.ActivityContractsLauncher
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.AuthLauncherActivity
@@ -37,6 +39,7 @@ import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 
 @AndroidEntryPoint
 class MainActivity : EndingActivity() {
@@ -116,9 +119,15 @@ class MainActivity : EndingActivity() {
                 menuItems = arrayListOf(
                     MenuItem(
                         "Shop information",
-                        "Give some description for your shop.",
+                        "Give some description to your shop.",
+                        ShopInfoActivity::class.java,
+                        permissions = listOf(EnumActionPermission.MODIFY_SETTINGS_SHOP_DETAILS)
+                    ),
+                    MenuItem(
+                        "Job order settings",
+                        "Modify how job orders are managed.",
                         AppSettingsShopPreferencesActivity::class.java,
-                        permissions = listOf(EnumActionPermission.MODIFY_SETTINGS_JOB_ORDERS, EnumActionPermission.MODIFY_SETTINGS_SHOP_DETAILS)
+                        permissions = listOf(EnumActionPermission.MODIFY_SETTINGS_JOB_ORDERS)
                     ),
                     MenuItem(
                         "Wash & Dry Services",
@@ -201,6 +210,9 @@ class MainActivity : EndingActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissionRequestLauncher.launch(arrayOf(POST_NOTIFICATIONS))
         }
+
+        val intent = LiveSyncService.getIntent(this, UUID.randomUUID(), LiveSyncService.ACTION_SYNC_BULK_PAYLOAD)
+        startForegroundService(intent)
     }
 
     private fun subscribeEvents() {

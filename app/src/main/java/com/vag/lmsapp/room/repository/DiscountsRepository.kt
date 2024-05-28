@@ -26,4 +26,6 @@ constructor (
     suspend fun filter(keyword: String): List<EntityDiscount> {
         return dao.filter(keyword)
     }
+
+    suspend fun unSynced() = dao.unSynced()
 }

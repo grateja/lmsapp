@@ -1,6 +1,7 @@
 package com.vag.lmsapp.room.entities
 
 import androidx.room.*
+import com.squareup.moshi.Json
 import com.vag.lmsapp.util.DbColumns.Companion.PACKAGE_SERVICES
 import java.time.Instant
 import java.util.*
@@ -12,19 +13,19 @@ import java.util.*
     ]
 )
 data class EntityPackageService(
+    @Json(name = "package_id")
     @ColumnInfo(name = "package_id")
     val packageId: UUID,
 
+    @Json(name = "service_id")
     @ColumnInfo(name = "service_id")
     val serviceId: UUID,
 
-    @ColumnInfo(name = "quantity")
     val quantity: Int,
 
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "id")
     val id: UUID = UUID.randomUUID(),
 
-    @ColumnInfo(name = "deleted")
+    @Json(name = "is_deleted")
     var deleted: Boolean = false
 )

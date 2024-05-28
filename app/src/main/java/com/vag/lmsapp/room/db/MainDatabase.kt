@@ -37,6 +37,7 @@ import com.vag.lmsapp.util.converters.*
     EntityInventoryLog::class,
     EntityDiscount::class,
     EntityActivityLog::class,
+    SanctumToken::class,
 ], version = 13,
     exportSchema = true,
 )
@@ -84,6 +85,7 @@ abstract class MainDatabase : RoomDatabase() {
     abstract fun daoJobOrderExtras(): DaoJobOrderExtras
     abstract fun daoJobOrderPickupDelivery(): DaoJobOrderPickupDelivery
     abstract fun daoActivityLog(): DaoActivityLog
+    abstract fun daoSanctum(): DaoSanctum
 
     companion object {
         private const val DATABASE_NAME: String = "main_db"

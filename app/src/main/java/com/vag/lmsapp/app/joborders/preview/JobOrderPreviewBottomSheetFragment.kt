@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.squareup.moshi.JsonAdapter
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
@@ -146,7 +147,13 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
             it?.extras?.filter { !it.deleted }?.map { JobOrderItemMinimal(it.quantity, it.extrasName, it.price) }?.let { extras ->
                 extrasAdapter.setData(extras)
             }
+//            it?.let {
+//                viewModel.test(it)
+//            }
         })
+//        viewModel.joText.observe(viewLifecycleOwner, Observer {
+//            viewModel.test(it)
+//        })
     }
 
     private fun subscribeEvents() {

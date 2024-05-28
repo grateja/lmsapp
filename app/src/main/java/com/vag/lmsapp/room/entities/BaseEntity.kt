@@ -2,26 +2,25 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
 import java.time.Instant
 import java.util.*
 
 abstract class BaseEntity (uuid: UUID? = null) {
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "id")
     open var id: UUID = uuid ?: UUID.randomUUID()
 
+    @Json(name = "created_at")
     @ColumnInfo(name = "created_at")
     var createdAt: Instant = Instant.now()
 
+    @Json(name = "updated_at")
     @ColumnInfo(name = "updated_at")
     var updatedAt: Instant = Instant.now()
 
-    @ColumnInfo(name = "deleted")
+    @Json(name = "is_deleted")
     var deleted: Boolean = false
 
-    @ColumnInfo(name = "sync")
+    @Json(ignore = true)
     var sync: Boolean = false
-//
-//    @ColumnInfo(name = "deleted_by")
-//    var deletedBy: UUID? = null
 }

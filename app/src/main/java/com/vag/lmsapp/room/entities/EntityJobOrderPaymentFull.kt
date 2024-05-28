@@ -5,10 +5,10 @@ import androidx.room.Relation
 
 data class EntityJobOrderPaymentFull(
     @Embedded
-    val payment: EntityJobOrderPayment?,
+    val payment: EntityJobOrderPayment,
 
     @Relation(
-        parentColumn = "userId",
+        parentColumn = "user_id",
         entityColumn = "id",
         entity = EntityUser::class
     )

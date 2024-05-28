@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.network.NetworkRepository
 import com.vag.lmsapp.network.dao.BranchDao
+import com.vag.lmsapp.room.repository.SanctumRepository
 import com.vag.lmsapp.room.repository.ShopRepository
+import com.vag.lmsapp.util.MoshiHelper
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +20,9 @@ class RegisterWithQrCodeViewModel
 @Inject
 constructor(
     private val networkRepository: NetworkRepository,
-    private val shopRepository: ShopRepository
+    private val shopRepository: ShopRepository,
+    private val moshiHelper: MoshiHelper,
+    private val sanctumRepository: SanctumRepository
 ) : ViewModel() {
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
@@ -27,9 +31,21 @@ constructor(
     fun link(result: String) {
         viewModelScope.launch {
             try {
+                val result = moshiHelper.decodeShopLinkQrCode(result)
+                println("qr code result")
+                println(result)
                 val shop = shop.value ?: return@launch
-                val ownerId = result.toUUID() ?: return@launch
-                networkRepository.link(shop, ownerId)
+                println("shop")
+                println(shop)
+                val ownerId = result?.userId ?: return@launch
+                println("sending request")
+                networkRepository.link(shop, ownerId, result.token).let {
+                    println("result from retrofit")
+                    println(it)
+                    it.getOrNull()?.let {
+                        sanctumRepository.save(it)
+                    }
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -16,6 +16,9 @@ interface DaoJobOrderPayment {
     fun getPaymentWithJobOrdersAsLiveData(id: UUID) : LiveData<EntityJobOrderPaymentFull?>
 
     @Query("SELECT * FROM job_order_payments WHERE id = :id")
+    suspend fun getPaymentWithJobOrders(id: UUID) : EntityJobOrderPaymentFull?
+
+    @Query("SELECT * FROM job_order_payments WHERE id = :id")
     suspend fun get(id: UUID?): EntityJobOrderPayment?
 
     @Query("UPDATE job_orders SET payment_id = :paymentId WHERE id IN (:jobOrderIds)")

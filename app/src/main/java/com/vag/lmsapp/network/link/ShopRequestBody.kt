@@ -6,7 +6,8 @@ data class ShopRequestBody(
     val id: String?,
     val name: String?,
     val address: String?,
-    val contact_number: String?
+    val contact_number: String?,
+    val timezone: String?,
 ) {
     companion object {
         fun fromShopEntity (shop: EntityShop) : ShopRequestBody {
@@ -14,7 +15,8 @@ data class ShopRequestBody(
                 shop.id.toString(),
                 shop.name,
                 shop.address,
-                shop.contactNumber
+                shop.contactNumber,
+                shop.timezone
             )
         }
     }

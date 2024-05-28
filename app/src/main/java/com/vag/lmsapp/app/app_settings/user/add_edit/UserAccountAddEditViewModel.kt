@@ -36,16 +36,16 @@ constructor(
 
     fun get(userId: UUID?) {
         viewModelScope.launch {
-            val defaultUser = EntityUser(
-                Role.STAFF,
-                "",
-                "",
-                "",
-                listOf(EnumActionPermission.BASIC),
-                null,
-                arrayListOf()
-            )
-            super.get(userId, defaultUser).let {
+//            val defaultUser = EntityUser()
+//                Role.STAFF,
+//                "",
+//                "",
+//                "",
+//                listOf(EnumActionPermission.BASIC),
+//                null,
+//                arrayListOf()
+//            )
+            super.get(userId, EntityUser()).let {
                 originalName = it.name
                 originalEmail = it.email
                 _role.value = it.role

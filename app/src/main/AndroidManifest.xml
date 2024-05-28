@@ -33,6 +33,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
         <activity
+            android:name=".app.app_settings.shop_info.ShopInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.lms_live.register.RegisterWithQrCodeActivity"
             android:exported="false" />
         <activity
@@ -371,6 +374,12 @@
             android:stopWithTask="false" />
         <service
             android:name=".services.PrinterService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false" />
+        <service
+            android:name=".services.LiveSyncService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="specialUse"

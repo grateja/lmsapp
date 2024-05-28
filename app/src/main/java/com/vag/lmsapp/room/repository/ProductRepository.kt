@@ -38,4 +38,6 @@ constructor (
 
     fun getProductPreviewAsLiveData(productId: UUID) = daoProduct.getProductPreviewAsLiveData(productId)
     fun getProductAsLiveData(productId: UUID?) = daoProduct.getAsLiveData(productId)
+
+    suspend fun unSynced() = daoProduct.unSynced()
 }

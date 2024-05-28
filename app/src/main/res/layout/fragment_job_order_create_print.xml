@@ -44,7 +44,7 @@
                         style="@style/Print.Double"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.shopName}"
+                        android:text="@{viewModel.shop.name}"
                         android:textAlignment="center"
                         tools:text="Lagoon CTCC KEME" />
 
@@ -52,7 +52,7 @@
                         style="@style/Print"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.address}"
+                        android:text="@{viewModel.shop.address}"
                         android:textAlignment="center"
                         tools:text="Blk 1 Lot 1 Buenmar Ave Cainta Rizal" />
 

@@ -2,6 +2,7 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.squareup.moshi.Json
 import com.vag.lmsapp.model.EnumDiscountApplicable
 import com.vag.lmsapp.util.DbColumns.Companion.DISCOUNTS
 
@@ -11,6 +12,7 @@ class EntityDiscount(
 
     var value: Float,
 
+    @Json(name = "applicable_to")
     @ColumnInfo(name = "applicable_to")
     var applicableTo: List<EnumDiscountApplicable>
 ) : BaseEntity(null) {

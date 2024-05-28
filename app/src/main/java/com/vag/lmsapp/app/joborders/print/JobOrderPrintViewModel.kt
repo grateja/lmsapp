@@ -13,8 +13,9 @@ import com.vag.lmsapp.model.PrinterItem
 //import com.csi.palabakosys.model.PrintItem
 //import com.csi.palabakosys.room.repository.DataStoreRepository
 import com.vag.lmsapp.room.repository.JobOrderRepository
+import com.vag.lmsapp.room.repository.ShopRepository
 import com.vag.lmsapp.settings.PrinterSettingsRepository
-import com.vag.lmsapp.settings.ShopPreferenceSettingsRepository
+//import com.vag.lmsapp.settings.ShopPreferenceSettingsRepository
 import com.vag.lmsapp.util.toShort
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class JobOrderPrintViewModel
 @Inject
 constructor(
     private val jobOrderRepository: JobOrderRepository,
-    shopPrefRepository: ShopPreferenceSettingsRepository,
+    private val shopRepository: ShopRepository,
     private val printerSettings: PrinterSettingsRepository
 ) : ViewModel() {
     private val showJoItemized = printerSettings.showJoItemized
@@ -87,10 +88,10 @@ constructor(
     val jobOrderWithItems = _jobOrderId.switchMap { jobOrderRepository.getJobOrderWithItemsAsLiveData(it) }
     val unpaidJobOrders = jobOrderWithItems.switchMap { jobOrderRepository.getAllUnpaidByCustomerIdAsLiveData(it?.customer?.id) }
 
-    val shopName = shopPrefRepository.shopName
-    val address = shopPrefRepository.address
-    val contactNumber = shopPrefRepository.contactNumber
-    val email = shopPrefRepository.email
+//    val shopName = shopPrefRepository.shopName
+//    val address = shopPrefRepository.address
+//    val contactNumber = shopPrefRepository.contactNumber
+//    val email = shopPrefRepository.email
     private val disclaimer = printerSettings.jobOrderDisclaimer
 
 //    val joDetails = MediatorLiveData<List<PrintItem>>().apply {
@@ -106,10 +107,12 @@ constructor(
 //        addSource(jobOrderWithItems) {update()}
 //    }
 
+    val shop = shopRepository.getAsLiveData()
+
     val contactInfo = MediatorLiveData<String?>().apply {
         fun update() {
-            val email = email.value?.takeIf { it.isNotBlank() }
-            val contactNumber = contactNumber.value?.takeIf { it.isNotBlank() }
+            val email = shop.value?.email?.takeIf { it.isNotBlank() }
+            val contactNumber = shop.value?.contactNumber?.takeIf { it.isNotBlank() }
 
             value = when {
                 (email != null && contactNumber != null) -> "$contactNumber / $email"
@@ -118,8 +121,7 @@ constructor(
                 else -> ""
             }.takeIf { it.isNotBlank() }
         }
-        addSource(contactNumber) {update()}
-        addSource(email) {update()}
+        addSource(shop) {update()}
     }
 
 
@@ -132,6 +134,7 @@ constructor(
             val characters = characterLength.value ?: 32
             val singleLine = PrinterItem.SingleLine(characters)
             val jobOrder = jobOrderWithItems.value
+            val shop = shop.value
 
             val items = mutableListOf<PrinterItem>()
 
@@ -149,11 +152,11 @@ constructor(
             } else {
                 val showPrice = showJoPrices.value == true && tab == TAB_JOB_ORDER || showClaimStubItemPrice.value == true && tab == TAB_CLAIM_STUB
 
-                shopName.value?.takeIf { it.isNotBlank() }?.let {
+                shop?.name?.takeIf { it.isNotBlank() }?.let {
                     items.add(PrinterItem.HeaderDoubleCenter(it))
                 }
 
-                address.value?.takeIf { it.isNotBlank() }?.let {
+                shop?.address?.takeIf { it.isNotBlank() }?.let {
                     items.add(PrinterItem.TextCenter(it))
                 }
 
@@ -250,8 +253,7 @@ constructor(
             }, 500)
         }
 
-        addSource(shopName) {update()}
-        addSource(address) {update()}
+        addSource(shop) {update()}
         addSource(contactInfo) {update()}
         addSource(jobOrderWithItems) {update()}
         addSource(_selectedTab) {update()}
@@ -491,17 +493,17 @@ constructor(
 
         val header = "[C]<font size='tall'><b>*** ${_selectedTab.value} ***</b></font>\n"
 
-        val shopName = shopName.value.let { "[C]<font size='big'><b>$it</b></font>\n" }
-        val address = address.value?.let { "[C]<font size='small'>$it</font>\n" } ?: ""
-        val contactNumber = contactNumber.value
-        val email = email.value
+//        val shopName = shopName.value.let { "[C]<font size='big'><b>$it</b></font>\n" }
+//        val address = address.value?.let { "[C]<font size='small'>$it</font>\n" } ?: ""
+//        val contactNumber = contactNumber.value
+//        val email = email.value
 
-        val contactInfo = when {
-            !contactNumber.isNullOrBlank() && !email.isNullOrBlank() -> "[C]<font size='small'>$contactNumber/$email</font>\n"
-            !contactNumber.isNullOrBlank() -> "[C]<font size='small'>$contactNumber</font>\n"
-            !email.isNullOrBlank() -> "[C]<font size='small'>$email</font>\n"
-            else -> ""
-        }
+//        val contactInfo = when {
+//            !contactNumber.isNullOrBlank() && !email.isNullOrBlank() -> "[C]<font size='small'>$contactNumber/$email</font>\n"
+//            !contactNumber.isNullOrBlank() -> "[C]<font size='small'>$contactNumber</font>\n"
+//            !email.isNullOrBlank() -> "[C]<font size='small'>$email</font>\n"
+//            else -> ""
+//        }
 
 //        val joDetails = joDetails.value?.takeIf { it.isNotEmpty() }?.let {
 //            it.joinToString("") { it.formattedString() }

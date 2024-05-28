@@ -113,7 +113,13 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.play.services.location)
 
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+    implementation("com.squareup.moshi:moshi:1.15.1")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.15.1")
+//    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
+
     implementation("com.google.zxing:core:3.3.3")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.4.0")
+
 }

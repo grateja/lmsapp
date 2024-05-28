@@ -21,6 +21,8 @@ constructor (
 
     fun getPaymentWithJobOrdersAsLiveData(id: UUID) = daoPayment.getPaymentWithJobOrdersAsLiveData(id)
 
+    suspend fun getPaymentWithJobOrders(id: UUID) = daoPayment.getPaymentWithJobOrders(id)
+
     suspend fun save(payment: EntityJobOrderPayment, jobOrderIds: List<UUID>) : EntityJobOrderPayment {
         return daoPayment.save(payment, jobOrderIds)
     }

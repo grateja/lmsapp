@@ -2,16 +2,18 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.squareup.moshi.Json
 import com.vag.lmsapp.util.DbColumns.Companion.PACKAGES
 
 @Entity(tableName = PACKAGES)
 data class EntityPackage(
+    @Json(name = "package_name")
     @ColumnInfo(name = "package_name")
     var packageName: String,
 
-    @ColumnInfo(name = "description")
     var description: String?,
 
+    @Json(name = "total_price")
     @ColumnInfo(name = "total_price")
     val totalPrice: Float?,
 

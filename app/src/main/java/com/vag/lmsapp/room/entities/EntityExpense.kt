@@ -2,6 +2,7 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.squareup.moshi.Json
 import com.vag.lmsapp.util.DbColumns.Companion.EXPENSES
 import java.util.UUID
 
@@ -11,6 +12,7 @@ data class EntityExpense(
     var amount: Float? = 0f,
     var tag: String? = null,
 
+    @Json(name = "created_by")
     @ColumnInfo(name = "created_by")
     var createdBy: UUID? = null
 ) : BaseEntity()

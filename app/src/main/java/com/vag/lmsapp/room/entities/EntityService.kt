@@ -8,10 +8,8 @@ import com.vag.lmsapp.util.DbColumns.Companion.SERVICES
 
 @Entity(tableName = SERVICES)
 class EntityService(
-    @ColumnInfo(name = "name")
     var name: String?,
 
-    @ColumnInfo(name = "price")
     var price: Float,
 
     @Embedded

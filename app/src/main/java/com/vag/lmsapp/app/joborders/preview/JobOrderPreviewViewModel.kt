@@ -5,9 +5,14 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
+import com.vag.lmsapp.network.NetworkRepository
+import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
 import com.vag.lmsapp.room.repository.JobOrderRepository
+import com.vag.lmsapp.util.MoshiHelper
 import com.vag.lmsapp.util.isToday
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -16,7 +21,9 @@ class JobOrderPreviewViewModel
 
 @Inject
 constructor(
-    private val jobOrderRepository: JobOrderRepository
+    private val jobOrderRepository: JobOrderRepository,
+    private val networkRepository: NetworkRepository,
+    private val moshiHelper: MoshiHelper
 ) : ViewModel() {
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
@@ -27,6 +34,8 @@ constructor(
     private val _jobOrderId = MutableLiveData<UUID>()
 
     val jobOrder = _jobOrderId.switchMap { jobOrderRepository.getJobOrderWithItemsAsLiveData(it) }
+
+    val joText = jobOrder.switchMap { moshiHelper.encodeJobOrderLiveData(it) }
 
     val jobOrderPictures = _jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
 
@@ -105,6 +114,15 @@ constructor(
             value = it?.paymentWithUser != null && it.paymentWithUser?.payment?.deleted == false
         }
     }
+
+//    fun test(jobOrder: EntityJobOrderWithItems) {
+//        viewModelScope.launch {
+//            networkRepository.sendJobOrder(jobOrder, UUID.fromString("ea570cb2-0448-4924-b58c-d48912de638b")).let {
+//                println("req result")
+//                println(it)
+//            }
+//        }
+//    }
 
     fun getByJobOrderId(jobOrderId: UUID) {
         _jobOrderId.value = jobOrderId

@@ -17,46 +17,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:text="SHOP PREFERENCES"
-                style="@style/CardTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <com.google.android.material.card.MaterialCardView
-                style="@style/RoundCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <include layout="@layout/incl_settings_params"
-                        android:id="@+id/card_shop_name"
-                        app:label="@{`SHOP NAME`}"
-                        app:value="@{viewModel.shopName}"/>
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-                    <include layout="@layout/incl_settings_params"
-                        android:id="@+id/card_address"
-                        app:label="@{`ADDRESS`}"
-                        app:value="@{viewModel.address}"/>
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-                    <include layout="@layout/incl_settings_params"
-                        android:id="@+id/card_contact_number"
-                        app:label="@{`CONTACT NUMBER`}"
-                        app:value="@{viewModel.contactNumber}"/>
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
-                    <include layout="@layout/incl_settings_params"
-                        android:id="@+id/card_email"
-                        app:label="@{`EMAIL`}"
-                        app:value="@{viewModel.email}"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+<!--            <TextView-->
+<!--                android:text="SHOP PREFERENCES"-->
+<!--                style="@style/CardTitle"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"/>-->
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                style="@style/RoundCard"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical">-->
+<!--                    <include layout="@layout/incl_settings_params"-->
+<!--                        android:id="@+id/card_shop_name"-->
+<!--                        app:label="@{`SHOP NAME`}"-->
+<!--                        app:value="@{viewModel.shop.name}"/>-->
+<!--                    <com.google.android.material.divider.MaterialDivider-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="1dp"/>-->
+<!--                    <include layout="@layout/incl_settings_params"-->
+<!--                        android:id="@+id/card_address"-->
+<!--                        app:label="@{`ADDRESS`}"-->
+<!--                        app:value="@{viewModel.shop.address}"/>-->
+<!--                    <com.google.android.material.divider.MaterialDivider-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="1dp"/>-->
+<!--                    <include layout="@layout/incl_settings_params"-->
+<!--                        android:id="@+id/card_contact_number"-->
+<!--                        app:label="@{`CONTACT NUMBER`}"-->
+<!--                        app:value="@{viewModel.shop.contactNumber}"/>-->
+<!--                    <com.google.android.material.divider.MaterialDivider-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="1dp"/>-->
+<!--                    <include layout="@layout/incl_settings_params"-->
+<!--                        android:id="@+id/card_email"-->
+<!--                        app:label="@{`EMAIL`}"-->
+<!--                        app:value="@{viewModel.shop.email}"/>-->
+<!--                </LinearLayout>-->
+<!--            </com.google.android.material.card.MaterialCardView>-->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

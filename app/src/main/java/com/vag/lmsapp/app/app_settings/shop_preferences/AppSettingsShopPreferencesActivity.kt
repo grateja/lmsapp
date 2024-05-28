@@ -35,18 +35,18 @@ class AppSettingsShopPreferencesActivity : AppCompatActivity() {
         binding.switchRequirePictureOnCashlessPayment.setOnCheckedChangeListener { _, checked ->
             viewModel.updateRequirePictureOnCashlessPayment(checked)
         }
-        binding.cardShopName.card.setOnClickListener {
-            viewModel.showEditShopName()
-        }
-        binding.cardAddress.card.setOnClickListener {
-            viewModel.showEditAddress()
-        }
-        binding.cardContactNumber.card.setOnClickListener {
-            viewModel.showEditContactNumber()
-        }
-        binding.cardEmail.card.setOnClickListener {
-            viewModel.showEditEmail()
-        }
+//        binding.cardShopName.card.setOnClickListener {
+//            viewModel.showEditShopName()
+//        }
+//        binding.cardAddress.card.setOnClickListener {
+//            viewModel.showEditAddress()
+//        }
+//        binding.cardContactNumber.card.setOnClickListener {
+//            viewModel.showEditContactNumber()
+//        }
+//        binding.cardEmail.card.setOnClickListener {
+//            viewModel.showEditEmail()
+//        }
     }
 
     private fun subscribeListeners() {

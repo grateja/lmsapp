@@ -23,7 +23,7 @@ class ExtrasAddEditActivity(
     private val viewModel: ExtrasAddEditViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_extras_add_edit)
+//        setContentView(R.layout.activity_extras_add_edit)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_extras_add_edit)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
