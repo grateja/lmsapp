@@ -48,9 +48,9 @@ class LiveSyncService : Service() {
 
         const val ACTION_SYNC_JOB_ORDER = "action_sync_job_order"
         const val ACTION_SYNC_PAYMENT = "action_sync_payment"
-        const val ACTION_SYNC_BULK_PAYLOAD = "action_sync_bulk_payload"
+        const val ACTION_SYNC_SETUP = "action_sync_bulk_payload"
 
-        fun getIntent(context: Context, id: UUID, action: String) : Intent {
+        fun getIntent(context: Context, action: String, id: UUID?) : Intent {
             return Intent(context, LiveSyncService::class.java).apply {
                 this.action = action
                 putExtra(ID, id.toString())
@@ -217,8 +217,8 @@ class LiveSyncService : Service() {
                 startForeground(NOTIFICATION_ID, getNotification("Syncing Payment..."))
                 syncPayment(it)
             }
-        } else if(intent?.action == ACTION_SYNC_BULK_PAYLOAD) {
-            startForeground(NOTIFICATION_ID, getNotification("Syncing Payment..."))
+        } else if(intent?.action == ACTION_SYNC_SETUP) {
+            startForeground(NOTIFICATION_ID, getNotification("Syncing Setup..."))
             syncBulkPayload()
         }
         return START_NOT_STICKY

@@ -493,8 +493,8 @@ class JobOrderCreateActivity : BaseActivity() {
     private fun startSync(jobOrderId: UUID) {
         val intent = LiveSyncService.getIntent(
             this,
+            LiveSyncService.ACTION_SYNC_JOB_ORDER,
             jobOrderId,
-            LiveSyncService.ACTION_SYNC_JOB_ORDER
         )
         startForegroundService(intent)
     }

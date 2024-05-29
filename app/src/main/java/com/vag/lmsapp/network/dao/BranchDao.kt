@@ -2,9 +2,8 @@ package com.vag.lmsapp.network.dao
 
 import com.vag.lmsapp.network.BulkPayload
 import com.vag.lmsapp.network.PaymentRequestBody
-import com.vag.lmsapp.network.link.ShopRequestBody
-import com.vag.lmsapp.room.entities.BaseEntity
 import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
+import com.vag.lmsapp.room.entities.EntityShop
 import com.vag.lmsapp.room.entities.SanctumToken
 import retrofit2.Response
 import retrofit2.http.Body
@@ -17,7 +16,7 @@ interface BranchDao {
     @Headers("Accept: application/json")
     @POST("api/shop/link/{ownerId}")
     suspend fun link(
-        @Body shop: ShopRequestBody,
+        @Body shop: EntityShop,
         @Path("ownerId") ownerId: String,
         @Header("Authorization") token: String
     ): Response<SanctumToken>

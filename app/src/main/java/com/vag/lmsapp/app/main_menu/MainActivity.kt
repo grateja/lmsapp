@@ -8,6 +8,11 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.EndingActivity
@@ -33,13 +38,13 @@ import com.vag.lmsapp.databinding.ActivityMainBinding
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.services.LiveSyncService
 import com.vag.lmsapp.util.ActivityContractsLauncher
-import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.viewmodels.MainViewModel
+import com.vag.lmsapp.worker.LiveSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.UUID
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : EndingActivity() {
@@ -211,8 +216,19 @@ class MainActivity : EndingActivity() {
             permissionRequestLauncher.launch(arrayOf(POST_NOTIFICATIONS))
         }
 
-        val intent = LiveSyncService.getIntent(this, UUID.randomUUID(), LiveSyncService.ACTION_SYNC_BULK_PAYLOAD)
-        startForegroundService(intent)
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val workRequest = OneTimeWorkRequest.Builder(LiveSyncWorker::class.java)
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniqueWork(
+            "sync-shop",
+            ExistingWorkPolicy.REPLACE,
+            workRequest
+        )
     }
 
     private fun subscribeEvents() {

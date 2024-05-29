@@ -142,7 +142,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
                         putExtra(PAYMENT_ID, it.payment.id.toString())
                         putExtra(SELECTED_JOB_ORDER_IDS, it.jobOrderIds)
                     })
-                    startForegroundService(LiveSyncService.getIntent(this, it.payment.id, LiveSyncService.ACTION_SYNC_PAYMENT))
+                    startForegroundService(LiveSyncService.getIntent(this, LiveSyncService.ACTION_SYNC_PAYMENT, it.payment.id))
                     viewModel.resetState()
                     finish()
                 }

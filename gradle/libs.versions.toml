@@ -7,13 +7,18 @@ datastore = "1.0.0"
 escpos-thermalprinter-android = "3.3.0"
 fragment-ktx = "1.6.2"
 glide = "4.12.0"
+hilt-compiler = "1.2.0"
 kotlin = "1.9.0"
 ksp = "1.8.10-1.0.9"
 activity-compose = "1.8.2"
 androidx-junit = "1.1.5"
-core-ktx = "1.12.0"
+core-ktx = "1.13.1"
 espresso-core = "3.5.1"
+
 hilt-android = "2.49"
+hilt-work = "1.2.0"
+work-runtime-ktx = "2.9.0"
+
 junit = "4.13.2"
 lifecycle-runtime-ktx = "2.7.0"
 compose-bom = "2024.02.01"
@@ -55,10 +60,15 @@ androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-te
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-escpos-thermalprinter-android = { module = "com.github.dantsu:escpos-thermalprinter-android", version.ref = "escpos-thermalprinter-android" }
-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt-work" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
+
+escpos-thermalprinter-android = { module = "com.github.dantsu:escpos-thermalprinter-android", version.ref = "escpos-thermalprinter-android" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit = { module = "junit:junit", version.ref = "junit" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }

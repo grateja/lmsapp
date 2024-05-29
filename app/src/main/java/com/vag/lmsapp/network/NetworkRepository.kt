@@ -25,7 +25,7 @@ constructor(
     suspend fun link(shop: EntityShop, ownerId: UUID, token: String): Result<SanctumToken> {
         return withContext(Dispatchers.IO) {
             try {
-                val response: Response<SanctumToken> = dao.link(ShopRequestBody.fromShopEntity(shop), ownerId.toString(), "Bearer $token")
+                val response: Response<SanctumToken> = dao.link(shop, ownerId.toString(), "Bearer $token")
                 if (response.isSuccessful) {
                     // Return the successful result
                     Result.success(response.body()!!)

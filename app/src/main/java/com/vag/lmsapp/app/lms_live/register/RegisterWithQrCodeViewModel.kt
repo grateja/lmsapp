@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.network.NetworkRepository
 import com.vag.lmsapp.network.dao.BranchDao
+import com.vag.lmsapp.room.entities.SanctumToken
 import com.vag.lmsapp.room.repository.SanctumRepository
 import com.vag.lmsapp.room.repository.ShopRepository
+import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.MoshiHelper
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,29 +23,30 @@ class RegisterWithQrCodeViewModel
 constructor(
     private val networkRepository: NetworkRepository,
     private val shopRepository: ShopRepository,
-    private val moshiHelper: MoshiHelper,
     private val sanctumRepository: SanctumRepository
 ) : ViewModel() {
-    private val _navigationState = MutableLiveData<NavigationState>()
-    val navigationState: LiveData<NavigationState> = _navigationState
+    private val _dataState = MutableLiveData<DataState<SanctumToken>>()
+    val dataState: LiveData<DataState<SanctumToken>> = _dataState
 
-    val shop = shopRepository.getAsLiveData()
-    fun link(result: String) {
+    fun link(qrCode: ShopLinkQrCode) {
         viewModelScope.launch {
             try {
-                val result = moshiHelper.decodeShopLinkQrCode(result)
-                println("qr code result")
-                println(result)
-                val shop = shop.value ?: return@launch
-                println("shop")
-                println(shop)
-                val ownerId = result?.userId ?: return@launch
-                println("sending request")
-                networkRepository.link(shop, ownerId, result.token).let {
+                val shop = shopRepository.get()
+
+                if(shop == null) {
+                    _dataState.value = DataState.Invalidate("Shop is not setup yet")
+                    return@launch
+                }
+
+                networkRepository.link(shop, qrCode.userId, qrCode.token).let {
                     println("result from retrofit")
-                    println(it)
-                    it.getOrNull()?.let {
-                        sanctumRepository.save(it)
+                    if(it.isSuccess) {
+                        it.getOrNull()?.let {
+                            sanctumRepository.save(it)
+                            _dataState.value = DataState.SaveSuccess(it)
+                        }
+                    } else {
+                        _dataState.value = DataState.Invalidate("QR Code expired!")
                     }
                 }
             } catch (e: Exception) {
@@ -53,10 +56,6 @@ constructor(
     }
 
     fun clearState() {
-        _navigationState.value = NavigationState.StateLess
-    }
-
-    sealed class NavigationState {
-        data object StateLess: NavigationState()
+        _dataState.value = DataState.StateLess
     }
 }
