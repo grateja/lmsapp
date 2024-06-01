@@ -11,6 +11,7 @@ abstract class BaseRepository<Entity : BaseEntity>(
     override suspend fun save(entity: Entity) : Entity? {
         try {
             entity.updatedAt = Instant.now()
+            entity.sync = false
             crudDao.save(entity)
             return entity
         } catch (e: Exception) {

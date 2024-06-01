@@ -38,7 +38,7 @@ import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.joborders.print.JobOrderPrintActivity
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateBinding
-import com.vag.lmsapp.services.LiveSyncService
+import com.vag.lmsapp.services.JobOrderSyncService
 import com.vag.lmsapp.util.*
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.ID
@@ -491,11 +491,13 @@ class JobOrderCreateActivity : BaseActivity() {
     }
 
     private fun startSync(jobOrderId: UUID) {
-        val intent = LiveSyncService.getIntent(
-            this,
-            LiveSyncService.ACTION_SYNC_JOB_ORDER,
-            jobOrderId,
-        )
-        startForegroundService(intent)
+        JobOrderSyncService.start(this, jobOrderId)
+//        JobOrderSyncWorker.enqueue(this, jobOrderId)
+//        val intent = LiveSyncService.getIntent(
+//            this,
+//            LiveSyncService.ACTION_SYNC_JOB_ORDER,
+//            jobOrderId,
+//        )
+//        startForegroundService(intent)
     }
 }

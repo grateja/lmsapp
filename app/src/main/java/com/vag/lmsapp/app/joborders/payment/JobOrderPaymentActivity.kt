@@ -9,15 +9,14 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.LoginCredentials
-import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
-import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
 import com.vag.lmsapp.databinding.ActivityJobOrderPaymentBinding
 import com.vag.lmsapp.model.EnumPaymentMethod
-import com.vag.lmsapp.services.LiveSyncService
+import com.vag.lmsapp.services.JobOrderPaymentSyncService
 import com.vag.lmsapp.util.*
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
+import com.vag.lmsapp.worker.JobOrderPaymentSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -142,7 +141,9 @@ class JobOrderPaymentActivity : AppCompatActivity() {
                         putExtra(PAYMENT_ID, it.payment.id.toString())
                         putExtra(SELECTED_JOB_ORDER_IDS, it.jobOrderIds)
                     })
-                    startForegroundService(LiveSyncService.getIntent(this, LiveSyncService.ACTION_SYNC_PAYMENT, it.payment.id))
+//                    startForegroundService(LiveSyncService.getIntent(this, LiveSyncService.ACTION_SYNC_PAYMENT, it.payment.id))
+//                    JobOrderPaymentSyncWorker.enqueue(this, it.payment.id)
+                    JobOrderPaymentSyncService.start(this, it.payment.id)
                     viewModel.resetState()
                     finish()
                 }

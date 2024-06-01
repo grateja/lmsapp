@@ -88,6 +88,13 @@
                         android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`email`)}"
                         android:text="@={viewModel.model.email}" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:id="@+id/button_link"
+                    android:visibility="@{viewModel.shop != null}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Link online viewing"
+                    style="@style/RoundButtonNeutral"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
         <include

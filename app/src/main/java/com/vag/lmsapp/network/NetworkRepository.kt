@@ -1,8 +1,12 @@
 package com.vag.lmsapp.network
 
-import com.vag.lmsapp.network.dao.BranchDao
-import com.vag.lmsapp.network.link.ShopRequestBody
-import com.vag.lmsapp.room.entities.BaseEntity
+import com.vag.lmsapp.network.api.ApiService
+import com.vag.lmsapp.network.requests_body.PaymentRequestBody
+import com.vag.lmsapp.network.requests_body.SetupRequestBody
+import com.vag.lmsapp.network.responses.JobOrderSyncIds
+import com.vag.lmsapp.network.responses.PaymentSynIds
+import com.vag.lmsapp.network.responses.SetupSyncIds
+import com.vag.lmsapp.room.dao.DaoSync
 import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
 import com.vag.lmsapp.room.entities.EntityShop
 import com.vag.lmsapp.room.entities.SanctumToken
@@ -20,7 +24,8 @@ class NetworkRepository
 
 @Inject
 constructor(
-    private val dao: BranchDao
+    private val dao: ApiService,
+    private val daoSync: DaoSync
 ) {
     suspend fun link(shop: EntityShop, ownerId: UUID, token: String): Result<SanctumToken> {
         return withContext(Dispatchers.IO) {
@@ -47,17 +52,18 @@ constructor(
         }
     }
 
-    suspend fun sendJobOrder(jobOrderWithItems: EntityJobOrderWithItems, shopId: UUID, token: String): Result<String> {
+    suspend fun sendJobOrder(jobOrderWithItems: EntityJobOrderWithItems, shopId: UUID, token: String): Result<JobOrderSyncIds> {
         return withContext(Dispatchers.IO) {
             try {
                 println("send transaction")
 //                val body = SyncBody(jobText)
-                val response: Response<String> = dao.sendJobOrder(jobOrderWithItems, shopId.toString(), "Bearer $token")
-                println("no error")
+                val response: Response<JobOrderSyncIds> = dao.sendJobOrder(jobOrderWithItems, shopId.toString(), "Bearer $token")
 
                 if (response.isSuccessful) {
+                    val body = response.body()!!
+                    daoSync.syncJobOrder(body)
                     // Return the successful result
-                    Result.success(response.body()!!)
+                    Result.success(body)
                 } else {
                     // Parse the error response if possible
                     // val errorResponse = parseError(response)
@@ -78,17 +84,21 @@ constructor(
         }
     }
 
-    suspend fun sendPayment(paymentRequestBody: PaymentRequestBody, shopId: UUID, token: String): Result<String> {
+    suspend fun sendPayment(paymentRequestBody: PaymentRequestBody, shopId: UUID, token: String): Result<PaymentSynIds> {
         return withContext(Dispatchers.IO) {
             try {
                 println("send payment")
 //                val body = SyncBody(jobText)
-                val response: Response<String> = dao.sendPayment(paymentRequestBody, shopId.toString(), "Bearer $token")
+                val response: Response<PaymentSynIds> = dao.sendPayment(paymentRequestBody, shopId.toString(), "Bearer $token")
                 println("no error")
 
                 if (response.isSuccessful) {
+                    val body = response.body()!!
                     // Return the successful result
-                    Result.success(response.body()!!)
+                    daoSync.syncPayment(body)
+                    println("payment sync")
+                    println(body)
+                    Result.success(body)
                 } else {
                     // Parse the error response if possible
                     // val errorResponse = parseError(response)
@@ -103,17 +113,20 @@ constructor(
         }
     }
 
-    suspend fun sendBulkPayload(bulkPayload: BulkPayload, shopId: UUID, token: String): Result<String> {
+    suspend fun sendBulkPayload(setupRequestBody: SetupRequestBody, shopId: UUID, token: String): Result<SetupSyncIds> {
         return withContext(Dispatchers.IO) {
             try {
                 println("send payment")
 //                val body = SyncBody(jobText)
-                val response: Response<String> = dao.sendBulkPayload(bulkPayload, shopId.toString(), "Bearer $token")
+                val response: Response<SetupSyncIds> = dao.sendBulkPayload(setupRequestBody, shopId.toString(), "Bearer $token")
                 println("no error")
 
                 if (response.isSuccessful) {
+                    val body = response.body()!!
+                    println(body)
+                    daoSync.syncSetup(body)
                     // Return the successful result
-                    Result.success(response.body()!!)
+                    Result.success(body)
                 } else {
                     // Parse the error response if possible
                     // val errorResponse = parseError(response)

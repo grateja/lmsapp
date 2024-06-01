@@ -31,20 +31,17 @@ import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
 import com.vag.lmsapp.app.products.ProductsActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
 import com.vag.lmsapp.app.dashboard.DashBoardActivity
-import com.vag.lmsapp.app.lms_live.register.RegisterWithQrCodeActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.services.ServicesActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
 import com.vag.lmsapp.model.EnumActionPermission
-import com.vag.lmsapp.services.LiveSyncService
 import com.vag.lmsapp.util.ActivityContractsLauncher
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.viewmodels.MainViewModel
-import com.vag.lmsapp.worker.LiveSyncWorker
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : EndingActivity() {
@@ -64,13 +61,13 @@ class MainActivity : EndingActivity() {
 
     private val menuItems by lazy {
         listOf(
-            MenuItem(
-                "QR code",
-                "Manage and track job orders.",
-                RegisterWithQrCodeActivity::class.java,
-                R.drawable.icon_job_orders,
-                backgroundColor = resources.getColor(R.color.color_code_job_order, null)
-            ),
+//            MenuItem(
+//                "QR code",
+//                "Manage and track job orders.",
+//                RegisterWithQrCodeActivity::class.java,
+//                R.drawable.icon_job_orders,
+//                backgroundColor = resources.getColor(R.color.color_code_job_order, null)
+//            ),
             MenuItem(
                 "Dashboard",
                 "Generate and view sales reports.",
@@ -196,10 +193,6 @@ class MainActivity : EndingActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        networkHelper = NetworkHelper(this)
-        binding.buttonTest?.setOnClickListener {
-            networkHelper.removeWifiSuggestion("ELS-CSI ECCMS", "ewankodikoalam")
-        }
 
         adapter.setData(
             menuItems
@@ -216,19 +209,21 @@ class MainActivity : EndingActivity() {
             permissionRequestLauncher.launch(arrayOf(POST_NOTIFICATIONS))
         }
 
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+        ShopSetupSyncWorker.enqueue(this)
 
-        val workRequest = OneTimeWorkRequest.Builder(LiveSyncWorker::class.java)
-            .setConstraints(constraints)
-            .build()
-
-        WorkManager.getInstance(this).enqueueUniqueWork(
-            "sync-shop",
-            ExistingWorkPolicy.REPLACE,
-            workRequest
-        )
+//        val constraints = Constraints.Builder()
+//            .setRequiredNetworkType(NetworkType.CONNECTED)
+//            .build()
+//
+//        val workRequest = OneTimeWorkRequest.Builder(ShopSetupSyncWorker::class.java)
+//            .setConstraints(constraints)
+//            .build()
+//
+//        WorkManager.getInstance(this).enqueueUniqueWork(
+//            "sync-shop",
+//            ExistingWorkPolicy.REPLACE,
+//            workRequest
+//        )
     }
 
     private fun subscribeEvents() {

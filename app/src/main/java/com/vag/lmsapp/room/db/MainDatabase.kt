@@ -86,6 +86,7 @@ abstract class MainDatabase : RoomDatabase() {
     abstract fun daoJobOrderPickupDelivery(): DaoJobOrderPickupDelivery
     abstract fun daoActivityLog(): DaoActivityLog
     abstract fun daoSanctum(): DaoSanctum
+    abstract fun daoSync(): DaoSync
 
     companion object {
         private const val DATABASE_NAME: String = "main_db"

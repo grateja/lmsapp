@@ -2,7 +2,6 @@ package com.vag.lmsapp.room.dao
 
 import androidx.room.*
 import com.vag.lmsapp.room.entities.BaseEntity
-import java.time.Instant
 
 interface BaseDao<T : BaseEntity> {
     @Upsert

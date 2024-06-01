@@ -1,13 +1,11 @@
 package com.vag.lmsapp.di
 
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.internal.NullSafeJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vag.lmsapp.adapters.ArrayListIntAdapter
 import com.vag.lmsapp.adapters.InstantAdapter
-import com.vag.lmsapp.adapters.NullSafeAdapter
 import com.vag.lmsapp.adapters.UUIDAdapter
-import com.vag.lmsapp.network.dao.BranchDao
+import com.vag.lmsapp.network.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,15 +21,15 @@ class NetworkModule {
     @Provides
     fun provideRetrofit(moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.17:8000")
+            .baseUrl("http://192.168.1.11:8000")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideBranchDao(retrofit: Retrofit): BranchDao {
-        return retrofit.create(BranchDao::class.java)
+    fun provideBranchDao(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
     }
 
     @Provides

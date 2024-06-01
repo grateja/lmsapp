@@ -5,13 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.network.NetworkRepository
-import com.vag.lmsapp.network.dao.BranchDao
 import com.vag.lmsapp.room.entities.SanctumToken
 import com.vag.lmsapp.room.repository.SanctumRepository
 import com.vag.lmsapp.room.repository.ShopRepository
 import com.vag.lmsapp.util.DataState
-import com.vag.lmsapp.util.MoshiHelper
-import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

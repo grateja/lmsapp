@@ -17,6 +17,8 @@ class ShopInfoViewModel
 constructor(
     private val shopRepository: ShopRepository
 ): CreateViewModel<EntityShop>(shopRepository) {
+    val shop = shopRepository.getAsLiveData()
+
     fun get() {
         viewModelScope.launch {
             model.value = shopRepository.get() ?: EntityShop()

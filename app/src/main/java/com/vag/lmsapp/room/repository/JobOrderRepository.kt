@@ -133,4 +133,6 @@ constructor (
     fun getDashboard(dateFilter: DateFilter) = daoJobOrder.getDashboardJobOrders(dateFilter.dateFrom, dateFilter.dateTo)
 
     fun getUnpaidJobOrdersAsLiveData(customerId: UUID) = daoJobOrder.getUnpaidJobOrdersAsLiveData(customerId)
+
+    suspend fun sync(jobOrderId: UUID) = daoJobOrder.sync(jobOrderId)
 }

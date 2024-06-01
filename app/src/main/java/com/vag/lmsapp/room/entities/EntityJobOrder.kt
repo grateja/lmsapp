@@ -35,7 +35,7 @@ open class EntityJobOrder(
     @ColumnInfo(name = "discounted_amount")
     var discountedAmount: Float,
 
-    @Json(name = "payment_id")
+    @Json(name = "job_order_payment_id")
     @ColumnInfo(name = "payment_id")
     var paymentId: UUID? = null,
 ) : BaseEntity() {

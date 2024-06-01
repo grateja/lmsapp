@@ -731,6 +731,7 @@ constructor(
             ).apply {
                 this.id = jobOrderId
                 this.createdAt = createdAt
+                this.sync = false
             }
 
             val services = jobOrderServices?.map {

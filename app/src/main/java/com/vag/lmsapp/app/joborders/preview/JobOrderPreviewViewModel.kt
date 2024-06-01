@@ -22,8 +22,6 @@ class JobOrderPreviewViewModel
 @Inject
 constructor(
     private val jobOrderRepository: JobOrderRepository,
-    private val networkRepository: NetworkRepository,
-    private val moshiHelper: MoshiHelper
 ) : ViewModel() {
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
@@ -34,8 +32,6 @@ constructor(
     private val _jobOrderId = MutableLiveData<UUID>()
 
     val jobOrder = _jobOrderId.switchMap { jobOrderRepository.getJobOrderWithItemsAsLiveData(it) }
-
-    val joText = jobOrder.switchMap { moshiHelper.encodeJobOrderLiveData(it) }
 
     val jobOrderPictures = _jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
 

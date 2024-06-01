@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.app_settings.shop_info
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.LoginCredentials
+import com.vag.lmsapp.app.lms_live.register.RegisterWithQrCodeActivity
 import com.vag.lmsapp.databinding.ActivityShopInfoBinding
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.DataState
@@ -28,6 +30,14 @@ class ShopInfoActivity : CrudActivity() {
         binding.controls.viewModel = viewModel
 
         subscribeListeners()
+        subscribeEvents()
+    }
+
+    private fun subscribeEvents() {
+        binding.buttonLink.setOnClickListener {
+            val intent = Intent(this, RegisterWithQrCodeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun subscribeListeners() {

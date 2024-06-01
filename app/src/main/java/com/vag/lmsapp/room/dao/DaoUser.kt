@@ -49,4 +49,7 @@ abstract class DaoUser : BaseDao<EntityUser> {
 
     @Query("UPDATE users SET password = :newPassword WHERE id = :userId")
     abstract suspend fun changePassword(userId: UUID, newPassword: String)
+
+    @Query("SELECT * FROM users WHERE sync = 0")
+    abstract suspend fun unSynced(): List<EntityUser>
 }

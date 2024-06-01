@@ -1,4 +1,4 @@
-package com.vag.lmsapp.network
+package com.vag.lmsapp.network.requests_body
 
 import com.vag.lmsapp.room.entities.EntityJobOrderPayment
 import com.vag.lmsapp.room.entities.EntityUser

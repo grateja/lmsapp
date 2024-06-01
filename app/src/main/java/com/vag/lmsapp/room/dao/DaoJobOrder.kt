@@ -244,4 +244,7 @@ interface DaoJobOrder {
             " WHERE " +
             " cu.id = :customerId AND jo.payment_id IS NULL AND jo.deleted = 0 AND jo.void_date IS NULL")
     fun getUnpaidJobOrdersAsLiveData(customerId: UUID): LiveData<List<JobOrderListItem>>
+
+    @Query("UPDATE job_orders SET sync = 1 WHERE id = :id")
+    suspend fun sync(id: UUID)
 }

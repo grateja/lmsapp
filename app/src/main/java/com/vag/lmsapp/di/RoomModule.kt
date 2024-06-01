@@ -176,6 +176,12 @@ object RoomModule {
         return mainDatabase.daoSanctum()
     }
 
+    @Singleton
+    @Provides
+    fun providesDaoSync(mainDatabase: MainDatabase): DaoSync {
+        return mainDatabase.daoSync()
+    }
+
 //    @Singleton
 //    @Provides
 //    fun appPreferenceRepository(@ApplicationContext context: Context) : AppPreferenceRepository {

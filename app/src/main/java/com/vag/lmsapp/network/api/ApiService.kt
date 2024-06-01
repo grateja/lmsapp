@@ -1,7 +1,10 @@
-package com.vag.lmsapp.network.dao
+package com.vag.lmsapp.network.api
 
-import com.vag.lmsapp.network.BulkPayload
-import com.vag.lmsapp.network.PaymentRequestBody
+import com.vag.lmsapp.network.requests_body.SetupRequestBody
+import com.vag.lmsapp.network.responses.JobOrderSyncIds
+import com.vag.lmsapp.network.requests_body.PaymentRequestBody
+import com.vag.lmsapp.network.responses.PaymentSynIds
+import com.vag.lmsapp.network.responses.SetupSyncIds
 import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
 import com.vag.lmsapp.room.entities.EntityShop
 import com.vag.lmsapp.room.entities.SanctumToken
@@ -12,7 +15,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-interface BranchDao {
+interface ApiService {
     @Headers("Accept: application/json")
     @POST("api/shop/link/{ownerId}")
     suspend fun link(
@@ -27,7 +30,7 @@ interface BranchDao {
         @Body jobOrderWithItems: EntityJobOrderWithItems,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
-    ): Response<String>
+    ): Response<JobOrderSyncIds>
 
     @Headers("Accept: application/json")
     @POST("api/sync/payment/{shopId}")
@@ -35,13 +38,13 @@ interface BranchDao {
         @Body paymentRequestBody: PaymentRequestBody,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
-    ): Response<String>
+    ): Response<PaymentSynIds>
 
     @Headers("Accept: application/json")
     @POST("api/sync/bulk/{shopId}")
     suspend fun sendBulkPayload(
-        @Body bulkPayload: BulkPayload,
+        @Body setupRequestBody: SetupRequestBody,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
-    ): Response<String>
+    ): Response<SetupSyncIds>
 }

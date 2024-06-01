@@ -16,12 +16,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.databinding.ActivityRegisterWithQrCodeBinding
-import com.vag.lmsapp.services.LiveSyncService
+import com.vag.lmsapp.services.JobOrderPaymentSyncService
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.MoshiHelper
 import com.vag.lmsapp.util.PermissionHelper
 import com.vag.lmsapp.util.QrCodeAnalyzer
 import com.vag.lmsapp.util.showMessageDialog
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -59,7 +60,8 @@ class RegisterWithQrCodeActivity : AppCompatActivity() {
     }
 
     private fun syncSetup() {
-        val intent = LiveSyncService.getIntent(this, LiveSyncService.ACTION_SYNC_SETUP, null)
+        ShopSetupSyncWorker.enqueue(this)
+//        val intent = JobOrderPaymentSyncService.getIntent(this, JobOrderPaymentSyncService.ACTION_SYNC_SETUP, null)
         startForegroundService(intent)
     }
 

@@ -2,6 +2,7 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.squareup.moshi.Json
 import com.vag.lmsapp.model.EnumDiscountApplicable
 
 data class EntityJobOrderWithItems (
@@ -43,12 +44,7 @@ data class EntityJobOrderWithItems (
     )
     var customer: EntityCustomer? = null
 
-//    @Relation(
-//        parentColumn = "payment_id",
-//        entityColumn = "id"
-//    )
-//    var payment: EntityJobOrderPayment? = null
-
+    @Json(name = "staff")
     @Relation(
         parentColumn = "user_id",
         entityColumn = "id"
