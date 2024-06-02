@@ -11,6 +11,7 @@ import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityExtrasAddEditBinding
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.DataState
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -40,6 +41,7 @@ class ExtrasAddEditActivity(
                 }
                 is DataState.SaveSuccess -> {
                     confirmExit(it.data.id)
+                    ShopSetupSyncWorker.enqueue(this)
                 }
                 is DataState.DeleteSuccess -> {
                     confirmExit(it.data.id)

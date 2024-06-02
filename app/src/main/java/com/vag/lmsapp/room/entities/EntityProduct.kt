@@ -31,6 +31,9 @@ class EntityProduct(
 ) : BaseEntity() {
     constructor() : this(null, 0f, 0f, EnumMeasureUnit.PCS, 0f, EnumProductType.OTHER)
 
+    @Json(ignore = true)
+    var sync: Boolean = false
+
     fun currentStockStr() : String {
         return "$currentStock $measureUnit remaining"
     }

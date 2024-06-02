@@ -43,4 +43,8 @@ class MachineRepository
         val offset = (20 * page) - 20
         return daoMachine.getMachineUsage(machineId, keyword, offset, dateFilter?.dateFrom, dateFilter?.dateTo)
     }
+
+    suspend fun unSynced() = daoMachine.unSynced()
+
+    suspend fun getMachineUsage(machineUsageId: UUID) = daoMachine.getMachineUsage(machineUsageId)
 }

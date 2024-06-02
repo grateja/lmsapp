@@ -7,6 +7,7 @@ import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.entities.EntityMachine
 import com.vag.lmsapp.room.entities.EntityMachineUsageAggrResult
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
+import com.vag.lmsapp.room.entities.EntityMachineUsageFull
 import java.time.LocalDate
 import java.util.*
 
@@ -59,4 +60,10 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
         "ORDER BY activated DESC " +
         "LIMIT 20 OFFSET :offset ")
     abstract suspend fun getMachineUsage(machineId: UUID, keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?) : List<EntityMachineUsageDetails>
+
+    @Query("SELECT * FROM machines WHERE sync = 0")
+    abstract suspend fun unSynced(): List<EntityMachine>
+
+    @Query("SELECT * FROM machine_usages WHERE id = :machineUsageId")
+    abstract suspend fun getMachineUsage(machineUsageId: UUID): EntityMachineUsageFull?
 }

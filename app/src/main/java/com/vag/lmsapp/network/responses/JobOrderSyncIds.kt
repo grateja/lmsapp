@@ -19,18 +19,18 @@ data class JobOrderSyncIds(
     @Json(name = "paid_by")
     val paidBy: UUID?,
 
-    @Json(name = "services_ids")
-    val servicesIds: List<UUID>?,
-
-    @Json(name = "products_ids")
-    val productsIds: List<UUID>?,
-
-    @Json(name = "extras_ids")
-    val extrasIds: List<UUID>?,
-
-    @Json(name = "delivery_charge_id")
-    val deliveryChargeId: UUID?,
-
-    @Json(name = "discount_id")
-    val discountId: UUID?
+//    @Json(name = "services_ids")
+//    val servicesIds: List<UUID>?,
+//
+//    @Json(name = "products_ids")
+//    val productsIds: List<UUID>?,
+//
+//    @Json(name = "extras_ids")
+//    val extrasIds: List<UUID>?,
+//
+//    @Json(name = "delivery_charge_id")
+//    val deliveryChargeId: UUID?,
+//
+//    @Json(name = "discount_id")
+//    val discountId: UUID?
 )

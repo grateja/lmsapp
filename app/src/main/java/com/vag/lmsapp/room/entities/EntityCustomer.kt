@@ -6,7 +6,6 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import com.vag.lmsapp.util.DbColumns.Companion.CUSTOMERS
 
-@JsonClass(generateAdapter = true)
 @Entity(tableName = CUSTOMERS)
 data class EntityCustomer(
     var crn: String?,
@@ -22,4 +21,7 @@ data class EntityCustomer(
     var email: String? = null
 
     var remarks: String? = null
+
+    @Json(ignore = true)
+    var sync: Boolean = false
 }

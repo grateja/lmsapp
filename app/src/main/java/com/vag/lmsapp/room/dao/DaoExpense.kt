@@ -6,6 +6,7 @@ import androidx.room.Query
 import com.vag.lmsapp.app.expenses.ExpenseItemFull
 import com.vag.lmsapp.room.entities.EntityExpensesAggrResult
 import com.vag.lmsapp.room.entities.EntityExpense
+import com.vag.lmsapp.room.entities.EntityExpenseFull
 import java.time.LocalDate
 import java.util.UUID
 
@@ -26,4 +27,7 @@ abstract class DaoExpense : BaseDao<EntityExpense> {
 
     @Query("SELECT DISTINCT tag FROM expenses WHERE tag IS NOT NULL AND deleted = 0 ORDER BY tag")
     abstract fun getTags() : LiveData<List<String>>
+
+    @Query("SELECT * FROM expenses WHERE id = :id")
+    abstract suspend fun getExpenseFull(id: UUID): EntityExpenseFull?
 }

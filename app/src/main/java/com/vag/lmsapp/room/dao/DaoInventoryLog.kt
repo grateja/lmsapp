@@ -6,6 +6,7 @@ import androidx.room.Transaction
 import androidx.room.Upsert
 import com.vag.lmsapp.room.entities.EntityExpense
 import com.vag.lmsapp.room.entities.EntityInventoryLog
+import com.vag.lmsapp.room.entities.EntityInventoryLogFull
 import java.util.UUID
 
 @Dao
@@ -18,6 +19,7 @@ interface DaoInventoryLog : BaseDao<EntityInventoryLog> {
 
     @Transaction
     suspend fun save(data: EntityInventoryLog, expense: EntityExpense?) {
+        data.expenseId = expense?.id
         save(data)
         updateStock(data.productId!!, data.quantity)
         expense?.let {
@@ -30,4 +32,7 @@ interface DaoInventoryLog : BaseDao<EntityInventoryLog> {
 
     @Upsert
     suspend fun saveAsExpense(expense: EntityExpense)
+
+    @Query("SELECT * FROM inventory_log WHERE id = :id")
+    suspend fun getInventoryLogFull(id: UUID): EntityInventoryLogFull?
 }

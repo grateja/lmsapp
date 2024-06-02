@@ -23,4 +23,7 @@ data class EntityDeliveryProfile(
     var minDistance: Float = 1f,
 ) : BaseEntity() {
     constructor(): this(EnumDeliveryVehicle.MOTORCYCLE, 0f, 0f)
+
+    @Json(ignore = true)
+    var sync: Boolean = false
 }

@@ -10,6 +10,7 @@ import com.vag.lmsapp.databinding.ActivityDeliveryProfileAddEditBinding
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.selectAllOnFocus
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -40,6 +41,7 @@ class AddEditDeliveryProfileActivity : CrudActivity() {
                 }
                 is DataState.SaveSuccess -> {
                     confirmExit(it.data.id)
+                    ShopSetupSyncWorker.enqueue(this)
                 }
                 is DataState.DeleteSuccess -> {
                     confirmExit(it.data.id)

@@ -14,6 +14,7 @@ import com.vag.lmsapp.network.NetworkRepository
 import com.vag.lmsapp.room.repository.DeliveryProfilesRepository
 import com.vag.lmsapp.room.repository.DiscountsRepository
 import com.vag.lmsapp.room.repository.ExtrasRepository
+import com.vag.lmsapp.room.repository.MachineRepository
 import com.vag.lmsapp.room.repository.ProductRepository
 import com.vag.lmsapp.room.repository.SanctumRepository
 import com.vag.lmsapp.room.repository.ShopRepository
@@ -32,6 +33,7 @@ constructor(
     private val networkRepository: NetworkRepository,
     private val shopRepository: ShopRepository,
     private val sanctumRepository: SanctumRepository,
+    private val machineRepository: MachineRepository,
     private val serviceRepository: WashServiceRepository,
     private val productRepository: ProductRepository,
     private val extraRepository: ExtrasRepository,
@@ -62,6 +64,7 @@ constructor(
         val shopId = shop?.id
         val token = sanctumRepository.getSyncToken()
 
+        val machines = machineRepository.unSynced()
         val services = serviceRepository.unSynced()
         val products = productRepository.unSynced()
         val extras = extraRepository.unSynced()
@@ -87,6 +90,7 @@ constructor(
 
         val payload = SetupRequestBody(
             shop,
+            machines,
             staffs,
             services,
             products,

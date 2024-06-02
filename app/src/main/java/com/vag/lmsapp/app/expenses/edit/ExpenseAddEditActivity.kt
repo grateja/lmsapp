@@ -9,6 +9,9 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityExpenseAddEditBinding
+import com.vag.lmsapp.internet.InternetConnectionCallback
+import com.vag.lmsapp.internet.InternetConnectionObserver
+import com.vag.lmsapp.services.ExpenseSyncService
 import com.vag.lmsapp.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -17,7 +20,7 @@ import java.util.*
 class ExpenseAddEditActivity(
 //    override var requireAuthOnSave: Boolean = true,
 //    override var requireAuthOnDelete: Boolean = true
-) : CrudActivity() {
+) : CrudActivity(), InternetConnectionCallback {
     companion object {
         const val MODIFY_DATE_ACTION = 1
     }
@@ -81,6 +84,9 @@ class ExpenseAddEditActivity(
                 is DataState.SaveSuccess -> {
                     confirmExit(it.data.id)
                     viewModel.resetState()
+                    if(internetAvailable) {
+                        ExpenseSyncService.start(this, it.data.id)
+                    }
                 }
                 is DataState.DeleteSuccess -> {
                     confirmExit(it.data.id)
@@ -141,5 +147,30 @@ class ExpenseAddEditActivity(
     override fun confirmExit(entityId: UUID?) {
         super.confirmExit(entityId)
         viewModel.resetState()
+    }
+
+    var internetAvailable = false
+
+    override fun onPause() {
+        super.onPause()
+        InternetConnectionObserver.unRegister()
+    }
+
+    override fun onConnected() {
+        internetAvailable = true
+        println("internet available")
+    }
+
+    override fun onDisconnected() {
+        internetAvailable = false
+        println("no internet available")
+    }
+    override fun onResume() {
+        super.onResume()
+
+        InternetConnectionObserver
+            .instance(this)
+            .setCallback(this)
+            .register()
     }
 }

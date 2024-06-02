@@ -20,7 +20,7 @@ abstract class BaseEntity (uuid: UUID? = null) {
 
     @Json(name = "is_deleted")
     var deleted: Boolean = false
-
-    @Json(ignore = true)
-    var sync: Boolean = false
+//
+//    @Json(ignore = true)
+//    var sync: Boolean = false
 }

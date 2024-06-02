@@ -20,4 +20,6 @@ constructor(
     }
 
     suspend fun save(inventoryLog: EntityInventoryLog, expense: EntityExpense?) = dao.save(inventoryLog, expense)
+
+    suspend fun getInventoryLogFull(id: UUID) = dao.getInventoryLogFull(id)
 }

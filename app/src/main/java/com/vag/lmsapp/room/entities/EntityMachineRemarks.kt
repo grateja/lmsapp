@@ -12,9 +12,12 @@ class EntityMachineRemarks : BaseEntity() {
     @ColumnInfo(name = "machine_id")
     var machineId: UUID? = null
 
-    @Json(name = "user_id")
+    @Json(name = "staff_id")
     @ColumnInfo(name = "user_id")
     var userId: UUID? = null
     var title: String? = null
     var remarks: String? = null
+
+    @Json(ignore = true)
+    var sync: Boolean = false
 }

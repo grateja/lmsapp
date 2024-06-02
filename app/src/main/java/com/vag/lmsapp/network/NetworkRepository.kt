@@ -3,11 +3,18 @@ package com.vag.lmsapp.network
 import com.vag.lmsapp.network.api.ApiService
 import com.vag.lmsapp.network.requests_body.PaymentRequestBody
 import com.vag.lmsapp.network.requests_body.SetupRequestBody
+import com.vag.lmsapp.network.responses.InventoryLogSyncIds
 import com.vag.lmsapp.network.responses.JobOrderSyncIds
+import com.vag.lmsapp.network.responses.MachineUsageSyncIds
 import com.vag.lmsapp.network.responses.PaymentSynIds
 import com.vag.lmsapp.network.responses.SetupSyncIds
+import com.vag.lmsapp.network.responses.UuidSyncId
 import com.vag.lmsapp.room.dao.DaoSync
+import com.vag.lmsapp.room.entities.EntityCustomer
+import com.vag.lmsapp.room.entities.EntityExpenseFull
+import com.vag.lmsapp.room.entities.EntityInventoryLogFull
 import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
+import com.vag.lmsapp.room.entities.EntityMachineUsageFull
 import com.vag.lmsapp.room.entities.EntityShop
 import com.vag.lmsapp.room.entities.SanctumToken
 import kotlinx.coroutines.Dispatchers
@@ -136,6 +143,94 @@ constructor(
                 println("error occured")
                 e.printStackTrace()
                 // Handle other errors
+                Result.failure(Exception("Unknown error: ${e.message}"))
+            }
+        }
+    }
+
+    suspend fun sendCustomer(customer: EntityCustomer, shopId: UUID, token: String): Result<UuidSyncId> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = dao.sendCustomer(customer, shopId.toString(), "Bearer $token")
+                if (response.isSuccessful) {
+                    val body = response.body()!!
+                    println(body)
+                    daoSync.syncCustomer(body.id)
+                    // Return the successful result
+                    Result.success(body)
+                } else {
+                    // Parse the error response if possible
+                    // val errorResponse = parseError(response)
+                    Result.failure(Exception("Error ${response.code()}: ${response.message() ?: "Unknown error"}"))
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.failure(Exception("Unknown error: ${e.message}"))
+            }
+        }
+    }
+
+    suspend fun sendMachineUsage(machineUsageFull: EntityMachineUsageFull, shopId: UUID, token: String): Result<MachineUsageSyncIds> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = dao.sendMachineActivation(machineUsageFull, shopId.toString(), "Bearer $token")
+                if (response.isSuccessful) {
+                    val body = response.body()!!
+                    println(body)
+                    daoSync.syncMachineUsage(body)
+                    // Return the successful result
+                    Result.success(body)
+                } else {
+                    // Parse the error response if possible
+                    // val errorResponse = parseError(response)
+                    Result.failure(Exception("Error ${response.code()}: ${response.message() ?: "Unknown error"}"))
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.failure(Exception("Unknown error: ${e.message}"))
+            }
+        }
+    }
+
+    suspend fun sendExpense(expense: EntityExpenseFull, shopId: UUID, token: String): Result<UuidSyncId> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = dao.sendExpense(expense, shopId.toString(), "Bearer $token")
+                if (response.isSuccessful) {
+                    val body = response.body()!!
+                    println(body)
+                    daoSync.syncExpense(body.id)
+                    // Return the successful result
+                    Result.success(body)
+                } else {
+                    // Parse the error response if possible
+                    // val errorResponse = parseError(response)
+                    Result.failure(Exception("Error ${response.code()}: ${response.message() ?: "Unknown error"}"))
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Result.failure(Exception("Unknown error: ${e.message}"))
+            }
+        }
+    }
+
+    suspend fun sendInventoryLog(expense: EntityInventoryLogFull, shopId: UUID, token: String): Result<InventoryLogSyncIds> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = dao.sendInventoryLog(expense, shopId.toString(), "Bearer $token")
+                if (response.isSuccessful) {
+                    val body = response.body()!!
+                    println(body)
+                    daoSync.syncInventoryLog(body)
+                    // Return the successful result
+                    Result.success(body)
+                } else {
+                    // Parse the error response if possible
+                    // val errorResponse = parseError(response)
+                    Result.failure(Exception("Error ${response.code()}: ${response.message() ?: "Unknown error"}"))
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
                 Result.failure(Exception("Unknown error: ${e.message}"))
             }
         }

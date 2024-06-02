@@ -18,6 +18,9 @@ class EntityDiscount(
 ) : BaseEntity(null) {
     constructor(applicableTo: List<EnumDiscountApplicable>) : this(null, 0f, applicableTo)
 
+    @Json(ignore = true)
+    var sync: Boolean = false
+
     fun applicableToStr() : String {
         return "Applicable to: " + applicableTo.joinToString(",") {
             it.value

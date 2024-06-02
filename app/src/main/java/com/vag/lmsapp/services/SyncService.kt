@@ -15,6 +15,10 @@ abstract class SyncService(private val name: String, private val descriptions: S
         const val CHANNEL_ID = "sync_service"
     }
 
+    protected fun isNetworkAvailable() {
+
+    }
+
     private val notificationManager by lazy {
         this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }

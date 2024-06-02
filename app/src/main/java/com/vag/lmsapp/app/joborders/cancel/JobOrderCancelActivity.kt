@@ -11,6 +11,9 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityJobOrderCancelBinding
+import com.vag.lmsapp.internet.InternetConnectionCallback
+import com.vag.lmsapp.internet.InternetConnectionObserver
+import com.vag.lmsapp.services.JobOrderSyncService
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.DataState
@@ -18,7 +21,7 @@ import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class JobOrderCancelActivity : AppCompatActivity() {
+class JobOrderCancelActivity : AppCompatActivity(), InternetConnectionCallback {
 
     companion object {
 //        const val JOB_ORDER_ID = "jobOrderId"
@@ -61,6 +64,9 @@ class JobOrderCancelActivity : AppCompatActivity() {
                         putExtra(JOB_ORDER_ID, it.data.toString())
                     })
                     finish()
+                    if(internetAvailable) {
+                        JobOrderSyncService.start(this, it.data)
+                    }
                 }
                 is DataState.Invalidate -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
@@ -70,5 +76,30 @@ class JobOrderCancelActivity : AppCompatActivity() {
                 else -> {}
             }
         })
+    }
+
+    var internetAvailable = false
+
+    override fun onPause() {
+        super.onPause()
+        InternetConnectionObserver.unRegister()
+    }
+
+    override fun onConnected() {
+        internetAvailable = true
+        println("internet available")
+    }
+
+    override fun onDisconnected() {
+        internetAvailable = false
+        println("no internet available")
+    }
+    override fun onResume() {
+        super.onResume()
+
+        InternetConnectionObserver
+            .instance(this)
+            .setCallback(this)
+            .register()
     }
 }

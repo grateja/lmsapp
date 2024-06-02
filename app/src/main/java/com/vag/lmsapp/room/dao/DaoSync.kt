@@ -3,7 +3,9 @@ package com.vag.lmsapp.room.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import com.vag.lmsapp.network.responses.InventoryLogSyncIds
 import com.vag.lmsapp.network.responses.JobOrderSyncIds
+import com.vag.lmsapp.network.responses.MachineUsageSyncIds
 import com.vag.lmsapp.network.responses.PaymentSynIds
 import com.vag.lmsapp.network.responses.SetupSyncIds
 import java.util.UUID
@@ -11,55 +13,49 @@ import java.util.UUID
 @Dao
 interface DaoSync {
     @Query("UPDATE shops SET sync = 1")
-    fun syncShop()
+    suspend fun syncShop()
 
     @Query("UPDATE services SET sync = 1 WHERE id in (:ids)")
-    fun syncServices(ids: List<UUID>?)
+    suspend fun syncServices(ids: List<UUID>?)
 
     @Query("UPDATE products SET sync = 1 WHERE id in (:ids)")
-    fun syncProducts(ids: List<UUID>?)
+    suspend fun syncProducts(ids: List<UUID>?)
 
     @Query("UPDATE extras SET sync = 1 WHERE id in (:ids)")
-    fun syncExtras(ids: List<UUID>?)
+    suspend fun syncExtras(ids: List<UUID>?)
 
     @Query("UPDATE delivery_profiles SET sync = 1 WHERE id in (:ids)")
-    fun syncDeliveryProfiles(ids: List<UUID>?)
+    suspend fun syncDeliveryProfiles(ids: List<UUID>?)
 
     @Query("UPDATE discounts SET sync = 1 WHERE id in (:ids)")
-    fun syncDiscounts(ids: List<UUID>?)
+    suspend fun syncDiscounts(ids: List<UUID>?)
 
     @Query("UPDATE job_orders SET sync = 1 WHERE id = :id")
-    fun syncJobOrder(id: UUID?)
+    suspend fun syncJobOrder(id: UUID?)
 
     @Query("UPDATE job_orders SET sync = 1 WHERE id in(:id)")
-    fun syncJobOrder(id: List<UUID>?)
+    suspend fun syncJobOrder(id: List<UUID>?)
 
     @Query("UPDATE customers SET sync = 1 WHERE id = :id")
-    fun syncCustomer(id: UUID?)
+    suspend fun syncCustomer(id: UUID?)
 
     @Query("UPDATE users SET sync = 1 WHERE id = :id")
-    fun syncStaff(id: UUID?)
+    suspend fun syncStaff(id: UUID?)
 
     @Query("UPDATE users SET sync = 1 WHERE id in(:ids)")
-    fun syncStaff(ids: List<UUID>?)
+    suspend fun syncStaff(ids: List<UUID>?)
 
     @Query("UPDATE job_order_payments SET sync = 1 WHERE id = :id")
-    fun syncJobOrderPayment(id: UUID?)
+    suspend fun syncJobOrderPayment(id: UUID?)
 
-    @Query("UPDATE job_order_services SET sync = 1 WHERE id in (:ids)")
-    fun syncJobOrderServices(ids: List<UUID>?)
+    @Query("UPDATE machine_usages SET sync = 1 WHERE id = :id")
+    suspend fun syncMachineUsage(id: UUID?)
 
-    @Query("UPDATE job_order_products SET sync = 1 WHERE id in (:ids)")
-    fun syncJobOrderProducts(ids: List<UUID>?)
+    @Query("UPDATE expenses SET sync = 1 WHERE id = :id")
+    suspend fun syncExpense(id: UUID)
 
-    @Query("UPDATE job_order_extras SET sync = 1 WHERE id in (:ids)")
-    fun syncJobOrderExtras(ids: List<UUID>?)
-
-    @Query("UPDATE job_order_discounts SET sync = 1 WHERE id = :id")
-    fun syncJobOrderDiscount(id: UUID?)
-
-    @Query("UPDATE job_order_delivery_charges SET sync = 1 WHERE id = :id")
-    fun syncJobOrderDeliveryCharge(id: UUID?)
+    @Query("UPDATE inventory_log SET sync = 1 WHERE id = :id")
+    suspend fun syncInventoryLog(id: UUID)
 
     @Transaction
     suspend fun syncJobOrder(jobOrderSyncIds: JobOrderSyncIds) {
@@ -67,12 +63,7 @@ interface DaoSync {
         syncCustomer(jobOrderSyncIds.customerId)
         syncStaff(jobOrderSyncIds.createdBy)
         syncStaff(jobOrderSyncIds.paidBy)
-        syncJobOrderDeliveryCharge(jobOrderSyncIds.deliveryChargeId)
-        syncJobOrderDiscount(jobOrderSyncIds.discountId)
         syncJobOrderPayment(jobOrderSyncIds.paymentId)
-        syncJobOrderServices(jobOrderSyncIds.servicesIds)
-        syncJobOrderProducts(jobOrderSyncIds.productsIds)
-        syncJobOrderExtras(jobOrderSyncIds.extrasIds)
     }
 
     @Transaction
@@ -91,5 +82,19 @@ interface DaoSync {
         syncExtras(setupSyncIds.extrasIds)
         syncDeliveryProfiles(setupSyncIds.deliveryProfilesIds)
         syncDiscounts(setupSyncIds.discountsIds)
+    }
+
+    @Transaction
+    suspend fun syncMachineUsage(machineUsageIds: MachineUsageSyncIds) {
+        syncCustomer(machineUsageIds.customerId)
+        syncMachineUsage(machineUsageIds.machineUsageId)
+    }
+
+    @Transaction
+    suspend fun syncInventoryLog(response: InventoryLogSyncIds) {
+        syncProducts(listOf(response.productId))
+        syncExpense(response.expenseId)
+        syncInventoryLog(response.inventoryLogId)
+        syncStaff(response.userId)
     }
 }

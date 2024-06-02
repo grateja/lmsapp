@@ -10,6 +10,7 @@ import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityDiscountAddEditBinding
 import com.vag.lmsapp.util.*
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -49,9 +50,12 @@ class DiscountAddEditActivity(
                 }
                 is DataState.SaveSuccess -> {
                     confirmExit(it.data.id)
+                    viewModel.resetState()
                 }
                 is DataState.DeleteSuccess -> {
                     confirmExit(it.data.id)
+                    viewModel.resetState()
+                    ShopSetupSyncWorker.enqueue(applicationContext)
                 }
                 is DataState.RequestExit -> {
                     confirmExit(it.promptPass)

@@ -32,9 +32,6 @@ class MachineActivationService : Service() {
     @Inject
     lateinit var machineRepository: MachineRepository
 
-//    @Inject
-//    lateinit var appPreferences: AppPreferenceRepository
-
     @Inject
     lateinit var queuesRepository: JobOrderQueuesRepository
 
@@ -251,6 +248,9 @@ class MachineActivationService : Service() {
                             machine.id,
                             machineUsage
                         )
+
+                        MachineUsageSyncService.start(context, machineUsage.id)
+
                     } else {
                         remoteRepository.revertActivation(machine.id, jobOrderService.id)
                     }

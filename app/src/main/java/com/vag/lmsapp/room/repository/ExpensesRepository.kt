@@ -26,4 +26,6 @@ constructor (
     fun getDashboard(dateFilter: DateFilter) = dao.getDashboard(dateFilter.dateFrom, dateFilter.dateTo)
 
     fun getTags() = dao.getTags()
+
+    suspend fun getExpenseFull(id: UUID) = dao.getExpenseFull(id)
 }

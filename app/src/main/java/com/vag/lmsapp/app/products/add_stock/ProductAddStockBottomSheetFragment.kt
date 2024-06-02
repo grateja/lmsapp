@@ -10,6 +10,7 @@ import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.databinding.FragmentProductAddStockBottomSheetBinding
 import com.vag.lmsapp.fragments.ModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
+import com.vag.lmsapp.services.InventoryLogSyncService
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.AuthLauncherFragment
 import com.vag.lmsapp.util.Constants.Companion.ID
@@ -70,6 +71,7 @@ class ProductAddStockBottomSheetFragment : ModalFragment<UUID>() {
                 is DataState.SaveSuccess -> {
                     viewModel.resetState()
                     dismiss()
+                    InventoryLogSyncService.start(requireContext(), it.data.id)
                 }
 
                 else -> {}

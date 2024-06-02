@@ -3,9 +3,16 @@ package com.vag.lmsapp.network.api
 import com.vag.lmsapp.network.requests_body.SetupRequestBody
 import com.vag.lmsapp.network.responses.JobOrderSyncIds
 import com.vag.lmsapp.network.requests_body.PaymentRequestBody
+import com.vag.lmsapp.network.responses.InventoryLogSyncIds
+import com.vag.lmsapp.network.responses.MachineUsageSyncIds
 import com.vag.lmsapp.network.responses.PaymentSynIds
 import com.vag.lmsapp.network.responses.SetupSyncIds
+import com.vag.lmsapp.network.responses.UuidSyncId
+import com.vag.lmsapp.room.entities.EntityCustomer
+import com.vag.lmsapp.room.entities.EntityExpenseFull
+import com.vag.lmsapp.room.entities.EntityInventoryLogFull
 import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
+import com.vag.lmsapp.room.entities.EntityMachineUsageFull
 import com.vag.lmsapp.room.entities.EntityShop
 import com.vag.lmsapp.room.entities.SanctumToken
 import retrofit2.Response
@@ -14,6 +21,7 @@ import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
+import java.util.UUID
 
 interface ApiService {
     @Headers("Accept: application/json")
@@ -47,4 +55,46 @@ interface ApiService {
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
     ): Response<SetupSyncIds>
+
+    @Headers("Accept: application/json")
+    @POST("api/sync/customer/{shopId}")
+    suspend fun sendCustomer(
+        @Body customer: EntityCustomer,
+        @Path("shopId") shopId: String,
+        @Header("Authorization") token: String
+    ): Response<UuidSyncId>
+
+    @Headers("Accept: application/json")
+    @POST("api/sync/machine-usage/{shopId}")
+    suspend fun sendMachineActivation(
+        @Body machineUsage: EntityMachineUsageFull,
+        @Path("shopId") shopId: String,
+        @Header("Authorization") token: String
+    ): Response<MachineUsageSyncIds>
+
+    @Headers("Accept: application/json")
+    @POST("api/sync/expense/{shopId}")
+    suspend fun sendExpense(
+        @Body expense: EntityExpenseFull,
+        @Path("shopId") shopId: String,
+        @Header("Authorization") token: String
+    ): Response<UuidSyncId>
+
+    @Headers("Accept: application/json")
+    @POST("api/sync/inventory-log/{shopId}")
+    suspend fun sendInventoryLog(
+        @Body body: EntityInventoryLogFull,
+        @Path("shopId") shopId: String,
+        @Header("Authorization") token: String
+    ): Response<InventoryLogSyncIds>
+
+    @Headers("Accept: application/json")
+    @POST("api/sync/all/{shopId}")
+    suspend fun sendAll(
+        @Body customer: EntityCustomer,
+        @Path("shopId") shopId: String,
+        @Header("Authorization") token: String
+    ): Response<UUID>
+
+
 }

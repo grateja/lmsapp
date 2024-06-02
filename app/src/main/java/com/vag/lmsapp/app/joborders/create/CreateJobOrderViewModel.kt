@@ -10,6 +10,7 @@ import com.vag.lmsapp.app.joborders.create.packages.MenuJobOrderPackage
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
 import com.vag.lmsapp.model.EnumDiscountApplicable
+import com.vag.lmsapp.network.ConnectivityRepository
 import com.vag.lmsapp.room.entities.*
 import com.vag.lmsapp.room.repository.ActivityLogRepository
 import com.vag.lmsapp.room.repository.CustomerRepository
@@ -28,11 +29,10 @@ class CreateJobOrderViewModel
 
 @Inject
 constructor(
-    private val activityLogRepository: ActivityLogRepository,
     private val jobOrderRepository: JobOrderRepository,
     private val paymentRepository: PaymentRepository,
     private val productsRepository: ProductRepository,
-    private val customerRepository: CustomerRepository
+    private val customerRepository: CustomerRepository,
 ) : ViewModel() {
     sealed class DataState {
         object StateLess: DataState()

@@ -19,4 +19,7 @@ class EntityMachineUsage(
     @Json(name = "customer_id")
     @ColumnInfo(name = "customer_id")
     val customerId: UUID?
-) : BaseEntity()
+) : BaseEntity() {
+    @Json(ignore = true)
+    var sync: Boolean = false
+}

@@ -1,14 +1,17 @@
 package com.vag.lmsapp.di
 
+import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vag.lmsapp.adapters.ArrayListIntAdapter
 import com.vag.lmsapp.adapters.InstantAdapter
 import com.vag.lmsapp.adapters.UUIDAdapter
+import com.vag.lmsapp.network.ConnectivityRepository
 import com.vag.lmsapp.network.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -21,7 +24,7 @@ class NetworkModule {
     @Provides
     fun provideRetrofit(moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.11:8000")
+            .baseUrl("http://192.168.1.7:8000")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }

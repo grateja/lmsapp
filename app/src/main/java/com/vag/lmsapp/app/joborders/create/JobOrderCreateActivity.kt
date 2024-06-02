@@ -38,18 +38,22 @@ import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.joborders.print.JobOrderPrintActivity
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateBinding
+import com.vag.lmsapp.internet.InternetConnectionCallback
+import com.vag.lmsapp.internet.InternetConnectionObserver
 import com.vag.lmsapp.services.JobOrderSyncService
 import com.vag.lmsapp.util.*
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.onEach
 import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class JobOrderCreateActivity : BaseActivity() {
+class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
     companion object {
         const val CUSTOMER_EXTRA = "customer"
         const val ACTION_LOAD_BY_CUSTOMER_ID = "loadByCustomerId"
@@ -60,18 +64,17 @@ class JobOrderCreateActivity : BaseActivity() {
 
         const val ACTION_SELECT_CUSTOMER = "searchCustomer"
         const val ACTION_MODIFY_DATETIME = "modifyDateTime"
-//        const val ACTION_REQUEST_UNLOCK = "requestUnlock"
         const val ACTION_SYNC_PACKAGE = "package"
         const val ACTION_SYNC_SERVICES = "services"
         const val ACTION_SYNC_PRODUCTS = "products"
         const val ACTION_SYNC_EXTRAS = "extras"
         const val ACTION_SYNC_DELIVERY = "delivery"
         const val ACTION_SYNC_DISCOUNT = "discount"
-//        const val ACTION_SYNC_PAYMENT = "payment"
         const val ACTION_DELETE_JOB_ORDER = "deleteJobOrder"
         const val ACTION_CONFIRM_SAVE = "auth"
     }
 
+    private var internetAvailable: Boolean = false
     private lateinit var binding: ActivityJobOrderCreateBinding
     private val viewModel: CreateJobOrderViewModel by viewModels()
 
@@ -120,17 +123,6 @@ class JobOrderCreateActivity : BaseActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-//        intent.getStringExtra(JOB_ORDER_ID).toUUID().let {
-//            viewModel.loadByJobOrderId(it, false)
-//        }
-//
-//        intent.getStringExtra(CUSTOMER_EXTRA)?.toUUID()?.let {
-//            viewModel.loadByCustomer(it)
-//        }
-    }
     private fun subscribeEvents() {
         binding.buttonPrint.setOnClickListener {
             viewModel.openPrinterOptions()
@@ -491,13 +483,32 @@ class JobOrderCreateActivity : BaseActivity() {
     }
 
     private fun startSync(jobOrderId: UUID) {
-        JobOrderSyncService.start(this, jobOrderId)
-//        JobOrderSyncWorker.enqueue(this, jobOrderId)
-//        val intent = LiveSyncService.getIntent(
-//            this,
-//            LiveSyncService.ACTION_SYNC_JOB_ORDER,
-//            jobOrderId,
-//        )
-//        startForegroundService(intent)
+        if(internetAvailable) {
+            JobOrderSyncService.start(this, jobOrderId)
+        }
+        ShopSetupSyncWorker.enqueue(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        InternetConnectionObserver.unRegister()
+    }
+
+    override fun onConnected() {
+        internetAvailable = true
+        println("internet available")
+    }
+
+    override fun onDisconnected() {
+        internetAvailable = false
+        println("no internet available")
+    }
+    override fun onResume() {
+        super.onResume()
+
+        InternetConnectionObserver
+            .instance(this)
+            .setCallback(this)
+            .register()
     }
 }

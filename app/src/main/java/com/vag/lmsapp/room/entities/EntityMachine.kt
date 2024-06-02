@@ -26,9 +26,12 @@ data class EntityMachine(
     @ColumnInfo(name = "machine_number")
     var machineNumber: Int,
 
+    @Json(ignore = true)
     @Embedded
     var activationRef: EntityActivationRef? = null
 ) : BaseEntity() {
+    @Json(ignore = true)
+    var sync: Boolean = false
 
     fun machineName() : String {
         return machineType?.value + " " + machineNumber

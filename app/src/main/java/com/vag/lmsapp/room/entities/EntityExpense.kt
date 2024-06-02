@@ -12,7 +12,10 @@ data class EntityExpense(
     var amount: Float? = 0f,
     var tag: String? = null,
 
-    @Json(name = "created_by")
+    @Json(name = "staff_id")
     @ColumnInfo(name = "created_by")
     var createdBy: UUID? = null
-) : BaseEntity()
+) : BaseEntity() {
+    @Json(ignore = true)
+    var sync: Boolean = false
+}

@@ -41,4 +41,7 @@ open class EntityJobOrder(
 ) : BaseEntity() {
     @Embedded
     var entityJobOrderVoid: EntityJobOrderVoid? = null
+
+    @Json(ignore = true)
+    var sync: Boolean = false
 }

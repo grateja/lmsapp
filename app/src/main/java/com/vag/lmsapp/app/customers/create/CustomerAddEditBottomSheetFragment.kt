@@ -10,6 +10,9 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.app.customers.CustomerMinimal
 import com.vag.lmsapp.databinding.FragmentBottomSheetCustomerAddEditBinding
 import com.vag.lmsapp.fragments.ModalFragment
+import com.vag.lmsapp.internet.InternetConnectionCallback
+import com.vag.lmsapp.internet.InternetConnectionObserver
+import com.vag.lmsapp.services.CustomerSyncService
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.hideKeyboard
 import com.vag.lmsapp.util.toUUID
@@ -17,10 +20,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>() {
+class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>(), InternetConnectionCallback {
     override var fullHeight: Boolean = true
     private val viewModel: AddEditCustomerViewModel by viewModels()
     private lateinit var binding: FragmentBottomSheetCustomerAddEditBinding
+    var internetAvailable = false
 //    private val launcher = FragmentLauncher(this)
 
     override fun onCreateView(
@@ -44,6 +48,27 @@ class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>() {
 //            viewModel.toggleSearchVisibility(it)
 //        }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        InternetConnectionObserver
+            .instance(requireContext())
+            .setCallback(this)
+            .register()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        InternetConnectionObserver.unRegister()
+    }
+
+    override fun onConnected() {
+        internetAvailable = true
+    }
+
+    override fun onDisconnected() {
+        internetAvailable = false
     }
 
     private fun subscribeEvents() {
@@ -79,6 +104,9 @@ class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>() {
                     ))
                     viewModel.resetState()
                     dismiss()
+                    if(internetAvailable) {
+                        CustomerSyncService.start(requireContext(), it.data.id)
+                    }
                 }
                 is DataState.InvalidInput -> {
                     binding.progressBarSaving.visibility = View.INVISIBLE

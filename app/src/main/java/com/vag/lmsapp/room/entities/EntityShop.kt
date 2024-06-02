@@ -19,4 +19,7 @@ class EntityShop : BaseEntity() {
 
     @ColumnInfo(name = "email")
     var email: String? = null
+
+    @Json(ignore = true)
+    var sync: Boolean = false
 }

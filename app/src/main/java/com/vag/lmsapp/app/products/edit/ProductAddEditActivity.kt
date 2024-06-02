@@ -11,6 +11,7 @@ import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityProductAddEditBinding
 import com.vag.lmsapp.model.EnumMeasureUnit
 import com.vag.lmsapp.util.*
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -84,6 +85,7 @@ class ProductAddEditActivity(
                 }
                 is DataState.DeleteSuccess -> {
                     confirmExit(it.data.id)
+                    ShopSetupSyncWorker.enqueue(this)
                 }
                 is DataState.RequestExit -> {
                     confirmExit(it.promptPass)

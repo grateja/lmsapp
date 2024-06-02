@@ -10,6 +10,7 @@ import com.vag.lmsapp.databinding.ActivityMachinesAddEditBinding
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.DataState
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,6 +55,7 @@ class MachinesAddEditActivity : AppCompatActivity() {
             when(it) {
                 is DataState.SaveSuccess -> {
                     finish()
+                    ShopSetupSyncWorker.enqueue(this)
                 }
                 else -> {}
             }

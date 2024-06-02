@@ -16,4 +16,7 @@ data class EntityActivityLog(
     val action: EnumCRUDAction,
 
     val remarks: String
-) : BaseEntity()
+) : BaseEntity() {
+    @Json(ignore = true)
+    var sync: Boolean = false
+}

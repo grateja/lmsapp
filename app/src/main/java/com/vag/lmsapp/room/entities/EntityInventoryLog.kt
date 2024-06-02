@@ -22,7 +22,7 @@ data class EntityInventoryLog(
     @ColumnInfo(name = "total_amount")
     var totalAmount: Float = 0f,
 
-    @Json(name = "user_id")
+    @Json(name = "staff_id")
     @ColumnInfo(name = "user_id")
     var userId: UUID? = null,
 
@@ -31,4 +31,7 @@ data class EntityInventoryLog(
     @Json(name = "expense_id")
     @ColumnInfo(name = "expense_id")
     var expenseId: UUID? = null
-) : BaseEntity()
+) : BaseEntity() {
+    @Json(ignore = true)
+    var sync: Boolean = false
+}

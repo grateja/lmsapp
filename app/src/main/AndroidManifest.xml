@@ -390,6 +390,30 @@
             android:exported="false"
             android:foregroundServiceType="specialUse"
             android:stopWithTask="false" />
+        <service
+            android:name=".services.CustomerSyncService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false" />
+        <service
+            android:name=".services.MachineUsageSyncService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false" />
+        <service
+            android:name=".services.ExpenseSyncService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false" />
+        <service
+            android:name=".services.InventoryLogSyncService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false" />
 
         <activity
             android:name=".app.machines.addedit.MachinesAddEditActivity"

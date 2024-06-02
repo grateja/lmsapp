@@ -63,6 +63,7 @@ constructor(
 ////            addRules("tag", model.value?.tag, arrayOf(Rule.Required))
 //        }
         model.value?.createdBy = userId
+        model.value?.sync = false
         super.save()
     }
 

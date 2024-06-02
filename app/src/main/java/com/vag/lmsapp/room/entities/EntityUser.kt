@@ -26,4 +26,7 @@ class EntityUser : BaseEntity() {
     @Json(ignore = true)
     @ColumnInfo(name = "pattern_ids")
     var patternIds: ArrayList<Int> = arrayListOf()
+
+    @Json(ignore = true)
+    var sync: Boolean = false
 }
