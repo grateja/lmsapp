@@ -163,20 +163,22 @@ class BacklogSyncService : SyncService("Sync", "Backlog") {
                 val shopId = shopRepository.get()?.id
                 val token = sanctumRepository.getSyncToken()
 
-                if(shopId == null) {
-                    println("Shop id cannot be null")
-                    return@runBlocking
-                } else {
-                    println("Shop id")
-                    println(shopId)
-                }
-
                 if(token == null) {
                     println("No token")
+                    safeStop(1)
                     return@runBlocking
                 } else {
                     println("token")
                     println(token)
+                }
+
+                if(shopId == null) {
+                    println("Shop id cannot be null")
+                    startForeground(1, getNotification("Shop's not setup yet", "Go to App settings and setup shop details"))
+                    return@runBlocking
+                } else {
+                    println("Shop id")
+                    println(shopId)
                 }
 
                 if(syncJobOrder(shopId, token) && syncPayment(shopId, token) && syncMachineUsage(shopId, token) && syncInventoryLog(shopId, token) && syncExpenses(shopId, token)) {

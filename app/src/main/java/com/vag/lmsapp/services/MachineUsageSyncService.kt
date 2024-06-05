@@ -38,8 +38,18 @@ class MachineUsageSyncService : SyncService("Sync", "Machine usage") {
                 val token = sanctumRepository.getSyncToken()
                 val machineUsage = machineRepository.getMachineUsage(id)
 
+                if(token == null) {
+                    println("No token")
+                    safeStop(1)
+                    return@runBlocking
+                } else {
+                    println("token")
+                    println(token)
+                }
+
                 if(shopId == null) {
                     println("Shop id cannot be null")
+                    startForeground(1, getNotification("Shop's not setup yet", "Go to App settings and setup shop details"))
                     return@runBlocking
                 } else {
                     println("Shop id")
@@ -51,14 +61,6 @@ class MachineUsageSyncService : SyncService("Sync", "Machine usage") {
                     return@runBlocking
                 } else {
                     println(machineUsage)
-                }
-
-                if(token == null) {
-                    println("No token")
-                    return@runBlocking
-                } else {
-                    println("token")
-                    println(token)
                 }
 
                 try {

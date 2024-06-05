@@ -37,8 +37,18 @@ class CustomerSyncService : SyncService("Sync", "Customer") {
                 val token = sanctumRepository.getSyncToken()
                 val customer = customerRepository.get(id)
 
+                if(token == null) {
+                    println("No token")
+                    safeStop(1)
+                    return@runBlocking
+                } else {
+                    println("token")
+                    println(token)
+                }
+
                 if(shopId == null) {
                     println("Shop id cannot be null")
+                    startForeground(1, getNotification("Shop's not setup yet", "Go to App settings and setup shop details"))
                     return@runBlocking
                 } else {
                     println("Shop id")
@@ -50,14 +60,6 @@ class CustomerSyncService : SyncService("Sync", "Customer") {
                     return@runBlocking
                 } else {
                     println(customer)
-                }
-
-                if(token == null) {
-                    println("No token")
-                    return@runBlocking
-                } else {
-                    println("token")
-                    println(token)
                 }
 
                 try {

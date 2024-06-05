@@ -195,6 +195,10 @@ constructor(
         fun update() {
             discount.value?.let {
                 value = false
+                if(it.deleted) {
+                    value = true
+                    return
+                }
                 if(hasAny.value == true && it.applicableTo.find { it == EnumDiscountApplicable.TOTAL_AMOUNT } != null) {
                     value = true
                     return

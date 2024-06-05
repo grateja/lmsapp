@@ -47,13 +47,18 @@ class JobOrderSyncService: SyncService("Sync", "Job order") {
                     val token = sanctumRepository.getSyncToken()
                     val jobOrder = jobOrderRepository.getJobOrderWithItems(jobOrderId)
 
-                    if(shopId == null) {
-                        println("Shop id cannot be null")
-                        return@runBlocking
-                    }
-
                     if(token == null) {
                         println("No token")
+                        safeStop(1)
+                        return@runBlocking
+                    } else {
+                        println("token")
+                        println(token)
+                    }
+
+                    if(shopId == null) {
+                        println("Shop id cannot be null")
+                        startForeground(1, getNotification("Shop's not setup yet", "Go to App settings and setup shop details"))
                         return@runBlocking
                     }
 

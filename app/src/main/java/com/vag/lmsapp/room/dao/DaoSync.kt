@@ -62,6 +62,9 @@ interface DaoSync {
     @Query("UPDATE inventory_log SET sync = 1 WHERE id = :id")
     suspend fun syncInventoryLog(id: UUID)
 
+    @Query("UPDATE machines SET sync = 1 WHERE id IN(:ids)")
+    suspend fun syncMachines(ids: List<UUID>?)
+
     @Transaction
     suspend fun syncJobOrder(jobOrderSyncIds: JobOrderSyncIds) {
         syncJobOrder(jobOrderSyncIds.jobOrderId)
@@ -87,6 +90,7 @@ interface DaoSync {
         syncExtras(setupSyncIds.extrasIds)
         syncDeliveryProfiles(setupSyncIds.deliveryProfilesIds)
         syncDiscounts(setupSyncIds.discountsIds)
+        syncMachines(setupSyncIds.machineIds)
     }
 
     @Transaction

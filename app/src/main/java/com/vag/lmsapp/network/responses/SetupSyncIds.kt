@@ -22,5 +22,8 @@ data class SetupSyncIds(
     val deliveryProfilesIds: List<UUID>?,
 
     @Json(name = "discounts_ids")
-    val discountsIds: List<UUID>?
+    val discountsIds: List<UUID>?,
+
+    @Json(name = "machines_ids")
+    val machineIds: List<UUID>?
 )

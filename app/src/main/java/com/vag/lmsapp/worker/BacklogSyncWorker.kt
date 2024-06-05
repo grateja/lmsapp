@@ -32,8 +32,6 @@ constructor(
     private val networkRepository: NetworkRepository,
     private val shopRepository: ShopRepository,
     private val sanctumRepository: SanctumRepository,
-    private val customerRepository: CustomerRepository,
-    private val paymentRepository: PaymentRepository
 ) : CoroutineWorker(context, workerParams) {
 
     companion object {
