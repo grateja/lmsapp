@@ -105,8 +105,14 @@ class JobOrderPaymentSyncService : SyncService("Sync", "Payment") {
                     payment.jobOrders.map { it.id }
                 )
 
-                networkRepository.sendPayment(paymentRequestBody, shopId, token).let {
-                    safeStop()
+                try {
+                    networkRepository.sendPayment(paymentRequestBody, shopId, token).let {
+                        safeStop()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    startForeground(1, getNotification("Sync", e.message.toString()))
+                    safeStop(10)
                 }
             }
         }.start()

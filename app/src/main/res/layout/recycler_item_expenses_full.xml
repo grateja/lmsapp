@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
@@ -11,53 +12,76 @@
         android:id="@+id/cardDiscount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@drawable/divider_10"
             android:gravity="center"
             android:orientation="horizontal">
             <ImageView
+                android:id="@+id/icon_date"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginEnd="8dp"
                 android:layout_gravity="top"
                 android:src="@drawable/icon_date"
                 android:layout_width="20dp"
                 android:layout_height="20dp"/>
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/text_created_at"
+                app:layout_constraintTop_toTopOf="@id/icon_date"
+                app:layout_constraintStart_toEndOf="@id/icon_date"
+                style="@style/Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.expense.createdAt}"
+                tools:text="Jun 4, 2023 4:40:PM"/>
+
+            <ImageView
+                android:id="@+id/icon_sync"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_sync"
+                android:visibility="@{viewModel.expense.sync}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/icon_date"
+                android:layout_marginTop="6dp"/>
+            <TextView
+                style="@style/TextItemTitle"
+                android:id="@+id/textTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:divider="@drawable/divider_5"
-                android:showDividers="middle"
-                android:orientation="vertical">
-                <TextView
-                    style="@style/Bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.expense.createdAt}"
-                    tools:text="Jun 4, 2023 4:40:PM"/>
-                <com.google.android.material.divider.MaterialDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    style="@style/TextItemTitle"
-                    android:id="@+id/textTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Door lock repair"
-                    android:text="@{viewModel.expense.remarks}"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Some description"
-                    android:text="@{`ADDED BY: ` + viewModel.createdBy.name}"/>
-            </LinearLayout>
+                tools:text="Door lock repair"
+                android:text="@{viewModel.expense.remarks}"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_amount"/>
             <TextView
+                android:id="@+id/text_added_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Some description"
+                android:text="@{`ADDED BY: ` + viewModel.createdBy.name}"
+                app:layout_constraintTop_toBottomOf="@id/textTitle"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/text_amount"
                 style="@style/TextPrimary"
                 android:peso="@{viewModel.expense.amount}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="P 500.00"/>
-        </LinearLayout>
+                tools:text="P 500.00"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

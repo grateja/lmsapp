@@ -16,7 +16,6 @@ import com.vag.lmsapp.services.JobOrderPaymentSyncService
 import com.vag.lmsapp.util.*
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
-import com.vag.lmsapp.worker.JobOrderPaymentSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

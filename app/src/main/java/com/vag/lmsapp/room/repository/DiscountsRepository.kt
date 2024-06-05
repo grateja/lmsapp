@@ -27,5 +27,5 @@ constructor (
         return dao.filter(keyword)
     }
 
-    suspend fun unSynced() = dao.unSynced()
+    suspend fun unSynced(forced: Boolean) = dao.unSynced(forced)
 }

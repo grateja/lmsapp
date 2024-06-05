@@ -54,5 +54,5 @@ constructor (
     suspend fun checkEmail(email: String?) = daoUser.checkEmail(email)
 
     suspend fun changePassword(userId: UUID, newPassword: String) = daoUser.changePassword(userId, newPassword)
-    suspend fun unSynced() = daoUser.unSynced()
+    suspend fun unSynced(forced: Boolean) = daoUser.unSynced(forced)
 }

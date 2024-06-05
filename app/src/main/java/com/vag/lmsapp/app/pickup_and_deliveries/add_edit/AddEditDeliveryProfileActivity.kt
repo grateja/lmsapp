@@ -40,11 +40,14 @@ class AddEditDeliveryProfileActivity : CrudActivity() {
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {
-                    confirmExit(it.data.id)
                     ShopSetupSyncWorker.enqueue(this)
+                    confirmExit(it.data.id)
+                    viewModel.resetState()
                 }
                 is DataState.DeleteSuccess -> {
+                    ShopSetupSyncWorker.enqueue(this)
                     confirmExit(it.data.id)
+                    viewModel.resetState()
                 }
                 is DataState.RequestExit -> {
                     confirmExit(it.promptPass)

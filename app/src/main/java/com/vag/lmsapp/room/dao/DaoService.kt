@@ -21,6 +21,6 @@ abstract class DaoService : BaseDao<EntityService> {
     @Query("SELECT * FROM services WHERE svc_machine_type = :machineType AND deleted = 0")
     abstract fun getByMachineTypeAsLiveData(machineType: EnumMachineType?) : LiveData<List<EntityService>>
 
-    @Query("SELECT * FROM services WHERE sync = 0")
-    abstract suspend fun unSynced(): List<EntityService>
+    @Query("SELECT * FROM services WHERE sync = 0 OR :forced")
+    abstract suspend fun unSynced(forced: Boolean): List<EntityService>
 }

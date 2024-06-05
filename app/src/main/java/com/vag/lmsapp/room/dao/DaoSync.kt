@@ -8,6 +8,11 @@ import com.vag.lmsapp.network.responses.JobOrderSyncIds
 import com.vag.lmsapp.network.responses.MachineUsageSyncIds
 import com.vag.lmsapp.network.responses.PaymentSynIds
 import com.vag.lmsapp.network.responses.SetupSyncIds
+import com.vag.lmsapp.room.entities.EntityExpenseFull
+import com.vag.lmsapp.room.entities.EntityInventoryLogFull
+import com.vag.lmsapp.room.entities.EntityJobOrderPaymentFull
+import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
+import com.vag.lmsapp.room.entities.EntityMachineUsageFull
 import java.util.UUID
 
 @Dao
@@ -93,8 +98,40 @@ interface DaoSync {
     @Transaction
     suspend fun syncInventoryLog(response: InventoryLogSyncIds) {
         syncProducts(listOf(response.productId))
-        syncExpense(response.expenseId)
+        response.expenseId?.let {
+            syncExpense(it)
+        }
         syncInventoryLog(response.inventoryLogId)
         syncStaff(response.userId)
     }
+
+    @Query("SELECT * from job_orders WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun getUnSyncJobOrder(): EntityJobOrderWithItems?
+
+    @Query("SELECT * from machine_usages WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun getUnSyncMachineUsage(): EntityMachineUsageFull?
+
+    @Query("SELECT * from inventory_log WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun getUnSyncInventoryLog(): EntityInventoryLogFull?
+
+    @Query("SELECT * from job_order_payments WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun getUnSyncPayment(): EntityJobOrderPaymentFull?
+
+    @Query("SELECT * from expenses WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun getUnSyncExpense(): EntityExpenseFull?
+
+    @Query("SELECT COUNT(*) from job_orders WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun jobOrderCount(): Int
+
+    @Query("SELECT COUNT(*) from machine_usages WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun machineUsageCount(): Int
+
+    @Query("SELECT COUNT(*) from inventory_log WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun inventoryLogCount(): Int
+
+    @Query("SELECT COUNT(*) from job_order_payments WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun paymentCount(): Int
+
+    @Query("SELECT COUNT(*) from expenses WHERE sync = 0 ORDER BY created_at DESC LIMIT 1")
+    suspend fun expensesCount(): Int
 }

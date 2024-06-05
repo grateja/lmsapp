@@ -104,7 +104,7 @@ interface DaoJobOrder {
     @Query("SELECT * FROM job_orders WHERE customer_id = :customerId AND payment_id IS NULL AND deleted = 0 AND void_date IS NULL")
     suspend fun getUnpaidByCustomerId(customerId: UUID): List<JobOrderPaymentMinimal>
 
-    @Query("SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, pa.created_at as date_paid, pa.cashless_provider, " +
+    @Query("SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, pa.created_at as date_paid, pa.cashless_provider, jo.sync, " +
             " CASE " +
             "    WHEN jo.payment_id IS NOT NULL OR date(jo.created_at / 1000, 'unixepoch', 'localtime') != date('now', 'localtime') THEN 1" +
             "    ELSE 0" +
@@ -237,7 +237,7 @@ interface DaoJobOrder {
     fun getDashboardJobOrders(dateFrom: LocalDate, dateTo: LocalDate?): LiveData<JobOrderCounts>
 
 
-    @Query("SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, " +
+    @Query("SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, jo.sync, " +
             " CASE " +
             "    WHEN date(jo.created_at / 1000, 'unixepoch', 'localtime') != date('now', 'localtime') THEN 1" +
             "    ELSE 0" +

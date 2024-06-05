@@ -40,10 +40,11 @@ class ExtrasAddEditActivity(
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {
-                    confirmExit(it.data.id)
                     ShopSetupSyncWorker.enqueue(this)
+                    confirmExit(it.data.id)
                 }
                 is DataState.DeleteSuccess -> {
+                    ShopSetupSyncWorker.enqueue(this)
                     confirmExit(it.data.id)
                 }
                 is DataState.RequestExit -> {

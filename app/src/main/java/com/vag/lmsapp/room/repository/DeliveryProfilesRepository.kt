@@ -21,5 +21,5 @@ constructor (
     suspend fun getAll() : List<MenuDeliveryProfile> {
         return daoDeliveryProfile.getAll()
     }
-    suspend fun unSynced() = daoDeliveryProfile.unSynced()
+    suspend fun unSynced(forced: Boolean) = daoDeliveryProfile.unSynced(forced)
 }

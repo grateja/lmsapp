@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.databinding.FragmentProductAddStockBottomSheetBinding
@@ -18,12 +19,14 @@ import com.vag.lmsapp.util.Constants.Companion.PRODUCT_ID
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.selectAllOnFocus
 import com.vag.lmsapp.util.toUUID
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 
+@AndroidEntryPoint
 class ProductAddStockBottomSheetFragment : ModalFragment<UUID>() {
     override var fullHeight = true
     private lateinit var binding: FragmentProductAddStockBottomSheetBinding
-    private val viewModel: ProductAddStockViewModel by activityViewModels()
+    private val viewModel: ProductAddStockViewModel by viewModels()
     private val authLauncher = AuthLauncherFragment(this)
 
     override fun onCreateView(

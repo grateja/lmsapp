@@ -49,13 +49,14 @@ class DiscountAddEditActivity(
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {
+                    ShopSetupSyncWorker.enqueue(applicationContext)
                     confirmExit(it.data.id)
                     viewModel.resetState()
                 }
                 is DataState.DeleteSuccess -> {
+                    ShopSetupSyncWorker.enqueue(applicationContext)
                     confirmExit(it.data.id)
                     viewModel.resetState()
-                    ShopSetupSyncWorker.enqueue(applicationContext)
                 }
                 is DataState.RequestExit -> {
                     confirmExit(it.promptPass)

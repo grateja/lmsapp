@@ -32,5 +32,5 @@ constructor (
 
     fun getCategories(): LiveData<List<String>> = daoExtras.getCategories()
 
-    suspend fun unSynced() = daoExtras.unSynced()
+    suspend fun unSynced(forced: Boolean) = daoExtras.unSynced(forced)
 }

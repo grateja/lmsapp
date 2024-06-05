@@ -24,7 +24,6 @@ class CustomerSyncService : SyncService("Sync", "Customer") {
     companion object {
         fun start(context: Context, customerId: UUID?) {
             val intent = Intent(context, CustomerSyncService::class.java).apply {
-                this.action = action
                 putExtra(ID, customerId.toString())
             }
             context.startForegroundService(intent)
@@ -61,8 +60,14 @@ class CustomerSyncService : SyncService("Sync", "Customer") {
                     println(token)
                 }
 
-                networkRepository.sendCustomer(customer, shopId, token).let {
-                    safeStop()
+                try {
+                    networkRepository.sendCustomer(customer, shopId, token).let {
+                        safeStop()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    startForeground(1, getNotification("Sync", e.message.toString()))
+                    safeStop(10)
                 }
             }
         }.start()

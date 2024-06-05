@@ -17,6 +17,6 @@ abstract class DaoDiscount : BaseDao<EntityDiscount> {
     @Query("SELECT * FROM discounts WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 ORDER BY name")
     abstract suspend fun filter(keyword: String): List<EntityDiscount>
 
-    @Query("SELECT * FROM discounts WHERE sync = 0")
-    abstract suspend fun unSynced(): List<EntityDiscount>
+    @Query("SELECT * FROM discounts WHERE sync = 0 OR :forced")
+    abstract suspend fun unSynced(forced: Boolean): List<EntityDiscount>
 }

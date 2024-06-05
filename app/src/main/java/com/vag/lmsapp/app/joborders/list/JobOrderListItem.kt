@@ -37,7 +37,9 @@ data class JobOrderListItem(
     @ColumnInfo("cashless_provider")
     val cashlessProvider: String?,
 
-    val locked: Boolean
+    val locked: Boolean,
+
+    val sync: Boolean
 ) : Parcelable {
     fun paymentStatus() : String {
         return if(datePaid == null)

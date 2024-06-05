@@ -14,5 +14,5 @@ data class InventoryLogSyncIds(
     val userId: UUID,
 
     @Json(name = "expense_id")
-    val expenseId: UUID,
+    val expenseId: UUID? = null,
 )

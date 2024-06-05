@@ -61,8 +61,14 @@ class MachineUsageSyncService : SyncService("Sync", "Machine usage") {
                     println(token)
                 }
 
-                networkRepository.sendMachineUsage(machineUsage, shopId, token).let {
-                    safeStop()
+                try {
+                    networkRepository.sendMachineUsage(machineUsage, shopId, token).let {
+                        safeStop()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    startForeground(1, getNotification("Sync", e.message.toString()))
+                    safeStop(10)
                 }
             }
         }.start()

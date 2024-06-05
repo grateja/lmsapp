@@ -40,7 +40,9 @@ data class EntityMachineUsageDetails(
     val customerName: String,
 
     @ColumnInfo("price")
-    val price: Float
+    val price: Float,
+
+    val sync: Boolean
 ) {
     fun machineName () : String {
         return machineType.abbr + " " + machineNumber

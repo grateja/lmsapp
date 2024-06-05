@@ -34,17 +34,21 @@ import com.vag.lmsapp.app.dashboard.DashBoardActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.services.ServicesActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
+import com.vag.lmsapp.internet.InternetConnectionCallback
+import com.vag.lmsapp.internet.InternetConnectionObserver
 import com.vag.lmsapp.model.EnumActionPermission
+import com.vag.lmsapp.services.BacklogSyncService
 import com.vag.lmsapp.util.ActivityContractsLauncher
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.viewmodels.MainViewModel
+import com.vag.lmsapp.worker.BacklogSyncWorker
 import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : EndingActivity() {
+class MainActivity : EndingActivity(), InternetConnectionCallback {
     private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
@@ -192,6 +196,12 @@ class MainActivity : EndingActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        InternetConnectionObserver
+            .instance(this)
+            .setCallback(this)
+            .register()
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         adapter.setData(
@@ -208,22 +218,6 @@ class MainActivity : EndingActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissionRequestLauncher.launch(arrayOf(POST_NOTIFICATIONS))
         }
-
-        ShopSetupSyncWorker.enqueue(this)
-
-//        val constraints = Constraints.Builder()
-//            .setRequiredNetworkType(NetworkType.CONNECTED)
-//            .build()
-//
-//        val workRequest = OneTimeWorkRequest.Builder(ShopSetupSyncWorker::class.java)
-//            .setConstraints(constraints)
-//            .build()
-//
-//        WorkManager.getInstance(this).enqueueUniqueWork(
-//            "sync-shop",
-//            ExistingWorkPolicy.REPLACE,
-//            workRequest
-//        )
     }
 
     private fun subscribeEvents() {
@@ -282,4 +276,15 @@ class MainActivity : EndingActivity() {
 
         startActivity(intent)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        InternetConnectionObserver.unRegister()
+    }
+
+    override fun onConnected() {
+        BacklogSyncService.start(this)
+    }
+
+    override fun onDisconnected() { }
 }

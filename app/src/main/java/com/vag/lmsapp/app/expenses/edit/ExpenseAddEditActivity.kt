@@ -82,13 +82,16 @@ class ExpenseAddEditActivity(
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {
-                    confirmExit(it.data.id)
-                    viewModel.resetState()
                     if(internetAvailable) {
                         ExpenseSyncService.start(this, it.data.id)
                     }
+                    confirmExit(it.data.id)
+                    viewModel.resetState()
                 }
                 is DataState.DeleteSuccess -> {
+                    if(internetAvailable) {
+                        ExpenseSyncService.start(this, it.data.id)
+                    }
                     confirmExit(it.data.id)
                     viewModel.resetState()
                 }

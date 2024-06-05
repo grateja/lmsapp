@@ -46,7 +46,7 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
             " GROUP BY machine_number, machine_type ORDER BY machine_type, machine_number")
     abstract fun getDashboard(dateFrom: LocalDate, dateTo: LocalDate?) : LiveData<List<EntityMachineUsageAggrResult>>
 
-    @Query("SELECT ma.id, ma.machine_number, ma.created_at, mu.machine_id, mu.customer_id, mu.created_at AS activated, cu.name as customer_name, jos.job_order_id, jos.service_name, jos.svc_minutes, jos.svc_wash_type, jos.svc_machine_type, job_order_number, jos.price " +
+    @Query("SELECT ma.id, ma.machine_number, ma.created_at, mu.machine_id, mu.customer_id, mu.created_at AS activated, cu.name as customer_name, jos.job_order_id, jos.service_name, jos.svc_minutes, jos.svc_wash_type, jos.svc_machine_type, job_order_number, jos.price, mu.sync " +
         "            FROM machine_usages mu " +
         "            LEFT JOIN machines ma ON mu.machine_id = ma.id " +
         "            LEFT JOIN customers cu ON mu.customer_id = cu.id " +
@@ -61,8 +61,8 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
         "LIMIT 20 OFFSET :offset ")
     abstract suspend fun getMachineUsage(machineId: UUID, keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?) : List<EntityMachineUsageDetails>
 
-    @Query("SELECT * FROM machines WHERE sync = 0")
-    abstract suspend fun unSynced(): List<EntityMachine>
+    @Query("SELECT * FROM machines WHERE sync = 0 OR :forced")
+    abstract suspend fun unSynced(forced: Boolean): List<EntityMachine>
 
     @Query("SELECT * FROM machine_usages WHERE id = :machineUsageId")
     abstract suspend fun getMachineUsage(machineUsageId: UUID): EntityMachineUsageFull?

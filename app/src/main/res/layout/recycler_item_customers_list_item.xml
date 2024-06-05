@@ -33,8 +33,9 @@
                 android:layout_marginStart="8dp"
                 android:text="@{`CRN` + viewModel.customer.crn}"
                 android:textSize="18sp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@id/labelName"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/icon_sync"
                 app:layout_constraintTop_toTopOf="@id/labelName"
                 tools:text="CRN0392029" />
 
@@ -49,6 +50,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Chris Hemsworth"/>
+            <ImageView
+                android:id="@+id/icon_sync"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_sync"
+                android:visibility="@{viewModel.customer.sync}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
             <TextView
                 android:id="@+id/label_last_job_order"
                 android:visibility="@{viewModel.lastVisit != null}"

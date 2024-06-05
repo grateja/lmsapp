@@ -27,7 +27,9 @@ data class EntityJobOrderPaymentListItem(
     val datePaid: Instant,
 
     @ColumnInfo("job_order_reference")
-    val jobOrderReference: String
+    val jobOrderReference: String,
+
+    val sync: Boolean
 ) {
     fun paymentOption() : String {
         return cashlessProvider ?: "Cash"

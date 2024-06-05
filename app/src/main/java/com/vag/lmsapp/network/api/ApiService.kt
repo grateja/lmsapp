@@ -49,8 +49,8 @@ interface ApiService {
     ): Response<PaymentSynIds>
 
     @Headers("Accept: application/json")
-    @POST("api/sync/bulk/{shopId}")
-    suspend fun sendBulkPayload(
+    @POST("api/sync/setup/{shopId}")
+    suspend fun sendSetup(
         @Body setupRequestBody: SetupRequestBody,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String

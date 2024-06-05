@@ -414,6 +414,12 @@
             android:exported="false"
             android:foregroundServiceType="specialUse"
             android:stopWithTask="false" />
+        <service
+            android:name=".services.BacklogSyncService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse"
+            android:stopWithTask="false" />
 
         <activity
             android:name=".app.machines.addedit.MachinesAddEditActivity"

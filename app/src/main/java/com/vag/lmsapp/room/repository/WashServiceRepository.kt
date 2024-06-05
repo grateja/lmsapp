@@ -26,5 +26,5 @@ constructor (
     fun getByMachineTypeAsLiveData(machineType: EnumMachineType) =
         daoWashService.getByMachineTypeAsLiveData(machineType)
 
-    suspend fun unSynced() = daoWashService.unSynced()
+    suspend fun unSynced(forced: Boolean) = daoWashService.unSynced(forced)
 }

@@ -14,6 +14,7 @@ import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.toUUID
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -85,15 +86,18 @@ class AddEditServiceActivity(
             when(it) {
                 is DataState.ValidationPassed -> {
                     viewModel.save()
-                    viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(MACHINE_TYPE_EXTRA, it.data.serviceRef.machineType as Parcelable)
                     })
+                    ShopSetupSyncWorker.enqueue(this)
+                    viewModel.resetState()
                     finish()
                 }
                 is DataState.DeleteSuccess -> {
+                    ShopSetupSyncWorker.enqueue(this)
+                    viewModel.resetState()
                     finish()
                 }
                 is DataState.RequestExit -> {

@@ -84,12 +84,14 @@ class ProductAddEditActivity(
                     confirmExit(it.data.id)
                 }
                 is DataState.DeleteSuccess -> {
-                    confirmExit(it.data.id)
                     ShopSetupSyncWorker.enqueue(this)
+                    viewModel.resetState()
+                    confirmExit(it.data.id)
                 }
                 is DataState.RequestExit -> {
-                    confirmExit(it.promptPass)
+                    ShopSetupSyncWorker.enqueue(this)
                     viewModel.resetState()
+                    confirmExit(it.promptPass)
                 }
                 is DataState.ValidationPassed -> {
                     viewModel.save()

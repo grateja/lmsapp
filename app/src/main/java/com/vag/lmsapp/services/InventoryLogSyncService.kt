@@ -63,8 +63,14 @@ class InventoryLogSyncService : SyncService("Sync", "Machine usage") {
                     println(token)
                 }
 
-                networkRepository.sendInventoryLog(body, shopId, token).let {
-                    safeStop()
+                try {
+                    networkRepository.sendInventoryLog(body, shopId, token).let {
+                        safeStop()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    startForeground(1, getNotification("Sync", e.message.toString()))
+                    safeStop(10)
                 }
             }
         }.start()

@@ -44,7 +44,7 @@ class MachineRepository
         return daoMachine.getMachineUsage(machineId, keyword, offset, dateFilter?.dateFrom, dateFilter?.dateTo)
     }
 
-    suspend fun unSynced() = daoMachine.unSynced()
+    suspend fun unSynced(forced: Boolean) = daoMachine.unSynced(forced)
 
     suspend fun getMachineUsage(machineUsageId: UUID) = daoMachine.getMachineUsage(machineUsageId)
 }

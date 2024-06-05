@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
@@ -42,19 +43,27 @@ constructor(
     private val userRepository: UserRepository
 ) : CoroutineWorker(context, workerParams) {
     companion object {
-        fun enqueue(context: Context) {
+        private const val FORCED = "forced"
+        fun enqueue(context: Context, force: Boolean = false) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
             val workRequest = OneTimeWorkRequest.Builder(ShopSetupSyncWorker::class.java)
                 .setConstraints(constraints)
-                .build()
+
+            if(force) {
+                workRequest.setInputData(
+                    Data.Builder()
+                        .putBoolean(FORCED, force)
+                        .build()
+                )
+            }
 
             WorkManager.getInstance(context).enqueueUniqueWork(
                 "sync-shop",
                 ExistingWorkPolicy.REPLACE,
-                workRequest
+                workRequest.build()
             )
         }
     }
@@ -63,14 +72,15 @@ constructor(
         val shop = shopRepository.get()
         val shopId = shop?.id
         val token = sanctumRepository.getSyncToken()
+        val forced = inputData.getBoolean(FORCED, false)
 
-        val machines = machineRepository.unSynced()
-        val services = serviceRepository.unSynced()
-        val products = productRepository.unSynced()
-        val extras = extraRepository.unSynced()
-        val deliveryProfiles = deliveryRepository.unSynced()
-        val discounts = discountRepository.unSynced()
-        val staffs = userRepository.unSynced()
+        val machines = machineRepository.unSynced(forced)
+        val services = serviceRepository.unSynced(forced)
+        val products = productRepository.unSynced(forced)
+        val extras = extraRepository.unSynced(forced)
+        val deliveryProfiles = deliveryRepository.unSynced(forced)
+        val discounts = discountRepository.unSynced(forced)
+        val staffs = userRepository.unSynced(forced)
 
         if(shopId == null) {
             println("Shop id cannot be null")

@@ -42,36 +42,35 @@ class JobOrderSyncService: SyncService("Sync", "Job order") {
     private fun sync(jobOrderId: UUID) {
         Thread {
             runBlocking {
-                val shopId = shopRepository.get()?.id
-                val token = sanctumRepository.getSyncToken()
-                val jobOrder = jobOrderRepository.getJobOrderWithItems(jobOrderId)
+                try {
+                    val shopId = shopRepository.get()?.id
+                    val token = sanctumRepository.getSyncToken()
+                    val jobOrder = jobOrderRepository.getJobOrderWithItems(jobOrderId)
 
-                if(shopId == null) {
-                    println("Shop id cannot be null")
-                    return@runBlocking
-                }
+                    if(shopId == null) {
+                        println("Shop id cannot be null")
+                        return@runBlocking
+                    }
 
-                if(token == null) {
-                    println("No token")
-                    return@runBlocking
-                }
+                    if(token == null) {
+                        println("No token")
+                        return@runBlocking
+                    }
 
-                if(jobOrder == null) {
-                    println("Job order may be deleted")
-                    return@runBlocking
-                }
+                    if(jobOrder == null) {
+                        println("Job order may be deleted")
+                        return@runBlocking
+                    }
 
-                startForeground(1, getNotification("Job order sync", jobOrder.jobOrder.jobOrderNumber.toString()))
+                    startForeground(1, getNotification("Job order sync", jobOrder.jobOrder.jobOrderNumber.toString()))
 
-                networkRepository.sendJobOrder(jobOrder, shopId, token).let {result ->
-                    safeStop()
-//                    if(result.isSuccess) {
-//                        result.getOrNull().let {jobOrderIds ->
-//                            jobOrderRepository.sync().let {
-//                                safeStop()
-//                            }
-//                        }
-//                    }
+                    networkRepository.sendJobOrder(jobOrder, shopId, token).let {result ->
+                        safeStop()
+                    }
+                } catch (e: Exception) {
+                    startForeground(1, getNotification("Something went wrong while syncing Job Order", e.message.toString()))
+                    e.printStackTrace()
+                    safeStop(60 * 5)
                 }
             }
         }.start()

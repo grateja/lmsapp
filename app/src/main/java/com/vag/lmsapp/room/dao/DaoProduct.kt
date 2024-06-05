@@ -60,6 +60,6 @@ abstract class DaoProduct : BaseDao<EntityProduct> {
     @Query("SELECT * FROM products WHERE id = :productId AND deleted = 0")
     abstract fun getAsLiveData(productId: UUID?): LiveData<EntityProduct?>
 
-    @Query("SELECT * FROM products WHERE sync = 0")
-    abstract suspend fun unSynced(): List<EntityProduct>
+    @Query("SELECT * FROM products WHERE sync = 0 OR :forced")
+    abstract suspend fun unSynced(forced: Boolean): List<EntityProduct>
 }
