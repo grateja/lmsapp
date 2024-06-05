@@ -27,4 +27,14 @@ constructor (
     }
 
     fun getRunningMachine(machineId: UUID?) = daoRemote.getActiveMachine(machineId)
+
+    suspend fun endTime(remarks: String, machine: EntityMachine, userId: UUID) {
+        val machineRemarks = EntityMachineRemarks(
+            machine.id,
+            userId,
+            "END_TIME",
+            remarks
+        )
+        daoRemote.endTime(machineRemarks)
+    }
 }

@@ -5,6 +5,8 @@ import androidx.room.*
 import com.vag.lmsapp.app.machines.MachineListItem
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.entities.EntityMachine
+import com.vag.lmsapp.room.entities.EntityMachineRemarks
+import com.vag.lmsapp.room.entities.EntityMachineUsage
 import com.vag.lmsapp.room.entities.EntityMachineUsageAggrResult
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import com.vag.lmsapp.room.entities.EntityMachineUsageFull
@@ -66,4 +68,10 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
 
     @Query("SELECT * FROM machine_usages WHERE id = :machineUsageId")
     abstract suspend fun getMachineUsage(machineUsageId: UUID): EntityMachineUsageFull?
+
+    @Query("SELECT * FROM machine_usages WHERE id = :id")
+    abstract fun getMachineUsageAsLiveData(id: UUID?): LiveData<EntityMachineUsageFull?>
+
+    @Upsert
+    abstract suspend fun addRemarks(machineRemarks: EntityMachineRemarks)
 }

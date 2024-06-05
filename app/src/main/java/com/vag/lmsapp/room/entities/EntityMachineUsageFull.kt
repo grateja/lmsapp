@@ -17,5 +17,11 @@ data class EntityMachineUsageFull(
         parentColumn = "job_order_service_id",
         entityColumn = "id"
     )
-    val jobOrderService: EntityJobOrderService
+    val jobOrderService: EntityJobOrderService,
+
+    @Relation(
+        parentColumn = "machine_id",
+        entityColumn = "id"
+    )
+    val machine: EntityMachine,
 )

@@ -239,7 +239,8 @@ class MachineActivationService : Service() {
                             Instant.now(),
                             jobOrderService.serviceRef.minutes,
                             jobOrderService.jobOrderId,
-                            customer.id
+                            customer.id,
+                            machineUsage.id
                         )
 
                         remoteRepository.activate(

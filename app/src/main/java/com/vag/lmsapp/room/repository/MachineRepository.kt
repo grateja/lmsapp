@@ -4,6 +4,7 @@ import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.dao.DaoMachine
 import com.vag.lmsapp.room.entities.EntityMachine
+import com.vag.lmsapp.room.entities.EntityMachineRemarks
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import java.util.UUID
 import javax.inject.Inject
@@ -47,4 +48,7 @@ class MachineRepository
     suspend fun unSynced(forced: Boolean) = daoMachine.unSynced(forced)
 
     suspend fun getMachineUsage(machineUsageId: UUID) = daoMachine.getMachineUsage(machineUsageId)
+    fun getMachineUsageAsLiveData(id: UUID?) = daoMachine.getMachineUsageAsLiveData(id)
+
+    suspend fun addRemarks(machineRemarks: EntityMachineRemarks) = daoMachine.addRemarks(machineRemarks)
 }

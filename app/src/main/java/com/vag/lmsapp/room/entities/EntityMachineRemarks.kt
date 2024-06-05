@@ -7,17 +7,19 @@ import com.vag.lmsapp.util.DbColumns.Companion.MACHINE_REMARKS
 import java.util.*
 
 @Entity(tableName = MACHINE_REMARKS)
-class EntityMachineRemarks : BaseEntity() {
+class EntityMachineRemarks(
     @Json(name = "machine_id")
     @ColumnInfo(name = "machine_id")
-    var machineId: UUID? = null
+    var machineId: UUID,
 
     @Json(name = "staff_id")
     @ColumnInfo(name = "user_id")
-    var userId: UUID? = null
-    var title: String? = null
-    var remarks: String? = null
+    var userId: UUID?,
+
+    var title: String? = null,
+
+    var remarks: String? = null,
 
     @Json(ignore = true)
     var sync: Boolean = false
-}
+) : BaseEntity()

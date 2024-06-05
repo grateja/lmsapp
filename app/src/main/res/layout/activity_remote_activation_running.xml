@@ -19,18 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-<!--            <TextView-->
-<!--                style="@style/TextAppearance.AppCompat.Title"-->
-<!--                android:layout_marginTop="18dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@{viewModel.runningMachine.machine.machineName() + ` Running`}"-->
-<!--                tools:text="Washer 1 Running"/>-->
             <include
                 layout="@layout/incl_machine_activation_details"
                 app:machineName="@{viewModel.runningMachine.machine.machineName()}"
                 app:customerName="@{viewModel.runningMachine.customer.name}"
                 app:serviceName="@{viewModel.runningMachine.jobOrderService.label()}"/>
+            <Button
+                android:id="@+id/button_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End time"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

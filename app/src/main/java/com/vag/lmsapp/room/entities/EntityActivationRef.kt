@@ -23,6 +23,10 @@ data class EntityActivationRef(
     @Json(name = "customer_id")
     @ColumnInfo(name = "customer_id")
     var customerId: UUID?,
+
+    @Json(ignore = true)
+    @ColumnInfo(name = "machine_usage_id")
+    var machineUsageId: UUID?
 ) {
     fun remainingSeconds() : Long {
         val currentTime = Instant.now()
