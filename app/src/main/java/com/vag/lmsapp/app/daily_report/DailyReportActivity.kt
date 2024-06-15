@@ -106,42 +106,5 @@ class DailyReportActivity : AppCompatActivity() {
         binding.buttonCardExport.setOnClickListener {
             viewModel.openExportToExcelDialog()
         }
-
-        activityLauncher.onOk = {
-            val uri = it.data?.data
-            if(uri != null) {
-                viewModel.prepareWorkBook(uri)
-                // Create workbook and populate data
-                val workbook = XSSFWorkbook()
-                val summarySheet = workbook.createSheet("Summary")
-                val jobOrdersSheet = workbook.createSheet("Job Orders")
-                val joSimplifiedSheet = workbook.createSheet("JO Simplified")
-                val row = summarySheet.createRow(0)
-                val cell = row.createCell(0)
-                cell.setCellValue("Hello from Kotlin!")
-                cell.cellFormula = "1+1"
-
-                // Open output stream and write data
-                val outputStream = contentResolver.openOutputStream(uri)
-                workbook.write(outputStream)
-                outputStream?.close()
-
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                intent.setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-                startActivity(Intent.createChooser(intent, "Choose an app to open the XLSX file"))
-            }
-        }
-    }
-
-    private val activityLauncher = ActivityLauncher(this)
-
-    private fun openCreateDialog(fileName: String) {
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-        intent.type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.putExtra(Intent.EXTRA_TITLE, fileName)
-        activityLauncher.launch(intent)
     }
 }

@@ -15,6 +15,7 @@ import com.vag.lmsapp.app.daily_report.wash_dry_services.DailyReportWashDrySumma
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.room.dao.DaoDailyReport
+import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,58 +26,25 @@ class DailyReportRepository
 constructor(
     private val dao: DaoDailyReport
 ) {
-    fun jobOrder(dateFilter: DateFilter): LiveData<DailyReportJobOrder> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.jobOrder(dateFilter.dateFrom, dateTo)
-    }
+    fun jobOrder(date: LocalDate) = dao.jobOrder(date)
 
-    fun jobOrderPayment(dateFilter: DateFilter): LiveData<List<DailyReportJobOrderPayment>> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.jobOrderPayment(dateFilter.dateFrom, dateTo)
-    }
+    fun jobOrderPayment(date: LocalDate) = dao.jobOrderPayment(date)
 
-    fun jobOrderPaymentSummary(dateFilter: DateFilter): LiveData<DailyReportJobOrderPaymentSummary> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.jobOrderPaymentSummary(dateFilter.dateFrom, dateTo)
-    }
+    fun jobOrderPaymentSummary(date: LocalDate) = dao.jobOrderPaymentSummary(date)
 
-    fun washServices(dateFilter: DateFilter): LiveData<List<DailyReportWashDryService>> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.washServices(dateFilter.dateFrom, dateTo)
-    }
+    fun washServices(date: LocalDate) = dao.washServices(date)
 
-    fun dryServices(dateFilter: DateFilter): LiveData<List<DailyReportWashDryService>> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.dryServices(dateFilter.dateFrom, dateTo)
-    }
+    fun dryServices(date: LocalDate) = dao.dryServices(date)
 
-    fun extras(dateFilter: DateFilter): LiveData<List<DailyReportExtras>> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.extras(dateFilter.dateFrom, dateTo)
-    }
+    fun extras(date: LocalDate) = dao.extras(date)
 
-    fun productsChemicals(dateFilter: DateFilter, productType: EnumProductType): LiveData<List<DailyReportProductsChemicals>> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.productsChemicals(dateFilter.dateFrom, dateTo, productType)
-    }
+    fun productsChemicals(date: LocalDate, productType: EnumProductType) = dao.productsChemicals(date, productType)
 
-    fun productsChemicalsSummary(dateFilter: DateFilter): LiveData<DailyReportProductsChemicalsSummary> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.productsChemicalsSummary(dateFilter.dateFrom, dateTo)
-    }
+    fun productsChemicalsSummary(date: LocalDate) = dao.productsChemicalsSummary(date)
 
-    fun delivery(dateFilter: DateFilter): LiveData<List<DailyReportPickupDelivery>> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.delivery(dateFilter.dateFrom, dateTo)
-    }
+    fun delivery(date: LocalDate) = dao.delivery(date)
 
-    fun machineUsages(dateFilter: DateFilter): LiveData<List<DailyReportMachineUsage>> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.machineUsages(dateFilter.dateFrom, dateTo)
-    }
+    fun machineUsages(date: LocalDate) = dao.machineUsages(date)
 
-    fun expenses(dateFilter: DateFilter): LiveData<List<DailyReportExpenses>> {
-        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
-        return dao.expenses(dateFilter.dateFrom, dateTo)
-    }
+    fun expenses(date: LocalDate) = dao.expenses(date)
 }

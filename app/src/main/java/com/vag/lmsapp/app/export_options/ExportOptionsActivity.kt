@@ -5,17 +5,22 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.github.chrisbanes.photoview.BuildConfig.APPLICATION_ID
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.databinding.ActivityExportOptionsBinding
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
+import com.vag.lmsapp.util.Constants.Companion.FILE_PROVIDER
 import com.vag.lmsapp.util.DatePicker
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class ExportOptionsActivity : AppCompatActivity() {
@@ -61,8 +66,12 @@ class ExportOptionsActivity : AppCompatActivity() {
             viewModel.browseDateTo()
         }
 
-        binding.buttonSave.setOnClickListener {
+        binding.cardButtonSave.setOnClickListener {
             viewModel.showCreateDialog()
+        }
+
+        binding.cardButtonSend.setOnClickListener {
+            viewModel.prepareSend()
         }
 
         datePicker.setOnDateTimeSelectedListener { localDate, tag ->
@@ -75,7 +84,7 @@ class ExportOptionsActivity : AppCompatActivity() {
 
         activityLauncher.onOk = {
             it.data?.data?.let {
-                viewModel.prepareWorkBook(it)
+                viewModel.prepareSave(it)
             }
         }
     }
@@ -98,9 +107,13 @@ class ExportOptionsActivity : AppCompatActivity() {
                     viewModel.resetState()
                 }
 
-                is ExportOptionsViewModel.NavigationState.PrepareWorkbook -> {
+                is ExportOptionsViewModel.NavigationState.SaveWorkbook -> {
                     save(it)
                     viewModel.resetState()
+                }
+
+                is ExportOptionsViewModel.NavigationState.SendWorkbook -> {
+                    send(it)
                 }
 
                 else -> {}
@@ -108,7 +121,26 @@ class ExportOptionsActivity : AppCompatActivity() {
         })
     }
 
-    private fun save(it: ExportOptionsViewModel.NavigationState.PrepareWorkbook) {
+    private fun send(it: ExportOptionsViewModel.NavigationState.SendWorkbook) {
+//        val outputStream = contentResolver.openOutputStream(it.uri)
+
+        val file = File(cacheDir, "${it.filename}.xlsx")
+        FileOutputStream(file).use { outputStream ->
+            it.workbook.write(outputStream)
+        }
+        it.workbook.close()
+
+        val uri = FileProvider.getUriForFile(this, FILE_PROVIDER, file)
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        startActivity(Intent.createChooser(intent, "Choose an app to open the XLSX file"))
+    }
+
+    private fun save(it: ExportOptionsViewModel.NavigationState.SaveWorkbook) {
         val outputStream = contentResolver.openOutputStream(it.uri)
         it.workbook.write(outputStream)
         outputStream?.close()

@@ -30,10 +30,10 @@ abstract class DaoDailyReport {
         FROM job_orders jo
         LEFT JOIN customers ON jo.customer_id = customers.id
         WHERE
-            DATE(jo.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            DATE(jo.created_at / 1000, 'unixepoch', 'localtime') = :date
             AND void_by IS NULL AND jo.deleted = 0
     """)
-    abstract fun jobOrder(dateFrom: LocalDate, dateTo: LocalDate): LiveData<DailyReportJobOrder>
+    abstract fun jobOrder(date: LocalDate): LiveData<DailyReportJobOrder>
 
     @Query("""
         SELECT 
@@ -48,7 +48,7 @@ abstract class DaoDailyReport {
         END AS amount
     FROM job_order_payments e
         WHERE
-            DATE(e.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            DATE(e.created_at / 1000, 'unixepoch', 'localtime') = :date
             AND deleted = 0
     GROUP BY 
         CASE 
@@ -56,7 +56,7 @@ abstract class DaoDailyReport {
             WHEN e.payment_method = 2 THEN cashless_provider
         END
     """)
-    abstract fun jobOrderPayment(dateFrom: LocalDate, dateTo: LocalDate): LiveData<List<DailyReportJobOrderPayment>>
+    abstract fun jobOrderPayment(date: LocalDate): LiveData<List<DailyReportJobOrderPayment>>
 
     @Query("""
         SELECT 
@@ -68,10 +68,10 @@ abstract class DaoDailyReport {
             COUNT(*) as total_count
         FROM job_order_payments e
         WHERE
-            DATE(e.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            DATE(e.created_at / 1000, 'unixepoch', 'localtime') = :date
             AND deleted = 0
     """)
-    abstract fun jobOrderPaymentSummary(dateFrom: LocalDate, dateTo: LocalDate): LiveData<DailyReportJobOrderPaymentSummary>
+    abstract fun jobOrderPaymentSummary(date: LocalDate): LiveData<DailyReportJobOrderPaymentSummary>
 
     @Query("""
         SELECT
@@ -82,11 +82,11 @@ abstract class DaoDailyReport {
         FROM job_order_services
         WHERE 
             (svc_machine_type = 1 OR svc_machine_type = 3)
-            AND DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            AND DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND void = 0 AND deleted = 0
         GROUP BY service_id
     """)
-    abstract fun washServices(dateFrom: LocalDate, dateTo: LocalDate): LiveData<List<DailyReportWashDryService>>
+    abstract fun washServices(date: LocalDate): LiveData<List<DailyReportWashDryService>>
 
     @Query("""
         SELECT
@@ -97,21 +97,21 @@ abstract class DaoDailyReport {
         FROM job_order_services
         WHERE 
             (svc_machine_type = 2 OR svc_machine_type = 4)
-            AND DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            AND DATE(created_at / 1000, 'unixepoch', 'localtime') = :date
             AND void = 0 AND deleted = 0
         GROUP BY service_id
     """)
-    abstract fun dryServices(dateFrom: LocalDate, dateTo: LocalDate): LiveData<List<DailyReportWashDryService>>
+    abstract fun dryServices(date: LocalDate): LiveData<List<DailyReportWashDryService>>
 
     @Query("""
         SELECT extras_name, SUM(quantity) AS count
         FROM job_order_extras
         WHERE
-            DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND void = 0 AND deleted = 0
         GROUP BY extras_name
     """)
-    abstract fun extras(dateFrom: LocalDate, dateTo: LocalDate): LiveData<List<DailyReportExtras>>
+    abstract fun extras(date: LocalDate): LiveData<List<DailyReportExtras>>
 
     @Query("""
         SELECT
@@ -121,11 +121,11 @@ abstract class DaoDailyReport {
         FROM job_order_products
         WHERE 
             product_type = :productType
-            AND DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            AND DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND void = 0 AND deleted = 0
         GROUP BY product_id
     """)
-    abstract fun productsChemicals(dateFrom: LocalDate, dateTo: LocalDate, productType: EnumProductType): LiveData<List<DailyReportProductsChemicals>>
+    abstract fun productsChemicals(date: LocalDate, productType: EnumProductType): LiveData<List<DailyReportProductsChemicals>>
 
     @Query("""
         SELECT
@@ -135,10 +135,10 @@ abstract class DaoDailyReport {
             SUM(quantity) AS total_count
         FROM job_order_products
         WHERE
-            DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND void = 0 AND deleted = 0
     """)
-    abstract fun productsChemicalsSummary(dateFrom: LocalDate, dateTo: LocalDate): LiveData<DailyReportProductsChemicalsSummary>
+    abstract fun productsChemicalsSummary(date: LocalDate): LiveData<DailyReportProductsChemicalsSummary>
 
     @Query("""
         SELECT
@@ -147,32 +147,32 @@ abstract class DaoDailyReport {
             SUM(distance) AS distance
         FROM job_order_delivery_charges
         WHERE
-            DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND void = 0 AND deleted = 0
         GROUP BY vehicle
     """)
-    abstract fun delivery(dateFrom: LocalDate, dateTo: LocalDate): LiveData<List<DailyReportPickupDelivery>>
+    abstract fun delivery(date: LocalDate): LiveData<List<DailyReportPickupDelivery>>
 
     @Query("""
         SELECT m.machine_number, m.machine_type, COUNT(*) as count
         FROM machine_usages mu
         JOIN machines m ON m.id = mu.machine_id
         WHERE
-            DATE(mu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            DATE(mu.created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND mu.deleted = 0
         GROUP BY mu.machine_id
         ORDER BY m.machine_type
     """)
-    abstract fun machineUsages(dateFrom: LocalDate, dateTo: LocalDate): LiveData<List<DailyReportMachineUsage>>
+    abstract fun machineUsages(date: LocalDate): LiveData<List<DailyReportMachineUsage>>
 
     @Query("""
         SELECT
             remarks, amount
         FROM expenses
         WHERE
-            DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND deleted = 0
         ORDER BY remarks
     """)
-    abstract fun expenses(dateFrom: LocalDate, dateTo: LocalDate): LiveData<List<DailyReportExpenses>>
+    abstract fun expenses(date: LocalDate): LiveData<List<DailyReportExpenses>>
 }
