@@ -16,19 +16,39 @@ data class DateFilter(
 
     override fun toString(): String {
         val dateFromString = dateFrom.toShort()
-        val dateToString = dateTo?.toShort()
+        val dateToString = if (dateFrom == dateTo) null else dateTo?.toShort() // Only include dateTo if different
 
-        return if (dateTo != null) {
+        return if (dateToString != null) {
             "$dateFromString to $dateToString"
         } else {
             dateFromString
         } + (
-            dateTo?.let {
                 dateTo?.let {
-                    val days = ChronoUnit.DAYS.between(dateFrom, dateTo)
-                    " (${days + 1} days)"
+                    if (dateFrom != it) {
+                        val days = ChronoUnit.DAYS.between(dateFrom, it)
+                        " ($days)" // Remove "days" from the output
+                    } else {
+                        ""
+                    }
                 } ?: ""
-            } ?: ""
-        )
+            )
     }
+
+//    override fun toString(): String {
+//        val dateFromString = dateFrom.toShort()
+//        val dateToString = dateTo?.toShort()
+//
+//        return if (dateTo != null) {
+//            "$dateFromString to $dateToString"
+//        } else {
+//            dateFromString
+//        } + (
+//            dateTo?.let {
+//                dateTo?.let {
+//                    val days = ChronoUnit.DAYS.between(dateFrom, dateTo)
+//                    " (${days + 1} days)"
+//                } ?: ""
+//            } ?: ""
+//        )
+//    }
 }

@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".di.MyApplication"
@@ -32,6 +33,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
+        <activity
+            android:name=".app.export_options.ExportOptionsActivity"
+            android:exported="false"
+            android:theme="@style/LightActionBar" />
+        <activity
+            android:name=".app.daily_report.DailyReportActivity"
+            android:exported="false"
+            android:theme="@style/LightActionBar" />
         <activity
             android:name=".app.remote.end_time.RemoteActivationEndTimeActivity"
             android:exported="false" />
@@ -555,7 +564,7 @@
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
-            tools:node="remove"></provider>
+            tools:node="remove" />
     </application>
 
 </manifest>

@@ -83,33 +83,6 @@
 
                 </TableLayout>
             </com.google.android.material.card.MaterialCardView>
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                app:layout_scrollFlags="scroll|enterAlways|snap"-->
-<!--                android:id="@+id/card_add_new"-->
-<!--                app:cardBackgroundColor="#DC5126"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
-<!--                <LinearLayout-->
-<!--                    android:layout_marginVertical="8dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:gravity="center">-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="25dp"-->
-<!--                        android:layout_height="25dp"-->
-<!--                        android:src="@drawable/icon_add_white" />-->
-<!--                    <TextView-->
-<!--                        android:fontFamily="sans-serif"-->
-<!--                        android:textFontWeight="900"-->
-<!--                        android:textSize="16sp"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="CREATE NEW JOB ORDER"/>-->
-<!--                </LinearLayout>-->
-<!--            </com.google.android.material.card.MaterialCardView>-->
             <FrameLayout
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 android:layout_width="match_parent"

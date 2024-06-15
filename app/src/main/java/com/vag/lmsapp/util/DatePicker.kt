@@ -5,7 +5,7 @@ import android.content.Context
 import java.time.*
 
 class DatePicker(private val context: Context) {
-    var onDateSelected: ((LocalDate, String?) -> Unit)? = null
+    private var onDateSelected: ((LocalDate, String?) -> Unit)? = null
 
     fun show(date: LocalDate, tag: String? = null) {
         val datePickerDialog = DatePickerDialog(

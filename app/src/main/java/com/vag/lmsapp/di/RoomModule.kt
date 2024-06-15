@@ -182,6 +182,19 @@ object RoomModule {
         return mainDatabase.daoSync()
     }
 
+    @Singleton
+    @Provides
+    fun providesDaoDailyReport(mainDatabase: MainDatabase): DaoDailyReport {
+        return mainDatabase.daoDailyReport()
+    }
+
+    @Singleton
+    @Provides
+    fun providesDaoExport(mainDatabase: MainDatabase): DaoExport {
+        return mainDatabase.daoExport()
+    }
+
+
 //    @Singleton
 //    @Provides
 //    fun appPreferenceRepository(@ApplicationContext context: Context) : AppPreferenceRepository {

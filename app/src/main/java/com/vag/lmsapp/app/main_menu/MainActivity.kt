@@ -27,6 +27,7 @@ import com.vag.lmsapp.app.app_settings.shop_preferences.AppSettingsShopPreferenc
 import com.vag.lmsapp.app.app_settings.printer.SettingsPrinterActivity
 import com.vag.lmsapp.app.app_settings.shop_info.ShopInfoActivity
 import com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsActivity
+import com.vag.lmsapp.app.daily_report.DailyReportActivity
 import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
 import com.vag.lmsapp.app.products.ProductsActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
@@ -75,7 +76,7 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
             MenuItem(
                 "Dashboard",
                 "Generate and view sales reports.",
-                DashBoardActivity::class.java,
+                DailyReportActivity::class.java,
                 R.drawable.icon_sales_report,
                 permissions = listOf(
                     EnumActionPermission.VIEW_DASHBOARD

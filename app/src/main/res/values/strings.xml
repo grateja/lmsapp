@@ -101,6 +101,20 @@
         <item>Unpaid only</item>
         <item>Paid and Unpaid</item>
     </string-array>
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
     <string name="title_activity_test_compose">TestComposeActivity</string>
     <string name="max_unpaid_job_orders_reached">This customer has already reached the maximum allowed number of outstanding unpaid job orders.</string>
     <string name="add_stock">Add Stock</string>
