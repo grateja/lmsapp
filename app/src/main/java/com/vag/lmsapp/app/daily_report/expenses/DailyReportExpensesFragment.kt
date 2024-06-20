@@ -31,6 +31,7 @@ class DailyReportExpensesFragment : Fragment() {
         binding.recyclerViewExpenses.adapter = adapter
 
         viewModel.expenses.observe(viewLifecycleOwner, Observer {
+            binding.textTopCaption.text = requireContext().resources.getQuantityString(R.plurals.expenses, it.size, it.size)
             adapter.setData(it.map { it.toString() })
         })
 

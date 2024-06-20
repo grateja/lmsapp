@@ -15,7 +15,7 @@ import com.vag.lmsapp.databinding.FragmentDailyReportMachineUsageBinding
 class DailyReportMachineUsageFragment : Fragment() {
     private lateinit var binding: FragmentDailyReportMachineUsageBinding
     private val viewModel: DailyReportViewModel by activityViewModels()
-    private val adapter = Adapter<String>(R.layout.recycler_item_simple_item)
+    private val adapter = DailyReportMachineUsageAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +31,11 @@ class DailyReportMachineUsageFragment : Fragment() {
         binding.recyclerViewMachineUsages.adapter = adapter
 
         viewModel.machineUsages.observe(viewLifecycleOwner, Observer {
-            adapter.setData(it.map { it.toString() })
+            adapter.setData(it)
+        })
+
+        viewModel.machineUsageCount.observe(viewLifecycleOwner, Observer {
+            binding.textTopCaption.text = requireContext().resources.getQuantityString(R.plurals.cycles, it, it)
         })
 
         return binding.root

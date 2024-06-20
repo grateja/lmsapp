@@ -9,6 +9,7 @@
             type="com.vag.lmsapp.app.daily_report.DailyReportViewModel" />
     </data>
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_container"
         style="@style/RoundCard.NoElevation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,8 +28,7 @@
                 android:id="@+id/text_top_caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="12 Payments"
-                android:text="@{viewModel.jobOrder.createdCount + ` job order(s) created`}"
+                tools:text="12 Job orders"
                 app:layout_constraintTop_toTopOf="@id/icon"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 android:layout_marginStart="12dp"/>
@@ -54,8 +54,7 @@
                 app:layout_constraintTop_toBottomOf="@id/card_text_heading"
                 app:layout_constraintStart_toStartOf="@id/card_text_heading"
                 android:layout_marginStart="24dp"
-                tools:text="6 Returning customers"
-                android:text="@{viewModel.jobOrder.returningCustomer + ` returning customer(s)`}"/>
+                tools:text="6 Returning customers"/>
             <TextView
                 android:id="@+id/text_new_customer"
                 android:textColor="@color/green"
@@ -64,8 +63,7 @@
                 app:layout_constraintTop_toBottomOf="@id/text_returning_customer"
                 app:layout_constraintStart_toStartOf="@id/card_text_heading"
                 android:layout_marginStart="24dp"
-                tools:text="6 New Returning customers"
-                android:text="@{viewModel.jobOrder.newCustomer + ` new customer(s)`}"/>
+                tools:text="6 New Returning customers"/>
             <TextView
                 android:textColor="@color/green"
                 android:layout_width="wrap_content"
@@ -85,7 +83,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="3 discounted job orders"
-                android:text="@{viewModel.jobOrder.discountedJOCount + ` discounted job order(s)`}"
                 android:layout_marginTop="8dp"
                 android:textStyle="italic"
                 app:layout_constraintTop_toBottomOf="@id/divider"

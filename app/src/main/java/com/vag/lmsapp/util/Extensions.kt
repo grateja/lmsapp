@@ -536,3 +536,9 @@ fun <T> MutableList<T>.addOrRemove(item: T) {
         this.remove(item)
     }
 }
+
+fun Int?.greaterThan(value: Int?) : Boolean {
+    return this.let {
+        it != null && value != null && it > value
+    }
+}

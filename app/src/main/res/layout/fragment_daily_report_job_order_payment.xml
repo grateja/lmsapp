@@ -28,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="12 Job Orders Created"
-                android:text="@{viewModel.jobOrderPaymentSummary.totalCount + ` payment(s)`}"
                 app:layout_constraintTop_toTopOf="@id/icon"
                 app:layout_constraintStart_toEndOf="@id/icon"
                 android:layout_marginStart="12dp"/>

@@ -2,6 +2,7 @@ package com.vag.lmsapp.app.export_options
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -66,6 +67,10 @@ class ExportOptionsActivity : AppCompatActivity() {
             viewModel.browseDateTo()
         }
 
+        binding.cardButtonOpen.setOnClickListener {
+            viewModel.openPreview()
+        }
+
         binding.cardButtonSave.setOnClickListener {
             viewModel.showCreateDialog()
         }
@@ -114,6 +119,17 @@ class ExportOptionsActivity : AppCompatActivity() {
 
                 is ExportOptionsViewModel.NavigationState.SendWorkbook -> {
                     send(it)
+                    viewModel.resetState()
+                }
+
+                is ExportOptionsViewModel.NavigationState.OpenWorkbook -> {
+                    open(it)
+                    viewModel.resetState()
+                }
+
+                is ExportOptionsViewModel.NavigationState.Invalidate -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    viewModel.resetState()
                 }
 
                 else -> {}
@@ -121,9 +137,26 @@ class ExportOptionsActivity : AppCompatActivity() {
         })
     }
 
-    private fun send(it: ExportOptionsViewModel.NavigationState.SendWorkbook) {
-//        val outputStream = contentResolver.openOutputStream(it.uri)
+    private fun open(it: ExportOptionsViewModel.NavigationState.OpenWorkbook) {
+        val file = File(cacheDir, "${it.filename}.xlsx")
+        FileOutputStream(file).use { outputStream ->
+            it.workbook.write(outputStream)
+        }
+        it.workbook.close()
 
+        val uri = FileProvider.getUriForFile(this, FILE_PROVIDER, file)
+
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.setDataAndType(
+            uri,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+
+        startActivity(Intent.createChooser(intent, "Choose an app to open the XLSX file"))
+    }
+
+    private fun send(it: ExportOptionsViewModel.NavigationState.SendWorkbook) {
         val file = File(cacheDir, "${it.filename}.xlsx")
         FileOutputStream(file).use { outputStream ->
             it.workbook.write(outputStream)

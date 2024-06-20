@@ -33,6 +33,9 @@ class DailyReportJobOrderPaymentFragment : Fragment() {
         viewModel.jobOrderPayment.observe(viewLifecycleOwner, Observer {
             adapter.setData(it.map {it.toString()})
         })
+        viewModel.jobOrderPaymentSummary.observe(viewLifecycleOwner, Observer {
+            binding.textTopCaption.text = requireContext().resources.getQuantityString(R.plurals.payments, it.totalCount, it.totalCount)
+        })
 
         return binding.root
     }

@@ -8,6 +8,7 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.room.repository.ExportRepository
+import com.vag.lmsapp.util.greaterThan
 import com.vag.lmsapp.util.toShort
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -36,6 +37,7 @@ class ExportOptionsViewModel
     val includeMachineUsages = MutableLiveData(true)
     val includeDeliveryCharges = MutableLiveData(true)
     val includeExpenses = MutableLiveData(true)
+    val includeCustomers = MutableLiveData(true)
 
     val jobOrdersCount = _dateFilter.switchMap { exportRepository.jobOrdersCount(it) }
     val jobOrdersServicesCount = _dateFilter.switchMap { exportRepository.jobOrderServicesCount(it) }
@@ -44,6 +46,7 @@ class ExportOptionsViewModel
     val machineUsagesCount = _dateFilter.switchMap { exportRepository.machineUsagesCount(it) }
     val deliveryChargesCount = _dateFilter.switchMap { exportRepository.deliveryChargesCount(it) }
     val expensesCount = _dateFilter.switchMap { exportRepository.expensesCount(it) }
+    val customersCount = _dateFilter.switchMap { exportRepository.customersCount(it) }
 
     fun setDateFilter(dateFilter: DateFilter) {
         _dateFilter.value = dateFilter
@@ -72,15 +75,34 @@ class ExportOptionsViewModel
     }
 
     fun showCreateDialog() {
-        val filename = _dateFilter.value?.toString() ?: "file"
-        _navigationState.value = NavigationState.ShowCreateDialog(filename)
+        if(!invalid()) {
+            val filename = _dateFilter.value?.toString() ?: "file"
+            _navigationState.value = NavigationState.ShowCreateDialog(filename)
+        }
+    }
+
+    fun invalid(): Boolean {
+        val invalid =
+            (includeExtras.value == false || jobOrdersExtrasCount.value == 0)
+            && (includeExpenses.value == false || expensesCount.value == 0)
+            && (includeProducts.value == false || jobOrdersProductsCount.value == 0)
+            && (includeServices.value == false || jobOrdersServicesCount.value == 0)
+            && (includeMachineUsages.value == false || machineUsagesCount.value == 0)
+            && (includeJobOrders.value == false || jobOrdersCount.value == 0)
+            && (includeDeliveryCharges.value == false || deliveryChargesCount.value == 0)
+        if(invalid) {
+            _navigationState.value = NavigationState.Invalidate("Nothing to export")
+        }
+        return invalid
     }
 
     private suspend fun prepareWorkBook(): XSSFWorkbook? {
         val dateFilter = _dateFilter.value ?: return null
         val workbook = XSSFWorkbook()
+        var hasItem = false
 
-        if(includeJobOrders.value == true) {
+        if(includeJobOrders.value == true && jobOrdersCount.value.greaterThan(0)) {
+            hasItem = true
             val jobOrders = exportRepository.jobOrders(dateFilter)
             val jobOrderSheet = workbook.createSheet("Job Orders").apply {
                 createHeader(this, arrayOf(
@@ -121,7 +143,8 @@ class ExportOptionsViewModel
             }
         }
 
-        if(includeServices.value == true) {
+        if(includeServices.value == true && jobOrdersServicesCount.value.greaterThan(0)) {
+            hasItem = true
             val jobOrderServices = exportRepository.jobOrderServices(dateFilter)
             val jobOrderServicesSheet = workbook.createSheet("Services").apply {
                 createHeader(this, arrayOf(
@@ -158,7 +181,8 @@ class ExportOptionsViewModel
             }
         }
 
-        if(includeProducts.value == true) {
+        if(includeProducts.value == true && jobOrdersProductsCount.value.greaterThan(0)) {
+            hasItem = true
             val jobOrderProductSheet = workbook.createSheet("Products").apply {
                 createHeader(this, arrayOf("CREATED", "JO#", "CUSTOMER", "PRODUCT NAME",
                     "QUANTITY", "DESCRIPTION", "UNIT PRICE", "TOTAL PRICE"))
@@ -194,7 +218,8 @@ class ExportOptionsViewModel
             }
         }
 
-        if(includeExtras.value == true) {
+        if(includeExtras.value == true && jobOrdersExtrasCount.value.greaterThan(0)) {
+            hasItem = true
             val jobOrderExtrasSheet = workbook.createSheet("Extras").apply {
                 createHeader(this, arrayOf("CREATED", "JO#", "CUSTOMER", "EXTRAS NAME",
                     "CATEGORY", "QUANTITY", "UNIT PRICE", "TOTAL PRICE"))
@@ -230,7 +255,8 @@ class ExportOptionsViewModel
             }
         }
 
-        if(includeDeliveryCharges.value == true) {
+        if(includeDeliveryCharges.value == true && deliveryChargesCount.value.greaterThan(0)) {
+            hasItem = true
             val deliveryChargeSheet = workbook.createSheet("Delivery Charges").apply {
                 createHeader(this, arrayOf("CREATED", "JO#", "CUSTOMER", "VEHICLE",
                     "DELIVERY OPTION", "DISTANCE", "PRICE"))
@@ -263,7 +289,8 @@ class ExportOptionsViewModel
             }
         }
 
-        if(includeMachineUsages.value == true) {
+        if(includeMachineUsages.value == true && machineUsagesCount.value.greaterThan(0)) {
+            hasItem = true
             val machineUsageSheet = workbook.createSheet("Machine Usage").apply {
                 createHeader(this, arrayOf("TIME ACTIVATED", "MACHINE", "SERVICE NAME",
                     "MINUTES", "CUSTOMER", "JO#", "CREATED"))
@@ -296,7 +323,8 @@ class ExportOptionsViewModel
             }
         }
 
-        if(includeExpenses.value == true) {
+        if(includeExpenses.value == true && expensesCount.value.greaterThan(0)) {
+            hasItem = true
             val expensesSheet = workbook.createSheet("Expenses").apply {
                 createHeader(this, arrayOf("CREATED", "REMARKS", "AMOUNT",
                     "ADDED BY", "TAG"))
@@ -323,22 +351,86 @@ class ExportOptionsViewModel
             }
         }
 
-        return workbook
+        if(includeCustomers.value == true && customersCount.value.greaterThan(0)) {
+            hasItem = true
+            val customers = exportRepository.customers(dateFilter)
+            val customersWorksheet = workbook.createSheet("Customers").apply {
+                createHeader(this, arrayOf(
+                    "CRN", "NAME", "CONTACT NUMBER", "ADDRESS", "EMAIL", "REMARKS", "TOTAL JOB ORDERS",
+                    "NUMBER OF WASHES", "NUMBER OF DRIES", "FIRST JO", "LAST JO"
+                ))
+            }
+
+            customers.forEachIndexed { index, exportDataNewCustomers ->
+                customersWorksheet.createRow(index + 1).apply {
+                    createCell(0).apply {
+                        setCellValue(exportDataNewCustomers.crn)
+                    }
+                    createCell(1).apply {
+                        setCellValue(exportDataNewCustomers.name)
+                    }
+                    createCell(2).apply {
+                        setCellValue(exportDataNewCustomers.contactNumber)
+                    }
+                    createCell(3).apply {
+                        setCellValue(exportDataNewCustomers.address)
+                    }
+                    createCell(4).apply {
+                        setCellValue(exportDataNewCustomers.email)
+                    }
+                    createCell(5).apply {
+                        setCellValue(exportDataNewCustomers.remarks)
+                    }
+                    createCell(6).apply {
+                        setCellValue(exportDataNewCustomers.totalJobOrders.toString())
+                    }
+                    createCell(7).apply {
+                        setCellValue(exportDataNewCustomers.totalWashes.toString())
+                    }
+                    createCell(8).apply {
+                        setCellValue(exportDataNewCustomers.totalDries.toString())
+                    }
+                    createCell(9).apply {
+                        setCellValue(exportDataNewCustomers.firstJo?.toShort())
+                    }
+                    createCell(10).apply {
+                        setCellValue(exportDataNewCustomers.lastJo?.toShort())
+                    }
+                }
+            }
+        }
+
+        return if(hasItem) workbook else null
+    }
+
+    fun openPreview() {
+        viewModelScope.launch {
+            if(!invalid()) {
+                prepareWorkBook()?.let {
+                    val filename = _dateFilter.value.toString()
+                    _navigationState.value = NavigationState.OpenWorkbook(it, filename)
+                }
+            }
+        }
     }
 
     fun prepareSave(uri: Uri) {
         viewModelScope.launch {
-            prepareWorkBook()?.let {
-                _navigationState.value = NavigationState.SaveWorkbook(it, uri)
+            if(!invalid()) {
+                prepareWorkBook()?.let {
+                    _navigationState.value = NavigationState.SaveWorkbook(it, uri)
+                }
             }
         }
     }
 
     fun prepareSend() {
         viewModelScope.launch {
-            prepareWorkBook()?.let {
-                val filename = _dateFilter.value.toString()
-                _navigationState.value = NavigationState.SendWorkbook(it, filename)
+            if(!invalid()) {
+                prepareWorkBook()?.let {
+                    val filename = _dateFilter.value.toString()
+                    _navigationState.value = NavigationState.SendWorkbook(it, filename)
+                }
             }
         }
     }
@@ -364,5 +456,7 @@ class ExportOptionsViewModel
         data class ShowCreateDialog(val filename: String): NavigationState()
         data class SaveWorkbook(val workbook: XSSFWorkbook, val uri: Uri): NavigationState()
         data class SendWorkbook(val workbook: XSSFWorkbook, val filename: String): NavigationState()
+        data class OpenWorkbook(val workbook: XSSFWorkbook, val filename: String): NavigationState()
+        data class Invalidate(val message: String): NavigationState()
     }
 }

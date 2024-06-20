@@ -9,6 +9,7 @@ import com.vag.lmsapp.app.export_options.data.ExportDataJobOrderExtras
 import com.vag.lmsapp.app.export_options.data.ExportDataJobOrderProduct
 import com.vag.lmsapp.app.export_options.data.ExportDataJobOrderService
 import com.vag.lmsapp.app.export_options.data.ExportDataMachineUsage
+import com.vag.lmsapp.app.export_options.data.ExportDataNewCustomers
 import com.vag.lmsapp.room.dao.DaoExport
 import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
 import javax.inject.Inject
@@ -55,6 +56,11 @@ constructor(private val dao: DaoExport)
         return dao.expenses(dateFilter.dateFrom, dateTo)
     }
 
+    suspend fun customers(dateFilter: DateFilter): List<ExportDataNewCustomers> {
+        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
+        return dao.customers(dateFilter.dateFrom, dateTo)
+    }
+
     fun jobOrdersCount(dateFilter: DateFilter): LiveData<Int> {
         val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
         return dao.jobOrdersCount(dateFilter.dateFrom, dateTo)
@@ -88,5 +94,10 @@ constructor(private val dao: DaoExport)
     fun expensesCount(dateFilter: DateFilter): LiveData<Int> {
         val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
         return dao.expensesCount(dateFilter.dateFrom, dateTo)
+    }
+
+    fun customersCount(dateFilter: DateFilter): LiveData<Int> {
+        val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
+        return dao.customersCount(dateFilter.dateFrom, dateTo)
     }
 }

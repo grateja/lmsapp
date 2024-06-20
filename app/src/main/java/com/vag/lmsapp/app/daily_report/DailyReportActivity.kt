@@ -14,12 +14,15 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearSnapHelper
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import androidx.lifecycle.Observer
+import com.google.android.material.appbar.AppBarLayout
+import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.export_options.ExportOptionsActivity
-import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
+import com.vag.lmsapp.model.JobOrderAdvancedFilter
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import java.time.LocalDate
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class DailyReportActivity : AppCompatActivity() {
@@ -66,11 +69,22 @@ class DailyReportActivity : AppCompatActivity() {
             when(it) {
                 is DailyReportViewModel.NavigationState.OpenExportOptions -> {
                     val intent = Intent(this, ExportOptionsActivity::class.java).apply {
-                        putExtra(DATE_RANGE_FILTER, it.dateFilter)
+                        putExtra(DATE_RANGE_FILTER, DateFilter(it.date))
                     }
                     startActivity(intent)
                     viewModel.resetState()
                 }
+
+                is DailyReportViewModel.NavigationState.OpenJobOrders -> {
+                    val intent = Intent(this, JobOrderListActivity::class.java).apply {
+                        putExtra(JobOrderListActivity.ADVANCED_FILTER, JobOrderAdvancedFilter(
+                            dateFilter = DateFilter(it.date)
+                        ))
+                    }
+                    startActivity(intent)
+                    viewModel.resetState()
+                }
+
                 else -> {}
             }
         })
@@ -105,6 +119,18 @@ class DailyReportActivity : AppCompatActivity() {
         }
         binding.buttonCardExport.setOnClickListener {
             viewModel.openExportToExcelDialog()
+        }
+
+        binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            when {
+                abs(verticalOffset) >= appBarLayout.totalScrollRange -> {
+                    binding.currentDate.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    binding.currentDate.visibility = View.GONE
+                }
+            }
         }
     }
 }

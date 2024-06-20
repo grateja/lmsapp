@@ -35,6 +35,10 @@ class DailyReportExtrasFragment : Fragment() {
             extrasAdapter.setData(it.map {it.toString()})
         })
 
+        viewModel.extrasSum.observe(viewLifecycleOwner, Observer {
+            binding.textTopCaption.text = requireContext().resources.getQuantityString(R.plurals.extras, it, it)
+        })
+
         return binding.root
     }
 }

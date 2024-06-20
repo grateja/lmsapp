@@ -10,6 +10,7 @@ import com.vag.lmsapp.app.export_options.data.ExportDataJobOrderExtras
 import com.vag.lmsapp.app.export_options.data.ExportDataJobOrderProduct
 import com.vag.lmsapp.app.export_options.data.ExportDataJobOrderService
 import com.vag.lmsapp.app.export_options.data.ExportDataMachineUsage
+import com.vag.lmsapp.app.export_options.data.ExportDataNewCustomers
 import com.vag.lmsapp.room.entities.EntityJobOrderWithItems
 import java.time.LocalDate
 
@@ -182,4 +183,32 @@ interface DaoExport {
             AND deleted = 0
     """)
     fun expensesCount(dateFrom: LocalDate, dateTo: LocalDate): LiveData<Int>
+
+    @Query("""
+        SELECT
+            cu.name, cu.crn, cu.contact_number, cu.address, cu.remarks,
+            MAX(jo.created_at) AS last_jo,
+            MIN(jo.created_at) AS first_jo,
+            SUM(CASE WHEN jos.svc_machine_type = 1 OR jos.svc_machine_type = 3 THEN jos.quantity ELSE 0 END) as total_washes,
+            SUM(CASE WHEN jos.svc_machine_type = 2 OR jos.svc_machine_type = 4 THEN jos.quantity ELSE 0 END) as total_dries,
+            COUNT(DISTINCT jo.id) as total_job_orders
+        FROM customers cu
+            LEFT JOIN job_orders jo ON jo.customer_id = cu.id 
+                AND jo.void_by IS NULL 
+                AND jo.deleted = 0
+            LEFT JOIN job_order_services jos ON jos.job_order_id = jo.id 
+                AND jos.deleted = 0 
+                AND jos.void = 0
+        WHERE DATE(cu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            AND cu.deleted = 0
+        GROUP BY cu.id
+    """)
+    suspend fun customers(dateFrom: LocalDate, dateTo: LocalDate): List<ExportDataNewCustomers>
+
+    @Query("""
+        SELECT COUNT(*) FROM customers
+        WHERE DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
+            AND deleted = 0
+    """)
+    fun customersCount(dateFrom: LocalDate, dateTo: LocalDate): LiveData<Int>
 }

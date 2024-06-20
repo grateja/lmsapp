@@ -42,10 +42,10 @@ abstract class DaoDailyReport {
             WHEN e.payment_method = 2 THEN cashless_provider
         END AS provider,
         COUNT(*) AS count,
-        CASE 
+        SUM(CASE 
             WHEN e.payment_method = 1 THEN e.amount_due
             WHEN e.payment_method = 2 THEN cashless_amount
-        END AS amount
+        END) AS amount
     FROM job_order_payments e
         WHERE
             DATE(e.created_at / 1000, 'unixepoch', 'localtime') = :date

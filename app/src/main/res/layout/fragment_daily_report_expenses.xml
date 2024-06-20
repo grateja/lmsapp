@@ -35,8 +35,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="12 Job Orders Created"
-                    android:text="@{viewModel.expensesTotal}"
                     android:layout_marginStart="12dp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_text_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardSpan"
+                    app:layout_constraintTop_toBottomOf="@id/text_top_caption"
+                    app:layout_constraintStart_toEndOf="@id/icon"
+                    android:layout_marginStart="4dp">
+                    <TextView
+                        style="@style/TileTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="P20,030"
+                        android:peso="@{viewModel.expensesTotal}"/>
+                </com.google.android.material.card.MaterialCardView>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_expenses"

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="job_orders">
+        <item quantity="zero">No job orders</item>
+        <item quantity="one">%d job order</item>
+        <item quantity="other">%d job orders</item>
+    </plurals>
+
+    <plurals name="discounted_job_orders">
+        <item quantity="zero">No discounted job orders</item>
+        <item quantity="one">%d discounted job order</item>
+        <item quantity="other">%d discounted job orders</item>
+    </plurals>
+
+    <plurals name="new_customers">
+        <item quantity="zero">No new customers</item>
+        <item quantity="one">%d new customer</item>
+        <item quantity="other">%d new customers</item>
+    </plurals>
+
+    <plurals name="returning_customers">
+        <item quantity="zero">No returning customers</item>
+        <item quantity="one">%d returning customer</item>
+        <item quantity="other">%d returning customers</item>
+    </plurals>
+
+    <plurals name="expenses">
+        <item quantity="zero">No expenses</item>
+        <item quantity="one">%d expense</item>
+        <item quantity="other">%d expenses</item>
+    </plurals>
+
+    <plurals name="extras">
+        <item quantity="zero">No extra services</item>
+        <item quantity="one">%d extra service</item>
+        <item quantity="other">%d extra services</item>
+    </plurals>
+
+    <plurals name="payments">
+        <item quantity="zero">No payments</item>
+        <item quantity="one">%d payment</item>
+        <item quantity="other">%d payments</item>
+    </plurals>
+
+    <plurals name="cycles">
+        <item quantity="zero">No machines were used</item>
+        <item quantity="one">%d cycle</item>
+        <item quantity="other">%d cycles</item>
+    </plurals>
+
+</resources>

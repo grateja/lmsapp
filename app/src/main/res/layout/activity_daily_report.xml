@@ -15,9 +15,11 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/button_card_export">
+            app:layout_constraintBottom_toTopOf="@id/button_card_export"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
@@ -105,6 +107,8 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:animateLayoutChanges="true"
+                    android:id="@+id/current_date"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <com.google.android.material.divider.MaterialDivider

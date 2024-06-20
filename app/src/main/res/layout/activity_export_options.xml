@@ -75,9 +75,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <CheckBox
-                        android:checked="@={viewModel.includeJobOrders}"
+                        android:checked="@={viewModel.includeCustomers}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.customersCount > 0}"/>
+                    <TextView
+                        tools:text="New customers (12)"
+                        android:text="@{`New customers (` + viewModel.customersCount + `)`}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:checked="@={viewModel.includeJobOrders}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.jobOrdersCount > 0}"/>
                     <TextView
                         tools:text="Job orders (12)"
                         android:text="@{`Job orders (` + viewModel.jobOrdersCount + `)`}"
@@ -90,7 +105,8 @@
                     <CheckBox
                         android:checked="@={viewModel.includeServices}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.jobOrdersServicesCount > 0}"/>
                     <TextView
                         tools:text="Services (12)"
                         android:text="@{`Wash and dry services (` + viewModel.jobOrdersServicesCount + `)`}"
@@ -103,7 +119,8 @@
                     <CheckBox
                         android:checked="@={viewModel.includeProducts}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.jobOrdersProductsCount > 0}"/>
                     <TextView
                         tools:text="Products (12)"
                         android:text="@{`Products and Chemicals (` + viewModel.jobOrdersProductsCount + `)`}"
@@ -116,7 +133,8 @@
                     <CheckBox
                         android:checked="@={viewModel.includeExtras}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.jobOrdersExtrasCount > 0}"/>
                     <TextView
                         tools:text="Extras (12)"
                         android:text="@{`Extras (` + viewModel.jobOrdersExtrasCount + `)`}"
@@ -129,7 +147,8 @@
                     <CheckBox
                         android:checked="@={viewModel.includeMachineUsages}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.machineUsagesCount > 0}"/>
                     <TextView
                         tools:text="Machine usages (12)"
                         android:text="@{`Machine usages (` + viewModel.machineUsagesCount + `)`}"
@@ -142,7 +161,8 @@
                     <CheckBox
                         android:checked="@={viewModel.includeDeliveryCharges}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.deliveryChargesCount > 0}"/>
                     <TextView
                         tools:text="Delivery charges (12)"
                         android:text="@{`Delivery charges (` + viewModel.deliveryChargesCount + `)`}"
@@ -155,7 +175,8 @@
                     <CheckBox
                         android:checked="@={viewModel.includeExpenses}"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.expensesCount > 0}"/>
                     <TextView
                         tools:text="Expenses (12)"
                         android:text="@{`Expenses (` + viewModel.expensesCount + `)`}"
@@ -169,6 +190,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_button_open"
+                    style="@style/RoundCard.NoElevation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle|beginning|end">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/icon_excel_export"/>
+                        <TextView
+                            android:text="Open file"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_button_send"
                     style="@style/RoundCard.NoElevation"

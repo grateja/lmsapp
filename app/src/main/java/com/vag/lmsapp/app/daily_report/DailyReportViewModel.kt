@@ -1,6 +1,5 @@
 package com.vag.lmsapp.app.daily_report
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +9,6 @@ import com.vag.lmsapp.app.daily_report.wash_dry_services.DailyReportWashDrySumma
 import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.room.repository.DailyReportRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.Locale
@@ -75,10 +73,9 @@ constructor(
     }
 
     val expenses = _date.switchMap { dailyReportRepository.expenses(it) }
-    val expensesTotal = MediatorLiveData<String>().apply {
+    val expensesTotal = MediatorLiveData<Float>().apply {
         addSource(expenses) {
-            val amount = it.sumOf { it.amount }
-            value = "P %s".format(NumberFormat.getNumberInstance(Locale.US).format(amount)) + " total expenses"
+            value = it.sumOf { it.amount }.toFloat()
         }
     }
 
@@ -92,12 +89,19 @@ constructor(
         }
     }
 
+    fun openJobOrders() {
+        _date.value?.let {
+            _navigationState.value = NavigationState.OpenJobOrders(it)
+        }
+    }
+
     fun resetState() {
         _navigationState.value = NavigationState.StateLess
     }
 
     sealed class NavigationState {
         data object StateLess: NavigationState()
-        data class OpenExportOptions(val dateFilter: LocalDate): NavigationState()
+        data class OpenExportOptions(val date: LocalDate): NavigationState()
+        data class OpenJobOrders(val date: LocalDate): NavigationState()
     }
 }
