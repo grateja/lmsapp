@@ -19,9 +19,6 @@ class DailyReportMachineUsageFragment : Fragment() {
     private lateinit var binding: FragmentDailyReportMachineUsageBinding
     private val viewModel: DailyReportViewModel by activityViewModels()
     private val adapter = DailyReportMachineUsageAdapter()
-//    private val regularDryersAdapter = DailyReportMachineUsageAdapter()
-//    private val titanWashersAdapter = DailyReportMachineUsageAdapter()
-//    private val titanDryersAdapter = DailyReportMachineUsageAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +33,7 @@ class DailyReportMachineUsageFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.recyclerViewMachineUsages.adapter = adapter
         val context = requireContext()
+
         binding.recyclerViewMachineUsages.layoutManager = GridLayoutManager(
             context, 2
         )
@@ -43,6 +41,10 @@ class DailyReportMachineUsageFragment : Fragment() {
         viewModel.machineUsageSummary.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })
+
+        adapter.onItemClick = {
+            viewModel.openMachineUsage(it)
+        }
 
         return binding.root
     }

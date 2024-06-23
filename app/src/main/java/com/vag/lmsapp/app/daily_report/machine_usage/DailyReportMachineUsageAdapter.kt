@@ -12,6 +12,7 @@ import com.vag.lmsapp.util.toPixels
 
 
 class DailyReportMachineUsageAdapter: RecyclerView.Adapter<DailyReportMachineUsageAdapter.ViewHolder>() {
+    var onItemClick: ((DailyReportMachineUsageSummary) -> Unit)? = null
     private var items: List<DailyReportMachineUsageSummary> = listOf()
     inner class ViewHolder(val binding: RecyclerItemDailyReportMachineUsageBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(model: DailyReportMachineUsageSummary) {
@@ -36,6 +37,9 @@ class DailyReportMachineUsageAdapter: RecyclerView.Adapter<DailyReportMachineUsa
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(item)
+        }
     }
 
     fun setData(items: List<DailyReportMachineUsageSummary>) {

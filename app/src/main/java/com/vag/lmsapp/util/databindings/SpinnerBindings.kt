@@ -5,6 +5,7 @@ import android.widget.Spinner
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import com.vag.lmsapp.model.EnumJoFilterBy
+import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumMeasureUnit
 import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.util.EnumSortDirection
@@ -101,4 +102,18 @@ fun getPaymentStatus(spinner: Spinner): EnumPaymentStatus? {
     return EnumPaymentStatus.values().find {
         it.prompt == spinner.selectedItem.toString()
     }
+}
+
+@BindingAdapter("app:machineType")
+fun setMachineType(spinner: Spinner, machineType: EnumMachineType?) {
+    val index = machineType?.id ?: 0
+    spinner.setSelection(index)
+}
+
+@InverseBindingAdapter(
+    attribute = "app:machineType",
+    event = "android:selectedItemPositionAttrChanged"
+)
+fun getMachineType(spinner: Spinner): EnumMachineType? {
+    return EnumMachineType.fromId(spinner.selectedItemPosition)
 }

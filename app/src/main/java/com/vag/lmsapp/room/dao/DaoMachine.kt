@@ -54,14 +54,15 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
         "            LEFT JOIN customers cu ON mu.customer_id = cu.id " +
         "            LEFT JOIN job_order_services jos ON mu.job_order_service_id = jos.id " +
         "            LEFT JOIN job_orders jo ON jos.job_order_id = jo.id " +
-        "WHERE mu.machine_id = :machineId "+
-        "AND customer_name LIKE '%' || :keyword || '%' "+
+        "WHERE (mu.machine_id = :machineId OR :machineId IS NULL) "+
+        "AND customer_name LIKE '%' || :keyword || '%' " +
+        "AND (machine_type = :machineType OR :machineType IS NULL)"+
         "AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR " +
         "   (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(mu.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR " +
         "   (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(mu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) " +
         "ORDER BY activated DESC " +
         "LIMIT 20 OFFSET :offset ")
-    abstract suspend fun getMachineUsage(machineId: UUID, keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?) : List<EntityMachineUsageDetails>
+    abstract suspend fun getMachineUsage(machineId: UUID?, machineType: EnumMachineType?, keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?) : List<EntityMachineUsageDetails>
 
     @Query("SELECT * FROM machines WHERE sync = 0 OR :forced")
     abstract suspend fun unSynced(forced: Boolean): List<EntityMachine>

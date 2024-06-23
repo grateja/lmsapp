@@ -71,5 +71,10 @@
         <item quantity="one">%d pickup/delivery</item>
         <item quantity="other">%d pickup/deliveries</item>
     </plurals>
+    <plurals name="unpaid_job_orders">
+        <item quantity="zero">All job orders are fully paid</item>
+        <item quantity="one">%d unpaid job order</item>
+        <item quantity="other">%d unpaid job orders</item>
+    </plurals>
 
 </resources>

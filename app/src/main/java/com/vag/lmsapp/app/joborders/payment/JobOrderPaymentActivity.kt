@@ -22,8 +22,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class JobOrderPaymentActivity : AppCompatActivity() {
 
     companion object {
-//        const val CUSTOMER_ID = "customer_id"
-//        const val PAYMENT_ID = "payment_id"
         const val SELECTED_JOB_ORDER_IDS = "jobOrderIds"
         const val AUTH_REQUEST_MODIFY_DATE_ACTION = "modifyDate"
         const val AUTH_REQUEST_SAVE = "save"
@@ -33,16 +31,8 @@ class JobOrderPaymentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityJobOrderPaymentBinding
     private val viewModel: JobOrderPaymentViewModel by viewModels()
-//    private val viewModelPreview: JobOrderPreviewViewModel by viewModels()
     private val fragment = BottomSheetJobOrderPaymentFragment()
-//    private lateinit var cashlessModalFragment: PaymentJoCashlessModalFragment
     private val adapter = JobOrderListPaymentAdapter(false)
-
-//    private val paymentMethodAdapter = OptionsAdapter(
-//        R.layout.recycler_item_payment_method_option,
-//        EnumPaymentMethod.values(),
-//        R.color.color_code_payments
-//    )
 
     private val authLauncher = ActivityLauncher(this)
     private val dateTimePicker: DateTimePicker by lazy {

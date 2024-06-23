@@ -58,6 +58,7 @@
 
                         <TextView
                             style="@style/TileTitle"
+                            android:textColor="@color/primary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:peso="@{viewModel.jobOrderWashItems.price}"
@@ -103,6 +104,7 @@
 
                         <TextView
                             style="@style/TileTitle"
+                            android:textColor="@color/primary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:peso="@{viewModel.jobOrderDryItems.price}"
@@ -154,6 +156,7 @@
 
                         <TextView
                             style="@style/TileTitle"
+                            android:textColor="@color/primary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:peso="@{viewModel.jobOrderExtrasItems.price}"
@@ -201,6 +204,7 @@
 
                         <TextView
                             style="@style/TileTitle"
+                            android:textColor="@color/primary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:peso="@{viewModel.jobOrderProductsItems.price}"
@@ -254,6 +258,7 @@
 
                         <TextView
                             style="@style/TileTitle"
+                            android:textColor="@color/primary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:peso="@{viewModel.jobOrderDeliveryItems.price}"

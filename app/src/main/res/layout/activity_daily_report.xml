@@ -195,6 +195,14 @@
                         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                         tools:layout="@layout/fragment_daily_report_expenses"/>
 
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/fragment_unpaid_job_orders"
+                        android:name="com.vag.lmsapp.app.daily_report.unpaid_job_orders.DailyReportUnpaidJobOrdersFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                        tools:layout="@layout/fragment_daily_report_unpaid_job_orders"/>
+
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

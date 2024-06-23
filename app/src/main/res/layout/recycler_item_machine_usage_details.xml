@@ -16,15 +16,6 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/icon_sync"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/icon_sync"
-                android:visibility="@{viewModel.sync}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <ImageView
                 android:id="@+id/icon_date"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +24,25 @@
                 android:src="@drawable/icon_date"
                 android:layout_width="20dp"
                 android:layout_height="20dp"/>
+
+            <TextView
+                android:id="@+id/text_activated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.activated}"
+                tools:text="Jan 1, 2023 10:20 AM"
+                android:layout_marginStart="12dp"
+                app:layout_constraintTop_toTopOf="@id/icon_date"
+                app:layout_constraintStart_toEndOf="@id/icon_date"/>
+
+            <ImageView
+                android:id="@+id/icon_sync"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_sync"
+                android:visibility="@{viewModel.sync}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
@@ -43,34 +53,49 @@
                 app:layout_constraintTop_toBottomOf="@id/icon_date"
                 android:layout_marginTop="6dp"/>
 
+            <ImageView
+                android:id="@+id/icon_machine"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                android:layout_marginTop="8dp"
+                app:imageResource="@{viewModel.machineType.icon}"
+                tools:src="@drawable/icon_washer"/>
+
+            <TextView
+                android:id="@+id/text_machine_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.machineName()}"
+                tools:text="8Kg Washer 1"
+                style="@style/Bold.Black"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/icon_machine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/icon_machine"
+                app:layout_constraintBottom_toBottomOf="@id/icon_machine"/>
+
             <TextView
                 android:id="@+id/label_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.customerName}"
                 app:layout_constraintTop_toBottomOf="@id/text_service_name"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/text_service_name"
                 tools:text="Tony Parker" />
 
             <TextView
-                android:id="@+id/text_activated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.activated}"
-                tools:text="Jan 1, 2023 10:20 AM"
-                android:layout_marginStart="8dp"
-                app:layout_constraintTop_toTopOf="@id/icon_date"
-                app:layout_constraintStart_toEndOf="@id/icon_date"/>
-
-            <TextView
                 android:id="@+id/text_service_name"
-                android:layout_width="wrap_content"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.serviceLabel()}"
-                style="@style/TextAppearance.AppCompat.Title"
-                tools:text="Regular Wash (40 mins.)"
-                app:layout_constraintTop_toBottomOf="@id/divider"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/text_machine_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_machine_name"
+                tools:text="Regular Wash (40 mins.)" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

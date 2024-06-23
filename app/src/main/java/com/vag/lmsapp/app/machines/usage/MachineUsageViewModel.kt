@@ -2,6 +2,7 @@ package com.vag.lmsapp.app.machines.usage
 
 import androidx.lifecycle.*
 import com.vag.lmsapp.app.dashboard.data.DateFilter
+import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import com.vag.lmsapp.room.repository.MachineRepository
 import com.vag.lmsapp.viewmodels.ListViewModel
@@ -19,7 +20,7 @@ class MachineUsageViewModel
 constructor(
     private val machineRepository: MachineRepository
 ): ListViewModel<EntityMachineUsageDetails, Nothing>() {
-    private val _machineId = MutableLiveData<UUID>()
+    private val _machineId = MutableLiveData<UUID?>()
 
     private val _dateFilter = MutableLiveData<DateFilter?>()
     val dateFilter: MutableLiveData<DateFilter?> = _dateFilter
@@ -27,15 +28,21 @@ constructor(
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
 
+    val machineType = MutableLiveData<EnumMachineType?>()
+
     private val _machineUsage = MutableLiveData<EntityMachineUsageDetails>()
     val machineUsage: LiveData<EntityMachineUsageDetails> = _machineUsage
 
-    fun setMachineId(machineId: UUID) {
+    fun setMachineId(machineId: UUID?) {
         _machineId.value = machineId
     }
 
     fun setDateFilter(dateFilter: DateFilter) {
         _dateFilter.value = dateFilter
+    }
+
+    fun setMachineType(machineType: EnumMachineType?) {
+        this.machineType.value = machineType
     }
 
     fun loadMore() {
@@ -53,11 +60,12 @@ constructor(
             if(reset) {
                 page.value = 1
             }
-            val machineId = _machineId.value ?: return@launch
+            val machineId = _machineId.value
+            val machineType = machineType.value
             val dateFilter = _dateFilter.value
             val page = page.value ?: 1
             val keyword = keyword.value
-            val items = machineRepository.getMachineUsage(machineId, keyword, page, dateFilter)
+            val items = machineRepository.getMachineUsage(machineId, machineType, keyword, page, dateFilter)
             _dataState.value = DataState.LoadItems(items, reset)
         }
     }

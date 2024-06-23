@@ -8,5 +8,5 @@ data class DailyReportMachineUsageSummary(
     val cycles: Int = 0,
 
     @ColumnInfo("svc_machine_type")
-    val machineType: EnumMachineType?,
+    val machineType: EnumMachineType,
 )

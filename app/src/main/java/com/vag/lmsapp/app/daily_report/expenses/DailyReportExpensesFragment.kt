@@ -35,6 +35,10 @@ class DailyReportExpensesFragment : Fragment() {
             adapter.setData(it.map { it.toString() })
         })
 
+        binding.cardContainer.setOnClickListener {
+            viewModel.openExpenses()
+        }
+
         return binding.root
     }
 }

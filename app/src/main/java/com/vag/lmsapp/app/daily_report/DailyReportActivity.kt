@@ -8,6 +8,7 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.databinding.ActivityDailyReportBinding
 import dagger.hilt.android.AndroidEntryPoint
 import android.icu.util.Calendar
+import android.os.Parcelable
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
@@ -15,14 +16,16 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.lifecycle.Observer
-import com.google.android.material.appbar.AppBarLayout
 import com.vag.lmsapp.app.dashboard.data.DateFilter
+import com.vag.lmsapp.app.expenses.ExpensesActivity
 import com.vag.lmsapp.app.export_options.ExportOptionsActivity
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
+import com.vag.lmsapp.app.machines.usage.MachineUsageActivity
+import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.model.JobOrderAdvancedFilter
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
+import com.vag.lmsapp.util.Constants.Companion.MACHINE_TYPE
 import java.time.LocalDate
-import kotlin.math.abs
 
 @AndroidEntryPoint
 class DailyReportActivity : AppCompatActivity() {
@@ -80,6 +83,34 @@ class DailyReportActivity : AppCompatActivity() {
                         putExtra(JobOrderListActivity.ADVANCED_FILTER, JobOrderAdvancedFilter(
                             dateFilter = DateFilter(it.date)
                         ))
+                    }
+                    startActivity(intent)
+                    viewModel.resetState()
+                }
+
+                is DailyReportViewModel.NavigationState.OpenPayments -> {
+                    val intent = Intent(this, PaymentListActivity::class.java).apply {
+                        val dateRange = DateFilter(it.date)
+                        putExtra(DATE_RANGE_FILTER, dateRange)
+                    }
+                    startActivity(intent)
+                    viewModel.resetState()
+                }
+
+                is DailyReportViewModel.NavigationState.OpenExpenses -> {
+                    val intent = Intent(this, ExpensesActivity::class.java).apply {
+                        val dateRange = DateFilter(it.date)
+                        putExtra(DATE_RANGE_FILTER, dateRange)
+                    }
+                    startActivity(intent)
+                    viewModel.resetState()
+                }
+
+                is DailyReportViewModel.NavigationState.OpenMachineUsage -> {
+                    val intent = Intent(this, MachineUsageActivity::class.java).apply {
+                        val dateRange = DateFilter(it.date)
+                        putExtra(DATE_RANGE_FILTER, dateRange)
+                        putExtra(MACHINE_TYPE, it.machineType as Parcelable)
                     }
                     startActivity(intent)
                     viewModel.resetState()

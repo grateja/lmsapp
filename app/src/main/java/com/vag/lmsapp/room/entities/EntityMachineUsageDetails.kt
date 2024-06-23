@@ -48,7 +48,7 @@ data class EntityMachineUsageDetails(
     val sync: Boolean
 ) {
     fun machineName () : String {
-        return machineType.abbr + " " + machineNumber
+        return machineType.value + " " + machineNumber
     }
 
     fun serviceLabel() : String {

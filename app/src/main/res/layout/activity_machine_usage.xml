@@ -21,11 +21,29 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:title="@{viewModel.machineUsage.machineName() + ` usage history`}"
+                app:title="Machine usage history"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:animateLayoutChanges="true"
                 app:layout_scrollFlags="scroll|enterAlways|snap" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                app:strokeColor="@color/neutral"
+                app:strokeWidth="1dp"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="40dp">
+                <Spinner
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="8dp"
+                    android:id="@+id/spinner_machine_type"
+                    app:machineType="@={viewModel.machineType}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/machine_types"/>
+            </com.google.android.material.card.MaterialCardView>
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_date_range"
                 android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityMachineUsageBinding
+import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.FilterActivity
@@ -37,10 +38,6 @@ class MachineUsageActivity : FilterActivity() {
         subscribeListeners()
 
         window.statusBarColor = resources.getColor(R.color.color_code_machines, null)
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         intent.getStringExtra(Constants.MACHINE_ID_EXTRA)?.toUUID()?.let {
             viewModel.setMachineId(it)
@@ -48,12 +45,29 @@ class MachineUsageActivity : FilterActivity() {
         intent.getParcelableExtra<DateFilter>(Constants.DATE_RANGE_FILTER)?.let {
             viewModel.setDateFilter(it)
         }
+        intent.getParcelableExtra<EnumMachineType>(Constants.MACHINE_TYPE)?.let {
+            viewModel.setMachineType(it)
+        }
 
         viewModel.filter(true)
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//
+//        intent.getStringExtra(Constants.MACHINE_ID_EXTRA)?.toUUID()?.let {
+//            viewModel.setMachineId(it)
+//        }
+//        intent.getParcelableExtra<DateFilter>(Constants.DATE_RANGE_FILTER)?.let {
+//            viewModel.setDateFilter(it)
+//        }
+//
+//        viewModel.filter(true)
+//    }
+
     override var filterHint: String = "Search customer name"
-    override var toolbarBackground: Int = R.color.teal_700
+    override var toolbarBackground: Int = R.color.color_code_machines
+    override var enableAdvancedFilter = false
 
     override fun onQuery(keyword: String?) {
         viewModel.setKeyword(keyword)
@@ -109,6 +123,9 @@ class MachineUsageActivity : FilterActivity() {
             }
         })
         viewModel.dateFilter.observe(this, Observer {
+            viewModel.filter(true)
+        })
+        viewModel.machineType.observe(this, Observer {
             viewModel.filter(true)
         })
     }

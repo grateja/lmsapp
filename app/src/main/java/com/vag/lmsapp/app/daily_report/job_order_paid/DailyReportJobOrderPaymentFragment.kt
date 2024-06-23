@@ -37,6 +37,10 @@ class DailyReportJobOrderPaymentFragment : Fragment() {
             binding.textTopCaption.text = requireContext().resources.getQuantityString(R.plurals.payments, it.totalCount, it.totalCount)
         })
 
+        binding.cardContainer.setOnClickListener {
+            viewModel.openPayments()
+        }
+
         return binding.root
     }
 }

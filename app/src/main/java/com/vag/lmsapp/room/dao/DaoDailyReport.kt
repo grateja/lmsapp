@@ -5,17 +5,11 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.vag.lmsapp.app.daily_report.PriceCountAggregate
 import com.vag.lmsapp.app.daily_report.expenses.DailyReportExpenses
-import com.vag.lmsapp.app.daily_report.extras.DailyReportExtras
 import com.vag.lmsapp.app.daily_report.job_order.DailyReportJobOrder
+import com.vag.lmsapp.app.daily_report.job_order_items.DailyReportJobOrderItemDetails
 import com.vag.lmsapp.app.daily_report.job_order_paid.DailyReportJobOrderPayment
 import com.vag.lmsapp.app.daily_report.job_order_paid.DailyReportJobOrderPaymentSummary
-import com.vag.lmsapp.app.daily_report.machine_usage.DailyReportMachineUsage
 import com.vag.lmsapp.app.daily_report.machine_usage.DailyReportMachineUsageSummary
-import com.vag.lmsapp.app.daily_report.pickup_delivery.DailyReportPickupDelivery
-import com.vag.lmsapp.app.daily_report.products_chemicals.DailyReportProductsChemicals
-import com.vag.lmsapp.app.daily_report.products_chemicals.DailyReportProductsChemicalsSummary
-import com.vag.lmsapp.app.daily_report.wash_dry_services.DailyReportWashDryService
-import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.model.EnumServiceType
 import java.time.LocalDate
 
@@ -147,103 +141,6 @@ abstract class DaoDailyReport {
     """)
     abstract fun machineUsageSummary(date: LocalDate): LiveData<List<DailyReportMachineUsageSummary>>
 
-//    @Query("""
-//        SELECT
-//            service_name,
-//            SUM(quantity) as count,
-//            svc_machine_type,
-//            svc_wash_type,
-//            SUM(discounted_price) as discounted_price
-//        FROM job_order_services
-//        WHERE
-//            (svc_machine_type = 1 OR svc_machine_type = 3)
-//            AND DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
-//            AND void = 0 AND deleted = 0
-//        GROUP BY service_id
-//    """)
-//    abstract fun washServices(date: LocalDate): LiveData<List<DailyReportWashDryService>>
-
-//    @Query("""
-//        SELECT
-//            service_name,
-//            SUM(quantity) as count,
-//            svc_machine_type,
-//            svc_wash_type,
-//            SUM(discounted_price) as discounted_price
-//        FROM job_order_services
-//        WHERE
-//            (svc_machine_type = 2 OR svc_machine_type = 4)
-//            AND DATE(created_at / 1000, 'unixepoch', 'localtime') = :date
-//            AND void = 0 AND deleted = 0
-//        GROUP BY service_id
-//    """)
-//    abstract fun dryServices(date: LocalDate): LiveData<List<DailyReportWashDryService>>
-//
-//    @Query("""
-//        SELECT extras_name, SUM(quantity) AS count,
-//            SUM(discounted_price) as discounted_price
-//        FROM job_order_extras
-//        WHERE
-//            DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
-//            AND void = 0 AND deleted = 0
-//        GROUP BY extras_name
-//    """)
-//    abstract fun extras(date: LocalDate): LiveData<List<DailyReportExtras>>
-
-//    @Query("""
-//        SELECT
-//            product_name,
-//            SUM(quantity) as count,
-//            measure_unit,
-//            SUM(discounted_price) as discounted_price
-//        FROM job_order_products
-//        WHERE
-//            product_type = :productType
-//            AND DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
-//            AND void = 0 AND deleted = 0
-//        GROUP BY product_id
-//    """)
-//    abstract fun productsChemicals(date: LocalDate, productType: EnumProductType): LiveData<List<DailyReportProductsChemicals>>
-
-//    @Query("""
-//        SELECT
-//            SUM(CASE WHEN product_type = 1 THEN quantity ELSE 0 END) AS detergent_count,
-//            SUM(CASE WHEN product_type = 2 THEN quantity ELSE 0 END) AS fab_con_count,
-//            SUM(CASE WHEN product_type = 3 THEN quantity ELSE 0 END) AS others_count,
-//            SUM(quantity) AS total_count
-//        FROM job_order_products
-//        WHERE
-//            DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
-//            AND void = 0 AND deleted = 0
-//    """)
-//    abstract fun productsChemicalsSummary(date: LocalDate): LiveData<DailyReportProductsChemicalsSummary>
-
-//    @Query("""
-//        SELECT
-//            vehicle,
-//            COUNT(*) AS count,
-//            SUM(distance) AS distance,
-//            SUM(discounted_price) as discounted_price
-//        FROM job_order_delivery_charges
-//        WHERE
-//            DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
-//            AND void = 0 AND deleted = 0
-//        GROUP BY vehicle
-//    """)
-//    abstract fun delivery(date: LocalDate): LiveData<List<DailyReportPickupDelivery>>
-
-//    @Query("""
-//        SELECT m.machine_number, m.machine_type, COUNT(*) as count
-//        FROM machine_usages mu
-//        JOIN machines m ON m.id = mu.machine_id
-//        WHERE
-//            DATE(mu.created_at / 1000, 'unixepoch', 'localtime')  = :date
-//            AND mu.deleted = 0
-//        GROUP BY mu.machine_id
-//        ORDER BY m.stack_order
-//    """)
-//    abstract fun machineUsages(date: LocalDate): LiveData<List<DailyReportMachineUsage>>
-//
     @Query("""
         SELECT
             remarks, amount
@@ -254,4 +151,47 @@ abstract class DaoDailyReport {
         ORDER BY remarks
     """)
     abstract fun expenses(date: LocalDate): LiveData<List<DailyReportExpenses>>
+
+    @Query("""
+        SELECT
+            COUNT(*) AS count,
+            SUM(discounted_amount) AS price
+        FROM job_orders
+        WHERE void_by IS NULL AND deleted = 0 AND payment_id IS NULL
+    """)
+    abstract fun unpaidJobOrders(): LiveData<PriceCountAggregate>
+
+    @Query("""
+        SELECT jo.id AS job_order_id,
+            jo.job_order_number,
+            cu.name AS customer_name,
+            jos.service_name AS item_name,
+            jos.quantity,
+            jos.discounted_price,
+            jo.created_at
+        FROM job_order_services jos
+            JOIN job_orders jo ON jo.id = jos.job_order_id
+            JOIN customers cu ON cu.id = jo.customer_id
+        WHERE
+            DATE(jos.created_at / 1000, 'unixepoch', 'localtime')  = :date
+            AND jos.deleted = 0 AND jos.void = 0
+    """)
+    abstract fun jobOrderItemDetailsServices(date: LocalDate): LiveData<List<DailyReportJobOrderItemDetails>>
+
+//    @Query("""
+//        SELECT jo.id AS job_order_id,
+//            jo.job_order_number,
+//            cu.name AS customer_name,
+//            jos.service_name AS item_name,
+//            jos.quantity,
+//            jos.discounted_price,
+//            jo.created_at
+//        FROM job_order_services jos
+//            JOIN job_orders jo ON jo.id = jos.job_order_id
+//            JOIN customers cu ON cu.id = jo.customer_id
+//        WHERE
+//            DATE(jos.created_at / 1000, 'unixepoch', 'localtime')  = :date
+//            AND jos.deleted = 0 AND jos.void = 0
+//    """)
+//    abstract fun jobOrderItemDetailsProducts(date: LocalDate): LiveData<List<DailyReportJobOrderItemDetails>>
 }

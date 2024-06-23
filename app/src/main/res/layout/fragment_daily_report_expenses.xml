@@ -9,6 +9,7 @@
             type="com.vag.lmsapp.app.daily_report.DailyReportViewModel" />
     </data>
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,6 +39,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_text_heading"
+                    android:layout_marginVertical="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/CardSpan"
