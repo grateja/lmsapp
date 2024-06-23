@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize
-class MenuProductItem(
+data class MenuProductItem(
     var joProductItemId: UUID?,
 
     @ColumnInfo(name = "id")
@@ -19,6 +19,9 @@ class MenuProductItem(
     val name: String,
 
     val price: Float,
+
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Float,
 
     @ColumnInfo(name = "measure_unit")
     val measureUnit: EnumMeasureUnit,
@@ -56,11 +59,11 @@ class MenuProductItem(
     }
 
     fun total(): Float {
-        return quantity * price
+        return quantity * discountedPrice
     }
 
     fun quantityStrAbbr() : String {
-        return "($quantity * P$price)"
+        return "($quantity * P$discountedPrice)"
     }
 
     fun quantityStr() : String {

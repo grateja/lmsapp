@@ -8,44 +8,72 @@
             name="viewModel"
             type="com.vag.lmsapp.app.daily_report.DailyReportViewModel" />
     </data>
-    <com.google.android.material.card.MaterialCardView
-        style="@style/RoundCard.NoElevation"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+<!--        <TextView-->
+<!--            android:id="@+id/text_top_caption_8kg_washers"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            tools:text="12 total cycles"-->
+<!--            android:layout_marginStart="12dp"/>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_machine_usages"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp">
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/icon_daily_report_job_order"/>
-            <LinearLayout
-                app:layout_constraintTop_toTopOf="@id/icon"
-                app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/text_top_caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="12 total cycles"
-                    android:layout_marginStart="12dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            tools:layout="@layout/recycler_item_daily_report_machine_usage"
+            tools:itemCount="3"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_machine_usages"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="vertical"
-                    android:layout_marginStart="36dp"/>
+<!--        <TextView-->
+<!--            android:id="@+id/text_top_caption_8kg_dryers"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            tools:text="12 total cycles"-->
+<!--            android:layout_marginStart="12dp"/>-->
 
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recycler_view_machine_usages_8kg_dryers"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--            android:orientation="horizontal"-->
+<!--            tools:layout="@layout/recycler_item_daily_report_machine_usage"-->
+<!--            tools:itemCount="3"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/text_top_caption_12kg_washers"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            tools:text="12 total cycles"-->
+<!--            android:layout_marginStart="12dp"/>-->
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recycler_view_machine_usages_12kg_washer"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--            android:orientation="horizontal"-->
+<!--            tools:layout="@layout/recycler_item_daily_report_machine_usage"-->
+<!--            tools:itemCount="3"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/text_top_caption_12kg_dryers"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            tools:text="12 total cycles"-->
+<!--            android:layout_marginStart="12dp"/>-->
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recycler_view_machine_usages_12kg_dryers"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--            android:orientation="horizontal"-->
+<!--            tools:layout="@layout/recycler_item_daily_report_machine_usage"-->
+<!--            tools:itemCount="3"/>-->
+    </LinearLayout>
 </layout>

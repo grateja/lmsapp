@@ -32,19 +32,17 @@ constructor(
 
     fun jobOrderPaymentSummary(date: LocalDate) = dao.jobOrderPaymentSummary(date)
 
-    fun washServices(date: LocalDate) = dao.washServices(date)
+    fun jobOrderWashItems(date: LocalDate) = dao.jobOrderItemWashServices(date)
 
-    fun dryServices(date: LocalDate) = dao.dryServices(date)
+    fun jobOrderExtrasItems(date: LocalDate) = dao.jobOrderItemExtraServices(date)
 
-    fun extras(date: LocalDate) = dao.extras(date)
+    fun jobOrderProductsItems(date: LocalDate) = dao.jobOrderItemProducts(date)
 
-    fun productsChemicals(date: LocalDate, productType: EnumProductType) = dao.productsChemicals(date, productType)
+    fun jobOrderDeliveryItems(date: LocalDate) = dao.jobOrderItemDelivery(date)
 
-    fun productsChemicalsSummary(date: LocalDate) = dao.productsChemicalsSummary(date)
-
-    fun delivery(date: LocalDate) = dao.delivery(date)
-
-    fun machineUsages(date: LocalDate) = dao.machineUsages(date)
+    fun jobOrderDryItems(date: LocalDate) = dao.jobOrderItemDryServices(date)
 
     fun expenses(date: LocalDate) = dao.expenses(date)
+
+    fun machineUsageSummary(date: LocalDate) = dao.machineUsageSummary(date)
 }

@@ -13,6 +13,6 @@ data class DailyReportMachineUsage(
     val count: Int
 ) {
     override fun toString(): String {
-        return "$machineType $machineNumber - $count cycle(s)"
+        return "$machineType $machineNumber"
     }
 }

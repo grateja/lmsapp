@@ -10,5 +10,5 @@ data class DailyReportWashDrySummary(
     val dryCount: Int,
 
     @ColumnInfo("total_count")
-    val totalCount: Int
+    val totalCount: Int,
 )

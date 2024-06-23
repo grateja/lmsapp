@@ -21,6 +21,9 @@ data class EntityJobOrderService(
 
     var price: Float,
 
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Float,
+
     var quantity: Int,
 
     var used: Int = 0,

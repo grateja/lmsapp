@@ -44,7 +44,7 @@ interface DaoExport {
     @Query("""
         SELECT jo.created_at, jo.job_order_number, cu.name AS customer_name,
             jos.service_name, jos.svc_machine_type,
-            jos.quantity, jos.price
+            jos.quantity, jos.discounted_price
         FROM job_order_services jos
         JOIN job_orders jo ON jo.id = jos.job_order_id
         JOIN customers cu ON cu.id = jo.customer_id
@@ -67,7 +67,7 @@ interface DaoExport {
     @Query("""
         SELECT jo.created_at, jo.job_order_number, cu.name AS customer_name,
             jop.product_name, jop.product_type, jop.measure_unit,
-            jop.quantity, jop.price
+            jop.quantity, jop.discounted_price
         FROM job_order_products jop
         JOIN job_orders jo ON jo.id = jop.job_order_id
         JOIN customers cu ON cu.id = jo.customer_id
@@ -90,7 +90,7 @@ interface DaoExport {
     @Query("""
         SELECT jo.created_at, jo.job_order_number, cu.name AS customer_name,
             joe.extras_name, joe.category,
-            joe.quantity, joe.price
+            joe.quantity, joe.discounted_price
         FROM job_order_extras joe
         JOIN job_orders jo ON jo.id = joe.job_order_id
         JOIN customers cu ON cu.id = jo.customer_id
@@ -144,7 +144,7 @@ interface DaoExport {
     fun machineUsagesCount(dateFrom: LocalDate, dateTo: LocalDate): LiveData<Int>
 
     @Query("""
-        SELECT jodc.vehicle, jodc.delivery_option, jodc.price, jodc.distance,
+        SELECT jodc.vehicle, jodc.delivery_option, jodc.discounted_price, jodc.distance,
             jo.job_order_number, jo.created_at,
             cu.name AS customer_name
         FROM job_order_delivery_charges jodc

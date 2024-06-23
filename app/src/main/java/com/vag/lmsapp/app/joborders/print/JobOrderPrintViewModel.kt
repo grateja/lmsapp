@@ -206,8 +206,8 @@ constructor(
                     items.add(singleLine)
                 }
 
-                val subtotal = jobOrder?.subtotal() ?: 0.0f
-                val discountInPeso = jobOrder?.takeIf { it.discount?.deleted == false }?.discountInPeso() ?: 0.0f
+                val subtotal = jobOrder?.jobOrder?.subtotal ?: 0.0f
+                val discountInPeso = jobOrder?.takeIf { it.discount?.deleted == false }?.jobOrder?.discountInPeso ?: 0.0f
 
                 val discount = jobOrder?.takeIf { it.discount?.deleted == false }?.discount?.let { discount ->
                     PrinterItem.ListItem(characters, true, 0f, "${discount.name} discount", discountInPeso)

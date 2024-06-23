@@ -14,6 +14,9 @@ data class DailyReportWashDryService(
 
     @ColumnInfo(name = "svc_wash_type")
     val washType: EnumWashType?,
+
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Double
 ) {
     override fun toString() : String {
         return "($count) ${machineType?.abbr} $name"

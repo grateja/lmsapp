@@ -16,7 +16,7 @@ abstract class DaoProduct : BaseDao<EntityProduct> {
     @Query("SELECT * FROM products")
     abstract suspend fun getAll() : List<EntityProduct>
 
-    @Query("SELECT *, 1 as quantity, 0 as void FROM products WHERE deleted = 0")
+    @Query("SELECT *, 1 as quantity, 0 as void, 0 as discounted_price FROM products WHERE deleted = 0")
     abstract suspend fun menuItems(): List<MenuProductItem>
 
     @Query("SELECT * FROM products WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 ORDER BY name")

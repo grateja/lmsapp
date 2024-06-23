@@ -259,7 +259,7 @@
                                 <TextView
                                     style="@style/Bold"
                                     android:textAlignment="textEnd"
-                                    android:peso="@{viewModel.jobOrder.subtotal()}"
+                                    android:peso="@{viewModel.jobOrder.jobOrder.subtotal}"
                                     tools:text="P10.10"/>
                             </TableRow>
                             <TableRow
@@ -272,7 +272,7 @@
                                 <TextView
                                     style="@style/Bold"
                                     android:textAlignment="textEnd"
-                                    android:peso="@{-viewModel.jobOrder.discountInPeso()}"
+                                    android:peso="@{-viewModel.jobOrder.jobOrder.discountInPeso}"
                                     tools:text="P10.10"/>
                             </TableRow>
                             <TableRow
@@ -284,7 +284,7 @@
                                 <TextView
                                     style="@style/Bold"
                                     android:textAlignment="textEnd"
-                                    android:peso="@{viewModel.jobOrder.discountedAmount()}"
+                                    android:peso="@{viewModel.jobOrder.jobOrder.discountedAmount}"
                                     tools:text="P10.10"/>
                             </TableRow>
                             <TableRow
@@ -295,7 +295,7 @@
                                     style="@style/TextItemTitle.Medium.Bold"/>
                                 <TextView
                                     android:textAlignment="textEnd"
-                                    android:peso="@{viewModel.jobOrder.discountedAmount()}"
+                                    android:peso="@{viewModel.jobOrder.jobOrder.discountedAmount}"
                                     tools:text="P10.10"
                                     style="@style/TextItemTitle.Medium.Bold"/>
                             </TableRow>

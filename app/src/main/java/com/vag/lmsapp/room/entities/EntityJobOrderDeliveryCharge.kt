@@ -21,6 +21,9 @@ data class EntityJobOrderDeliveryCharge(
 
     val price: Float,
 
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Float,
+
     val distance: Float,
 
     @Json(name = "void")

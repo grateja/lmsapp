@@ -30,12 +30,6 @@
         <item quantity="other">%d expenses</item>
     </plurals>
 
-    <plurals name="extras">
-        <item quantity="zero">No extra services</item>
-        <item quantity="one">%d extra service</item>
-        <item quantity="other">%d extra services</item>
-    </plurals>
-
     <plurals name="payments">
         <item quantity="zero">No payments</item>
         <item quantity="one">%d payment</item>
@@ -43,9 +37,39 @@
     </plurals>
 
     <plurals name="cycles">
-        <item quantity="zero">No machines were used</item>
+        <item quantity="zero">No not used</item>
         <item quantity="one">%d cycle</item>
         <item quantity="other">%d cycles</item>
+    </plurals>
+
+    <plurals name="washes">
+        <item quantity="zero">No wash services</item>
+        <item quantity="one">%d wash service</item>
+        <item quantity="other">%d wash services</item>
+    </plurals>
+
+    <plurals name="dries">
+        <item quantity="zero">No dry services</item>
+        <item quantity="one">%d dry service</item>
+        <item quantity="other">%d dry services</item>
+    </plurals>
+
+    <plurals name="extras">
+        <item quantity="zero">No extra services</item>
+        <item quantity="one">%d extra service</item>
+        <item quantity="other">%d extra services</item>
+    </plurals>
+
+    <plurals name="products">
+        <item quantity="zero">No products</item>
+        <item quantity="one">%d product</item>
+        <item quantity="other">%d products</item>
+    </plurals>
+
+    <plurals name="pickup_deliveries">
+        <item quantity="zero">No pickup and deliveries</item>
+        <item quantity="one">%d pickup/delivery</item>
+        <item quantity="other">%d pickup/deliveries</item>
     </plurals>
 
 </resources>

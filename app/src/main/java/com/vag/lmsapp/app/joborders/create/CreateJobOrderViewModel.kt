@@ -321,6 +321,7 @@ constructor(
                     joSvc.serviceName,
                     joSvc.serviceRef.minutes,
                     joSvc.price,
+                    joSvc.discountedPrice,
                     joSvc.serviceRef.machineType,
                     joSvc.serviceRef.washType,
                     joSvc.quantity,
@@ -338,6 +339,7 @@ constructor(
                     joExtras.extrasId,
                     joExtras.extrasName,
                     joExtras.price,
+                    joExtras.discountedPrice,
                     joExtras.category,
                     joExtras.quantity,
                     joExtras.isVoid,
@@ -353,6 +355,7 @@ constructor(
                     joPrd.productId,
                     joPrd.productName,
                     joPrd.price,
+                    joPrd.discountedPrice,
                     joPrd.measureUnit,
                     joPrd.unitPerServe,
                     joPrd.quantity,
@@ -371,6 +374,7 @@ constructor(
                 entity.distance,
                 entity.deliveryOption,
                 entity.price,
+                entity.discountedPrice,
                 entity.deleted,
             )
         }
@@ -446,24 +450,65 @@ constructor(
         jobOrderPackages.value = packages
     }
 
+    private fun refreshDiscount() {
+        val discount = discount.value
+        val serviceDiscount = discount?.takeIf { !it.deleted && it.applicableTo.any {
+            it in listOf(EnumDiscountApplicable.WASH_DRY_SERVICES,
+                EnumDiscountApplicable.TOTAL_AMOUNT)} }?.value ?: 0f
+
+        val productDiscount = discount?.takeIf { !it.deleted && it.applicableTo.any {
+            it in listOf(EnumDiscountApplicable.PRODUCTS_CHEMICALS,
+                EnumDiscountApplicable.TOTAL_AMOUNT) } }?.value ?: 0f
+
+        val extrasDiscount = discount?.takeIf { !it.deleted && it.applicableTo.any {
+            it in listOf(EnumDiscountApplicable.EXTRAS,
+                EnumDiscountApplicable.TOTAL_AMOUNT) } }?.value ?: 0f
+
+        val deliveryDiscount = discount?.takeIf { !it.deleted && it.applicableTo.any {
+            it in listOf(EnumDiscountApplicable.DELIVERY,
+                EnumDiscountApplicable.TOTAL_AMOUNT) } }?.value ?: 0f
+
+        jobOrderServices.value = jobOrderServices.value?.map { serviceItem ->
+            serviceItem.copy(
+                discountedPrice = serviceItem.price - (serviceItem.price * (serviceDiscount / 100))
+            )
+        } ?: emptyList()
+        jobOrderProducts.value = jobOrderProducts.value?.map { productItem ->
+            productItem.copy(
+                discountedPrice = productItem.price - (productItem.price * (productDiscount / 100))
+            )
+        } ?: emptyList()
+        jobOrderExtras.value = jobOrderExtras.value?.map { extrasItem ->
+            extrasItem.copy(
+                discountedPrice = extrasItem.price - (extrasItem.price * (extrasDiscount / 100))
+            )
+        } ?: emptyList()
+        deliveryCharge.value = deliveryCharge.value?.apply {
+            discountedPrice = price - (price * (deliveryDiscount / 100))
+        }
+    }
+
     fun syncServices(services: List<MenuServiceItem>?) {
         services?.let {
             jobOrderServices.value = it.toList()
             _saved.value = false
             _modified.value = true
         }
+        refreshDiscount()
     }
 
     fun syncProducts(products: List<MenuProductItem>?) {
         jobOrderProducts.value = products?.toMutableList()
         _saved.value = false
         _modified.value = true
+        refreshDiscount()
     }
 
     fun syncExtras(extrasItems: List<MenuExtrasItem>?) {
         jobOrderExtras.value = extrasItems?.toMutableList()
         _saved.value = false
         _modified.value = true
+        refreshDiscount()
     }
 
     fun setDeliveryCharge(deliveryCharge: DeliveryCharge?) {
@@ -475,6 +520,7 @@ constructor(
         this.deliveryCharge.value = deliveryCharge
         _saved.value = false
         _modified.value = true
+        refreshDiscount()
     }
 
     fun applyDiscount(discount: MenuDiscount?) {
@@ -487,6 +533,7 @@ constructor(
         }
         _saved.value = false
         _modified.value = true
+        refreshDiscount()
     }
 
     fun removeService(id: UUID?) {
@@ -744,6 +791,7 @@ constructor(
                     it.serviceRefId,
                     it.name,
                     it.price,
+                    it.discountedPrice,
                     it.quantity,
                     it.used,
                     it.isVoid,
@@ -765,6 +813,7 @@ constructor(
                     it.productRefId,
                     it.name,
                     it.price,
+                    it.discountedPrice,
                     it.measureUnit,
                     it.unitPerServe,
                     it.quantity,
@@ -782,6 +831,7 @@ constructor(
                     it.extrasRefId,
                     it.name,
                     it.price,
+                    it.discountedPrice,
                     it.quantity,
                     it.category,
                     it.isVoid,
@@ -797,6 +847,7 @@ constructor(
                     it.vehicle,
                     it.deliveryOption,
                     it.price,
+                    it.discountedPrice,
                     it.distance,
                     it.isVoid,
                     jobOrder.id

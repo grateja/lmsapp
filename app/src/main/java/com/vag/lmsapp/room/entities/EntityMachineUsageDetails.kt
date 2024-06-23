@@ -42,6 +42,9 @@ data class EntityMachineUsageDetails(
     @ColumnInfo("price")
     val price: Float,
 
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Float,
+
     val sync: Boolean
 ) {
     fun machineName () : String {

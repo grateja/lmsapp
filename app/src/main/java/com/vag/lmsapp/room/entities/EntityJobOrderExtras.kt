@@ -23,6 +23,9 @@ data class EntityJobOrderExtras(
 
     var price: Float,
 
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Float,
+
     var quantity: Int,
 
     var category: String?,

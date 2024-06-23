@@ -172,7 +172,7 @@ class ExportOptionsViewModel
                         setCellValue(exportDataJobOrderService.quantity.toString())
                     }
                     createCell(6).apply {
-                        setCellValue(exportDataJobOrderService.price)
+                        setCellValue(exportDataJobOrderService.discountedPrice)
                     }
                     createCell(7).apply {
                         cellFormula = "F${index + 2}*G${index + 2}"
@@ -209,7 +209,7 @@ class ExportOptionsViewModel
                         setCellValue(exportDataJobOrderProduct.measureUnit.value)
                     }
                     createCell(6).apply {
-                        setCellValue(exportDataJobOrderProduct.price)
+                        setCellValue(exportDataJobOrderProduct.discountedPrice)
                     }
                     createCell(7).apply {
                         cellFormula = "G${index + 2}*E${index + 2}"
@@ -246,7 +246,7 @@ class ExportOptionsViewModel
                         setCellValue(exportDataJobOrderExtras.quantity.toString())
                     }
                     createCell(6).apply {
-                        setCellValue(exportDataJobOrderExtras.price)
+                        setCellValue(exportDataJobOrderExtras.discountedPrice)
                     }
                     createCell(7).apply {
                         cellFormula = "F${index + 2}*G${index + 2}"
@@ -283,7 +283,7 @@ class ExportOptionsViewModel
                         setCellValue(exportDataDeliveryCharges.distance)
                     }
                     createCell(6).apply {
-                        setCellValue(exportDataDeliveryCharges.price)
+                        setCellValue(exportDataDeliveryCharges.discountedPrice)
                     }
                 }
             }

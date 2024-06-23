@@ -38,7 +38,7 @@ import com.vag.lmsapp.util.converters.*
     EntityDiscount::class,
     EntityActivityLog::class,
     SanctumToken::class,
-], version = 13,
+], version = 14,
     exportSchema = true,
 )
 @TypeConverters(
@@ -116,7 +116,8 @@ abstract class MainDatabase : RoomDatabase() {
                         DropColumnJobOrderPicturesFilename(),
                         DropColumnJobOrderPicturesUri(),
                         DropColumnClaimReceiptPicturesUri(),
-                        AddColumnJobOrderItemsVoid()
+                        AddColumnJobOrderItemsVoid(),
+                        AddColumnJobOrderItemDiscountedPrice()
 //                        AddColumnPaymentVoid(),
 //                        CreateTablePackage(),
 //                        CreateTablePackageService(),

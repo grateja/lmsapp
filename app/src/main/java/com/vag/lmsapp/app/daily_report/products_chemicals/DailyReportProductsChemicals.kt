@@ -10,7 +10,10 @@ data class DailyReportProductsChemicals(
     @ColumnInfo(name = "measure_unit")
     val measureUnit: EnumMeasureUnit,
 
-    var count: Int
+    var count: Int,
+
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Double
 ) {
     override fun toString(): String {
         return "($count $measureUnit) $name"

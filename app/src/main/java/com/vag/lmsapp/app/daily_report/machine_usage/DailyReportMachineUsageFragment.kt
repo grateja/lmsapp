@@ -4,18 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.vag.lmsapp.R
-import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.daily_report.DailyReportViewModel
 import com.vag.lmsapp.databinding.FragmentDailyReportMachineUsageBinding
+import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.util.calculateSpanCount
 
 class DailyReportMachineUsageFragment : Fragment() {
     private lateinit var binding: FragmentDailyReportMachineUsageBinding
     private val viewModel: DailyReportViewModel by activityViewModels()
     private val adapter = DailyReportMachineUsageAdapter()
+//    private val regularDryersAdapter = DailyReportMachineUsageAdapter()
+//    private val titanWashersAdapter = DailyReportMachineUsageAdapter()
+//    private val titanDryersAdapter = DailyReportMachineUsageAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,13 +35,13 @@ class DailyReportMachineUsageFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.recyclerViewMachineUsages.adapter = adapter
+        val context = requireContext()
+        binding.recyclerViewMachineUsages.layoutManager = GridLayoutManager(
+            context, 2
+        )
 
-        viewModel.machineUsages.observe(viewLifecycleOwner, Observer {
+        viewModel.machineUsageSummary.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
-        })
-
-        viewModel.machineUsageCount.observe(viewLifecycleOwner, Observer {
-            binding.textTopCaption.text = requireContext().resources.getQuantityString(R.plurals.cycles, it, it)
         })
 
         return binding.root

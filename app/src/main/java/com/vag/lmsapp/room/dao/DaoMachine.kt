@@ -48,7 +48,7 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
             " GROUP BY machine_number, machine_type ORDER BY machine_type, machine_number")
     abstract fun getDashboard(dateFrom: LocalDate, dateTo: LocalDate?) : LiveData<List<EntityMachineUsageAggrResult>>
 
-    @Query("SELECT ma.id, ma.machine_number, ma.created_at, mu.machine_id, mu.customer_id, mu.created_at AS activated, cu.name as customer_name, jos.job_order_id, jos.service_name, jos.svc_minutes, jos.svc_wash_type, jos.svc_machine_type, job_order_number, jos.price, mu.sync " +
+    @Query("SELECT ma.id, ma.machine_number, ma.created_at, mu.machine_id, mu.customer_id, mu.created_at AS activated, cu.name as customer_name, jos.job_order_id, jos.service_name, jos.svc_minutes, jos.svc_wash_type, jos.svc_machine_type, job_order_number, jos.price, jos.discounted_price, mu.sync " +
         "            FROM machine_usages mu " +
         "            LEFT JOIN machines ma ON mu.machine_id = ma.id " +
         "            LEFT JOIN customers cu ON mu.customer_id = cu.id " +

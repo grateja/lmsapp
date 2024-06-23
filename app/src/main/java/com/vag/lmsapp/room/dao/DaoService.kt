@@ -15,7 +15,7 @@ abstract class DaoService : BaseDao<EntityService> {
     @Query("SELECT * FROM services")
     abstract suspend fun getAll() : List<EntityService>
 
-    @Query("SELECT *, 1 as quantity, 0 as used, 0 as void FROM services WHERE deleted = 0")
+    @Query("SELECT *, 1 as quantity, 0 as used, 0 as void, 0 AS discounted_price FROM services WHERE deleted = 0")
     abstract suspend fun menuItems() : List<MenuServiceItem>
 
     @Query("SELECT * FROM services WHERE svc_machine_type = :machineType AND deleted = 0")

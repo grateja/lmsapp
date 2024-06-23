@@ -76,6 +76,7 @@ constructor(
             service.service.name!!,
             service.service.serviceRef.minutes,
             service.service.price,
+            0f,
             service.service.serviceRef.machineType,
             service.service.serviceRef.washType,
             service.serviceCrossRef.quantity,
@@ -89,6 +90,7 @@ constructor(
             extras.extras.id,
             extras.extras.name!!,
             extras.extras.price,
+            0f,
             extras.extras.category,
             extras.extrasCrossRef.quantity,
         )
@@ -100,6 +102,7 @@ constructor(
             product.product.id,
             product.product.name!!,
             product.product.price,
+            0f,
             product.product.measureUnit,
             product.product.unitPerServe,
             product.productCrossRef.quantity,

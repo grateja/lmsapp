@@ -5,7 +5,10 @@ import androidx.room.ColumnInfo
 data class DailyReportExtras(
     @ColumnInfo("extras_name")
     val name: String,
-    val count: Int
+    val count: Int,
+
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Double
 ) {
     override fun toString(): String {
         return "($count) $name"

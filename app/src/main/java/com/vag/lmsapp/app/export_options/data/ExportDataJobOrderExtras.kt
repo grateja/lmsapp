@@ -1,7 +1,6 @@
 package com.vag.lmsapp.app.export_options.data
 
 import androidx.room.ColumnInfo
-import com.vag.lmsapp.model.EnumMachineType
 import java.time.Instant
 
 data class ExportDataJobOrderExtras(
@@ -23,6 +22,6 @@ data class ExportDataJobOrderExtras(
     @ColumnInfo("quantity")
     val quantity: Int,
 
-    @ColumnInfo("price")
-    val price: Double,
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Double,
 )

@@ -9,7 +9,6 @@
             type="com.vag.lmsapp.app.daily_report.DailyReportViewModel" />
     </data>
     <com.google.android.material.card.MaterialCardView
-        style="@style/RoundCard.NoElevation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout

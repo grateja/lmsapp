@@ -10,13 +10,12 @@
     </data>
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_container"
-        style="@style/RoundCard.NoElevation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="12dp">
+            android:layout_margin="20dp">
             <ImageView
                 android:id="@+id/icon"
                 android:layout_width="50dp"
@@ -36,6 +35,7 @@
                 android:id="@+id/card_text_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 style="@style/CardSpan"
                 app:layout_constraintTop_toBottomOf="@id/text_top_caption"
                 app:layout_constraintStart_toEndOf="@id/icon"
@@ -47,10 +47,20 @@
                     tools:text="P20,030"
                     android:peso="@{viewModel.jobOrder.totalAmount}"/>
             </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/icon_customer"
+                app:layout_constraintBottom_toBottomOf="@+id/text_new_customer"
+                app:layout_constraintEnd_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/text_returning_customer" />
             <TextView
                 android:id="@+id/text_returning_customer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@id/card_text_heading"
                 app:layout_constraintStart_toStartOf="@id/card_text_heading"
                 android:layout_marginStart="24dp"
@@ -64,14 +74,16 @@
                 app:layout_constraintStart_toStartOf="@id/card_text_heading"
                 android:layout_marginStart="24dp"
                 tools:text="6 New Returning customers"/>
+
             <TextView
-                android:textColor="@color/green"
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@id/text_new_customer"
-                app:layout_constraintBaseline_toBaselineOf="@id/text_new_customer"
                 android:layout_marginEnd="4dp"
-                android:text="+"/>
+                android:text="+"
+                android:textColor="@color/green"
+                app:layout_constraintBaseline_toBaselineOf="@id/text_new_customer"
+                app:layout_constraintEnd_toStartOf="@id/text_new_customer" />
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
                 android:layout_width="match_parent"

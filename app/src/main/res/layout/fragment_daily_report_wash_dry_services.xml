@@ -12,66 +12,66 @@
         style="@style/RoundCard.NoElevation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp">
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/icon_daily_report_job_order"/>
-            <LinearLayout
-                app:layout_constraintTop_toTopOf="@id/icon"
-                app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/text_top_caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="12 Job Orders Created"
-                    android:text="@{viewModel.washDrySummary.totalCount + ` wash|dry service(s)`}"
-                    android:layout_marginStart="12dp"/>
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_text_heading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/CardSpan"
-                    android:layout_marginStart="4dp"/>
-                <TextView
-                    tools:text="Washes"
-                    android:textSize="18sp"
-                    android:layout_marginStart="18dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.washDrySummary.washCount + ` wash(es)`}"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_washes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="vertical"
-                    android:layout_marginStart="36dp"/>
-                <TextView
-                    android:text="@{viewModel.washDrySummary.dryCount + ` dry/dries`}"
-                    tools:text="Dries"
-                    android:textSize="18sp"
-                    android:layout_marginStart="18dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_dries"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="vertical"
-                    android:layout_marginStart="36dp"/>
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="12dp">-->
+<!--            <ImageView-->
+<!--                android:id="@+id/icon"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                android:src="@drawable/icon_daily_report_job_order"/>-->
+<!--            <LinearLayout-->
+<!--                app:layout_constraintTop_toTopOf="@id/icon"-->
+<!--                app:layout_constraintStart_toEndOf="@id/icon"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
+<!--                <TextView-->
+<!--                    android:id="@+id/text_top_caption"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    tools:text="12 Job Orders Created"-->
+<!--                    android:text="@{viewModel.washDrySummary.totalCount + ` wash|dry service(s)`}"-->
+<!--                    android:layout_marginStart="12dp"/>-->
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    android:id="@+id/card_text_heading"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    style="@style/CardSpan"-->
+<!--                    android:layout_marginStart="4dp"/>-->
+<!--                <TextView-->
+<!--                    tools:text="Washes"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:layout_marginStart="18dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@{viewModel.washDrySummary.washCount + ` wash(es)`}"/>-->
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/recycler_view_washes"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_marginStart="36dp"/>-->
+<!--                <TextView-->
+<!--                    android:text="@{viewModel.washDrySummary.dryCount + ` dry/dries`}"-->
+<!--                    tools:text="Dries"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:layout_marginStart="18dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"/>-->
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/recycler_view_dries"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_marginStart="36dp"/>-->
+<!--            </LinearLayout>-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
     </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -10,6 +10,7 @@
             type="com.vag.lmsapp.app.daily_report.DailyReportViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/background_gradient_primary"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -29,7 +30,7 @@
                     android:layout_height="wrap_content"
                     app:cardElevation="0dp"
                     app:contentPaddingBottom="8dp"
-                    app:layout_scrollFlags="enterAlways|scroll">
+                    app:layout_scrollFlags="noScroll">
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -106,51 +107,50 @@
                             app:layout_constraintEnd_toEndOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:animateLayoutChanges="true"
-                    android:id="@+id/current_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        app:layout_constraintBottom_toBottomOf="@id/card_date"
-                        app:layout_constraintTop_toTopOf="@id/card_date"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/card_date"/>
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        app:layout_constraintBottom_toBottomOf="@id/card_date"
-                        app:layout_constraintTop_toTopOf="@id/card_date"
-                        app:layout_constraintStart_toEndOf="@id/card_date"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginVertical="8dp"
-                        app:cardCornerRadius="50dp">
-                        <TextView
-                            android:layout_marginHorizontal="24dp"
-                            android:layout_marginVertical="8dp"
-                            android:localDate="@{viewModel.currentDate}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="Jan 1, 2024"/>
-                    </com.google.android.material.card.MaterialCardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:animateLayoutChanges="true"-->
+<!--                    android:id="@+id/current_date"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent">-->
+<!--                    <com.google.android.material.divider.MaterialDivider-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/card_date"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/card_date"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintEnd_toStartOf="@id/card_date"/>-->
+<!--                    <com.google.android.material.divider.MaterialDivider-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/card_date"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/card_date"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/card_date"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"/>-->
+<!--                    <com.google.android.material.card.MaterialCardView-->
+<!--                        android:id="@+id/card_date"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        android:layout_marginVertical="8dp"-->
+<!--                        app:cardCornerRadius="50dp">-->
+<!--                        <TextView-->
+<!--                            android:layout_marginHorizontal="24dp"-->
+<!--                            android:layout_marginVertical="8dp"-->
+<!--                            android:localDate="@{viewModel.currentDate}"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            tools:text="Jan 1, 2024"/>-->
+<!--                    </com.google.android.material.card.MaterialCardView>-->
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
             </com.google.android.material.appbar.AppBarLayout>
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
                 <LinearLayout
-                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -161,6 +161,7 @@
                         android:id="@+id/fragment_job_order"
                         android:name="com.vag.lmsapp.app.daily_report.job_order.DailyReportJobOrderFragment"
                         android:layout_width="match_parent"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                         tools:layout="@layout/fragment_daily_report_job_order"
                         android:layout_height="wrap_content"/>
 
@@ -169,6 +170,7 @@
                         android:name="com.vag.lmsapp.app.daily_report.job_order_paid.DailyReportJobOrderPaymentFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                         tools:layout="@layout/fragment_daily_report_job_order_payment"/>
 
                     <androidx.fragment.app.FragmentContainerView
@@ -179,38 +181,18 @@
                         tools:layout="@layout/fragment_daily_report_machine_usage"/>
 
                     <androidx.fragment.app.FragmentContainerView
-                        android:id="@+id/fragment_wash_dry"
-                        android:name="com.vag.lmsapp.app.daily_report.wash_dry_services.DailyReportWashDryServicesFragment"
+                        android:id="@+id/fragment_job_order_items"
+                        android:name="com.vag.lmsapp.app.daily_report.job_order_items.DailyReportJobOrderItemsFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:layout="@layout/fragment_daily_report_wash_dry_services"/>
-
-                    <androidx.fragment.app.FragmentContainerView
-                        android:id="@+id/fragment_products_chemicals"
-                        android:name="com.vag.lmsapp.app.daily_report.products_chemicals.DailyReportProductsChemicalsFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout="@layout/fragment_daily_report_products_chemicals"/>
-
-                    <androidx.fragment.app.FragmentContainerView
-                        android:id="@+id/fragment_extras"
-                        android:name="com.vag.lmsapp.app.daily_report.extras.DailyReportExtrasFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout="@layout/fragment_daily_report_extras"/>
-
-                    <androidx.fragment.app.FragmentContainerView
-                        android:id="@+id/fragment_delivery"
-                        android:name="com.vag.lmsapp.app.daily_report.pickup_delivery.DailyReportPickupDeliveryFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout="@layout/fragment_daily_report_pickup_delivery"/>
+                        tools:layout="@layout/fragment_daily_report_job_order_items"/>
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/fragment_expenses"
                         android:name="com.vag.lmsapp.app.daily_report.expenses.DailyReportExpensesFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                         tools:layout="@layout/fragment_daily_report_expenses"/>
 
                 </LinearLayout>

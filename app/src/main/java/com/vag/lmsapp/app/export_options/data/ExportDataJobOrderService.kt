@@ -23,6 +23,6 @@ data class ExportDataJobOrderService(
     @ColumnInfo("quantity")
     val quantity: Int,
 
-    @ColumnInfo("price")
-    val price: Double,
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Double,
 )

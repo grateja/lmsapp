@@ -121,16 +121,16 @@ class DailyReportActivity : AppCompatActivity() {
             viewModel.openExportToExcelDialog()
         }
 
-        binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            when {
-                abs(verticalOffset) >= appBarLayout.totalScrollRange -> {
-                    binding.currentDate.visibility = View.VISIBLE
-                }
-
-                else -> {
-                    binding.currentDate.visibility = View.GONE
-                }
-            }
-        }
+//        binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+//            when {
+//                abs(verticalOffset) >= appBarLayout.totalScrollRange -> {
+//                    binding.currentDate.visibility = View.VISIBLE
+//                }
+//
+//                else -> {
+//                    binding.currentDate.visibility = View.GONE
+//                }
+//            }
+//        }
     }
 }

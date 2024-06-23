@@ -25,6 +25,9 @@ data class EntityJobOrderProduct(
 
     var price: Float,
 
+    @ColumnInfo("discounted_price")
+    val discountedPrice: Float,
+
     @Json(name = "measure_unit")
     @ColumnInfo(name = "measure_unit")
     val measureUnit: EnumMeasureUnit,
