@@ -174,10 +174,10 @@
                     app:legend="@{`Pickup &amp; Deliveries`}"
                     app:visibility="@{viewModel.jobOrderPickupDeliveries.size() > 0}"/>
 
-                <include layout="@layout/incl_dashboard_list_details"
-                    android:id="@+id/dashboard_machine_usage"
-                    app:legend="@{`Machine Usages`}"
-                    app:visibility="@{viewModel.machineUsage.size() > 0}"/>
+<!--                <include layout="@layout/incl_dashboard_list_details"-->
+<!--                    android:id="@+id/dashboard_machine_usage"-->
+<!--                    app:legend="@{`Machine Usages`}"-->
+<!--                    app:visibility="@{viewModel.machineUsage.size() > 0}"/>-->
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 <!--        <com.google.android.material.card.MaterialCardView-->

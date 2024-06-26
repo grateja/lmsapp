@@ -11,15 +11,43 @@ import java.util.*
 
 @Dao
 interface DaoRemote {
-    @Query("UPDATE machines SET time_activated = :timeActivated, total_minutes = :totalMinutes, service_activation_id = null, jo_service_id = :jobOrderServiceId, customer_id = :customerId, machine_usage_id = :machineUsageId WHERE id = :machineId")
-    fun startMachine(machineId: UUID, jobOrderServiceId: UUID, customerId: UUID?, timeActivated: Instant?, totalMinutes: Int?, machineUsageId: UUID?)
+    @Query("""
+        UPDATE machines SET 
+        time_activated = :timeActivated, 
+        total_minutes = :totalMinutes, 
+        service_activation_id = null, 
+        jo_service_id = :jobOrderServiceId, 
+        customer_id = :customerId, 
+        machine_usage_id = :machineUsageId 
+        WHERE id = :machineId
+    """)
+    fun startMachine(
+        machineId: UUID,
+        jobOrderServiceId: UUID,
+        customerId: UUID?,
+        timeActivated: Instant?,
+        totalMinutes: Int?,
+        machineUsageId: UUID?
+    )
 
     @Upsert
     fun insertMachineUsage(machineUsage: EntityMachineUsage)
 
     @Transaction
-    suspend fun activate(activationRef: EntityActivationRef, jobOrderServiceId: UUID, machineId: UUID, machineUsage: EntityMachineUsage) {
-        startMachine(machineId, jobOrderServiceId, activationRef.customerId, activationRef.timeActivated, activationRef.totalMinutes, activationRef.machineUsageId)
+    suspend fun activate(
+        activationRef: EntityActivationRef,
+        jobOrderServiceId: UUID,
+        machineId: UUID,
+        machineUsage: EntityMachineUsage
+    ) {
+        startMachine(
+            machineId,
+            jobOrderServiceId,
+            activationRef.customerId,
+            activationRef.timeActivated,
+            activationRef.totalMinutes,
+            activationRef.machineUsageId
+        )
         insertMachineUsage(machineUsage)
     }
 
@@ -51,7 +79,7 @@ interface DaoRemote {
 
     @Transaction
     @Query("SELECT * FROM machines WHERE id = :machineId LIMIT 1")
-    fun getActiveMachine(machineId: UUID?) : LiveData<EntityRunningMachine?>
+    fun getActiveMachine(machineId: UUID?): LiveData<EntityRunningMachine?>
 
     @Upsert
     fun insertMachineRemarks(machineRemarks: EntityMachineRemarks)

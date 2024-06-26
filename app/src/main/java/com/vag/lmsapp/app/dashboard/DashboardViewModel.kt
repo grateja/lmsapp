@@ -40,7 +40,7 @@ constructor(
     val jobOrderProducts = _dateFilter.switchMap { jobOrderProductRepository.getDashboard(it) }
     val jobOrderExtras = _dateFilter.switchMap { jobOrderExtrasRepository.getDashboard(it) }
     val jobOrderPickupDeliveries = _dateFilter.switchMap { jobOrderPickupDeliveryRepository.getDashboard(it) }
-    val machineUsage = _dateFilter.switchMap { machinesRepository.getDashboard(it) }
+//    val machineUsage = _dateFilter.switchMap { machinesRepository.getDashboard(it) }
     val cashCollection = _dateFilter.switchMap { paymentRepository.cashCollection(it) }
     val cashlessPayments = _dateFilter.switchMap { paymentRepository.cashlessPayments(it) }
     val dateConflict = MediatorLiveData<String>().apply {

@@ -9,18 +9,20 @@ import java.time.LocalDate
 
 @Dao
 abstract class DaoJobOrderProduct : BaseDao<EntityJobOrderProduct> {
-    @Query("SELECT" +
-            "     product_name," +
-            "     SUM(quantity) as count," +
-            "     unit_per_serve," +
-            "     product_type," +
-            "     measure_unit " +
-            " FROM job_order_products" +
-            " WHERE (date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom " +
-            "     OR ( :dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime')" +
-            "         BETWEEN :dateFrom AND :dateTo)) " +
-            "     AND deleted = 0" +
-            "     AND (void = 0)" +
-            " GROUP BY product_name, product_type, measure_unit")
-    abstract fun getDashboard(dateFrom: LocalDate, dateTo: LocalDate?) : LiveData<List<EntityJobOrderProductAggrResult>>
+    @Query("""
+        SELECT
+            product_name,
+            SUM(quantity) as count,
+            unit_per_serve,
+            product_type,
+            measure_unit
+        FROM job_order_products
+        WHERE (date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom
+            OR (:dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime')
+                BETWEEN :dateFrom AND :dateTo))
+            AND deleted = 0
+            AND (void = 0)
+        GROUP BY product_name, product_type, measure_unit
+    """)
+    abstract fun getDashboard(dateFrom: LocalDate, dateTo: LocalDate?): LiveData<List<EntityJobOrderProductAggrResult>>
 }

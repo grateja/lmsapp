@@ -47,7 +47,7 @@ class DashBoardActivity : AppCompatActivity() {
         binding.dashboardServices.recyclerView.adapter = servicesAdapter
         binding.dashboardProducts.recyclerView.adapter = productsAdapter
         binding.dashboardDeliveries.recyclerView.adapter = pickupDeliveryAdapter
-        binding.dashboardMachineUsage.recyclerView.adapter = machineUsageAdapter
+//        binding.dashboardMachineUsage.recyclerView.adapter = machineUsageAdapter
         binding.dashboardExtras.recyclerView.adapter = extrasAdapter
         binding.recyclerCashlessPayments.adapter = cashlessPaymentsAdapter
 
@@ -95,9 +95,9 @@ class DashBoardActivity : AppCompatActivity() {
         viewModel.jobOrderExtras.observe(this, Observer {
             extrasAdapter.setData(it)
         })
-        viewModel.machineUsage.observe(this, Observer {
-            machineUsageAdapter.setData(it)
-        })
+//        viewModel.machineUsage.observe(this, Observer {
+//            machineUsageAdapter.setData(it)
+//        })
         viewModel.jobOrderPickupDeliveries.observe(this, Observer {
             pickupDeliveryAdapter.setData(it)
         })
