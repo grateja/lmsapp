@@ -34,6 +34,21 @@ interface DaoExport {
     suspend fun jobOrders(dateFrom: LocalDate, dateTo: LocalDate): List<ExportDataJobOrder>
 
     @Query("""
+        SELECT jo.created_at, jo.job_order_number, cu.name as customer_name, jo.subtotal,
+            COALESCE(jo.discount_in_peso, 0) AS discount_in_peso, (di.name || '(-'||di.value||'%)') AS discount_str,
+            jo.discounted_amount, jop.created_at AS date_paid, 
+            (CASE WHEN jop.payment_method = 1 THEN 'Cash' ELSE jop.cashless_provider END) as payment_method,
+            u.name AS received_by
+        FROM job_orders jo
+            LEFT JOIN customers cu ON cu.id = jo.customer_id
+            LEFT JOIN job_order_discounts di ON di.id = jo.id
+            LEFT JOIN job_order_payments jop ON jop.id = jo.payment_id
+            LEFT JOIN users u ON u.id = jop.user_id
+        WHERE void_by IS NULL AND jo.deleted = 0 AND payment_id IS NULL
+    """)
+    suspend fun unpaidJobOrders(): List<ExportDataJobOrder>
+
+    @Query("""
         SELECT COUNT(*)
         FROM job_orders
         WHERE DATE(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo
@@ -211,4 +226,11 @@ interface DaoExport {
             AND deleted = 0
     """)
     fun customersCount(dateFrom: LocalDate, dateTo: LocalDate): LiveData<Int>
+
+    @Query("""
+        SELECT COUNT(*)
+        FROM job_orders
+        WHERE void_by IS NULL AND deleted = 0 AND payment_id IS NULL
+    """)
+    fun unpaidJobOrdersCount(): LiveData<Int>
 }

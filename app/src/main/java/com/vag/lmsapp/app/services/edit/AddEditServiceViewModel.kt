@@ -3,6 +3,7 @@ package com.vag.lmsapp.app.services.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.EnumWashType
 import com.vag.lmsapp.model.Rule
 import com.vag.lmsapp.room.entities.EntityService
@@ -22,6 +23,7 @@ class AddEditServiceViewModel
 constructor(
     private val repository: WashServiceRepository
 ) : CreateViewModel<EntityService>(repository) {
+    val serviceType = MutableLiveData<EnumServiceType>()
     val machineType = MutableLiveData<EnumMachineType>()
     val washType = MutableLiveData<EnumWashType?>()
     val minutes = MutableLiveData<String>()
@@ -98,6 +100,7 @@ constructor(
     }
 
     override fun save() {
+        val serviceType = serviceType.value ?: EnumServiceType.OTHER
         val machineType = machineType.value ?: return
         val washType = washType.value
         val minutes = minutes.value?.toIntOrNull()
@@ -107,7 +110,7 @@ constructor(
 
         model.value?.apply {
             serviceRef = EntityServiceRef(
-                machineType, washType, minutes
+                serviceType, machineType, washType, minutes
             )
             this.price = price
         }

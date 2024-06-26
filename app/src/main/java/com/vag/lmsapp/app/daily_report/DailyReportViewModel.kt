@@ -5,10 +5,14 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
+import com.vag.lmsapp.app.daily_report.job_order_items.DailyReportJobOrderItemDetails
 import com.vag.lmsapp.app.daily_report.machine_usage.DailyReportMachineUsageSummary
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.room.repository.DailyReportRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -30,8 +34,10 @@ constructor(
     val jobOrderPaymentSummary = _date.switchMap { dailyReportRepository.jobOrderPaymentSummary(it) }
     val unpaidJobOrders = dailyReportRepository.unpaidJobOrders()
 
-    val jobOrderWashItems = _date.switchMap { dailyReportRepository.jobOrderWashItems(it) }
-    val jobOrderDryItems = _date.switchMap { dailyReportRepository.jobOrderDryItems(it) }
+    val jobOrderItemDetails = MutableLiveData<List<DailyReportJobOrderItemDetails>>()
+
+    val jobOrderWashItems = _date.switchMap { dailyReportRepository.jobOrderServiceItems(it, EnumServiceType.WASH) }
+    val jobOrderDryItems = _date.switchMap { dailyReportRepository.jobOrderServiceItems(it, EnumServiceType.DRY) }
     val jobOrderExtrasItems = _date.switchMap { dailyReportRepository.jobOrderExtrasItems(it) }
     val jobOrderProductsItems = _date.switchMap { dailyReportRepository.jobOrderProductsItems(it) }
     val jobOrderDeliveryItems = _date.switchMap { dailyReportRepository.jobOrderDeliveryItems(it) }
@@ -83,12 +89,57 @@ constructor(
         _navigationState.value = NavigationState.OpenMachineUsage(date, machineType)
     }
 
+    fun openServices(enumServiceType: EnumServiceType) {
+        _date.value?.let {
+            viewModelScope.launch {
+                dailyReportRepository.getJobOrderItemsDetailsServices(it, enumServiceType).let {
+                    jobOrderItemDetails.value = it
+                    _navigationState.value = NavigationState.OpenJobOrderItems
+                }
+            }
+        }
+    }
+
+    fun openExtras() {
+        _date.value?.let {
+            viewModelScope.launch {
+                dailyReportRepository.getJobOrderItemsDetailsExtras(it).let {
+                    jobOrderItemDetails.value = it
+                    _navigationState.value = NavigationState.OpenJobOrderItems
+                }
+            }
+        }
+    }
+
+    fun openProducts() {
+        _date.value?.let {
+            viewModelScope.launch {
+                dailyReportRepository.getJobOrderItemsDetailsProducts(it).let {
+                    jobOrderItemDetails.value = it
+                    _navigationState.value = NavigationState.OpenJobOrderItems
+                }
+            }
+        }
+    }
+
+    fun openDeliveries() {
+        _date.value?.let {
+            viewModelScope.launch {
+                dailyReportRepository.getJobOrderItemsDetailsDeliveries(it).let {
+                    jobOrderItemDetails.value = it
+                    _navigationState.value = NavigationState.OpenJobOrderItems
+                }
+            }
+        }
+    }
+
     sealed class NavigationState {
         data object StateLess: NavigationState()
         data class OpenExportOptions(val date: LocalDate): NavigationState()
         data class OpenJobOrders(val date: LocalDate): NavigationState()
         data class OpenPayments(val date: LocalDate): NavigationState()
         data class OpenExpenses(val date: LocalDate): NavigationState()
+        data object OpenJobOrderItems: NavigationState()
         data class OpenMachineUsage(val date: LocalDate, val machineType: EnumMachineType): NavigationState()
     }
 }

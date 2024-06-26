@@ -322,6 +322,7 @@ constructor(
                     joSvc.serviceRef.minutes,
                     joSvc.price,
                     joSvc.discountedPrice,
+                    joSvc.serviceRef.serviceType,
                     joSvc.serviceRef.machineType,
                     joSvc.serviceRef.washType,
                     joSvc.quantity,
@@ -796,6 +797,7 @@ constructor(
                     it.used,
                     it.isVoid,
                     EntityServiceRef(
+                        it.serviceType,
                         it.machineType,
                         it.washType,
                         it.minutes

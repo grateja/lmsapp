@@ -3,9 +3,14 @@ package com.vag.lmsapp.room.entities
 import androidx.room.ColumnInfo
 import com.squareup.moshi.Json
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.EnumWashType
 
 class EntityServiceRef(
+    @Json(name = "svc_service_type")
+    @ColumnInfo(name = "svc_service_type")
+    var serviceType: EnumServiceType,
+
     @Json(name = "svc_machine_type")
     @ColumnInfo(name = "svc_machine_type")
     var machineType: EnumMachineType,

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.lifecycle.Observer
+import com.vag.lmsapp.app.daily_report.job_order_items.BottomSheetJobOrderItemPreviewFragment
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.expenses.ExpensesActivity
 import com.vag.lmsapp.app.export_options.ExportOptionsActivity
@@ -113,6 +114,11 @@ class DailyReportActivity : AppCompatActivity() {
                         putExtra(MACHINE_TYPE, it.machineType as Parcelable)
                     }
                     startActivity(intent)
+                    viewModel.resetState()
+                }
+
+                is DailyReportViewModel.NavigationState.OpenJobOrderItems -> {
+                    BottomSheetJobOrderItemPreviewFragment().show(supportFragmentManager, "open_washes")
                     viewModel.resetState()
                 }
 

@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.daily_report.DailyReportViewModel
 import com.vag.lmsapp.databinding.FragmentDailyReportJobOrderItemsBinding
+import com.vag.lmsapp.model.EnumServiceType
 
 class DailyReportJobOrderItemsFragment : Fragment() {
     private lateinit var binding: FragmentDailyReportJobOrderItemsBinding
@@ -18,7 +19,7 @@ class DailyReportJobOrderItemsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDailyReportJobOrderItemsBinding.inflate(
             inflater, container, false
         )
@@ -45,6 +46,23 @@ class DailyReportJobOrderItemsFragment : Fragment() {
         viewModel.jobOrderDeliveryItems.observe(viewLifecycleOwner, Observer {
             binding.textCaptionDelivery.text = resources.getQuantityString(R.plurals.pickup_deliveries, it.count, it.count)
         })
+
+        binding.cardWashes.setOnClickListener {
+            viewModel.openServices(EnumServiceType.WASH)
+        }
+        binding.cardDries.setOnClickListener {
+            viewModel.openServices(EnumServiceType.DRY)
+        }
+        binding.cardExtras.setOnClickListener {
+            viewModel.openExtras()
+        }
+        binding.cardProducts.setOnClickListener {
+            viewModel.openProducts()
+        }
+        binding.cardDelivery.setOnClickListener {
+            viewModel.openDeliveries()
+        }
+
 
         return binding.root
     }

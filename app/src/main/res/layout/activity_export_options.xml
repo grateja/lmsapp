@@ -183,6 +183,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:checked="@={viewModel.includeUnpaidJobOrders}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="@{viewModel.unpaidJobOrdersCount > 0}"/>
+                    <TextView
+                        tools:text="Unpaid job orders (12)"
+                        android:text="@{`Unpaid job orders (` + viewModel.unpaidJobOrdersCount + `)`}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 app:layout_constraintBottom_toBottomOf="parent"

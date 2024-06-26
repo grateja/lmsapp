@@ -26,6 +26,8 @@ constructor(private val dao: DaoExport)
         return dao.jobOrders(dateFilter.dateFrom, dateTo)
     }
 
+    suspend fun unpaidJobOrders() = dao.unpaidJobOrders()
+
     suspend fun jobOrderServices(dateFilter: DateFilter): List<ExportDataJobOrderService> {
         val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
         return dao.jobOrderServices(dateFilter.dateFrom, dateTo)
@@ -100,4 +102,6 @@ constructor(private val dao: DaoExport)
         val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
         return dao.customersCount(dateFilter.dateFrom, dateTo)
     }
+
+    fun unpaidJobOrdersCount() = dao.unpaidJobOrdersCount()
 }

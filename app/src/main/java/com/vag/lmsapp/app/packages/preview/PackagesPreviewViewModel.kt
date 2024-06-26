@@ -132,6 +132,7 @@ constructor(
                 it.service.serviceRef.minutes,
                 it.service.price,
                 0f,
+                it.service.serviceRef.serviceType,
                 it.service.serviceRef.machineType,
                 it.service.serviceRef.washType,
                 it.serviceCrossRef.quantity,

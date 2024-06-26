@@ -77,6 +77,7 @@ constructor(
             service.service.serviceRef.minutes,
             service.service.price,
             0f,
+            service.service.serviceRef.serviceType,
             service.service.serviceRef.machineType,
             service.service.serviceRef.washType,
             service.serviceCrossRef.quantity,

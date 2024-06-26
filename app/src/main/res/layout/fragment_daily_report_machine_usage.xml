@@ -12,14 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-<!--        <TextView-->
-<!--            android:id="@+id/text_top_caption_8kg_washers"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:text="12 total cycles"-->
-<!--            android:layout_marginStart="12dp"/>-->
-
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            app:cardBackgroundColor="@color/secondary_background"
+            android:visibility="@{viewModel.machineUsageSummary.isEmpty()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="No machines were used!"
+                android:layout_margin="20dp"
+                android:gravity="center"/>
+        </com.google.android.material.card.MaterialCardView>
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="@{!viewModel.machineUsageSummary.isEmpty()}"
+            android:nestedScrollingEnabled="false"
             android:id="@+id/recycler_view_machine_usages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,53 +35,5 @@
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             tools:layout="@layout/recycler_item_daily_report_machine_usage"
             tools:itemCount="3"/>
-
-<!--        <TextView-->
-<!--            android:id="@+id/text_top_caption_8kg_dryers"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:text="12 total cycles"-->
-<!--            android:layout_marginStart="12dp"/>-->
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/recycler_view_machine_usages_8kg_dryers"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            android:orientation="horizontal"-->
-<!--            tools:layout="@layout/recycler_item_daily_report_machine_usage"-->
-<!--            tools:itemCount="3"/>-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/text_top_caption_12kg_washers"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:text="12 total cycles"-->
-<!--            android:layout_marginStart="12dp"/>-->
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/recycler_view_machine_usages_12kg_washer"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            android:orientation="horizontal"-->
-<!--            tools:layout="@layout/recycler_item_daily_report_machine_usage"-->
-<!--            tools:itemCount="3"/>-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/text_top_caption_12kg_dryers"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:text="12 total cycles"-->
-<!--            android:layout_marginStart="12dp"/>-->
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/recycler_view_machine_usages_12kg_dryers"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            android:orientation="horizontal"-->
-<!--            tools:layout="@layout/recycler_item_daily_report_machine_usage"-->
-<!--            tools:itemCount="3"/>-->
     </LinearLayout>
 </layout>

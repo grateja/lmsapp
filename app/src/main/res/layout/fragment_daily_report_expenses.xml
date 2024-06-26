@@ -8,61 +8,80 @@
             name="viewModel"
             type="com.vag.lmsapp.app.daily_report.DailyReportViewModel" />
     </data>
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            app:cardBackgroundColor="@color/secondary_background"
+            android:visibility="@{viewModel.expenses.isEmpty()}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp">
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/icon_daily_report_job_order"/>
-            <LinearLayout
-                app:layout_constraintTop_toTopOf="@id/icon"
-                app:layout_constraintStart_toEndOf="@id/icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/text_top_caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="12 Job Orders Created"
-                    android:layout_marginStart="12dp"/>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_text_heading"
-                    android:layout_marginVertical="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/CardSpan"
-                    app:layout_constraintTop_toBottomOf="@id/text_top_caption"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="No expenses!"
+                android:layout_margin="20dp"
+                android:gravity="center"/>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:visibility="@{!viewModel.expenses.isEmpty()}"
+            android:id="@+id/card_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp">
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:src="@drawable/icon_daily_report_job_order"/>
+                <LinearLayout
+                    app:layout_constraintTop_toTopOf="@id/icon"
                     app:layout_constraintStart_toEndOf="@id/icon"
-                    android:layout_marginStart="4dp">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                     <TextView
-                        style="@style/TileTitle"
+                        android:id="@+id/text_top_caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="P20,030"
-                        android:peso="@{viewModel.expensesTotal}"/>
-                </com.google.android.material.card.MaterialCardView>
+                        tools:text="12 Job Orders Created"
+                        android:layout_marginStart="12dp"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_expenses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="vertical"
-                    android:layout_marginStart="36dp"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_text_heading"
+                        android:layout_marginVertical="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CardSpan"
+                        app:layout_constraintTop_toBottomOf="@id/text_top_caption"
+                        app:layout_constraintStart_toEndOf="@id/icon"
+                        android:layout_marginStart="4dp">
+                        <TextView
+                            style="@style/TileTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="P20,030"
+                            android:peso="@{viewModel.expensesTotal}"/>
+                    </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_expenses"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="vertical"
+                        android:layout_marginStart="36dp"/>
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 </layout>

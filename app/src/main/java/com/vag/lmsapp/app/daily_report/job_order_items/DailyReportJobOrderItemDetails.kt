@@ -23,4 +23,8 @@ data class DailyReportJobOrderItemDetails (
 
     @ColumnInfo("created_at")
     val createdAt: Instant,
-)
+) {
+    fun quantityStr() : String {
+        return "($quantity * P$discountedPrice)"
+    }
+}

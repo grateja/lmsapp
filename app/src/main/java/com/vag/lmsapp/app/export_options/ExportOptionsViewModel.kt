@@ -38,6 +38,7 @@ class ExportOptionsViewModel
     val includeDeliveryCharges = MutableLiveData(true)
     val includeExpenses = MutableLiveData(true)
     val includeCustomers = MutableLiveData(true)
+    val includeUnpaidJobOrders = MutableLiveData(true)
 
     val jobOrdersCount = _dateFilter.switchMap { exportRepository.jobOrdersCount(it) }
     val jobOrdersServicesCount = _dateFilter.switchMap { exportRepository.jobOrderServicesCount(it) }
@@ -47,6 +48,7 @@ class ExportOptionsViewModel
     val deliveryChargesCount = _dateFilter.switchMap { exportRepository.deliveryChargesCount(it) }
     val expensesCount = _dateFilter.switchMap { exportRepository.expensesCount(it) }
     val customersCount = _dateFilter.switchMap { exportRepository.customersCount(it) }
+    val unpaidJobOrdersCount = exportRepository.unpaidJobOrdersCount()
 
     fun setDateFilter(dateFilter: DateFilter) {
         _dateFilter.value = dateFilter
@@ -90,6 +92,7 @@ class ExportOptionsViewModel
             && (includeMachineUsages.value == false || machineUsagesCount.value == 0)
             && (includeJobOrders.value == false || jobOrdersCount.value == 0)
             && (includeDeliveryCharges.value == false || deliveryChargesCount.value == 0)
+            && (includeUnpaidJobOrders.value == false || unpaidJobOrdersCount.value == 0)
         if(invalid) {
             _navigationState.value = NavigationState.Invalidate("Nothing to export")
         }
@@ -108,6 +111,47 @@ class ExportOptionsViewModel
                 createHeader(this, arrayOf(
                     "CREATED", "JO#", "CUSTOMER", "SUBTOTAL", "DISCOUNT", "DISCOUNTED AMOUNT",
                     "DATE PAID", "PAYMENT METHOD", "PMT. RECEIVED BY"))
+            }
+
+            jobOrders.forEachIndexed { index, entityJobOrderWithItems ->
+                jobOrderSheet.createRow(index + 1).apply {
+                    createCell(0).apply {
+                        setCellValue(entityJobOrderWithItems.createdAt.toShort())
+                    }
+                    createCell(1).apply {
+                        setCellValue(entityJobOrderWithItems.jobOrderNumber)
+                    }
+                    createCell(2).apply {
+                        setCellValue(entityJobOrderWithItems.customerName)
+                    }
+                    createCell(3).apply {
+                        setCellValue(entityJobOrderWithItems.subtotal)
+                    }
+                    createCell(4).apply {
+                        setCellValue(entityJobOrderWithItems.discountStr)
+                    }
+                    createCell(5).apply {
+                        setCellValue(entityJobOrderWithItems.discountedAmount)
+                    }
+                    createCell(6).apply {
+                        setCellValue(entityJobOrderWithItems.datePaid?.toShort())
+                    }
+                    createCell(7).apply {
+                        setCellValue(entityJobOrderWithItems.paymentMethod)
+                    }
+                    createCell(8).apply {
+                        setCellValue(entityJobOrderWithItems.receivedBy)
+                    }
+                }
+            }
+        }
+
+        if(includeUnpaidJobOrders.value == true && unpaidJobOrdersCount.value.greaterThan(0)) {
+            hasItem = true
+            val jobOrders = exportRepository.unpaidJobOrders()
+            val jobOrderSheet = workbook.createSheet("Unpaid Job Orders").apply {
+                createHeader(this, arrayOf(
+                    "CREATED", "JO#", "CUSTOMER", "SUBTOTAL", "DISCOUNT", "DISCOUNTED AMOUNT"))
             }
 
             jobOrders.forEachIndexed { index, entityJobOrderWithItems ->

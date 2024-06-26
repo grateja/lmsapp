@@ -72,31 +72,19 @@ abstract class DaoDailyReport {
     @Query("""
         SELECT
             SUM(quantity) as count,
-            SUM(discounted_price) as price
+            SUM(discounted_price * quantity) as price
         FROM job_order_services
         WHERE 
-            (svc_machine_type = 1 OR svc_machine_type = 3)
+            svc_service_type = :serviceType
             AND DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND void = 0 AND deleted = 0
     """)
-    abstract fun jobOrderItemWashServices(date: LocalDate): LiveData<PriceCountAggregate>
+    abstract fun jobOrderItemServices(date: LocalDate, serviceType: EnumServiceType): LiveData<PriceCountAggregate>
 
     @Query("""
         SELECT
             SUM(quantity) as count,
-            SUM(discounted_price) as price
-        FROM job_order_services
-        WHERE 
-            (svc_machine_type = 2 OR svc_machine_type = 4)
-            AND DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
-            AND void = 0 AND deleted = 0
-    """)
-    abstract fun jobOrderItemDryServices(date: LocalDate): LiveData<PriceCountAggregate>
-
-    @Query("""
-        SELECT
-            SUM(quantity) as count,
-            SUM(discounted_price) as price
+            SUM(discounted_price * quantity) as price
         FROM job_order_extras
         WHERE 
             DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
@@ -107,7 +95,7 @@ abstract class DaoDailyReport {
     @Query("""
         SELECT
             SUM(quantity) as count,
-            SUM(discounted_price) as price
+            SUM(discounted_price * quantity) as price
         FROM job_order_products
         WHERE 
             DATE(created_at / 1000, 'unixepoch', 'localtime')  = :date
@@ -173,25 +161,73 @@ abstract class DaoDailyReport {
             JOIN job_orders jo ON jo.id = jos.job_order_id
             JOIN customers cu ON cu.id = jo.customer_id
         WHERE
-            DATE(jos.created_at / 1000, 'unixepoch', 'localtime')  = :date
-            AND jos.deleted = 0 AND jos.void = 0
+            jos.svc_service_type = :serviceType
+            AND DATE(jo.created_at / 1000, 'unixepoch', 'localtime')  = :date
+            AND jos.deleted = 0 AND jos.void = 0 
+            AND jo.deleted = 0 AND jo.void_by IS NULL
     """)
-    abstract fun jobOrderItemDetailsServices(date: LocalDate): LiveData<List<DailyReportJobOrderItemDetails>>
+    abstract suspend fun getJobOrderItemDetailsServices(date: LocalDate, serviceType: EnumServiceType): List<DailyReportJobOrderItemDetails>
 
-//    @Query("""
-//        SELECT jo.id AS job_order_id,
-//            jo.job_order_number,
-//            cu.name AS customer_name,
-//            jos.service_name AS item_name,
-//            jos.quantity,
-//            jos.discounted_price,
-//            jo.created_at
-//        FROM job_order_services jos
-//            JOIN job_orders jo ON jo.id = jos.job_order_id
-//            JOIN customers cu ON cu.id = jo.customer_id
-//        WHERE
-//            DATE(jos.created_at / 1000, 'unixepoch', 'localtime')  = :date
-//            AND jos.deleted = 0 AND jos.void = 0
-//    """)
-//    abstract fun jobOrderItemDetailsProducts(date: LocalDate): LiveData<List<DailyReportJobOrderItemDetails>>
+    @Query("""
+        SELECT jo.id AS job_order_id,
+            jo.job_order_number,
+            cu.name AS customer_name,
+            joe.extras_name AS item_name,
+            joe.quantity,
+            joe.discounted_price,
+            jo.created_at
+        FROM job_order_extras joe
+            JOIN job_orders jo ON jo.id = joe.job_order_id
+            JOIN customers cu ON cu.id = jo.customer_id
+        WHERE
+            DATE(jo.created_at / 1000, 'unixepoch', 'localtime')  = :date
+            AND joe.deleted = 0 AND joe.void = 0
+            AND jo.deleted = 0 AND jo.void_by IS NULL
+    """)
+    abstract suspend fun getJobOrderItemDetailsExtras(date: LocalDate): List<DailyReportJobOrderItemDetails>
+
+    @Query("""
+        SELECT jo.id AS job_order_id,
+            jo.job_order_number,
+            cu.name AS customer_name,
+            jop.product_name AS item_name,
+            jop.quantity,
+            jop.discounted_price,
+            jo.created_at
+        FROM job_order_products jop
+            JOIN job_orders jo ON jo.id = jop.job_order_id
+            JOIN customers cu ON cu.id = jo.customer_id
+        WHERE
+            DATE(jo.created_at / 1000, 'unixepoch', 'localtime')  = :date
+            AND jop.deleted = 0 AND jop.void = 0
+            AND jo.deleted = 0 AND jo.void_by IS NULL
+    """)
+    abstract suspend fun getJobOrderItemDetailsProducts(date: LocalDate): List<DailyReportJobOrderItemDetails>
+
+    @Query("""
+        SELECT jo.id AS job_order_id,
+            jo.job_order_number,
+            cu.name AS customer_name,
+            (CASE
+                WHEN jodc.vehicle = 1 THEN 'Trike Pedal'
+                WHEN jodc.vehicle = 2 THEN 'Trike Electric'
+                WHEN jodc.vehicle = 3 THEN 'Motorcycle'
+                WHEN jodc.vehicle = 4 THEN 'Tricycle'
+                WHEN jodc.vehicle = 5 THEN 'Sedan'
+                WHEN jodc.vehicle = 6 THEN 'MPV'
+                WHEN jodc.vehicle = 7 THEN 'Small Van'
+                ELSE ''
+            END) AS item_name,
+            jodc.distance AS quantity,
+            jodc.discounted_price,
+            jo.created_at
+        FROM job_order_delivery_charges jodc
+            JOIN job_orders jo ON jo.id = jodc.id
+            JOIN customers cu ON cu.id = jo.customer_id
+        WHERE
+            DATE(jo.created_at / 1000, 'unixepoch', 'localtime')  = :date
+            AND jodc.deleted = 0 AND jodc.void = 0
+            AND jo.deleted = 0 AND jo.void_by IS NULL
+    """)
+    abstract suspend fun getJobOrderItemDetailsDeliveries(date: LocalDate): List<DailyReportJobOrderItemDetails>
 }

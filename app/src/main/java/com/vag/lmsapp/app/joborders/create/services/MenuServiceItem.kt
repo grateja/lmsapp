@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Ignore
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.EnumWashType
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -25,6 +26,9 @@ data class MenuServiceItem(
 
     @ColumnInfo("discounted_price")
     val discountedPrice: Float,
+
+    @ColumnInfo(name = "svc_service_type")
+    val serviceType: EnumServiceType,
 
     @ColumnInfo(name = "svc_machine_type")
     val machineType: EnumMachineType,
