@@ -20,6 +20,10 @@ constructor(private val daoPackage: DaoPackage) : BaseRepository<EntityPackage>(
         return daoPackage.getAll(keyword)
     }
 
+    suspend fun getPackageServicesByPackageId(packageId: UUID) = daoPackage.getPackageServicesByPackageId(packageId)
+    suspend fun getPackageProductsByPackageId(packageId: UUID) = daoPackage.getPackageProductsByPackageId(packageId)
+    suspend fun getPackageExtrasByPackageId(packageId: UUID) = daoPackage.getPackageExtrasByPackageId(packageId)
+
     suspend fun getByIds(ids: List<UUID>?): List<EntityPackageWithItems> {
         return daoPackage.getByIds(ids)
     }
@@ -29,10 +33,6 @@ constructor(private val daoPackage: DaoPackage) : BaseRepository<EntityPackage>(
     }
 
     fun getAllAsLiveData() = daoPackage.getAllAsLiveData()
-
-    suspend fun saveAll(packageWithItems: EntityPackageWithItems) {
-        daoPackage.savePackage(packageWithItems)
-    }
 
     suspend fun syncServices(services: List<EntityPackageService>) {
         daoPackage.syncServices(services)

@@ -77,19 +77,19 @@ constructor(
 
     val hasService = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.services?.any { !it.deleted }
+            value = it?.services?.any { !it.deleted && it.jobOrderPackageId == null }
         }
     }
 
     val hasProduct = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.products?.any { !it.deleted }
+            value = it?.products?.any { !it.deleted && it.jobOrderPackageId == null }
         }
     }
 
     val hasExtras = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
-            value = it?.extras?.any { !it.deleted }
+            value = it?.extras?.any { !it.deleted && it.jobOrderPackageId == null }
         }
     }
 

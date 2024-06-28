@@ -3,10 +3,15 @@ package com.vag.lmsapp.room.entities
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.squareup.moshi.Json
-import com.vag.lmsapp.model.EnumDiscountApplicable
 
 data class EntityJobOrderWithItems (
     @Embedded var jobOrder: EntityJobOrder,
+
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "job_order_id"
+    )
+    var packages: List<EntityJobOrderPackage>?,
 
     @Relation(
         parentColumn = "id",

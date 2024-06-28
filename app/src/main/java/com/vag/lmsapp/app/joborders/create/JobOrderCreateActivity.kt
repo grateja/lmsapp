@@ -96,7 +96,7 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-
+        binding.inclPackageLegend.recycler.adapter = packageAdapter
         binding.inclServicesLegend.recycler.adapter = servicesAdapter
         binding.inclProductsLegend.recycler.adapter = productsAdapter
         binding.inclExtrasLegend.recycler.adapter = extrasAdapter
@@ -127,9 +127,9 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         binding.buttonPrint.setOnClickListener {
             viewModel.openPrinterOptions()
         }
-        binding.buttonPackages.setOnClickListener {
-            viewModel.openPackages()
-        }
+//        binding.buttonPackages.setOnClickListener {
+//            viewModel.openPackages()
+//        }
 //        pictureListAdapter.onItemClick = {
 //            viewModel.openPictures()
 //        }
@@ -138,15 +138,15 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
             val data = result.data
             when(data?.action) {
                 ACTION_SYNC_PACKAGE -> {
-                    data.getParcelableArrayListExtra<MenuServiceItem>(JobOrderCreateSelectPackageActivity.SERVICES)?.toList().let {
-                        viewModel.syncServices(it)
-                    }
-                    data.getParcelableArrayListExtra<MenuExtrasItem>(JobOrderCreateSelectPackageActivity.EXTRAS)?.toList().let {
-                        viewModel.syncExtras(it)
-                    }
-                    data.getParcelableArrayListExtra<MenuProductItem>(JobOrderCreateSelectPackageActivity.PRODUCTS)?.toList().let {
-                        viewModel.syncProducts(it)
-                    }
+//                    data.getParcelableArrayListExtra<MenuServiceItem>(JobOrderCreateSelectPackageActivity.SERVICES)?.toList().let {
+//                        viewModel.syncServices(it)
+//                    }
+//                    data.getParcelableArrayListExtra<MenuExtrasItem>(JobOrderCreateSelectPackageActivity.EXTRAS)?.toList().let {
+//                        viewModel.syncExtras(it)
+//                    }
+//                    data.getParcelableArrayListExtra<MenuProductItem>(JobOrderCreateSelectPackageActivity.PRODUCTS)?.toList().let {
+//                        viewModel.syncProducts(it)
+//                    }
                     data.getParcelableArrayListExtra<MenuJobOrderPackage>(JobOrderCreateSelectPackageActivity.PACKAGES)?.toList().let {
                         viewModel.syncPackages(it)
                     }
@@ -236,6 +236,10 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
             }
         }
 
+        binding.inclPackageLegend.cardLegend.setOnClickListener {
+            viewModel.openPackages()
+        }
+
         binding.inclServicesLegend.cardLegend.setOnClickListener {
             viewModel.openServices(null)
         }
@@ -247,6 +251,10 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         binding.inclExtrasLegend.cardLegend.setOnClickListener {
             viewModel.openExtras(null)
         }
+
+        viewModel.jobOrderPackages.observe(this, Observer {
+            packageAdapter.setData(it.filter { !it.deleted })
+        })
 
         viewModel.jobOrderServices.observe(this, Observer {
             servicesAdapter.setData(it.toMutableList())

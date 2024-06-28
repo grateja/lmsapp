@@ -84,14 +84,12 @@
                     android:orientation="vertical"
                     android:clipToPadding="false">
 
-                    <Button
-                        android:visibility="@{!viewModel.saved}"
-                        android:id="@+id/button_packages"
-                        style="@style/RoundButtonNeutral.JobOrder"
-                        android:text="Packages"
-                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                    <include
+                        android:id="@+id/inclPackageLegend"
+                        layout="@layout/incl_legend_create_job_order"
+                        app:title="@{`PACKAGES`}"
+                        app:hasItems="@{viewModel.hasPackages}"
+                        app:prompt="@{`No Packages selected`}"/>
 
                     <include
                         android:id="@+id/inclServicesLegend"

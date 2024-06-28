@@ -17,6 +17,10 @@ data class EntityJobOrderExtras(
     @ColumnInfo(name = "extras_id")
     var extrasId: UUID,
 
+    @Json(name = "job_order_package_id")
+    @ColumnInfo(name = "job_order_package_id")
+    var jobOrderPackageId: UUID?,
+
     @Json(name = "extras_name")
     @ColumnInfo(name = "extras_name")
     var extrasName: String,

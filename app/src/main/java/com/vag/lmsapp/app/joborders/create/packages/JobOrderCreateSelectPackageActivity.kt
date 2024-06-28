@@ -100,9 +100,9 @@ class JobOrderCreateSelectPackageActivity : AppCompatActivity() {
     private fun submit(data: AvailablePackageViewModel.DataState.Submit) {
         setResult(RESULT_OK, Intent().apply {
             action = intent.action
-            putParcelableArrayListExtra(SERVICES, data.services?.let { ArrayList(it) })
-            putParcelableArrayListExtra(EXTRAS, data.extras?.let { ArrayList(it) })
-            putParcelableArrayListExtra(PRODUCTS, data.products?.let { ArrayList(it) })
+//            putParcelableArrayListExtra(SERVICES, data.services?.let { ArrayList(it) })
+//            putParcelableArrayListExtra(EXTRAS, data.extras?.let { ArrayList(it) })
+//            putParcelableArrayListExtra(PRODUCTS, data.products?.let { ArrayList(it) })
             putParcelableArrayListExtra(PACKAGES, data.packages?.let { ArrayList(it) })
         })
         finish()

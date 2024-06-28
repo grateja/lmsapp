@@ -17,9 +17,14 @@ data class EntityPackageService(
     @ColumnInfo(name = "package_id")
     val packageId: UUID,
 
-    @Json(name = "service_id")
-    @ColumnInfo(name = "service_id")
-    val serviceId: UUID,
+    @Json(name = "service_name")
+    @ColumnInfo(name = "service_name")
+    var serviceName: String,
+
+    @Embedded
+    var serviceRef: EntityServiceRef,
+
+    var unitPrice: Float,
 
     val quantity: Int,
 

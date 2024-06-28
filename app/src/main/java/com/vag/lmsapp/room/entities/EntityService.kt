@@ -10,14 +10,14 @@ import com.vag.lmsapp.util.DbColumns.Companion.SERVICES
 
 @Entity(tableName = SERVICES)
 class EntityService(
-    var name: String?,
+    var name: String = "",
 
-    var price: Float,
+    var price: Float = 0f,
 
     @Embedded
     var serviceRef: EntityServiceRef
 ) : BaseEntity() {
-    constructor(machineType: EnumMachineType) : this(null, 0f, EntityServiceRef(EnumServiceType.OTHER, machineType, null, 0))
+    constructor(machineType: EnumMachineType) : this("", 0f, EntityServiceRef(EnumServiceType.OTHER, machineType, null, 0))
 
     @Json(ignore = true)
     var sync: Boolean = false

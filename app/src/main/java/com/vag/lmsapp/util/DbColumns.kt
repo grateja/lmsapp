@@ -18,6 +18,7 @@ class DbColumns {
         const val JOB_ORDER_PICTURES = "job_order_pictures"
         const val JOB_ORDER_PRODUCTS = "job_order_products"
         const val JOB_ORDER_SERVICES = "job_order_services"
+        const val JOB_ORDER_PACKAGES = "job_order_packages"
         const val MACHINES = "machines"
         const val MACHINE_REMARKS = "machine_remarks"
         const val MACHINE_USAGES = "machine_usages"

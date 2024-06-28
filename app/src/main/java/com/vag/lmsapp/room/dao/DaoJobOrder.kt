@@ -23,6 +23,9 @@ interface DaoJobOrder {
     fun insertJobOrder(entityJobOrder: EntityJobOrder)
 
     @Upsert
+    fun insertJobOrderPackage(entityJobOrderPackages: List<EntityJobOrderPackage>)
+
+    @Upsert
     fun insertJobOrderService(entityJobOrderService: List<EntityJobOrderService>)
 
     @Upsert
@@ -54,6 +57,10 @@ interface DaoJobOrder {
     @Transaction
     suspend fun save(entityJobOrderWithItems: EntityJobOrderWithItems) {
         insertJobOrder(entityJobOrderWithItems.jobOrder)
+
+        entityJobOrderWithItems.packages?.let {
+            insertJobOrderPackage(it)
+        }
 
         entityJobOrderWithItems.services?.let {
             insertJobOrderService(it)
@@ -232,6 +239,11 @@ interface DaoJobOrder {
     suspend fun voidJobOrder(jobOrderId: UUID, userId: UUID?, remarks: String?, voidDate: Instant? = Instant.now())
 
     @Query("""
+        UPDATE job_order_packages SET void = 1 WHERE job_order_id = :jobOrderId
+    """)
+    suspend fun voidPackages(jobOrderId: UUID)
+
+    @Query("""
         UPDATE job_order_services SET void = 1 WHERE job_order_id = :jobOrderId
     """)
     suspend fun voidServices(jobOrderId: UUID)
@@ -270,6 +282,7 @@ interface DaoJobOrder {
         jobOrderWithItems.products?.onEach {
             returnProduct(it.productId, it.quantity)
         }
+        voidPackages(jobOrderId)
         voidServices(jobOrderId)
         voidProducts(jobOrderId)
         voidExtras(jobOrderId)

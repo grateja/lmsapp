@@ -10,10 +10,9 @@ import com.vag.lmsapp.app.joborders.create.packages.MenuJobOrderPackage
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
 import com.vag.lmsapp.model.EnumDiscountApplicable
-import com.vag.lmsapp.network.ConnectivityRepository
 import com.vag.lmsapp.room.entities.*
-import com.vag.lmsapp.room.repository.ActivityLogRepository
 import com.vag.lmsapp.room.repository.CustomerRepository
+import com.vag.lmsapp.room.repository.JobOrderPackageRepository
 import com.vag.lmsapp.room.repository.JobOrderRepository
 import com.vag.lmsapp.room.repository.PaymentRepository
 import com.vag.lmsapp.room.repository.ProductRepository
@@ -33,6 +32,7 @@ constructor(
     private val paymentRepository: PaymentRepository,
     private val productsRepository: ProductRepository,
     private val customerRepository: CustomerRepository,
+    private val packageRepository: JobOrderPackageRepository,
 ) : ViewModel() {
     sealed class DataState {
         object StateLess: DataState()
@@ -49,16 +49,12 @@ constructor(
         data class RequestExit(val canExit: Boolean, val resultCode: Int, val jobOrderId: UUID?) : DataState()
         data class RequestCancel(val jobOrderId: UUID?) : DataState()
         data class ModifyDateTime(val createdAt: Instant) : DataState()
-        data class OpenCamera(val jobOrderId: UUID) : DataState()
         data class OpenPictures(val jobOrderId: UUID) : DataState()
         data class PickCustomer(val customerId: UUID?) : DataState()
         data class SearchCustomer(val customerId: UUID?) : DataState()
         data class OpenPrinter(val jobOrderId: UUID) : DataState()
         object ProceedToSaveJO: DataState()
     }
-
-//    private val _locked = MutableLiveData(false)
-//    val locked: LiveData<Boolean> = _locked
 
     private val _modified = MutableLiveData(false)
     val modified: LiveData<Boolean> = _modified
@@ -87,28 +83,27 @@ constructor(
     val jobOrderProducts = MutableLiveData<List<MenuProductItem>>()
     val jobOrderExtras = MutableLiveData<List<MenuExtrasItem>>()
     val discount = MutableLiveData<MenuDiscount>()
-    val unpaidJobOrders = _customerId.switchMap { jobOrderRepository.getAllUnpaidByCustomerIdAsLiveData(it) }
 
-    private val jobOrderPackages = MutableLiveData<List<MenuJobOrderPackage>?>()
+    val jobOrderPackages = MutableLiveData<List<MenuJobOrderPackage>>()
+
+    private var _packageServices = listOf<EntityJobOrderService>()
+    private var _packageProducts = listOf<EntityJobOrderProduct>()
+    private var _packageExtras = listOf<EntityJobOrderExtras>()
+
+    val unpaidJobOrders = _customerId.switchMap { jobOrderRepository.getAllUnpaidByCustomerIdAsLiveData(it) }
 
     val jobOrderPictures = jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
 
     val payment = jobOrderId.switchMap { paymentRepository.getPaymentWithJobOrdersAsLiveData(it) }
 
-    private val _preparedBy = MutableLiveData<String>()
-    val preparedBy: LiveData<String> = _preparedBy
-
-//    private val _payment = MutableLiveData<EntityJobOrderPaymentFull>()
-//    val payment: LiveData<EntityJobOrderPaymentFull> = _payment
-
     /** region mediator live data */
 
-//    val hasPackages = MediatorLiveData<Boolean>().apply {
-//        fun update() {
-//            value = jobOrderPackage.value?.filter {it.deletedAt == null}?.size!! > 0
-//        }
-//        addSource(jobOrderPackage) {update()}
-//    }
+    val hasPackages = MediatorLiveData<Boolean>().apply {
+        fun update() {
+            value = jobOrderPackages.value?.filter { !it.deleted }?.size!! > 0
+        }
+        addSource(jobOrderPackages) {update()}
+    }
     val hasServices = MediatorLiveData<Boolean>().apply {
         fun update() {
             value = jobOrderServices.value?.filter { !it.deleted }?.size!! > 0
@@ -145,8 +140,9 @@ constructor(
     }
     val hasAny = MediatorLiveData<Boolean>().apply {
         fun update() {
-            value = hasServices.value == true || hasProducts.value == true || hasExtras.value == true || hasDelivery.value == true
+            value = hasServices.value == true || hasProducts.value == true || hasExtras.value == true || hasDelivery.value == true || hasPackages.value == true
         }
+        addSource(hasPackages) { update() }
         addSource(hasServices) { update() }
         addSource(hasProducts) { update() }
         addSource(hasExtras) { update() }
@@ -155,8 +151,9 @@ constructor(
 
     val subtotal = MediatorLiveData<Float>().apply {
         fun update() {
-            value = productSubTotal() + serviceSubTotal() + extrasSubTotal() + deliveryFee() // - discountInPeso.value!!
+            value = productSubTotal() + serviceSubTotal() + extrasSubTotal() + deliveryFee() + packageSubTotal() // - discountInPeso.value!!
         }
+        addSource(jobOrderPackages) {update()}
         addSource(jobOrderServices) {update()}
         addSource(jobOrderProducts) {update()}
         addSource(jobOrderExtras) {update()}
@@ -221,10 +218,6 @@ constructor(
                 }
             }
         }
-//        addSource(jobOrderServices) {update()}
-//        addSource(jobOrderProducts) {update()}
-//        addSource(jobOrderExtras) {update()}
-//        addSource(deliveryCharge) {update()}
         addSource(hasAny) {update()}
         addSource(discount) {update()}
     }
@@ -243,6 +236,18 @@ constructor(
     /** endregion mediator live data */
 
     /** region computed functions */
+
+    private fun packageSubTotal(): Float {
+        return jobOrderPackages.value?.filter { !it.deleted }?.let {
+            var result = 0f
+            if(it.isNotEmpty()) {
+                result = it.map { s -> s.totalPrice * s.quantity } .reduce { sum, element ->
+                    sum + element
+                }
+            }
+            result
+        } ?: 0f
+    }
 
     private fun serviceSubTotal() : Float {
         return jobOrderServices.value?.filter { !it.deleted  }?.let {
@@ -290,31 +295,30 @@ constructor(
         } ?: 0f
     }
 
-//    private fun isLocked() : Boolean {
-//        return if(_locked.value == true) {
-//            _dataState.value = DataState.InvalidOperation("Cannot modify locked Job Order")
-//            true
-//        } else false
-//    }
-
     /** endregion */
 
     /** region setter functions */
 
-//    fun loadPayment() {
-//        viewModelScope.launch {
-//            val jobOrderId = jobOrderId.value
-//            paymentRepository.getByJobOrderId(jobOrderId)?.let {
-//                _payment.value = it
-////                _locked.value = true
-//            }
-//        }
-//    }
-
     private fun prepare(jobOrder: EntityJobOrderWithItems) {
-        _preparedBy.value = jobOrder.user?.name
+        jobOrder.packages?.let {packages ->
+            jobOrderPackages.value = packages.map { joPkg ->
+                MenuJobOrderPackage(
+                    joPkg.id,
+                    joPkg.packageId,
+                    joPkg.packageName,
+                    null,
+                    joPkg.quantity,
+                    joPkg.price,
+                    joPkg.isVoid,
+                    joPkg.deleted).apply {
+                        selected = true
+                }
+            }
+        }
         jobOrder.services?.let { services ->
-            jobOrderServices.value = services.map { joSvc ->
+            _packageServices = services.filter { it.jobOrderPackageId != null }
+
+            jobOrderServices.value = services.filter { it.jobOrderPackageId == null }.map { joSvc ->
                 MenuServiceItem(
                     joSvc.id,
                     joSvc.serviceId,
@@ -334,7 +338,8 @@ constructor(
             }
         }
         jobOrder.extras?.let { extras ->
-            jobOrderExtras.value = extras.map { joExtras ->
+            _packageExtras = extras.filter { it.jobOrderPackageId != null }
+            jobOrderExtras.value = extras.filter { it.jobOrderPackageId == null }.map { joExtras ->
                 MenuExtrasItem(
                     joExtras.id,
                     joExtras.extrasId,
@@ -350,7 +355,9 @@ constructor(
             }
         }
         jobOrder.products?.let { products ->
-            jobOrderProducts.value = products.map { joPrd ->
+            _packageProducts = products.filter { it.jobOrderPackageId != null }
+
+            jobOrderProducts.value = products.filter { it.jobOrderPackageId == null }.map { joPrd ->
                 MenuProductItem(
                     joPrd.id,
                     joPrd.productId,
@@ -389,13 +396,7 @@ constructor(
                 entity.deleted,
             )
         }
-//        jobOrder.paymentWithUser?.let {
-////            _locked.value = true
-//            _payment.value = it
-//        }
-//        if(!jobOrder.jobOrder.createdAt.isToday()) {
-//            _locked.value = true
-//        }
+
         _saved.value = true
         _deleted.value = jobOrder.jobOrder.deleted || jobOrder.jobOrder.entityJobOrderVoid != null
     }
@@ -448,7 +449,106 @@ constructor(
     }
 
     fun syncPackages(packages: List<MenuJobOrderPackage>?) {
-        jobOrderPackages.value = packages
+        viewModelScope.launch {
+            val packageServices = _packageServices.toMutableList()
+            val packageProducts = _packageProducts.toMutableList()
+            val packageExtras = _packageExtras.toMutableList()
+            packages?.onEach { _jobOrderPackage ->
+                packageRepository.getPackageServicesByPackageId(_jobOrderPackage.packageRefId).onEach {_packageService ->
+                    val packageService = packageServices.find { it.serviceId == _packageService.id }
+                    val newQuantity = _jobOrderPackage.quantity * _packageService.quantity
+                    if(packageService != null && _jobOrderPackage.deleted) {
+                        if(packageService.used > 0) {
+                            _dataState.value = DataState.InvalidOperation("Cannot modify package with used services")
+                            return@launch
+                        } else {
+                            packageService.deleted = true
+                        }
+                    } else if(packageService == null) {
+                        packageServices.add(
+                            EntityJobOrderService(
+                                jobOrderId.value!!,
+                                _packageService.id,
+                                _jobOrderPackage.packageRefId,
+                                _packageService.serviceName,
+                                _packageService.unitPrice,
+                                _packageService.unitPrice,
+                                newQuantity,
+                                0,
+                                false,
+                                _packageService.serviceRef,
+                                UUID.randomUUID()
+                            )
+                        )
+                    } else {
+                        if(packageService.used > newQuantity) {
+                            _dataState.value = DataState.InvalidOperation("Cannot modify package with used services")
+                            return@launch
+                        }
+                        packageService.quantity = newQuantity
+                        packageService.deleted = false
+                    }
+                }
+                packageRepository.getPackageProductsByPackageId(_jobOrderPackage.packageRefId).onEach { _packageProduct ->
+                    val packageProduct = packageProducts.find { it.productId == _packageProduct.id }
+                    val newQuantity = _jobOrderPackage.quantity * _packageProduct.quantity
+                    if(packageProduct != null && _jobOrderPackage.deleted) {
+                        packageProduct.deleted = true
+                    } else if(packageProduct == null) {
+                        packageProducts.add(
+                            EntityJobOrderProduct(
+                                jobOrderId.value!!,
+                                _packageProduct.id,
+                                _jobOrderPackage.packageRefId,
+                                _packageProduct.productName,
+                                _packageProduct.unitPrice,
+                                _packageProduct.unitPrice,
+                                _packageProduct.measureUnit,
+                                _packageProduct.unitPerServe,
+                                newQuantity,
+                                _packageProduct.productType,
+                                false,
+                                UUID.randomUUID()
+                            )
+                        )
+                    } else {
+                        packageProduct.deleted = false
+                        packageProduct.quantity = newQuantity
+                    }
+                }
+                packageRepository.getPackageExtrasByPackageId(_jobOrderPackage.packageRefId).onEach { _packageExtra ->
+                    val packageExtra = packageExtras.find { it.extrasId == _packageExtra.id }
+                    val newQuantity = _jobOrderPackage.quantity * _packageExtra.quantity
+                    if(packageExtra != null && _jobOrderPackage.deleted) {
+                        packageExtra.deleted = true
+                    } else if(packageExtra == null) {
+                        packageExtras.add(
+                            EntityJobOrderExtras(
+                                jobOrderId.value!!,
+                                _packageExtra.id,
+                                _jobOrderPackage.packageRefId,
+                                _packageExtra.extrasName,
+                                _packageExtra.unitPrice,
+                                _packageExtra.unitPrice,
+                                newQuantity,
+                                _packageExtra.category,
+                                false,
+                                UUID.randomUUID()
+                            )
+                        )
+                    } else {
+                        packageExtra.deleted = false
+                        packageExtra.quantity = newQuantity
+                    }
+                }
+            }
+            _packageServices = packageServices
+            _packageProducts = packageProducts
+            _packageExtras = packageExtras
+        }
+        jobOrderPackages.value = packages ?: emptyList()
+        _saved.value = false
+        _modified.value = true
     }
 
     private fun refreshDiscount() {
@@ -499,14 +599,14 @@ constructor(
     }
 
     fun syncProducts(products: List<MenuProductItem>?) {
-        jobOrderProducts.value = products?.toMutableList()
+        jobOrderProducts.value = products?.toList()
         _saved.value = false
         _modified.value = true
         refreshDiscount()
     }
 
     fun syncExtras(extrasItems: List<MenuExtrasItem>?) {
-        jobOrderExtras.value = extrasItems?.toMutableList()
+        jobOrderExtras.value = extrasItems?.toList()
         _saved.value = false
         _modified.value = true
         refreshDiscount()
@@ -607,49 +707,42 @@ constructor(
 
     /** region navigation */
     fun requestModifyDateTime() {
-//        if(isLocked()) return
         createdAt.value?.let {
             _dataState.value = DataState.ModifyDateTime(it)
         }
     }
 
     fun openPackages() {
-//        if(isLocked()) return
         jobOrderPackages.value.let {
             _dataState.value = DataState.OpenPackages(it)
         }
     }
 
     fun openServices(itemPreset: MenuServiceItem?) {
-//        if(isLocked()) return
         jobOrderServices.value.let {
             _dataState.value = DataState.OpenServices(it, itemPreset)
         }
     }
 
     fun openProducts(itemPreset: MenuProductItem?) {
-//        if(isLocked()) return
         jobOrderProducts.value.let {
             _dataState.value = DataState.OpenProducts(it, itemPreset)
         }
     }
 
     fun openExtras(itemPreset: MenuExtrasItem?) {
-//        if(isLocked()) return
         jobOrderExtras.value.let {
             _dataState.value = DataState.OpenExtras(it, itemPreset)
         }
     }
 
     fun openDelivery() {
-//        if(isLocked()) return
         deliveryCharge.value.let {
             _dataState.value = DataState.OpenDelivery(it)
         }
     }
 
     fun openDiscount() {
-//        if(isLocked()) return
         discount.value.let {
             _dataState.value = DataState.OpenDiscount(it)
         }
@@ -668,12 +761,6 @@ constructor(
             _dataState.value = DataState.OpenPayment(paymentId)
         } else {
             _dataState.value = DataState.MakePayment(currentCustomer.value!!.id)
-        }
-    }
-
-    fun openCamera() {
-        jobOrderId.value?.let {
-            _dataState.value = DataState.OpenCamera(it)
         }
     }
 
@@ -747,14 +834,9 @@ constructor(
         )
     }
 
-//    fun unlock() {
-//        _locked.value = false
-//    }
-
     /** endregion */
 
     fun save(userId: UUID) {
-//        if(isLocked()) return
         viewModelScope.launch {
             val jobOrderNumber = jobOrderNumber.value
             val customerId = currentCustomer.value?.id ?: return@launch
@@ -786,10 +868,30 @@ constructor(
                 this.sync = false
             }
 
+            val packages = jobOrderPackages.value?.map {
+                EntityJobOrderPackage(
+                    jobOrder.id,
+                    it.packageRefId,
+                    it.packageName,
+                    it.totalPrice,
+                    it.quantity,
+                    it.isVoid,
+                    it.joPackageItemId ?: UUID.randomUUID()
+                ).apply {
+                    deleted = it.deleted
+                    this.createdAt = createdAt
+                }
+            }
+
+//            val packageServices = _packageServices
+//            val packageProducts = _packageProducts
+//            val packageExtras = _packageExtras
+
             val services = jobOrderServices?.map {
                 EntityJobOrderService(
                     jobOrder.id,
                     it.serviceRefId,
+                    null,
                     it.name,
                     it.price,
                     it.discountedPrice,
@@ -807,12 +909,13 @@ constructor(
                     deleted = it.deleted
                     this.createdAt = createdAt
                 }
-            }
+            } ?: emptyList()
 
             val products = jobOrderProducts?.map {
                 EntityJobOrderProduct(
                     jobOrder.id,
                     it.productRefId,
+                    null,
                     it.name,
                     it.price,
                     it.discountedPrice,
@@ -826,11 +929,12 @@ constructor(
                     deleted = it.deleted
                     this.createdAt = createdAt
                 }
-            }
+            } ?: emptyList()
             val extras = jobOrderExtras?.map {
                 EntityJobOrderExtras(
                     jobOrder.id,
                     it.extrasRefId,
+                    null,
                     it.name,
                     it.price,
                     it.discountedPrice,
@@ -842,7 +946,8 @@ constructor(
                     deleted = it.deleted
                     this.createdAt = createdAt
                 }
-            }
+            } ?: emptyList()
+
             val delivery = deliveryCharge?.let {
                 EntityJobOrderDeliveryCharge(
                     it.deliveryProfileId,
@@ -871,7 +976,15 @@ constructor(
                     this.createdAt = createdAt
                 }
             }
-            val jobOrderWithItem = EntityJobOrderWithItems(jobOrder, services, extras, products, delivery, discount)
+            val jobOrderWithItem = EntityJobOrderWithItems(
+                jobOrder,
+                packages,
+                services.plus(_packageServices),
+                extras.plus(_packageExtras),
+                products.plus(_packageProducts),
+                delivery,
+                discount
+            )
 
             jobOrderRepository.save(jobOrderWithItem)
             _dataState.value = DataState.SaveSuccess(jobOrder.id, customerId)
@@ -880,35 +993,7 @@ constructor(
             prepare(jobOrderWithItem)
         }
     }
-    fun attachPicture(id: UUID) {
-        val jobOrderId = jobOrderId.value ?: return
-        viewModelScope.launch {
-            val jobOrderPictures = EntityJobOrderPictures(
-                jobOrderId,
-                id
-            )
-            jobOrderRepository.attachPicture(jobOrderPictures)
-        }
-    }
-    fun attachPictures(ids: List<UUID>) {
-        val jobOrderId = jobOrderId.value ?: return
-        viewModelScope.launch {
-            val jobOrderPictures = ids.map {
-                EntityJobOrderPictures(
-                    jobOrderId,
-                    it
-                )
-            }
-            jobOrderRepository.attachPictures(jobOrderPictures)
-        }
-    }
-    fun removePicture(uriId: UUID) {
-        viewModelScope.launch {
-            jobOrderRepository.removePicture(uriId)
-        }
-    }
     fun pickCustomer() {
-//        if(isLocked()) return
         val customerId = currentCustomer.value?.id
         val cannotSwitchCustomer = jobOrderServices.value?.any {
             it.used > 0

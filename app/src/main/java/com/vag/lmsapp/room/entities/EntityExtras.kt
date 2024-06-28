@@ -6,11 +6,11 @@ import com.vag.lmsapp.util.DbColumns.Companion.EXTRAS
 
 @Entity(tableName = EXTRAS)
 data class EntityExtras(
-    var name: String?,
+    var name: String,
     var price: Float,
-    var category: String?
+    var category: String
 ) : BaseEntity() {
-    constructor() : this("", 0f, null)
+    constructor() : this("", 0f, "")
 
     @Json(ignore = true)
     var sync: Boolean = false

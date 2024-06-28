@@ -9,16 +9,11 @@ import com.vag.lmsapp.util.DbColumns.Companion.PACKAGES
 data class EntityPackage(
     @Json(name = "package_name")
     @ColumnInfo(name = "package_name")
-    var packageName: String,
+    var packageName: String = "",
 
-    var description: String?,
+    var description: String? = null,
 
     @Json(name = "total_price")
     @ColumnInfo(name = "total_price")
-    val totalPrice: Float?,
-
-//    @ColumnInfo(name = "delivery_id")
-//    val deliveryId: UUID?,
-) : BaseEntity() {
-    constructor() : this("", "", null)
-}
+    val totalPrice: Float = 0f,
+) : BaseEntity()

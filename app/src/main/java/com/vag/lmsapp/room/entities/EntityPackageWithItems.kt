@@ -9,7 +9,7 @@ data class EntityPackageServiceWithService(
     val serviceCrossRef: EntityPackageService,
 
     @Relation(
-        parentColumn = "service_id",
+        parentColumn = "id",
         entityColumn = "id",
         entity = EntityService::class
     )
@@ -21,7 +21,7 @@ data class EntityPackageProductWithProduct(
     val productCrossRef: EntityPackageProduct,
 
     @Relation(
-        parentColumn = "product_id",
+        parentColumn = "id",
         entityColumn = "id",
         entity = EntityProduct::class
     )
@@ -33,7 +33,7 @@ data class EntityPackageExtrasWithExtras(
     val extrasCrossRef: EntityPackageExtras,
 
     @Relation(
-        parentColumn = "extras_id",
+        parentColumn = "id",
         entityColumn = "id",
         entity = EntityExtras::class
     )

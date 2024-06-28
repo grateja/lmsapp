@@ -15,6 +15,10 @@ data class EntityJobOrderService(
     @ColumnInfo(name = "service_id")
     var serviceId: UUID,
 
+    @Json(name = "job_order_package_id")
+    @ColumnInfo(name = "job_order_package_id")
+    var jobOrderPackageId: UUID?,
+
     @Json(name = "service_name")
     @ColumnInfo(name = "service_name")
     var serviceName: String,

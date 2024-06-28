@@ -12,7 +12,6 @@ import com.google.android.material.card.MaterialCardView
 
 class JobOrderServiceItemAdapter: RecyclerView.Adapter<JobOrderServiceItemAdapter.ViewHolder>() {
     class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-        val removeButton: ImageButton = binding.root.findViewById(R.id.button_remove)
         val cardItem: MaterialCardView = binding.root.findViewById(R.id.card_item)
         fun bind(model: MenuServiceItem) {
             binding.setVariable(BR.viewModel, model)

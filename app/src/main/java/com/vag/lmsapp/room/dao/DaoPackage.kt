@@ -12,28 +12,24 @@ interface DaoPackage : BaseDao<EntityPackage> {
     suspend fun get(id: UUID?): EntityPackage?
 
     @Query("""
-        SELECT packages.id, packages.package_name,
-            COALESCE((
-                SELECT SUM(products.price * package_products.quantity)
-                FROM package_products
-                JOIN products ON package_products.product_id = products.id
-                WHERE package_products.package_id = packages.id AND package_products.deleted = 0
-            ), 0) +
-            COALESCE((
-                SELECT SUM(services.price * package_services.quantity)
-                FROM package_services
-                JOIN services ON package_services.service_id = services.id
-                WHERE package_services.package_id = packages.id AND package_services.deleted = 0
-            ), 0) +
-            COALESCE((
-                SELECT SUM(extras.price * package_extras.quantity)
-                FROM package_extras
-                JOIN extras ON package_extras.extras_id = extras.id
-                WHERE package_extras.package_id = packages.id AND package_extras.deleted = 0
-            ), 0) AS total_price
-        , description, 1 as quantity, 0 as deleted FROM packages WHERE package_name LIKE '%' || :keyword || '%' AND deleted = 0
+        SELECT packages.id, packages.package_name, total_price, description, 0 as void, 0 AS discounted_price, 1 as quantity, 0 as deleted FROM packages WHERE package_name LIKE '%' || :keyword || '%' AND deleted = 0
     """)
     suspend fun getAll(keyword: String?): List<MenuJobOrderPackage>
+
+    @Query("""
+        SELECT * FROM package_services WHERE package_id = :packageId
+    """)
+    suspend fun getPackageServicesByPackageId(packageId: UUID): List<EntityPackageService>
+
+    @Query("""
+        SELECT * FROM package_products WHERE package_id = :packageId
+    """)
+    suspend fun getPackageProductsByPackageId(packageId: UUID): List<EntityPackageProduct>
+
+    @Query("""
+        SELECT * FROM package_extras WHERE package_id = :packageId
+    """)
+    suspend fun getPackageExtrasByPackageId(packageId: UUID): List<EntityPackageExtras>
 
     @Upsert
     suspend fun insertServices(packageServices: List<EntityPackageService>)
@@ -75,26 +71,7 @@ interface DaoPackage : BaseDao<EntityPackage> {
     suspend fun getByIds(ids: List<UUID>?): List<EntityPackageWithItems>
 
     @Query("""
-        SELECT *,
-            COALESCE((
-                SELECT SUM(products.price * package_products.quantity)
-                FROM package_products
-                JOIN products ON package_products.product_id = products.id
-                WHERE package_products.package_id = packages.id AND package_products.deleted = 0
-            ), 0) +
-            COALESCE((
-                SELECT SUM(services.price * package_services.quantity)
-                FROM package_services
-                JOIN services ON package_services.service_id = services.id
-                WHERE package_services.package_id = packages.id AND package_services.deleted = 0
-            ), 0) +
-            COALESCE((
-                SELECT SUM(extras.price * package_extras.quantity)
-                FROM package_extras
-                JOIN extras ON package_extras.extras_id = extras.id
-                WHERE package_extras.package_id = packages.id AND package_extras.deleted = 0
-            ), 0) AS total_price
-        , description, 1 as quantity FROM packages WHERE deleted = 0 ORDER BY created_at DESC
+        SELECT *, 1 as quantity FROM packages WHERE deleted = 0 ORDER BY created_at DESC
     """)
     fun getAllAsLiveData(): LiveData<List<EntityPackageWithItems>>
 
@@ -109,48 +86,6 @@ interface DaoPackage : BaseDao<EntityPackage> {
 
     @Query("SELECT * FROM package_extras WHERE package_id = :packageId")
     fun packageExtrasAsLiveData(packageId: UUID?): LiveData<List<EntityPackageExtrasWithExtras>>
-
-    @Transaction
-    suspend fun savePackage(packageWithItems: EntityPackageWithItems) {
-        val id = packageWithItems.prePackage.id
-        packageWithItems.services?.map {
-            EntityPackageService(
-                id,
-                it.service.id,
-                it.serviceCrossRef.quantity,
-                it.serviceCrossRef.id,
-                it.serviceCrossRef.deleted
-            )
-        }?.let {
-            insertServices(it)
-        }
-
-        packageWithItems.products?.map {
-            EntityPackageProduct(
-                id,
-                it.product.id,
-                it.productCrossRef.quantity,
-                it.productCrossRef.id,
-                it.productCrossRef.deleted
-            )
-        }?.let {
-            insertProducts(it)
-        }
-
-        packageWithItems.extras?.map {
-            EntityPackageExtras(
-                id,
-                it.extras.id,
-                it.extrasCrossRef.quantity,
-                it.extrasCrossRef.id,
-                it.extrasCrossRef.deleted
-            )
-        }?.let {
-            insertExtras(it)
-        }
-
-        save(packageWithItems.prePackage)
-    }
 
     @Query("SELECT * FROM packages WHERE id = :packageId")
     fun getAsLiveData(packageId: UUID?): LiveData<EntityPackage>

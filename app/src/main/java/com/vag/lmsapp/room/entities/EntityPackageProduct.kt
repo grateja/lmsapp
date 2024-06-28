@@ -2,6 +2,8 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.*
 import com.squareup.moshi.Json
+import com.vag.lmsapp.model.EnumMeasureUnit
+import com.vag.lmsapp.model.EnumProductType
 import com.vag.lmsapp.util.DbColumns.Companion.PACKAGE_PRODUCTS
 import java.time.Instant
 import java.util.*
@@ -20,6 +22,26 @@ data class EntityPackageProduct(
     @Json(name = "product_id")
     @ColumnInfo(name = "product_id")
     val productId: UUID,
+
+    @Json(name = "product_name")
+    @ColumnInfo(name = "product_name")
+    var productName: String,
+
+    @Json(name = "measure_unit")
+    @ColumnInfo(name = "measure_unit")
+    val measureUnit: EnumMeasureUnit,
+
+    @Json(name = "unit_per_serve")
+    @ColumnInfo(name = "unit_per_serve")
+    val unitPerServe: Float,
+
+    @Json(name = "unit_price")
+    @ColumnInfo(name = "unit_price")
+    val unitPrice: Float,
+
+    @Json(name = "product_type")
+    @ColumnInfo(name = "product_type")
+    var productType: EnumProductType,
 
     val quantity: Int,
 

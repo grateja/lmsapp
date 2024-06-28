@@ -9,6 +9,8 @@ import java.util.*
 
 @Parcelize
 data class MenuJobOrderPackage(
+    var joPackageItemId: UUID?,
+
     @ColumnInfo(name = "id")
     val packageRefId: UUID,
 
@@ -18,16 +20,13 @@ data class MenuJobOrderPackage(
     @ColumnInfo(name = "description")
     val description: String?,
 
-    @ColumnInfo(name = "delivery_id")
-    val deliveryId: UUID?,
-
-    @ColumnInfo(name = "discount_in_peso")
-    val discountInPeso: Float?,
-
     var quantity: Int = 1,
 
     @ColumnInfo(name = "total_price")
-    var totalPrice: Float?,
+    var totalPrice: Float,
+
+    @ColumnInfo("void")
+    var isVoid: Boolean = false,
 
     @ColumnInfo(name = "deleted")
     var deleted: Boolean = false
@@ -35,6 +34,10 @@ data class MenuJobOrderPackage(
     @IgnoredOnParcel
     @Ignore
     var selected = false
+
+    fun quantityStrAbbr() : String {
+        return "($quantity * P$totalPrice)"
+    }
 
     fun quantityStr() : String {
         return quantity.toString() + if(quantity == 1) {

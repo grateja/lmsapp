@@ -20,6 +20,7 @@ import com.vag.lmsapp.util.converters.*
     EntityDeliveryProfile::class,
     EntityProduct::class,
     EntityJobOrder::class,
+    EntityJobOrderPackage::class,
     EntityJobOrderService::class,
     EntityJobOrderProduct::class,
     EntityJobOrderExtras::class,

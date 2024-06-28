@@ -45,7 +45,7 @@ constructor(
             availableServices.value?.find {
                 println("sid")
                 println(it.serviceRefId)
-                msi.serviceRefId.toString() == it.serviceRefId.toString()
+                msi.serviceRefId == it.serviceRefId
             }?.apply {
                 this.joServiceItemId = msi.joServiceItemId
                 this.selected = !msi.deleted

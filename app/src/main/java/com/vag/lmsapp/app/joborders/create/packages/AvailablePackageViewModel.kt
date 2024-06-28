@@ -44,7 +44,8 @@ constructor(
     fun setPreselectedPackages(packages: List<MenuJobOrderPackage>?) {
         packages?.forEach { mjp ->
             availablePackages.value?.find {mjp.packageRefId == it.packageRefId}?.apply {
-                this.selected = true
+                this.joPackageItemId = mjp.joPackageItemId
+                this.selected = !mjp.deleted
                 this.quantity = mjp.quantity
                 this.deleted = mjp.deleted
             }
@@ -55,7 +56,7 @@ constructor(
         val packageItem =
             availablePackages.value?.find { it.packageRefId == quantityModel.id }?.apply {
                 this.selected = true
-                this.quantity = quantityModel.quantity.toInt()
+                this.quantity = quantityModel.quantity
                 this.deleted = false
             }
         _dataState.value = DataState.UpdatePackage(packageItem!!)
@@ -164,58 +165,58 @@ constructor(
 
     fun prepareSubmit() {
         viewModelScope.launch {
-            val list = availablePackages.value?.filter { it.selected && !it.deleted }
-            val services = mutableListOf<MenuServiceItem>()
-            val products = mutableListOf<MenuProductItem>()
-            val extras = mutableListOf<MenuExtrasItem>()
-            val discount: MenuDiscount? = null
-            val deliveryCharge: DeliveryCharge? = null
+//            val list = availablePackages.value?.filter { it.selected && !it.deleted }
+//            val services = mutableListOf<MenuServiceItem>()
+//            val products = mutableListOf<MenuProductItem>()
+//            val extras = mutableListOf<MenuExtrasItem>()
+//            val discount: MenuDiscount? = null
+//            val deliveryCharge: DeliveryCharge? = null
 
-            val ids = list?.map { it.packageRefId }
-            repository.getByIds(ids).forEach { _entityPackage ->
-                list?.find { it.packageRefId == _entityPackage.prePackage.id }
-                    ?.let { _menuPackage ->
-
-                        _entityPackage.services?.forEach { _services ->
-                            val exists =
-                                services.find { it.serviceRefId == _services.serviceCrossRef.serviceId }
-                            if (exists != null) {
-                                exists.quantity += (_services.serviceCrossRef.quantity * _menuPackage.quantity)
-                            } else {
-                                services.add(menuServiceItem(_services).apply {
-                                    this.quantity =
-                                        _services.serviceCrossRef.quantity * _menuPackage.quantity
-                                })
-                            }
-                        }
-
-                        _entityPackage.products?.forEach { _products ->
-                            val exists =
-                                products.find { it.productRefId == _products.productCrossRef.productId }
-                            if (exists != null) {
-                                exists.quantity += (_products.productCrossRef.quantity * _menuPackage.quantity)
-                            } else {
-                                products.add(menuProductItem(_products).apply {
-                                    this.quantity =
-                                        _products.productCrossRef.quantity * _menuPackage.quantity
-                                })
-                            }
-                        }
-
-                        _entityPackage.extras?.forEach { _extras ->
-                            val exists =
-                                extras.find { it.extrasRefId == _extras.extrasCrossRef.extrasId }
-                            if (exists != null) {
-                                exists.quantity += (_extras.extrasCrossRef.quantity * _menuPackage.quantity)
-                            } else {
-                                extras.add(menuExtrasItem(_extras).apply {
-                                    this.quantity =
-                                        _extras.extrasCrossRef.quantity * _menuPackage.quantity
-                                })
-                            }
-                        }
-                    }
-            }
+//            val ids = list?.map { it.packageRefId }
+//            repository.getByIds(ids).forEach { _entityPackage ->
+//                list?.find { it.packageRefId == _entityPackage.prePackage.id }
+//                    ?.let { _menuPackage ->
+//
+//                        _entityPackage.services?.forEach { _services ->
+//                            val exists =
+//                                services.find { it.serviceRefId == _services.serviceCrossRef.id }
+//                            if (exists != null) {
+//                                exists.quantity += (_services.serviceCrossRef.quantity * _menuPackage.quantity)
+//                            } else {
+//                                services.add(menuServiceItem(_services).apply {
+//                                    this.quantity =
+//                                        _services.serviceCrossRef.quantity * _menuPackage.quantity
+//                                })
+//                            }
+//                        }
+//
+//                        _entityPackage.products?.forEach { _products ->
+//                            val exists =
+//                                products.find { it.productRefId == _products.productCrossRef.productId }
+//                            if (exists != null) {
+//                                exists.quantity += (_products.productCrossRef.quantity * _menuPackage.quantity)
+//                            } else {
+//                                products.add(menuProductItem(_products).apply {
+//                                    this.quantity =
+//                                        _products.productCrossRef.quantity * _menuPackage.quantity
+//                                })
+//                            }
+//                        }
+//
+//                        _entityPackage.extras?.forEach { _extras ->
+//                            val exists =
+//                                extras.find { it.extrasRefId == _extras.extrasCrossRef.id }
+//                            if (exists != null) {
+//                                exists.quantity += (_extras.extrasCrossRef.quantity * _menuPackage.quantity)
+//                            } else {
+//                                extras.add(menuExtrasItem(_extras).apply {
+//                                    this.quantity =
+//                                        _extras.extrasCrossRef.quantity * _menuPackage.quantity
+//                                })
+//                            }
+//                        }
+//                    }
+//            }
 
 //            println("before loop")
 //            list?.forEach { _menuPackage ->
@@ -234,14 +235,14 @@ constructor(
 //                }
 //            }
 //            println("after loop")
-            val packages = _availablePackages.value?.filter { it.selected }
+            val packages = _availablePackages.value?.filter { it.selected || it.deleted }
             _dataState.value = DataState.Submit(
-                services,
-                products,
-                extras,
+//                services,
+//                products,
+//                extras,
                 packages,
-                discount,
-                deliveryCharge
+//                discount,
+//                deliveryCharge
             )
 
 //            list?.let { menuPackages ->
@@ -285,12 +286,12 @@ constructor(
         object StateLess : DataState()
         data class UpdatePackage(val packageItem: MenuJobOrderPackage) : DataState()
         data class Submit(
-            val services: List<MenuServiceItem>?,
-            val products: List<MenuProductItem>?,
-            val extras: List<MenuExtrasItem>?,
+//            val services: List<MenuServiceItem>?,
+//            val products: List<MenuProductItem>?,
+//            val extras: List<MenuExtrasItem>?,
             val packages: List<MenuJobOrderPackage>?,
-            val discount: MenuDiscount?,
-            val deliveryCharge: DeliveryCharge?,
+//            val discount: MenuDiscount?,
+//            val deliveryCharge: DeliveryCharge?,
         ) : DataState()
     }
 }

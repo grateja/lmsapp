@@ -73,54 +73,54 @@ constructor(
     }
 
     fun syncServices(list: List<MenuServiceItem>?) {
-        val packageId = entityId.value ?: return
-        list?.map {
-            EntityPackageService(
-                packageId,
-                it.serviceRefId,
-                it.quantity,
-                it.joServiceItemId ?: UUID.randomUUID(),
-                it.deleted
-            )
-        }?.let {
-            viewModelScope.launch {
-                packageRepository.syncServices(it)
-            }
-        }
+//        val packageId = entityId.value ?: return
+//        list?.map {
+//            EntityPackageService(
+//                packageId,
+//                it.serviceRefId,
+//                it.quantity,
+//                it.joServiceItemId ?: UUID.randomUUID(),
+//                it.deleted
+//            )
+//        }?.let {
+//            viewModelScope.launch {
+//                packageRepository.syncServices(it)
+//            }
+//        }
     }
 
     fun syncProducts(list: List<MenuProductItem>?) {
-        val packageId = entityId.value ?: return
-        list?.map {
-            EntityPackageProduct(
-                packageId,
-                it.productRefId,
-                it.quantity,
-                it.joProductItemId ?: UUID.randomUUID(),
-                it.deleted
-            )
-        }?.let {
-            viewModelScope.launch {
-                packageRepository.syncProducts(it)
-            }
-        }
+//        val packageId = entityId.value ?: return
+//        list?.map {
+//            EntityPackageProduct(
+//                packageId,
+//                it.productRefId,
+//                it.quantity,
+//                it.joProductItemId ?: UUID.randomUUID(),
+//                it.deleted
+//            )
+//        }?.let {
+//            viewModelScope.launch {
+//                packageRepository.syncProducts(it)
+//            }
+//        }
     }
 
     fun syncExtras(list: List<MenuExtrasItem>?) {
-        val packageId = entityId.value ?: return
-        list?.map {
-            EntityPackageExtras(
-                packageId,
-                it.extrasRefId,
-                it.quantity,
-                it.joExtrasItemId ?: UUID.randomUUID(),
-                it.deleted
-            )
-        }?.let {
-            viewModelScope.launch {
-                packageRepository.syncExtras(it)
-            }
-        }
+//        val packageId = entityId.value ?: return
+//        list?.map {
+//            EntityPackageExtras(
+//                packageId,
+//                it.extrasRefId,
+//                it.quantity,
+//                it.joExtrasItemId ?: UUID.randomUUID(),
+//                it.deleted
+//            )
+//        }?.let {
+//            viewModelScope.launch {
+//                packageRepository.syncExtras(it)
+//            }
+//        }
     }
 
     fun openWashDry() {

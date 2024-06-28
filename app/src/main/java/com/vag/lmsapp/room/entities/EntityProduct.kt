@@ -9,7 +9,7 @@ import com.vag.lmsapp.util.DbColumns.Companion.PRODUCTS
 
 @Entity(tableName = PRODUCTS)
 class EntityProduct(
-    var name: String?,
+    var name: String,
 
     var price: Float,
 
@@ -27,9 +27,9 @@ class EntityProduct(
 
     @Json(name = "product_type")
     @ColumnInfo(name = "product_type")
-    var productType: EnumProductType?
+    var productType: EnumProductType
 ) : BaseEntity() {
-    constructor() : this(null, 0f, 0f, EnumMeasureUnit.PCS, 0f, EnumProductType.OTHER)
+    constructor() : this("", 0f, 0f, EnumMeasureUnit.PCS, 0f, EnumProductType.OTHER)
 
     @Json(ignore = true)
     var sync: Boolean = false

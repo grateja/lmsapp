@@ -41,22 +41,90 @@ class DatabaseSeeder(val db: MainDatabase) {
 
                     if(_package.packageName == "Regular Package") {
 
-                        packageServices.add(EntityPackageService(_package.id, regularWash.id, 1))
-                        packageServices.add(EntityPackageService(_package.id, regularDry.id, 1))
+                        packageServices.add(EntityPackageService(
+                            _package.id,
+                            regularWash.name,
+                            regularWash.serviceRef,
+                            regularWash.price,
+                            1
+                        ))
+                        packageServices.add(EntityPackageService(
+                            _package.id,
+                            regularDry.name,
+                            regularDry.serviceRef,
+                            regularDry.price,
+                            1
+                        ))
 
-                        packageExtras.add(EntityPackageExtras(_package.id, fold8kg.id, 1))
+                        packageExtras.add(EntityPackageExtras(
+                            _package.id,
+                            fold8kg.name,
+                            fold8kg.category,
+                            1,
+                            fold8kg.price
+                        ))
 
-                        packageProducts.add(EntityPackageProduct(_package.id, ariel.id, 1))
-                        packageProducts.add(EntityPackageProduct(_package.id, downy.id, 1))
+                        packageProducts.add(EntityPackageProduct(
+                            _package.id,
+                            ariel.id,
+                            ariel.name,
+                            ariel.measureUnit,
+                            ariel.unitPerServe,
+                            ariel.price,
+                            ariel.productType,
+                            1))
+                        packageProducts.add(EntityPackageProduct(
+                            _package.id,
+                            downy.id,
+                            downy.name,
+                            downy.measureUnit,
+                            downy.unitPerServe,
+                            downy.price,
+                            downy.productType,
+                            1))
                     } else if(_package.packageName == "Titan Package") {
 
-                        packageServices.add(EntityPackageService(_package.id, titanWash.id, 1))
-                        packageServices.add(EntityPackageService(_package.id, titanDry.id, 1))
+                        packageServices.add(EntityPackageService(
+                            _package.id,
+                            titanWash.name,
+                            titanWash.serviceRef,
+                            titanWash.price,
+                            1
+                        ))
+                        packageServices.add(EntityPackageService(
+                            _package.id,
+                            titanDry.name,
+                            titanDry.serviceRef,
+                            titanDry.price,
+                            1
+                        ))
 
-                        packageExtras.add(EntityPackageExtras(_package.id, fold12kg.id, 1))
+                        packageExtras.add(EntityPackageExtras(_package.id,
+                            fold12kg.name,
+                            fold12kg.category,
+                            1,
+                            fold12kg.price
+                        ))
 
-                        packageProducts.add(EntityPackageProduct(_package.id, ariel.id, 2))
-                        packageProducts.add(EntityPackageProduct(_package.id, downy.id, 2))
+                        packageProducts.add(EntityPackageProduct(_package.id,
+                            ariel.id,
+                            ariel.name,
+                            ariel.measureUnit,
+                            ariel.unitPerServe,
+                            ariel.price,
+                            ariel.productType,
+                            2
+                        ))
+                        packageProducts.add(EntityPackageProduct(
+                            _package.id,
+                            downy.id,
+                            downy.name,
+                            downy.measureUnit,
+                            downy.unitPerServe,
+                            downy.price,
+                            downy.productType,
+                            2
+                        ))
                     }
 
                     db.daoJobOrderPackage().insertServices(packageServices)
