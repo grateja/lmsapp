@@ -30,4 +30,8 @@ class EntityServiceRef(
             washType?.pulse ?: 0
         }
     }
+
+    fun description(): String {
+        return "$minutes minutes $washType"
+    }
 }

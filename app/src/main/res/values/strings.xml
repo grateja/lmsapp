@@ -126,4 +126,7 @@
     <string name="max_unpaid_job_orders_reached">This customer has already reached the maximum allowed number of outstanding unpaid job orders.</string>
     <string name="add_stock">Add Stock</string>
     <string name="machine_activation_error">An error occurred while activating the machine!</string>
+    <string name="wash_dry_services">WASH &amp; DRY SERVICES</string>
+    <string name="products_and_chemicals">PRODUCTS AND CHEMICALS</string>
+    <string name="extra_services">EXTRA SERVICES</string>
 </resources>

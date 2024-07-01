@@ -1,13 +1,16 @@
 package com.vag.lmsapp.app.packages.edit
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.LoginCredentials
+import com.vag.lmsapp.app.packages.preview.PackagesPreviewActivity
 import com.vag.lmsapp.databinding.ActivityPackagesAddEditBinding
+import com.vag.lmsapp.util.Constants.Companion.PACKAGE_ID
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,7 +54,11 @@ class PackagesAddEditActivity(
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {
-                    confirmExit(it.data.id)
+                    val intent = Intent(this, PackagesPreviewActivity::class.java).apply {
+                        putExtra(PACKAGE_ID, it.data.id.toString())
+                    }
+                    startActivity(intent)
+                    finish()
                 }
 
                 else -> {}

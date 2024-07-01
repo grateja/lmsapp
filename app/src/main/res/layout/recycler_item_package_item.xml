@@ -13,9 +13,9 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_margin="1dp"
             app:contentPadding="8dp"
+            app:cardElevation="0dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/secondary_background">
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,21 +23,30 @@
                 android:divider="@drawable/divider_20"
                 android:showDividers="middle">
                 <TextView
+                    android:textColor="@color/black"
                     android:text="@{viewModel.quantity + `*`}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="3"/>
                 <TextView
+                    android:textColor="@color/black"
                     android:text="@{viewModel.name}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     tools:text="Washer 1"
                     android:layout_weight="1"/>
-                <TextView
-                    android:peso="@{viewModel.price}"
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/CardSpan"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="P 60.0"/>
+                    android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/Bold"
+                        android:textColor="@color/primary"
+                        android:peso="@{viewModel.price}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="P 60.0"/>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </FrameLayout>

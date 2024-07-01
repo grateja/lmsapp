@@ -194,7 +194,8 @@
         <activity
             android:name=".app.packages.edit.PackagesAddEditActivity"
             android:exported="false"
-            android:label="Packages">
+            android:label="Packages"
+            android:noHistory="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -202,7 +203,8 @@
         <activity
             android:name=".app.packages.preview.PackagesPreviewActivity"
             android:exported="false"
-            android:label="Packages">
+            android:label="Packages"
+            android:theme="@style/Theme.LMS2025.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

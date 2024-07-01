@@ -33,6 +33,7 @@ interface DaoJobOrderQueues {
         WHERE customer_id = :customerId
             AND jo.svc_machine_type = :machineType
             AND (quantity - used) > 0
+            AND jo.deleted = 0
         GROUP BY service_name
     """)
     suspend fun getAvailableWashes(customerId: UUID, machineType: EnumMachineType) : List<EntityAvailableService>
@@ -51,6 +52,7 @@ interface DaoJobOrderQueues {
             AND jo.svc_machine_type = :machineType
             AND (quantity - used) > 0 
             AND jo.void = 0 
+            AND jo.deleted = 0
         GROUP BY service_name
     """)
     fun getAvailableServicesAsLiveData(customerId: UUID, machineType: EnumMachineType): LiveData<List<EntityAvailableService>?>

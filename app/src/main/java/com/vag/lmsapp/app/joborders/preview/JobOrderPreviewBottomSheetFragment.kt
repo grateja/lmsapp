@@ -39,6 +39,7 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
     private val viewModel: JobOrderPreviewViewModel by activityViewModels()
     private val authLauncher = FragmentLauncher(this)
     private val launcher = FragmentLauncher(this)
+    private val packagesAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
     private val servicesAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
     private val productsAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
     private val extrasAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
@@ -58,6 +59,7 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
 
         binding.recyclerJobOrderGallery.setGridLayout(requireContext(), 30.dp)
 
+        binding.recyclerViewPackages.adapter = packagesAdapter
         binding.recyclerViewServices.adapter = servicesAdapter
         binding.recyclerViewProducts.adapter = productsAdapter
         binding.recyclerViewExtras.adapter = extrasAdapter
@@ -138,6 +140,9 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
             adapter.setData(it)
         })
         viewModel.jobOrder.observe(viewLifecycleOwner, Observer {
+            it?.packages?.filter { !it.deleted }?.map { JobOrderItemMinimal(it.quantity, it.packageName, it.price) }?.let {
+                packagesAdapter.setData(it)
+            }
             it?.services?.filter { !it.deleted && it.jobOrderPackageId == null }?.map { JobOrderItemMinimal(it.quantity, it.label(), it.discountedPrice) }?.let { services ->
                 servicesAdapter.setData(services)
             }

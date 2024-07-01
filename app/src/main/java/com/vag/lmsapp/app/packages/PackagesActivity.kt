@@ -7,10 +7,11 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.packages.edit.PackagesAddEditBottomSheetFragment
 import com.vag.lmsapp.app.packages.preview.PackagesPreviewActivity
 import com.vag.lmsapp.databinding.ActivityPackagesBinding
 import com.vag.lmsapp.util.ActivityLauncher
-import com.vag.lmsapp.util.CrudActivity
+import com.vag.lmsapp.util.Constants.Companion.PACKAGE_ID
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -37,7 +38,7 @@ class PackagesActivity : AppCompatActivity() {
         }
 
         binding.buttonCreateNew.setOnClickListener {
-            openAddEdit(null)
+            PackagesAddEditBottomSheetFragment().show(supportFragmentManager, "")
         }
     }
 
@@ -49,7 +50,7 @@ class PackagesActivity : AppCompatActivity() {
 
     private fun openAddEdit(packageId: UUID?) {
         val intent = Intent(this, PackagesPreviewActivity::class.java).apply {
-            putExtra(CrudActivity.ENTITY_ID, packageId.toString())
+            putExtra(PACKAGE_ID, packageId.toString())
         }
         launcher.launch(intent)
     }

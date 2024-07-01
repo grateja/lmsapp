@@ -4,19 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.vag.lmsapp.app.joborders.create.delivery.DeliveryCharge
-import com.vag.lmsapp.app.joborders.create.discount.MenuDiscount
-import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
-import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
-import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
+//import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
+//import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
+//import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
 import com.vag.lmsapp.app.joborders.create.shared_ui.QuantityModel
-import com.vag.lmsapp.room.entities.EntityPackageExtrasWithExtras
-import com.vag.lmsapp.room.entities.EntityPackageProductWithProduct
-import com.vag.lmsapp.room.entities.EntityPackageServiceWithService
 import com.vag.lmsapp.room.repository.JobOrderPackageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,48 +64,48 @@ constructor(
         }
     }
 
-    private fun menuServiceItem(service: EntityPackageServiceWithService): MenuServiceItem {
-        return MenuServiceItem(
-            null,
-            service.service.id,
-            service.service.name!!,
-            service.service.serviceRef.minutes,
-            service.service.price,
-            0f,
-            service.service.serviceRef.serviceType,
-            service.service.serviceRef.machineType,
-            service.service.serviceRef.washType,
-            service.serviceCrossRef.quantity,
-            0
-        )
-    }
-
-    private fun menuExtrasItem(extras: EntityPackageExtrasWithExtras): MenuExtrasItem {
-        return MenuExtrasItem(
-            null,
-            extras.extras.id,
-            extras.extras.name!!,
-            extras.extras.price,
-            0f,
-            extras.extras.category,
-            extras.extrasCrossRef.quantity,
-        )
-    }
-
-    private fun menuProductItem(product: EntityPackageProductWithProduct): MenuProductItem {
-        return MenuProductItem(
-            null,
-            product.product.id,
-            product.product.name!!,
-            product.product.price,
-            0f,
-            product.product.measureUnit,
-            product.product.unitPerServe,
-            product.productCrossRef.quantity,
-            product.product.currentStock,
-            product.product.productType!!
-        )
-    }
+//    private fun menuServiceItem(service: EntityPackageServiceWithService): MenuServiceItem {
+//        return MenuServiceItem(
+//            null,
+//            service.service.id,
+//            service.service.name!!,
+//            service.service.serviceRef.minutes,
+//            service.service.price,
+//            0f,
+//            service.service.serviceRef.serviceType,
+//            service.service.serviceRef.machineType,
+//            service.service.serviceRef.washType,
+//            service.serviceCrossRef.quantity,
+//            0
+//        )
+//    }
+//
+//    private fun menuExtrasItem(extras: EntityPackageExtrasWithExtras): MenuExtrasItem {
+//        return MenuExtrasItem(
+//            null,
+//            extras.extras.id,
+//            extras.extras.name!!,
+//            extras.extras.price,
+//            0f,
+//            extras.extras.category,
+//            extras.extrasCrossRef.quantity,
+//        )
+//    }
+//
+//    private fun menuProductItem(product: EntityPackageProductWithProduct): MenuProductItem {
+//        return MenuProductItem(
+//            null,
+//            product.product.id,
+//            product.product.name!!,
+//            product.product.price,
+//            0f,
+//            product.product.measureUnit,
+//            product.product.unitPerServe,
+//            product.productCrossRef.quantity,
+//            product.product.currentStock,
+//            product.product.productType!!
+//        )
+//    }
 
 //    fun prepareSubmit(packageId: UUID) {
 //        viewModelScope.launch {

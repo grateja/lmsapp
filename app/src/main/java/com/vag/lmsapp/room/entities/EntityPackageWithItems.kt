@@ -2,43 +2,44 @@ package com.vag.lmsapp.room.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.vag.lmsapp.app.packages.EnumPackageItemType
 import com.vag.lmsapp.app.packages.PackageItem
 
-data class EntityPackageServiceWithService(
-    @Embedded
-    val serviceCrossRef: EntityPackageService,
-
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
-        entity = EntityService::class
-    )
-    val service: EntityService
-)
-
-data class EntityPackageProductWithProduct(
-    @Embedded
-    val productCrossRef: EntityPackageProduct,
-
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
-        entity = EntityProduct::class
-    )
-    val product: EntityProduct
-)
-
-data class EntityPackageExtrasWithExtras(
-    @Embedded
-    val extrasCrossRef: EntityPackageExtras,
-
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
-        entity = EntityExtras::class
-    )
-    val extras: EntityExtras
-)
+//data class EntityPackageServiceWithService(
+//    @Embedded
+//    val serviceCrossRef: EntityPackageService,
+//
+//    @Relation(
+//        parentColumn = "id",
+//        entityColumn = "id",
+//        entity = EntityService::class
+//    )
+//    val service: EntityService
+//)
+//
+//data class EntityPackageProductWithProduct(
+//    @Embedded
+//    val productCrossRef: EntityPackageProduct,
+//
+//    @Relation(
+//        parentColumn = "id",
+//        entityColumn = "id",
+//        entity = EntityProduct::class
+//    )
+//    val product: EntityProduct
+//)
+//
+//data class EntityPackageExtrasWithExtras(
+//    @Embedded
+//    val extrasCrossRef: EntityPackageExtras,
+//
+//    @Relation(
+//        parentColumn = "id",
+//        entityColumn = "id",
+//        entity = EntityExtras::class
+//    )
+//    val extras: EntityExtras
+//)
 
 data class EntityPackageWithItems(
     @Embedded
@@ -47,23 +48,20 @@ data class EntityPackageWithItems(
     @Relation(
         parentColumn = "id",
         entityColumn = "package_id",
-        entity = EntityPackageService::class
     )
-    val services: List<EntityPackageServiceWithService>?,
+    val services: List<EntityPackageService>?,
 
     @Relation(
         parentColumn = "id",
         entityColumn = "package_id",
-        entity = EntityPackageExtras::class
     )
-    val extras: List<EntityPackageExtrasWithExtras>?,
+    val extras: List<EntityPackageExtras>?,
 
     @Relation(
         parentColumn = "id",
         entityColumn = "package_id",
-        entity = EntityPackageProduct::class
     )
-    val products: List<EntityPackageProductWithProduct>?,
+    val products: List<EntityPackageProduct>?,
 ) {
     fun simpleList() : List<PackageItem> {
         val list: MutableList<PackageItem> = mutableListOf()
@@ -71,11 +69,13 @@ data class EntityPackageWithItems(
         services?.let { items ->
             list.addAll(items.map {
                 PackageItem(
-                    it.service.id,
-                    it.service.name.toString(),
-                    it.service.price,
-                    it.serviceCrossRef.quantity,
-                    it.serviceCrossRef.deleted,
+                    EnumPackageItemType.WASH_DRY,
+                    it.id,
+                    it.label(),
+                    it.serviceRef.description(),
+                    it.unitPrice,
+                    it.quantity,
+                    it.deleted,
                 )
             }.toList())
         }
@@ -83,11 +83,13 @@ data class EntityPackageWithItems(
         products?.let { items ->
             list.addAll(items.map {
                 PackageItem(
-                    it.product.id,
-                    it.product.name.toString(),
-                    it.product.price,
-                    it.productCrossRef.quantity,
-                    it.productCrossRef.deleted,
+                    EnumPackageItemType.PRODUCTS,
+                    it.id,
+                    it.productName,
+                    it.toString(),
+                    it.unitPrice,
+                    it.quantity,
+                    it.deleted,
                 )
             }.toList())
         }
@@ -95,11 +97,13 @@ data class EntityPackageWithItems(
         extras?.let { items ->
             list.addAll(items.map {
                 PackageItem(
-                    it.extras.id,
-                    it.extras.name.toString(),
-                    it.extras.price,
-                    it.extrasCrossRef.quantity,
-                    it.extrasCrossRef.deleted,
+                    EnumPackageItemType.EXTRAS,
+                    it.id,
+                    it.extrasName,
+                    "",
+                    it.unitPrice,
+                    it.quantity,
+                    it.deleted,
                 )
             }.toList())
         }

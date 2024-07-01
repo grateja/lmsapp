@@ -21,10 +21,10 @@ abstract class DaoExtras : BaseDao<EntityExtras> {
     @Query("""
         SELECT *, 1 as quantity, 0 as void, 0 as discounted_price 
         FROM extras 
-        WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 
+        WHERE deleted = 0 
         ORDER BY name
     """)
-    abstract suspend fun getAll(keyword: String): List<MenuExtrasItem>
+    abstract suspend fun menuItems(): List<MenuExtrasItem>
 
     @Query("""
         SELECT *, 1 as quantity 

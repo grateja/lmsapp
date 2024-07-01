@@ -1,40 +1,47 @@
 package com.vag.lmsapp.model
 
-enum class EnumWashType(val id: Int, val value: String, val pulse: Int, val description: String, var defaultMinutes: Int, var selected: Boolean = false) {
+import com.vag.lmsapp.R
+
+enum class EnumWashType(val id: Int, val value: String, val pulse: Int, val description: String, var defaultMinutes: Int, val icon: Int, var selected: Boolean = false) {
     DELICATE(
         1,
         "Delicate Wash",
         1,
         "~21 Minutes to ~24 Minutes",
-        21
+        21,
+        R.drawable.icon_wash_type_delicate
     ),
     WARM(
         2,
         "Warm Wash",
         2,
         "",
-        36
+        36,
+        R.drawable.icon_wash_type_warm
     ),
     COLD(
         3,
         "Cold Wash",
         2,
         "",
-        36
+        36,
+        R.drawable.icon_wash_type_cold
     ),
     HOT(
         4,
         "Hot Wash",
         3,
         "",
-        46
+        46,
+        R.drawable.icon_wash_type_hot
     ),
     SUPER_WASH(
         5,
         "Super Wash",
         4,
         "",
-        47
+        47,
+        R.drawable.icon_wash_type_super
     );
 
     override fun toString(): String {

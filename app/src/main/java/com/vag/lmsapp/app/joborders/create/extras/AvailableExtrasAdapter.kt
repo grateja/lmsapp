@@ -22,7 +22,8 @@ class AvailableExtrasAdapter : RecyclerView.Adapter<AvailableExtrasAdapter.ViewH
 
     fun setData(services: List<MenuExtrasItem>) {
         list = services
-        notifyItemRangeChanged(0, list.size - 1)
+        notifyDataSetChanged()
+//        notifyItemRangeChanged(0, list.size - 1)
     }
 
     fun updateItem(service: MenuExtrasItem) {

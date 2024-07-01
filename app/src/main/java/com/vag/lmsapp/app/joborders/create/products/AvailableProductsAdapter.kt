@@ -23,7 +23,8 @@ class AvailableProductsAdapter : RecyclerView.Adapter<AvailableProductsAdapter.V
 
     fun setData(services: List<MenuProductItem>) {
         list = services
-        notifyItemRangeChanged(0, list.size - 1)
+        notifyDataSetChanged()
+//        notifyItemRangeChanged(0, list.size - 1)
     }
 
     fun updateItem(product: MenuProductItem) {

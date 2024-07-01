@@ -15,5 +15,5 @@ data class EntityPackage(
 
     @Json(name = "total_price")
     @ColumnInfo(name = "total_price")
-    val totalPrice: Float = 0f,
+    var totalPrice: Float = 0f,
 ) : BaseEntity()

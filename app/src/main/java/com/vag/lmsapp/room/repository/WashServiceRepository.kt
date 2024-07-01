@@ -19,7 +19,7 @@ constructor (
         return daoWashService.get(id)
     }
 
-    suspend fun getAll() : List<MenuServiceItem> {
+    suspend fun menuItems() : List<MenuServiceItem> {
         return daoWashService.menuItems()
     }
 

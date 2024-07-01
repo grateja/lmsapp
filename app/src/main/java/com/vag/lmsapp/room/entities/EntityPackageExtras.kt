@@ -17,17 +17,21 @@ data class EntityPackageExtras(
     @ColumnInfo(name = "package_id")
     val packageId: UUID,
 
+    @Json(name = "extras_id")
+    @ColumnInfo(name = "extras_id")
+    val extrasId: UUID,
+
     @Json(name = "extras_name")
     @ColumnInfo(name = "extras_name")
     val extrasName: String = "",
 
-    val category: String = "",
+    val category: String? = null,
 
-    val quantity: Int = 1,
+    var quantity: Int = 1,
 
     @Json(name = "unit_price")
     @ColumnInfo(name = "unit_price")
-    val unitPrice: Float,
+    var unitPrice: Float,
 
     @PrimaryKey(autoGenerate = false)
     val id: UUID = UUID.randomUUID(),

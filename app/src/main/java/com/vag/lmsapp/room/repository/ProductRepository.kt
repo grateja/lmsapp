@@ -24,9 +24,7 @@ constructor (
         return daoProduct.getAll()
     }
 
-    suspend fun menuItems() : List<MenuProductItem> {
-        return daoProduct.menuItems()
-    }
+    suspend fun menuItems() = daoProduct.menuItems()
 
     suspend fun filter(keyword: String) : List<ProductItemFull> {
         return daoProduct.filter(keyword)

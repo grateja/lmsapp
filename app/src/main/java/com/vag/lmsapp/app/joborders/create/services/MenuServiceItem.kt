@@ -22,10 +22,10 @@ data class MenuServiceItem(
     @ColumnInfo(name = "svc_minutes")
     val minutes: Int,
 
-    val price: Float,
+    var price: Float,
 
     @ColumnInfo("discounted_price")
-    val discountedPrice: Float,
+    var discountedPrice: Float,
 
     @ColumnInfo(name = "svc_service_type")
     val serviceType: EnumServiceType,
@@ -73,5 +73,9 @@ data class MenuServiceItem(
         } else {
             " loads"
         }
+    }
+
+    fun description(): String {
+        return "$minutes $machineType" + ((washType?.description) ?: "dry")
     }
 }

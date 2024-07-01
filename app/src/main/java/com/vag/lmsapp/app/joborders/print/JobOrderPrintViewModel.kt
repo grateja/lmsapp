@@ -181,6 +181,11 @@ constructor(
 
                 if((itemizedJo == true && tab == TAB_JOB_ORDER) || (itemizedClaimStub == true && tab == TAB_CLAIM_STUB)) {
                     items.addAll(
+                        jobOrder?.packages?.filter { !it.deleted }?.takeIf { it.isNotEmpty() }?.map {
+                            PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), it.packageName, it.price * it.quantity)
+                        }?.let { listOf(PrinterItem.Header("PACKAGES")) + it } ?: emptyList()
+                    )
+                    items.addAll(
                         jobOrder?.services?.filter { !it.deleted }?.takeIf { it.isNotEmpty() }?.map {
                             PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), it.serviceName, it.price * it.quantity)
                         }?.let { listOf(PrinterItem.Header("SERVICES")) + it } ?: emptyList()

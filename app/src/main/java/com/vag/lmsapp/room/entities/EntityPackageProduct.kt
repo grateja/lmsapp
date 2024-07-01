@@ -37,17 +37,21 @@ data class EntityPackageProduct(
 
     @Json(name = "unit_price")
     @ColumnInfo(name = "unit_price")
-    val unitPrice: Float,
+    var unitPrice: Float,
 
     @Json(name = "product_type")
     @ColumnInfo(name = "product_type")
     var productType: EnumProductType,
 
-    val quantity: Int,
+    var quantity: Int,
 
     @PrimaryKey(autoGenerate = false)
     val id: UUID = UUID.randomUUID(),
 
     @Json(name = "is_deleted")
     var deleted: Boolean = false
-)
+) {
+    fun description(): String {
+        return "$quantity $unitPerServe / $measureUnit"
+    }
+}

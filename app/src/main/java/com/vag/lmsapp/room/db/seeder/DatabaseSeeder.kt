@@ -43,6 +43,7 @@ class DatabaseSeeder(val db: MainDatabase) {
 
                         packageServices.add(EntityPackageService(
                             _package.id,
+                            regularWash.id,
                             regularWash.name,
                             regularWash.serviceRef,
                             regularWash.price,
@@ -50,6 +51,7 @@ class DatabaseSeeder(val db: MainDatabase) {
                         ))
                         packageServices.add(EntityPackageService(
                             _package.id,
+                            regularDry.id,
                             regularDry.name,
                             regularDry.serviceRef,
                             regularDry.price,
@@ -58,6 +60,7 @@ class DatabaseSeeder(val db: MainDatabase) {
 
                         packageExtras.add(EntityPackageExtras(
                             _package.id,
+                            fold8kg.id,
                             fold8kg.name,
                             fold8kg.category,
                             1,
@@ -86,6 +89,7 @@ class DatabaseSeeder(val db: MainDatabase) {
 
                         packageServices.add(EntityPackageService(
                             _package.id,
+                            titanWash.id,
                             titanWash.name,
                             titanWash.serviceRef,
                             titanWash.price,
@@ -93,13 +97,16 @@ class DatabaseSeeder(val db: MainDatabase) {
                         ))
                         packageServices.add(EntityPackageService(
                             _package.id,
+                            titanDry.id,
                             titanDry.name,
                             titanDry.serviceRef,
                             titanDry.price,
                             1
                         ))
 
-                        packageExtras.add(EntityPackageExtras(_package.id,
+                        packageExtras.add(EntityPackageExtras(
+                            _package.id,
+                            fold12kg.id,
                             fold12kg.name,
                             fold12kg.category,
                             1,

@@ -2,7 +2,6 @@ package com.vag.lmsapp.room.repository
 
 import androidx.lifecycle.LiveData
 import com.vag.lmsapp.app.extras.ExtrasItemFull
-import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
 import com.vag.lmsapp.room.dao.DaoExtras
 //import com.csi.palabakosys.room.dao.DaoOtherService
 import com.vag.lmsapp.room.entities.EntityExtras
@@ -22,9 +21,7 @@ constructor (
         return daoExtras.get(id)
     }
 
-    suspend fun getAll(keyword: String) : List<MenuExtrasItem> {
-        return daoExtras.getAll(keyword)
-    }
+    suspend fun menuItems() = daoExtras.menuItems()
 
     suspend fun filter(keyword: String) : List<ExtrasItemFull> {
         return daoExtras.filter(keyword)

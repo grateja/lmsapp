@@ -18,7 +18,7 @@ data class MenuProductItem(
 
     val name: String,
 
-    val price: Float,
+    var price: Float,
 
     @ColumnInfo("discounted_price")
     val discountedPrice: Float,

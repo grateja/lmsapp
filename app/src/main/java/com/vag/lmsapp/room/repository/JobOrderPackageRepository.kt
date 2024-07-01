@@ -55,4 +55,6 @@ constructor(private val daoPackage: DaoPackage) : BaseRepository<EntityPackage>(
 //    }
 
     fun getPackageWithItemsAsLiveData(packageId: UUID?) = daoPackage.getPackageAsLiveData(packageId)
+
+    suspend fun saveAll(packageWithItems: EntityPackageWithItems) = daoPackage.saveAll(packageWithItems)
 }

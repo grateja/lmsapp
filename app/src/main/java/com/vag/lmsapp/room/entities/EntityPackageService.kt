@@ -17,6 +17,10 @@ data class EntityPackageService(
     @ColumnInfo(name = "package_id")
     val packageId: UUID,
 
+    @Json(name = "service_id")
+    @ColumnInfo(name = "service_id")
+    val serviceId: UUID,
+
     @Json(name = "service_name")
     @ColumnInfo(name = "service_name")
     var serviceName: String,
@@ -26,11 +30,15 @@ data class EntityPackageService(
 
     var unitPrice: Float,
 
-    val quantity: Int,
+    var quantity: Int,
 
     @PrimaryKey(autoGenerate = false)
     val id: UUID = UUID.randomUUID(),
 
     @Json(name = "is_deleted")
     var deleted: Boolean = false
-)
+) {
+    fun label(): String {
+        return "${serviceRef.machineType.abbr} ${serviceName}"
+    }
+}

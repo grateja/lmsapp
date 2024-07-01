@@ -8,7 +8,6 @@ import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.repository.WashServiceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +27,7 @@ constructor(
 
     private fun loadServices() {
         viewModelScope.launch {
-            availableServices.value = serviceRepository.getAll()
+            availableServices.value = serviceRepository.menuItems()
         }
     }
 

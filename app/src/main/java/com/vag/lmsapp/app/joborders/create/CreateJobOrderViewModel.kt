@@ -450,13 +450,17 @@ constructor(
 
     fun syncPackages(packages: List<MenuJobOrderPackage>?) {
         viewModelScope.launch {
-            val packageServices = _packageServices.toMutableList()
-            val packageProducts = _packageProducts.toMutableList()
-            val packageExtras = _packageExtras.toMutableList()
+            val packageServices = _packageServices.map{ it.copy() }.toMutableList()
+            val packageProducts = _packageProducts.map{ it.copy() }.toMutableList()
+            val packageExtras = _packageExtras.map{ it.copy() }.toMutableList()
+
             packages?.onEach { _jobOrderPackage ->
                 packageRepository.getPackageServicesByPackageId(_jobOrderPackage.packageRefId).onEach {_packageService ->
-                    val packageService = packageServices.find { it.serviceId == _packageService.id }
+                    val packageService = packageServices.find {
+                        it.serviceId == _packageService.serviceId && it.jobOrderPackageId == _packageService.packageId
+                    }
                     val newQuantity = _jobOrderPackage.quantity * _packageService.quantity
+
                     if(packageService != null && _jobOrderPackage.deleted) {
                         if(packageService.used > 0) {
                             _dataState.value = DataState.InvalidOperation("Cannot modify package with used services")
@@ -468,7 +472,7 @@ constructor(
                         packageServices.add(
                             EntityJobOrderService(
                                 jobOrderId.value!!,
-                                _packageService.id,
+                                _packageService.serviceId,
                                 _jobOrderPackage.packageRefId,
                                 _packageService.serviceName,
                                 _packageService.unitPrice,
@@ -490,7 +494,9 @@ constructor(
                     }
                 }
                 packageRepository.getPackageProductsByPackageId(_jobOrderPackage.packageRefId).onEach { _packageProduct ->
-                    val packageProduct = packageProducts.find { it.productId == _packageProduct.id }
+                    val packageProduct = packageProducts.find {
+                        it.productId == _packageProduct.productId  && it.jobOrderPackageId == _packageProduct.packageId
+                    }
                     val newQuantity = _jobOrderPackage.quantity * _packageProduct.quantity
                     if(packageProduct != null && _jobOrderPackage.deleted) {
                         packageProduct.deleted = true
@@ -498,7 +504,7 @@ constructor(
                         packageProducts.add(
                             EntityJobOrderProduct(
                                 jobOrderId.value!!,
-                                _packageProduct.id,
+                                _packageProduct.productId,
                                 _jobOrderPackage.packageRefId,
                                 _packageProduct.productName,
                                 _packageProduct.unitPrice,
@@ -517,7 +523,9 @@ constructor(
                     }
                 }
                 packageRepository.getPackageExtrasByPackageId(_jobOrderPackage.packageRefId).onEach { _packageExtra ->
-                    val packageExtra = packageExtras.find { it.extrasId == _packageExtra.id }
+                    val packageExtra = packageExtras.find {
+                        it.extrasId == _packageExtra.extrasId  && it.jobOrderPackageId == _packageExtra.packageId
+                    }
                     val newQuantity = _jobOrderPackage.quantity * _packageExtra.quantity
                     if(packageExtra != null && _jobOrderPackage.deleted) {
                         packageExtra.deleted = true
@@ -525,7 +533,7 @@ constructor(
                         packageExtras.add(
                             EntityJobOrderExtras(
                                 jobOrderId.value!!,
-                                _packageExtra.id,
+                                _packageExtra.extrasId,
                                 _jobOrderPackage.packageRefId,
                                 _packageExtra.extrasName,
                                 _packageExtra.unitPrice,
@@ -541,14 +549,28 @@ constructor(
                         packageExtra.quantity = newQuantity
                     }
                 }
+
+                if(_jobOrderPackage.deleted) {
+                    packageServices.onEach {
+                        it.deleted = true
+                    }
+                    packageProducts.onEach {
+                        it.deleted = true
+                    }
+                    packageExtras.onEach {
+                        it.deleted = true
+                    }
+                }
             }
+
             _packageServices = packageServices
             _packageProducts = packageProducts
             _packageExtras = packageExtras
+
+            jobOrderPackages.value = packages ?: emptyList()
+            _saved.value = false
+            _modified.value = true
         }
-        jobOrderPackages.value = packages ?: emptyList()
-        _saved.value = false
-        _modified.value = true
     }
 
     private fun refreshDiscount() {

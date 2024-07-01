@@ -16,12 +16,12 @@ data class MenuExtrasItem(
 
     val name: String,
 
-    val price: Float,
+    var price: Float,
 
     @ColumnInfo("discounted_price")
     val discountedPrice: Float,
 
-    val category: String?,
+    var category: String?,
 
     var quantity: Int = 1,
 

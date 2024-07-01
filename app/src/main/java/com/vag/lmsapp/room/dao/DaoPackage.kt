@@ -17,17 +17,17 @@ interface DaoPackage : BaseDao<EntityPackage> {
     suspend fun getAll(keyword: String?): List<MenuJobOrderPackage>
 
     @Query("""
-        SELECT * FROM package_services WHERE package_id = :packageId
+        SELECT * FROM package_services WHERE package_id = :packageId AND deleted = 0
     """)
     suspend fun getPackageServicesByPackageId(packageId: UUID): List<EntityPackageService>
 
     @Query("""
-        SELECT * FROM package_products WHERE package_id = :packageId
+        SELECT * FROM package_products WHERE package_id = :packageId AND deleted = 0
     """)
     suspend fun getPackageProductsByPackageId(packageId: UUID): List<EntityPackageProduct>
 
     @Query("""
-        SELECT * FROM package_extras WHERE package_id = :packageId
+        SELECT * FROM package_extras WHERE package_id = :packageId AND deleted = 0
     """)
     suspend fun getPackageExtrasByPackageId(packageId: UUID): List<EntityPackageExtras>
 
@@ -78,18 +78,32 @@ interface DaoPackage : BaseDao<EntityPackage> {
     @Query("SELECT * FROM packages WHERE id = :packageId AND deleted = 0")
     suspend fun getById(packageId: UUID?): EntityPackageWithItems?
 
-    @Query("SELECT * FROM package_services WHERE package_id = :packageId")
-    fun packageServicesAsLiveData(packageId: UUID?): LiveData<List<EntityPackageServiceWithService>>
-
-    @Query("SELECT * FROM package_products WHERE package_id = :packageId")
-    fun packageProductsAsLiveData(packageId: UUID?): LiveData<List<EntityPackageProductWithProduct>>
-
-    @Query("SELECT * FROM package_extras WHERE package_id = :packageId")
-    fun packageExtrasAsLiveData(packageId: UUID?): LiveData<List<EntityPackageExtrasWithExtras>>
+//    @Query("SELECT * FROM package_services WHERE package_id = :packageId")
+//    fun packageServicesAsLiveData(packageId: UUID?): LiveData<List<EntityPackageServiceWithService>>
+//
+//    @Query("SELECT * FROM package_products WHERE package_id = :packageId")
+//    fun packageProductsAsLiveData(packageId: UUID?): LiveData<List<EntityPackageProductWithProduct>>
+//
+//    @Query("SELECT * FROM package_extras WHERE package_id = :packageId")
+//    fun packageExtrasAsLiveData(packageId: UUID?): LiveData<List<EntityPackageExtrasWithExtras>>
 
     @Query("SELECT * FROM packages WHERE id = :packageId")
     fun getAsLiveData(packageId: UUID?): LiveData<EntityPackage>
 
     @Query("SELECT * FROM packages WHERE id = :packageId")
     fun getPackageAsLiveData(packageId: UUID?): LiveData<EntityPackageWithItems?>
+
+    @Transaction
+    suspend fun saveAll(packageWithItems: EntityPackageWithItems) {
+        save(packageWithItems.prePackage)
+        packageWithItems.services?.let {
+            insertServices(it)
+        }
+        packageWithItems.products?.let {
+            insertProducts(it)
+        }
+        packageWithItems.extras?.let {
+            insertExtras(it)
+        }
+    }
 }

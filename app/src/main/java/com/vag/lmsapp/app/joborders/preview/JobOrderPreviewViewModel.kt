@@ -75,6 +75,12 @@ constructor(
         addSource(jobOrder) {update()}
     }
 
+    val hasPackages = MediatorLiveData<Boolean>().apply {
+        addSource(jobOrder) {
+            value = it?.packages?.any { !it.deleted }
+        }
+    }
+
     val hasService = MediatorLiveData<Boolean>().apply {
         addSource(jobOrder) {
             value = it?.services?.any { !it.deleted && it.jobOrderPackageId == null }

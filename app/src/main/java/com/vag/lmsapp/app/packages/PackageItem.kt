@@ -6,9 +6,11 @@ import java.util.*
 
 @Parcelize
 data class PackageItem(
-    val serviceId: UUID,
+    val packageItemType: EnumPackageItemType,
+    val itemId: UUID,
     val name: String,
-    val price: Float,
-    val quantity: Int,
+    val description: String,
+    var price: Float,
+    var quantity: Int,
     var deleted: Boolean,
 ) : Parcelable

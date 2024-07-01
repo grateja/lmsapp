@@ -19,7 +19,7 @@ class PackagesAdapter : RecyclerView.Adapter<PackagesAdapter.ViewHolder>() {
         fun bind(model: EntityPackageWithItems) {
             binding.viewModel = model
             binding.recyclerViewItems.adapter = adapter
-            binding.buttonEdit.setOnClickListener {
+            binding.container.setOnClickListener {
                 onItemClick?.invoke(model)
             }
             adapter.setData(model.simpleList())

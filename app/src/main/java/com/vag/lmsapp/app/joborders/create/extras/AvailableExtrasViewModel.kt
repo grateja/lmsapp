@@ -7,7 +7,6 @@ import com.vag.lmsapp.app.joborders.create.shared_ui.QuantityModel
 import com.vag.lmsapp.room.repository.ExtrasRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,7 +25,7 @@ constructor(
 
     private fun loadServices() {
         viewModelScope.launch {
-            repository.getAll("").let {
+            repository.menuItems().let {
                 availableExtras.value = it
                 it.forEach {  m ->
                     println("extra id")
