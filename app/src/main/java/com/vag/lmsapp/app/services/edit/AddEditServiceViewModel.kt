@@ -117,4 +117,12 @@ constructor(
 
         super.save()
     }
+
+    fun setServiceType(serviceType: EnumServiceType) {
+        this.serviceType.value = serviceType
+    }
+
+    fun setMachineType(machineType: EnumMachineType) {
+        this.machineType.value = machineType
+    }
 }

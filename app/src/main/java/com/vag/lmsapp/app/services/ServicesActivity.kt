@@ -15,6 +15,7 @@ import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.entities.EntityService
 import com.vag.lmsapp.util.ActivityLauncher
 import com.google.android.material.tabs.TabLayout
+import com.vag.lmsapp.app.services.preview.ServicePreviewBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -49,7 +50,8 @@ class ServicesActivity : AppCompatActivity() {
             }
         })
         adapter.onItemClick = {
-            viewModel.openAddEdit(it.id)
+            ServicePreviewBottomSheetFragment.newInstance(it.id).show(supportFragmentManager, null)
+//            viewModel.openAddEdit(it.id)
         }
         binding.inclMachines.buttonAdd.setOnClickListener {
             viewModel.openAddEdit(null)

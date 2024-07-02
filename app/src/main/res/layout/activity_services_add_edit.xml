@@ -25,6 +25,139 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="vertical"
                 android:clipToPadding="false">
+                <TextView
+                    style="@style/TextItemTitle"
+                    android:layout_gravity="center"
+                    android:text="Select service type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_marginTop="18dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:divider="@drawable/divider_20"
+                    android:showDividers="middle">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_service_type_wash"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.WASH ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_margin="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/icon_washes"
+                                android:layout_marginBottom="12dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Wash service"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_service_type_dry"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.DRY ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_margin="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/icon_dries"
+                                android:layout_marginBottom="12dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Dry service"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginTop="24dp"
+                    style="@style/TextItemTitle"
+                    android:layout_gravity="center"
+                    android:text="Select machine capacity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_marginTop="18dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:divider="@drawable/divider_20"
+                    android:showDividers="middle">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_machine_type_8kg"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@{viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.REGULAR_DRYER || viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.REGULAR_WASHER ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_margin="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/icon_washes"
+                                android:layout_marginBottom="12dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="8KG (Giant)"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_machine_type_12kg"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@{viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.TITAN_DRYER || viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.TITAN_WASHER ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_margin="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/icon_dries"
+                                android:layout_marginBottom="12dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="12KG (Titan)"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"

@@ -905,7 +905,18 @@ constructor(
                 }
             }
 
-//            val packageServices = _packageServices
+            val packageServices = _packageServices.map {
+                it.createdAt = createdAt
+                it
+            }
+            val packageExtras = _packageExtras.map {
+                it.createdAt = createdAt
+                it
+            }
+            val packageProducts = _packageProducts.map {
+                it.createdAt = createdAt
+                it
+            }
 //            val packageProducts = _packageProducts
 //            val packageExtras = _packageExtras
 
@@ -1001,9 +1012,9 @@ constructor(
             val jobOrderWithItem = EntityJobOrderWithItems(
                 jobOrder,
                 packages,
-                services.plus(_packageServices),
-                extras.plus(_packageExtras),
-                products.plus(_packageProducts),
+                services.plus(packageServices),
+                extras.plus(packageExtras),
+                products.plus(packageProducts),
                 delivery,
                 discount
             )

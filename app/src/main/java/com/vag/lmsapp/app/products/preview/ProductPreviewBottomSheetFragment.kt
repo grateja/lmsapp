@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.app.products.add_stock.ProductAddStockBottomSheetFragment
 import com.vag.lmsapp.app.products.edit.ProductAddEditActivity
@@ -15,12 +15,14 @@ import com.vag.lmsapp.util.Constants.Companion.ID
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.toUUID
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 
+@AndroidEntryPoint
 class ProductPreviewBottomSheetFragment : ModalFragment<UUID>() {
     override var fullHeight = true
     private lateinit var binding: FragmentProductPreviewBottomSheetBinding
-    private val viewModel: ProductPreviewViewModel by activityViewModels()
+    private val viewModel: ProductPreviewViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

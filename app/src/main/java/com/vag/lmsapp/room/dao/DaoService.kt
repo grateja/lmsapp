@@ -3,6 +3,7 @@ package com.vag.lmsapp.room.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
+import com.vag.lmsapp.app.services.preview.ServicePreview
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.entities.EntityService
 import java.util.UUID
@@ -23,4 +24,7 @@ abstract class DaoService : BaseDao<EntityService> {
 
     @Query("SELECT * FROM services WHERE sync = 0 OR :forced")
     abstract suspend fun unSynced(forced: Boolean): List<EntityService>
+
+    @Query("SELECT * FROM services WHERE id = :serviceId")
+    abstract fun getPreviewAsLiveData(serviceId: UUID): LiveData<ServicePreview?>
 }

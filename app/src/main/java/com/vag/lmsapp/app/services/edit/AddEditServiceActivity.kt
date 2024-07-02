@@ -11,6 +11,7 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityServicesAddEditBinding
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.toUUID
@@ -38,7 +39,7 @@ class AddEditServiceActivity(
         binding.controls.viewModel = viewModel
 
         subscribeListeners()
-//        subscribeEvents()
+        subscribeEvents()
 
     }
 
@@ -80,6 +81,20 @@ class AddEditServiceActivity(
 //            viewModel.requestExit()
 //        }
 //    }
+    private fun subscribeEvents() {
+        binding.cardServiceTypeWash.setOnClickListener {
+            viewModel.setServiceType(EnumServiceType.WASH)
+        }
+        binding.cardServiceTypeDry.setOnClickListener {
+            viewModel.setServiceType(EnumServiceType.DRY)
+        }
+        binding.cardMachineType8kg.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.REGULAR_WASHER)
+        }
+        binding.cardMachineType12kg.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.TITAN_WASHER)
+        }
+    }
 
     private fun subscribeListeners() {
         viewModel.dataState.observe(this, Observer {
