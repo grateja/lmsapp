@@ -6,8 +6,10 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.services.edit.AddEditServiceActivity.Companion.SERVICE_TYPE_EXTRA
 import com.vag.lmsapp.databinding.ActivityMachinesAddEditBinding
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.worker.ShopSetupSyncWorker
@@ -33,15 +35,10 @@ class MachinesAddEditActivity : AppCompatActivity() {
         subscribeListeners()
 
         val machineId = intent.getStringExtra(Constants.MACHINE_ID_EXTRA).toString()
-        val machineType = EnumMachineType.fromId(intent.getIntExtra(MACHINE_TYPE_EXTRA, 1))
+        val machineType = EnumMachineType.fromId(intent.getIntExtra(MACHINE_TYPE_EXTRA, 1)) ?: EnumMachineType.REGULAR
+        val serviceType = EnumServiceType.fromId(intent.getIntExtra(SERVICE_TYPE_EXTRA, 1)) ?: EnumServiceType.WASH
 
-        machineType?.let {
-            println("machine id")
-            println(machineId)
-            println("machine type")
-            println(it)
-            viewModel.get(machineId, it)
-        }
+        viewModel.get(machineId, machineType, serviceType)
     }
 
     private fun subscribeEvents() {

@@ -128,7 +128,7 @@ interface DaoExport {
     @Query("""
         SELECT mu.created_at AS activated,
             cu.name AS customer_name,
-            m.machine_type, m.machine_number,
+            m.machine_number, m.service_type, m.machine_type,
             jos.svc_minutes, jos.service_name,
             jo.job_order_number, jo.created_at
         FROM machine_usages mu

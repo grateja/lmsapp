@@ -116,7 +116,7 @@ abstract class DaoDailyReport {
 
     @Query("""
         SELECT 
-            jos.svc_machine_type,
+            jos.svc_machine_type, jos.svc_service_type,
             COUNT(*) as cycles,
             jos.svc_minutes as minutes
         FROM machine_usages mu
@@ -125,7 +125,7 @@ abstract class DaoDailyReport {
         WHERE
             DATE(mu.created_at / 1000, 'unixepoch', 'localtime')  = :date
             AND mu.deleted = 0
-        GROUP BY svc_machine_type
+        GROUP BY jos.svc_machine_type, jos.svc_service_type 
     """)
     abstract fun machineUsageSummary(date: LocalDate): LiveData<List<DailyReportMachineUsageSummary>>
 

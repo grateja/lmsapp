@@ -1,6 +1,7 @@
 package com.vag.lmsapp.app.remote.shared_ui
 
 import androidx.lifecycle.*
+import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.room.entities.*
 import com.vag.lmsapp.room.repository.JobOrderQueuesRepository
 import com.vag.lmsapp.room.repository.MachineRepository
@@ -19,7 +20,9 @@ constructor(
 ) : ViewModel() {
     val machineId = MutableLiveData<UUID?>()
     val machine = machineId.switchMap { machineRepository.getMachineLiveData(it) }
-    val customerQueues = machine.switchMap { queuesRepository.getByMachineType(it?.machineType) }
+    val customerQueues = machine.switchMap { queuesRepository.getByMachineType(
+        MachineTypeFilter(it?.machineType, it?.serviceType)
+    ) }
 
     val dataState = MutableLiveData<DataState>()
 //    val machine = MutableLiveData<EntityMachine>()
@@ -59,7 +62,12 @@ constructor(
 
     private fun getQueuesByCustomer(queueService: EntityCustomerQueueService) {
         viewModelScope.launch {
-            queuesRepository.getAvailableServiceByCustomerId(queueService.customerId, queueService.machineType).let {
+            queuesRepository.getAvailableServiceByCustomerId(queueService.customerId,
+                MachineTypeFilter(
+                    queueService.machineType,
+                    queueService.serviceType
+                )
+            ).let {
                 availableServices.value = it
             }
         }

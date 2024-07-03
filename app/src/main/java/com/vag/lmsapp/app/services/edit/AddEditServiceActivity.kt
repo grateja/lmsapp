@@ -27,6 +27,7 @@ class AddEditServiceActivity(
     companion object {
         const val SERVICE_ID_EXTRA = "serviceId"
         const val MACHINE_TYPE_EXTRA = "machineType"
+        const val SERVICE_TYPE_EXTRA = "serviceType"
     }
     private lateinit var binding: ActivityServicesAddEditBinding
     private val viewModel: AddEditServiceViewModel by viewModels()
@@ -45,8 +46,9 @@ class AddEditServiceActivity(
 
     override fun get(id: UUID?) {
         val serviceId = intent.getStringExtra(SERVICE_ID_EXTRA)?.toUUID()
-        val machineType = intent.getParcelableExtra(MACHINE_TYPE_EXTRA) ?: EnumMachineType.REGULAR_WASHER
-        viewModel.get(serviceId, machineType)
+        val machineType = intent.getParcelableExtra(MACHINE_TYPE_EXTRA) ?: EnumMachineType.REGULAR
+        val serviceType = intent.getParcelableExtra(SERVICE_TYPE_EXTRA) ?: EnumServiceType.WASH
+        viewModel.get(serviceId, machineType, serviceType)
     }
 
     override fun onSave() {
@@ -89,10 +91,10 @@ class AddEditServiceActivity(
             viewModel.setServiceType(EnumServiceType.DRY)
         }
         binding.cardMachineType8kg.setOnClickListener {
-            viewModel.setMachineType(EnumMachineType.REGULAR_WASHER)
+            viewModel.setMachineType(EnumMachineType.REGULAR)
         }
         binding.cardMachineType12kg.setOnClickListener {
-            viewModel.setMachineType(EnumMachineType.TITAN_WASHER)
+            viewModel.setMachineType(EnumMachineType.TITAN)
         }
     }
 

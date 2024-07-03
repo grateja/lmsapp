@@ -3,6 +3,8 @@ package com.vag.lmsapp.app.machines.usage
 import androidx.lifecycle.*
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
+import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import com.vag.lmsapp.room.repository.MachineRepository
 import com.vag.lmsapp.viewmodels.ListViewModel
@@ -29,6 +31,8 @@ constructor(
     val navigationState: LiveData<NavigationState> = _navigationState
 
     val machineType = MutableLiveData<EnumMachineType?>()
+
+    val serviceType = MutableLiveData<EnumServiceType?>()
 
     private val _machineUsage = MutableLiveData<EntityMachineUsageDetails>()
     val machineUsage: LiveData<EntityMachineUsageDetails> = _machineUsage
@@ -62,10 +66,14 @@ constructor(
             }
             val machineId = _machineId.value
             val machineType = machineType.value
+            val serviceType = serviceType.value
             val dateFilter = _dateFilter.value
             val page = page.value ?: 1
             val keyword = keyword.value
-            val items = machineRepository.getMachineUsage(machineId, machineType, keyword, page, dateFilter)
+            val items = machineRepository.getMachineUsage(machineId, MachineTypeFilter(
+                machineType,
+                serviceType
+            ), keyword, page, dateFilter)
             _dataState.value = DataState.LoadItems(items, reset)
         }
     }

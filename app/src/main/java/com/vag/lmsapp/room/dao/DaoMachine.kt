@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.vag.lmsapp.app.machines.MachineListItem
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.room.entities.EntityMachine
 import com.vag.lmsapp.room.entities.EntityMachineRemarks
-import com.vag.lmsapp.room.entities.EntityMachineUsage
-import com.vag.lmsapp.room.entities.EntityMachineUsageAggrResult
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import com.vag.lmsapp.room.entities.EntityMachineUsageFull
 import java.time.LocalDate
@@ -15,14 +14,14 @@ import java.util.*
 
 @Dao
 abstract class DaoMachine : BaseDao<EntityMachine> {
-    @Query("SELECT * FROM machines WHERE machine_type = :machineType ORDER BY stack_order")
-    abstract suspend fun getAll(machineType: EnumMachineType): List<EntityMachine>
+    @Query("SELECT * FROM machines WHERE machine_type = :machineType AND service_type = :serviceType ORDER BY stack_order")
+    abstract suspend fun getAll(machineType: EnumMachineType, serviceType: EnumServiceType): List<EntityMachine>
 
     @Query("SELECT * FROM machines WHERE id = :id")
     abstract suspend fun get(id: UUID): EntityMachine?
 
-    @Query("SELECT stack_order FROM machines WHERE machine_type = :machineType ORDER BY stack_order DESC")
-    abstract suspend fun getLastStackOrder(machineType: EnumMachineType): Int?
+    @Query("SELECT stack_order FROM machines WHERE machine_type = :machineType AND service_type = :serviceType ORDER BY stack_order DESC")
+    abstract suspend fun getLastStackOrder(machineType: EnumMachineType, serviceType: EnumServiceType): Int?
 
     @Query("SELECT * FROM machines ORDER BY stack_order")
     abstract fun getAllAsLiveData(): LiveData<List<EntityMachine>>
@@ -32,11 +31,11 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
             SUM(CASE WHEN mu.id IS NOT NULL AND date(mu.created_at / 1000, 'unixepoch', 'localtime') = date('now', 'localtime') THEN 1 ELSE 0 END) AS usage_for_the_day
         FROM machines m 
         LEFT JOIN machine_usages mu ON m.id = mu.machine_id
-        WHERE machine_type = :machineType
+        WHERE machine_type = :machineType AND service_type = :serviceType
         GROUP BY m.id
         ORDER BY stack_order
     """)
-    abstract fun getListAllAsLiveData(machineType: EnumMachineType): LiveData<List<MachineListItem>>
+    abstract fun getListAllAsLiveData(machineType: EnumMachineType?, serviceType: EnumServiceType?): LiveData<List<MachineListItem>>
 
     @Query("SELECT * FROM machines WHERE id = :id")
     abstract fun getMachineLiveData(id: UUID?): LiveData<EntityMachine?>
@@ -51,13 +50,14 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
         WHERE (mu.machine_id = :machineId OR :machineId IS NULL)
         AND customer_name LIKE '%' || :keyword || '%'
         AND (machine_type = :machineType OR :machineType IS NULL)
+        AND (service_type = :serviceType OR :serviceType IS NULL)
         AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR
             (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(mu.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR
             (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(mu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo))
         ORDER BY activated DESC
         LIMIT 20 OFFSET :offset
     """)
-    abstract suspend fun getMachineUsage(machineId: UUID?, machineType: EnumMachineType?, keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?): List<EntityMachineUsageDetails>
+    abstract suspend fun getMachineUsage(machineId: UUID?, machineType: EnumMachineType?, serviceType: EnumServiceType?, keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?): List<EntityMachineUsageDetails>
 
     @Query("SELECT * FROM machines WHERE sync = 0 OR :forced")
     abstract suspend fun unSynced(forced: Boolean): List<EntityMachine>

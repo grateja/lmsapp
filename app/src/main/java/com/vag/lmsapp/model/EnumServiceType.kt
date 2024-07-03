@@ -1,9 +1,13 @@
 package com.vag.lmsapp.model
 
-enum class EnumServiceType(val id: Int, val value: String) {
-    WASH(1, "Wash"),
-    DRY(2, "Dry"),
-    OTHER(3, "Other");
+import android.os.Parcelable
+import com.vag.lmsapp.R
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class EnumServiceType(val id: Int, val value: String, val icon: Int) : Parcelable {
+    WASH(1, "Wash", R.drawable.icon_washes),
+    DRY(2, "Dry", R.drawable.icon_dries);
 
     override fun toString(): String {
         return value

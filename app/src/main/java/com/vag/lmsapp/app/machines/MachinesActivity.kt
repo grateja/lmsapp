@@ -35,17 +35,17 @@ class MachinesActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
-        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewModel.setMachineType(tab?.text.toString())
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-        })
+//        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                viewModel.setMachineType(tab?.text.toString())
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//            }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//            }
+//        })
         adapter.onItemClick = {
             val intent = Intent(this, MachinesAddEditActivity::class.java).apply {
                 putExtra(Constants.MACHINE_ID_EXTRA, it.machine.id.toString())

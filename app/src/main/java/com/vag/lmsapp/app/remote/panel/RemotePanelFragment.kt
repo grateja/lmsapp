@@ -30,29 +30,29 @@ class RemotePanelFragment : Fragment() {
         binding.viewModel = remoteViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.recyclerMachineTiles.adapter = adapter
-        subscribeObservers()
+//        subscribeObservers()
         subscribeEvents()
 
         return binding.root
     }
 
 
-    private fun subscribeObservers() {
-        binding.inclTab.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewModel.setMachineType(tab?.text.toString())
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-        })
-        viewModel.machines.observe(viewLifecycleOwner, Observer {
-            adapter.setData(it)
-        })
-    }
+//    private fun subscribeObservers() {
+//        binding.inclTab.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                viewModel.setMachineType(tab?.text.toString())
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//            }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//            }
+//        })
+//        viewModel.machines.observe(viewLifecycleOwner, Observer {
+//            adapter.setData(it)
+//        })
+//    }
 
     private fun subscribeEvents() {
         adapter.onItemClick = {

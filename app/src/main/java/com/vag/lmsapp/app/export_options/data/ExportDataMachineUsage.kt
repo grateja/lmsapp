@@ -2,6 +2,7 @@ package com.vag.lmsapp.app.export_options.data
 
 import androidx.room.ColumnInfo
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import java.time.Instant
 
 data class ExportDataMachineUsage(
@@ -10,6 +11,9 @@ data class ExportDataMachineUsage(
 
     @ColumnInfo("machine_type")
     val machineType: EnumMachineType,
+
+    @ColumnInfo("service_type")
+    val serviceType: EnumServiceType,
 
     @ColumnInfo("machine_number")
     val machineNumber: Int,

@@ -3,6 +3,7 @@ package com.vag.lmsapp.room.entities
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import kotlinx.parcelize.Parcelize
 import java.time.Instant
 import java.util.*
@@ -21,8 +22,11 @@ data class EntityCustomerQueueService (
     @ColumnInfo(name = "address")
     val address: String?,
 
-    @ColumnInfo(name = "machine_type")
+    @ColumnInfo(name = "svc_machine_type")
     val machineType: EnumMachineType,
+
+    @ColumnInfo(name = "svc_service_type")
+    val serviceType: EnumServiceType,
 
     @ColumnInfo(name = "latest_job_order")
     val latestJobOrderDate: Instant?,

@@ -26,10 +26,10 @@ class DatabaseSeeder(val db: MainDatabase) {
                 val packageProducts: MutableList<EntityPackageProduct> = mutableListOf()
 
 
-                val regularWash = washServices.find {it.name == "Warm Wash" && it.serviceRef.washType == EnumWashType.WARM && it.serviceRef.machineType == EnumMachineType.REGULAR_WASHER}
-                val regularDry = washServices.find {it.name == "Regular Dry" && it.serviceRef.machineType == EnumMachineType.REGULAR_DRYER}
-                val titanWash = washServices.find {it.name == "Warm Wash" && it.serviceRef.washType == EnumWashType.WARM && it.serviceRef.machineType == EnumMachineType.TITAN_WASHER}
-                val titanDry = washServices.find {it.name == "Regular Dry" && it.serviceRef.machineType == EnumMachineType.TITAN_DRYER}
+                val regularWash = washServices.find {it.name == "Warm Wash" && it.serviceRef.washType == EnumWashType.WARM && it.serviceRef.machineType == EnumMachineType.REGULAR}
+                val regularDry = washServices.find {it.name == "Regular Dry" && it.serviceRef.machineType == EnumMachineType.REGULAR}
+                val titanWash = washServices.find {it.name == "Warm Wash" && it.serviceRef.washType == EnumWashType.WARM && it.serviceRef.machineType == EnumMachineType.TITAN}
+                val titanDry = washServices.find {it.name == "Regular Dry" && it.serviceRef.machineType == EnumMachineType.TITAN}
 
                 val fold8kg = extras.find { it.name == "8KG Fold" }
                 val fold12kg = extras.find { it.name == "12KG Fold" }

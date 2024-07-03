@@ -24,10 +24,12 @@ class EntityServiceRef(
     var minutes: Int,
 ) {
     fun pulse() : Int {
-        return if(machineType == EnumMachineType.REGULAR_DRYER || machineType == EnumMachineType.TITAN_DRYER) {
+        return if(serviceType == EnumServiceType.DRY) {
             minutes / 10
-        } else {
+        } else if(serviceType == EnumServiceType.WASH) {
             washType?.pulse ?: 0
+        } else {
+            0
         }
     }
 

@@ -14,8 +14,8 @@ import com.vag.lmsapp.databinding.ActivityServicesBinding
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.entities.EntityService
 import com.vag.lmsapp.util.ActivityLauncher
-import com.google.android.material.tabs.TabLayout
 import com.vag.lmsapp.app.services.preview.ServicePreviewBottomSheetFragment
+import com.vag.lmsapp.model.EnumServiceType
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -38,17 +38,29 @@ class ServicesActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
-        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewModel.selectTab(tab?.text.toString())
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) { }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                viewModel.selectTab(tab?.text.toString())
-            }
-        })
+        binding.tabMachineType.cardRegularWasher.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.REGULAR, EnumServiceType.WASH)
+        }
+        binding.tabMachineType.cardRegularDryer.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.REGULAR, EnumServiceType.DRY)
+        }
+        binding.tabMachineType.cardTitanWasher.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.TITAN, EnumServiceType.WASH)
+        }
+        binding.tabMachineType.cardTitanDryer.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.TITAN, EnumServiceType.DRY)
+        }
+//        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                viewModel.selectTab(tab?.text.toString())
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) { }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//                viewModel.selectTab(tab?.text.toString())
+//            }
+//        })
         adapter.onItemClick = {
             ServicePreviewBottomSheetFragment.newInstance(it.id).show(supportFragmentManager, null)
 //            viewModel.openAddEdit(it.id)
@@ -58,11 +70,13 @@ class ServicesActivity : AppCompatActivity() {
         }
         launcher.onOk = {
             val machineType = it.data?.getParcelableExtra<EnumMachineType>(AddEditServiceActivity.MACHINE_TYPE_EXTRA)
-            val index = EnumMachineType.values().indexOf(
-                machineType ?: EnumMachineType.REGULAR_WASHER
-            )
-
-            binding.tabMachineType.tabMachineType.getTabAt(index)?.select()
+            val serviceType = it.data?.getParcelableExtra<EnumServiceType>(AddEditServiceActivity.SERVICE_TYPE_EXTRA)
+            viewModel.setMachineType(machineType, serviceType)
+//            val index = EnumMachineType.values().indexOf(
+//                machineType ?: EnumMachineType.REGULAR_WASHER
+//            )
+//
+//            binding.tabMachineType.tabMachineType.getTabAt(index)?.select()
         }
     }
 
@@ -78,8 +92,11 @@ class ServicesActivity : AppCompatActivity() {
         viewModel.services.observe(this, Observer {
             adapter.setData(it)
         })
-        viewModel.selectedTab.observe(this, Observer {
-            binding.inclMachines.viewModel = it
+//        viewModel.selectedTab.observe(this, Observer {
+//            binding.inclMachines.viewModel = it
+//        })
+        viewModel.filter.observe(this, Observer {
+            binding.inclMachines.machineTypeFilter = it
         })
         viewModel.dataState.observe(this, Observer {
             when(it) {

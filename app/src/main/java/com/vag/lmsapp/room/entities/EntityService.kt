@@ -17,8 +17,16 @@ class EntityService(
     @Embedded
     var serviceRef: EntityServiceRef
 ) : BaseEntity() {
-    constructor(machineType: EnumMachineType) : this("", 0f, EntityServiceRef(EnumServiceType.OTHER, machineType, null, 0))
+    constructor(machineType: EnumMachineType, serviceType: EnumServiceType) : this("", 0f, EntityServiceRef(serviceType, machineType, null, 0))
 
     @Json(ignore = true)
     var sync: Boolean = false
+
+    fun icon() : Int {
+        return serviceRef.washType?.icon ?: serviceRef.serviceType.icon
+    }
+
+    fun label() : String {
+        return "${serviceRef.machineType.value} $name"
+    }
 }

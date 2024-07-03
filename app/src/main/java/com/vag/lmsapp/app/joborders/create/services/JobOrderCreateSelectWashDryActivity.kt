@@ -13,7 +13,7 @@ import com.vag.lmsapp.app.joborders.create.shared_ui.CreateJobOrderModifyQuantit
 import com.vag.lmsapp.app.joborders.create.shared_ui.QuantityModel
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateSelectWashDryBinding
 import com.vag.lmsapp.model.EnumMachineType
-import com.google.android.material.tabs.TabLayout
+import com.vag.lmsapp.model.EnumServiceType
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,26 +30,41 @@ class JobOrderCreateSelectWashDryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_job_order_create_select_wash_dry)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         binding.inclMachines.recyclerAvailableServices.adapter = adapter
 
         subscribeEvents()
-    }
 
-    private fun openSelectedItem() {
-        val tab = binding.tabMachineType.tabMachineType
         intent.getParcelableExtra<MenuServiceItem>(JobOrderCreateActivity.ITEM_PRESET_EXTRA).let {
             if(it != null) {
                 itemClick(it)
-            } else {
-                viewModel.setMachineType(EnumMachineType.REGULAR_WASHER.toString())
+                viewModel.setMachineType(it.machineType, it.serviceType)
             }
+        }
 
-            val index = EnumMachineType.values().indexOf(
-                it?.machineType ?: EnumMachineType.REGULAR_WASHER
-            )
 
-            tab.getTabAt(index)?.select()
+        intent.getParcelableArrayListExtra<MenuServiceItem>(JobOrderCreateActivity.PAYLOAD_EXTRA)?.toList().let {
+            viewModel.setPreSelectedServices(it)
+        }
+    }
+
+    private fun openSelectedItem() {
+//        val tab = binding.tabMachineType.tabMachineType
+        intent.getParcelableExtra<MenuServiceItem>(JobOrderCreateActivity.ITEM_PRESET_EXTRA).let {
+            if(it != null) {
+                itemClick(it)
+            }
+//            else {
+//                viewModel.setMachineType(EnumMachineType.REGULAR_WASHER.toString())
+//            }
+            viewModel.setMachineType(it?.machineType, it?.serviceType)
+
+//            val index = EnumMachineType.values().indexOf(
+//                it?.machineType ?: EnumMachineType.REGULAR_WASHER
+//            )
+//
+//            tab.getTabAt(index)?.select()
         }
     }
 
@@ -73,30 +88,47 @@ class JobOrderCreateSelectWashDryActivity : AppCompatActivity() {
     private fun subscribeEvents() {
         adapter.onItemClick = { itemClick(it) }
 
-        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewModel.setMachineType(tab?.text.toString())
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) { }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                viewModel.setMachineType(tab?.text.toString())
-            }
-        })
+        binding.tabMachineType.cardRegularWasher.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.REGULAR, EnumServiceType.WASH)
+        }
+        binding.tabMachineType.cardRegularDryer.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.REGULAR, EnumServiceType.DRY)
+        }
+        binding.tabMachineType.cardTitanWasher.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.TITAN, EnumServiceType.WASH)
+        }
+        binding.tabMachineType.cardTitanDryer.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.TITAN, EnumServiceType.DRY)
+        }
+//        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                viewModel.setMachineType(tab?.text.toString())
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) { }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//                viewModel.setMachineType(tab?.text.toString())
+//            }
+//        })
         binding.buttonOk.setOnClickListener {
             viewModel.prepareSubmit()
         }
         binding.buttonCancel.setOnClickListener {
             finish()
         }
-        viewModel.selectedTab.observe(this, Observer {
-            binding.inclMachines.viewModel = it
-            adapter.setData(viewModel.getServices(it))
-        })
+//        viewModel.selectedTab.observe(this, Observer {
+//            binding.inclMachines.viewModel = it
+//            adapter.setData(viewModel.getServices(it))
+//        })
         viewModel.availableServices.observe(this, Observer {
-            viewModel.setPreSelectedServices(intent.getParcelableArrayListExtra<MenuServiceItem>(JobOrderCreateActivity.PAYLOAD_EXTRA)?.toList())
-            openSelectedItem()
+//            viewModel.setPreSelectedServices(intent.getParcelableArrayListExtra<MenuServiceItem>(JobOrderCreateActivity.PAYLOAD_EXTRA)?.toList())
+            adapter.setData(it)
+//            openSelectedItem()
+        })
+
+        viewModel.filter.observe(this, Observer {
+            binding.inclMachines.machineTypeFilter = it
         })
 
         viewModel.dataState.observe(this, Observer {

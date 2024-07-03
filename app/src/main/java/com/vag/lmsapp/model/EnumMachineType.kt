@@ -5,31 +5,31 @@ import com.vag.lmsapp.R
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-enum class EnumMachineType(val id: Int, val value: String, val abbr: String, val icon: Int) : Parcelable {
-    REGULAR_WASHER(
+enum class EnumMachineType(val id: Int, val value: String, val abbr: String/*, val icon: Int*/) : Parcelable {
+    REGULAR(
         1,
-        "8KG Washer",
+        "Giant",
         "8KG",
-        R.drawable.icon_washer
+//        R.drawable.icon_washer
     ),
-    REGULAR_DRYER(
+//    REGULAR_DRYER(
+//        2,
+//        "8KG Dryer",
+//        "8KG",
+//        R.drawable.icon_dryer
+//    ),
+    TITAN(
         2,
-        "8KG Dryer",
-        "8KG",
-        R.drawable.icon_dryer
-    ),
-    TITAN_WASHER(
-        3,
-        "12KG Washer",
+        "Titan",
         "12KG",
-        R.drawable.icon_washer
-    ),
-    TITAN_DRYER(
-        4,
-        "12KG Dryer",
-        "12KG",
-        R.drawable.icon_dryer
-    );
+//        R.drawable.icon_washer
+    );//,
+//    TITAN_DRYER(
+//        4,
+//        "12KG Dryer",
+//        "12KG",
+//        R.drawable.icon_dryer
+//    );
 
     override fun toString(): String {
         return value

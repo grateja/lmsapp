@@ -28,7 +28,8 @@ import com.vag.lmsapp.services.MachineActivationService
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.calculateSpanCount
-import com.google.android.material.tabs.TabLayout
+import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.MachineConnectionStatus
 import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.showMessageDialog
@@ -136,17 +137,29 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
     private fun subscribeEvents() {
         adapter.onItemClick = { selectMachine(it) }
         adapter.onOptionClick = { showOptions(it) }
-        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewModel.setMachineType(tab?.text.toString())
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-        })
+        binding.tabMachineType.cardRegularWasher.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.REGULAR, EnumServiceType.WASH)
+        }
+        binding.tabMachineType.cardRegularDryer.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.REGULAR, EnumServiceType.DRY)
+        }
+        binding.tabMachineType.cardTitanWasher.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.TITAN, EnumServiceType.WASH)
+        }
+        binding.tabMachineType.cardTitanDryer.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.TITAN, EnumServiceType.DRY)
+        }
+//        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                viewModel.setMachineType(tab?.text.toString())
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//            }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//            }
+//        })
 //        regularDryersAdapter.onItemClick = { selectMachine(it) }
 //        titanWashersAdapter.onItemClick = { selectMachine(it) }
 //        titanDryersAdapter.onItemClick = { selectMachine(it) }

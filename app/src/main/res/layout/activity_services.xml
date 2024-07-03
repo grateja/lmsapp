@@ -16,11 +16,14 @@
             layout="@layout/incl_tab_machines_simple"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:serviceType="@{viewModel.filter.serviceType}"
+            app:machineType="@{viewModel.filter.machineType}"/>
         <include
+            android:id="@+id/inclMachines"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/inclMachines"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             app:layout_constraintTop_toBottomOf="@id/tabMachineType"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

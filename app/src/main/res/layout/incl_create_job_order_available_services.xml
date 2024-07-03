@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="viewModel"
-            type="com.vag.lmsapp.model.EnumMachineType" />
+            name="machineTypeFilter"
+            type="com.vag.lmsapp.model.MachineTypeFilter" />
+<!--        <variable-->
+<!--            name="serviceType"-->
+<!--            type="com.vag.lmsapp.model.EnumServiceType" />-->
         <variable
             name="readOnly"
             type="Boolean" />
@@ -25,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
-                android:text="@{viewModel.toString()}"
+                android:text="@{machineTypeFilter.toString()}"
                 tools:text="Regular Washer"/>
             <Button
                 android:id="@+id/buttonAdd"
@@ -40,12 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ImageView
-                tools:src="@drawable/icon_washer"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="8dp"
-                app:imageResource="@{viewModel.icon}"/>
+
+<!--            <ImageView-->
+<!--                tools:src="@drawable/icon_washer"-->
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="70dp"-->
+<!--                android:layout_margin="8dp"-->
+<!--                app:imageResource="@{machineTypeFilter.serviceType.icon}"/>-->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerAvailableServices"
                 android:layout_width="match_parent"

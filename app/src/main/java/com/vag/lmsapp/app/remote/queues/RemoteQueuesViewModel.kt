@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.vag.lmsapp.model.MachineActivationQueues
+import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.room.entities.EntityCustomerQueueService
 import com.vag.lmsapp.room.repository.JobOrderQueuesRepository
 import com.vag.lmsapp.room.repository.MachineRepository
@@ -27,7 +28,11 @@ constructor(
     val machine = _machineId.switchMap { machineRepository.getMachineLiveData(it) }
 
     val customerQueue = MutableLiveData<EntityCustomerQueueService>()
-    val availableServices = customerQueue.switchMap { queuesRepository.getAvailableServicesByCustomerIdAsLiveData(it.customerId, it.machineType) } //MutableLiveData<List<EntityAvailableService>>()
+    val availableServices = customerQueue.switchMap { queuesRepository.getAvailableServicesByCustomerIdAsLiveData(it.customerId,
+        MachineTypeFilter(
+            it.machineType, it.serviceType
+        )
+    ) } //MutableLiveData<List<EntityAvailableService>>()
 
     fun setMachineId(machineId: UUID) {
         this._machineId.value = machineId

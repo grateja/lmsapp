@@ -3,6 +3,7 @@ package com.vag.lmsapp.app.joborders.create.services
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Ignore
+import com.vag.lmsapp.R
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.EnumWashType
@@ -77,5 +78,9 @@ data class MenuServiceItem(
 
     fun description(): String {
         return "$minutes $machineType" + ((washType?.description) ?: "dry")
+    }
+
+    fun icon(): Int {
+        return washType?.icon ?: R.drawable.icon_dries
     }
 }

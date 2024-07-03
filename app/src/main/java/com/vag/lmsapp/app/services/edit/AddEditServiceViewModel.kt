@@ -29,9 +29,9 @@ constructor(
     val minutes = MutableLiveData<String>()
     val price = MutableLiveData<String>()
 
-    fun get(serviceId: UUID?, enumMachineType: EnumMachineType) {
+    fun get(serviceId: UUID?, enumMachineType: EnumMachineType, serviceType: EnumServiceType) {
         viewModelScope.launch {
-            super.get(serviceId, EntityService(enumMachineType)).let {
+            super.get(serviceId, EntityService(enumMachineType, serviceType)).let {
                 machineType.value = it.serviceRef.machineType
                 washType.value = it.serviceRef.washType
                 minutes.value = it.serviceRef.minutes.toString()
@@ -76,7 +76,7 @@ constructor(
             )
         )
 
-        if(machineType == EnumMachineType.REGULAR_WASHER || machineType == EnumMachineType.TITAN_WASHER) {
+        if(machineType == EnumMachineType.REGULAR || machineType == EnumMachineType.TITAN) {
             inputValidation.addRule(
                 "washType",
                 washType,
@@ -100,7 +100,7 @@ constructor(
     }
 
     override fun save() {
-        val serviceType = serviceType.value ?: EnumServiceType.OTHER
+        val serviceType = serviceType.value ?: return
         val machineType = machineType.value ?: return
         val washType = washType.value
         val minutes = minutes.value?.toIntOrNull()

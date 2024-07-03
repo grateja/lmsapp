@@ -1,7 +1,7 @@
 package com.vag.lmsapp.room.repository
 
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
-import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.room.dao.DaoService
 import com.vag.lmsapp.room.entities.EntityService
 import java.util.UUID
@@ -23,8 +23,8 @@ constructor (
         return daoWashService.menuItems()
     }
 
-    fun getByMachineTypeAsLiveData(machineType: EnumMachineType) =
-        daoWashService.getByMachineTypeAsLiveData(machineType)
+    fun getByMachineTypeAsLiveData(filter: MachineTypeFilter) =
+        daoWashService.getByMachineTypeAsLiveData(filter.machineType, filter.serviceType)
 
     suspend fun unSynced(forced: Boolean) = daoWashService.unSynced(forced)
 

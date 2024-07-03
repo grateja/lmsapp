@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.room.entities.EntityCustomerQueueService
 import com.vag.lmsapp.room.repository.JobOrderQueuesRepository
 import com.vag.lmsapp.room.repository.MachineRepository
@@ -28,7 +29,12 @@ constructor(
 
     val machineId = MutableLiveData<UUID?>()
     val machine = machineId.switchMap { machineRepository.getMachineLiveData(it) }
-    val customerQueues = machine.switchMap { queuesRepository.getByMachineType(it?.machineType) }
+    val customerQueues = machine.switchMap { queuesRepository.getByMachineType(
+        MachineTypeFilter(
+            it?.machineType,
+            it?.serviceType
+        )
+    ) }
 
     fun resetNavigationState() {
         _navigationState.value = NavigationState.ResetState

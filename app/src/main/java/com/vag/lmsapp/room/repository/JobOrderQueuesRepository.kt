@@ -1,6 +1,7 @@
 package com.vag.lmsapp.room.repository
 
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.room.dao.DaoJobOrderQueues
 import com.vag.lmsapp.room.entities.EntityAvailableService
 import com.vag.lmsapp.room.entities.EntityJobOrderService
@@ -23,18 +24,18 @@ constructor (
 //        }
 //        return emptyList()
 //    }
-    fun getByMachineType(machineType: EnumMachineType?) = dao.getCustomersByMachineType(machineType)
+    fun getByMachineType(filter: MachineTypeFilter?) = dao.getCustomersByMachineType(filter?.machineType, filter?.serviceType)
 
-    suspend fun getAvailableServiceByCustomerId(customerId: UUID, machineType: EnumMachineType) : List<EntityAvailableService> {
+    suspend fun getAvailableServiceByCustomerId(customerId: UUID, filter: MachineTypeFilter) : List<EntityAvailableService> {
         try {
-            return dao.getAvailableWashes(customerId, machineType)
+            return dao.getAvailableWashes(customerId, filter.machineType, filter.serviceType)
         } catch (e: Exception) {
             e.printStackTrace()
         }
         return emptyList()
     }
 
-    fun getAvailableServicesByCustomerIdAsLiveData(customerId: UUID, machineType: EnumMachineType) = dao.getAvailableServicesAsLiveData(customerId, machineType)
+    fun getAvailableServicesByCustomerIdAsLiveData(customerId: UUID, filter: MachineTypeFilter) = dao.getAvailableServicesAsLiveData(customerId, filter.machineType, filter.serviceType)
 
     fun getAsLiveData(id: UUID?) = dao.getAsLiveData(id)
 
