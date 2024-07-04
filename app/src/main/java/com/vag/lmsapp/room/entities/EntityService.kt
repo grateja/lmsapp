@@ -6,6 +6,7 @@ import androidx.room.Entity
 import com.squareup.moshi.Json
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
+import com.vag.lmsapp.model.EnumWashType
 import com.vag.lmsapp.util.DbColumns.Companion.SERVICES
 
 @Entity(tableName = SERVICES)
@@ -15,9 +16,11 @@ class EntityService(
     var price: Float = 0f,
 
     @Embedded
-    var serviceRef: EntityServiceRef
+    var serviceRef: EntityServiceRef,
+
+    var hidden: Boolean = false
 ) : BaseEntity() {
-    constructor(machineType: EnumMachineType, serviceType: EnumServiceType) : this("", 0f, EntityServiceRef(serviceType, machineType, null, 0))
+    constructor(machineType: EnumMachineType, serviceType: EnumServiceType, washType: EnumWashType? = null) : this("", 0f, EntityServiceRef(serviceType, machineType, washType, 0))
 
     @Json(ignore = true)
     var sync: Boolean = false

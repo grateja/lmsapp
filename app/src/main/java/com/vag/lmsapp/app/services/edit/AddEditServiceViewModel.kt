@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.EnumWashType
+import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.model.Rule
 import com.vag.lmsapp.room.entities.EntityService
 import com.vag.lmsapp.room.entities.EntityServiceRef
@@ -29,13 +30,18 @@ constructor(
     val minutes = MutableLiveData<String>()
     val price = MutableLiveData<String>()
 
-    fun get(serviceId: UUID?, enumMachineType: EnumMachineType, serviceType: EnumServiceType) {
+    fun get(serviceId: UUID?, filter: MachineTypeFilter?) {
         viewModelScope.launch {
-            super.get(serviceId, EntityService(enumMachineType, serviceType)).let {
+            super.get(serviceId, EntityService(
+                filter?.machineType ?: EnumMachineType.REGULAR,
+                filter?.serviceType ?: EnumServiceType.WASH,
+                EnumWashType.WARM)
+            ).let {
                 machineType.value = it.serviceRef.machineType
                 washType.value = it.serviceRef.washType
                 minutes.value = it.serviceRef.minutes.toString()
                 price.value = it.price.toString()
+                serviceType.value = it.serviceRef.serviceType
 
                 println("machine type")
                 println(it.serviceRef.machineType)
@@ -102,7 +108,7 @@ constructor(
     override fun save() {
         val serviceType = serviceType.value ?: return
         val machineType = machineType.value ?: return
-        val washType = washType.value
+        val washType = if(serviceType == EnumServiceType.DRY) {null} else {washType.value}
         val minutes = minutes.value?.toIntOrNull()
         val price = price.value?.toFloatOrNull()
 
@@ -120,9 +126,16 @@ constructor(
 
     fun setServiceType(serviceType: EnumServiceType) {
         this.serviceType.value = serviceType
+        if(serviceType == EnumServiceType.WASH && washType.value == null) {
+            washType.value = EnumWashType.WARM
+        }
     }
 
     fun setMachineType(machineType: EnumMachineType) {
         this.machineType.value = machineType
+    }
+
+    fun setWashType(washType: EnumWashType?) {
+        this.washType.value = washType
     }
 }

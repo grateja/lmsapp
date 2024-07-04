@@ -29,4 +29,6 @@ constructor (
     suspend fun unSynced(forced: Boolean) = daoWashService.unSynced(forced)
 
     fun getPreviewAsLiveData(serviceId: UUID) = daoWashService.getPreviewAsLiveData(serviceId)
+
+    suspend fun hideToggle(serviceId: UUID) = daoWashService.hideToggle(serviceId)
 }

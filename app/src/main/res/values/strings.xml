@@ -129,4 +129,5 @@
     <string name="wash_dry_services">WASH &amp; DRY SERVICES</string>
     <string name="products_and_chemicals">PRODUCTS AND CHEMICALS</string>
     <string name="extra_services">EXTRA SERVICES</string>
+    <string name="hidden_service_message">This service is hidden from the menu while creating a job order. However, if an existing order contains this item or if the item is included in a package, it will still be visible unless explicitly removed.</string>
 </resources>

@@ -12,6 +12,7 @@ import com.vag.lmsapp.app.machines.addedit.MachinesAddEditActivity
 import com.vag.lmsapp.databinding.ActivityMachinesBinding
 import com.vag.lmsapp.util.Constants
 import com.google.android.material.tabs.TabLayout
+import com.vag.lmsapp.model.MachineTypeFilter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,7 +50,10 @@ class MachinesActivity : AppCompatActivity() {
         adapter.onItemClick = {
             val intent = Intent(this, MachinesAddEditActivity::class.java).apply {
                 putExtra(Constants.MACHINE_ID_EXTRA, it.machine.id.toString())
-                putExtra(MachinesAddEditActivity.MACHINE_TYPE_EXTRA, it.machine.machineType?.id)
+                putExtra(MachinesAddEditActivity.MACHINE_TYPE_FILTER, MachineTypeFilter(
+                    it.machine.machineType,
+                    it.machine.serviceType
+                ))
             }
             startActivity(intent)
         }

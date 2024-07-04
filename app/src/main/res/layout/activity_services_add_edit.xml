@@ -24,9 +24,12 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="vertical"
-                android:clipToPadding="false">
+                android:clipToPadding="false"
+                android:animateLayoutChanges="true">
                 <TextView
                     style="@style/TextItemTitle"
+                    android:layout_marginTop="24dp"
+                    android:textColor="@color/text_dark_grey"
                     android:layout_gravity="center"
                     android:text="Select service type"
                     android:layout_width="wrap_content"
@@ -41,7 +44,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_service_type_wash"
                         style="@style/RoundCard.NoElevation"
-                        app:strokeWidth="1dp"
+                        app:strokeWidth="2dp"
                         app:strokeColor="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.WASH ? @color/primary : @color/neutral}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -55,9 +58,11 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/icon_washes"
+                                android:src="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.WASH ? @drawable/icon_service_type_wash_primary : @drawable/icon_service_type_wash }"
+                                tools:src="@drawable/icon_service_type_wash"
                                 android:layout_marginBottom="12dp"/>
                             <TextView
+                                android:textColor="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.WASH ? @color/primary : @color/text_dark_grey}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Wash service"/>
@@ -66,7 +71,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_service_type_dry"
                         style="@style/RoundCard.NoElevation"
-                        app:strokeWidth="1dp"
+                        app:strokeWidth="2dp"
                         app:strokeColor="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.DRY ? @color/primary : @color/neutral}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -80,9 +85,11 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/icon_dries"
+                                android:src="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.DRY ? @drawable/icon_service_type_dry_primary : @drawable/icon_service_type_dry }"
+                                tools:src="@drawable/icon_service_type_dry"
                                 android:layout_marginBottom="12dp"/>
                             <TextView
+                                android:textColor="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.DRY ? @color/primary : @color/text_dark_grey}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Dry service"/>
@@ -91,8 +98,9 @@
                 </LinearLayout>
 
                 <TextView
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="48dp"
                     style="@style/TextItemTitle"
+                    android:textColor="@color/text_dark_grey"
                     android:layout_gravity="center"
                     android:text="Select machine capacity"
                     android:layout_width="wrap_content"
@@ -107,7 +115,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_machine_type_8kg"
                         style="@style/RoundCard.NoElevation"
-                        app:strokeWidth="1dp"
+                        app:strokeWidth="2dp"
                         app:strokeColor="@{viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.REGULAR ? @color/primary : @color/neutral}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -118,12 +126,13 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center">
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/icon_washes"
-                                android:layout_marginBottom="12dp"/>
+<!--                            <ImageView-->
+<!--                                android:layout_width="30dp"-->
+<!--                                android:layout_height="30dp"-->
+<!--                                android:src="@drawable/icon_service_type_wash"-->
+<!--                                android:layout_marginBottom="12dp"/>-->
                             <TextView
+                                android:textColor="@{viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.REGULAR ? @color/primary : @color/text_dark_grey}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="8KG (Giant)"/>
@@ -132,7 +141,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_machine_type_12kg"
                         style="@style/RoundCard.NoElevation"
-                        app:strokeWidth="1dp"
+                        app:strokeWidth="2dp"
                         app:strokeColor="@{viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.TITAN ? @color/primary : @color/neutral}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -143,12 +152,14 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center">
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/icon_dries"
-                                android:layout_marginBottom="12dp"/>
+<!--                            <ImageView-->
+<!--                                android:layout_width="30dp"-->
+<!--                                android:layout_height="30dp"-->
+<!--                                android:src="@drawable/icon_service_type_dry"-->
+<!--                                android:layout_marginBottom="12dp"/>-->
                             <TextView
+
+                                android:textColor="@{viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.TITAN ? @color/primary : @color/text_dark_grey}"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="12KG (Titan)"/>
@@ -156,107 +167,261 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    app:contentPadding="8dp"
+                <TextView
+                    android:visibility="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.WASH}"
+                    android:layout_marginTop="48dp"
+                    android:textColor="@color/text_dark_grey"
+                    style="@style/TextItemTitle"
+                    android:layout_gravity="center"
+                    android:text="Select wash type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:visibility="@{viewModel.serviceType == com.vag.lmsapp.model.EnumServiceType.WASH}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardElevation="3dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:text="MACHINE TYPE"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <com.google.android.material.divider.MaterialDivider
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <RadioGroup
-                            app:selectedMachineType="@={viewModel.machineType}"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <RadioButton
-                                android:id="@+id/radio_machine_type_regular_washer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/regular_washer"/>
-                            <RadioButton
-                                android:id="@+id/radio_machine_type_regular_dryer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/regular_dryer"/>
-                            <RadioButton
-                                android:id="@+id/radio_machine_type_titan_washer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/titan_washer"/>
-                            <RadioButton
-                                android:id="@+id/radio_machine_type_titan_dryer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/titan_dryer"/>
-                        </RadioGroup>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
+                    android:orientation="horizontal"
                     android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:visibility="@{viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.REGULAR || viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.TITAN}"
-                    app:contentPadding="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:text="WASH TYPE"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <com.google.android.material.divider.MaterialDivider
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <RadioGroup
-                            app:selectedWashType="@={viewModel.washType}"
+                    android:divider="@drawable/divider_10"
+                    android:showDividers="middle">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_delicate"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.DELICATE ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <RadioButton
-                                android:id="@+id/radio_wash_type_hot"
-                                android:text="Hot wash"
-                                android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:divider="@drawable/divider_5"
+                            android:showDividers="middle|end|beginning">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.DELICATE ? @drawable/icon_wash_type_delicate_primary : @drawable/icon_wash_type_delicate }"
+                                tools:src="@drawable/icon_wash_type_delicate"/>
+                            <TextView
+                                android:text="Delicate"
+                                android:textColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.DELICATE ? @color/primary : @color/text_dark_grey}"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
-                            <RadioButton
-                                android:id="@+id/radio_wash_type_warm"
-                                android:text="Warm wash"
-                                android:layout_width="match_parent"
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_cold"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.COLD ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:divider="@drawable/divider_5"
+                            android:showDividers="middle|end|beginning">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.COLD ? @drawable/icon_wash_type_cold_primary : @drawable/icon_wash_type_cold }"
+                                tools:src="@drawable/icon_wash_type_cold"/>
+                            <TextView
+                                android:text="Cold"
+                                android:textColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.COLD ? @color/primary : @color/text_dark_grey}"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
-                            <RadioButton
-                                android:id="@+id/radio_wash_type_cold"
-                                android:text="Cold wash"
-                                android:layout_width="match_parent"
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_warm"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.WARM ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:divider="@drawable/divider_5"
+                            android:showDividers="middle|end|beginning">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.WARM ? @drawable/icon_wash_type_warm_primary : @drawable/icon_wash_type_warm }"
+                                tools:src="@drawable/icon_wash_type_warm"/>
+                            <TextView
+                                android:text="Warm"
+                                android:textColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.WARM ? @color/primary : @color/text_dark_grey}"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
-                            <RadioButton
-                                android:id="@+id/radio_wash_type_delicate"
-                                android:text="Delicate wash"
-                                android:layout_width="match_parent"
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_hot"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.HOT ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:divider="@drawable/divider_5"
+                            android:showDividers="middle|end|beginning">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.HOT ? @drawable/icon_wash_type_hot_primary : @drawable/icon_wash_type_hot }"
+                                tools:src="@drawable/icon_wash_type_hot"/>
+                            <TextView
+                                android:text="Hot"
+                                android:textColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.HOT ? @color/primary : @color/text_dark_grey}"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
-                            <RadioButton
-                                android:id="@+id/radio_wash_type_super"
-                                android:text="Super wash"
-                                android:layout_width="match_parent"
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_super"
+                        style="@style/RoundCard.NoElevation"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.SUPER_WASH ? @color/primary : @color/neutral}"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:divider="@drawable/divider_5"
+                            android:showDividers="middle|end|beginning">
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.SUPER_WASH ? @drawable/icon_wash_type_super_primary : @drawable/icon_wash_type_super }"/>
+                            <TextView
+                                android:text="Super"
+                                android:textColor="@{viewModel.washType == com.vag.lmsapp.model.EnumWashType.SUPER_WASH ? @color/primary : @color/text_dark_grey}"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
-                        </RadioGroup>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+
+
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    android:layout_marginTop="12dp"-->
+<!--                    android:layout_marginBottom="12dp"-->
+<!--                    app:contentPadding="8dp"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:cardElevation="3dp">-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical">-->
+<!--                        <TextView-->
+<!--                            android:text="MACHINE TYPE"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                        <com.google.android.material.divider.MaterialDivider-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                        <RadioGroup-->
+<!--                            app:selectedMachineType="@={viewModel.machineType}"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content">-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_machine_type_regular_washer"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@string/regular_washer"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_machine_type_regular_dryer"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@string/regular_dryer"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_machine_type_titan_washer"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@string/titan_washer"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_machine_type_titan_dryer"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@string/titan_dryer"/>-->
+<!--                        </RadioGroup>-->
+<!--                    </LinearLayout>-->
+<!--                </com.google.android.material.card.MaterialCardView>-->
+
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    android:layout_marginTop="12dp"-->
+<!--                    android:layout_marginBottom="12dp"-->
+<!--                    android:visibility="@{viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.REGULAR || viewModel.machineType == com.vag.lmsapp.model.EnumMachineType.TITAN}"-->
+<!--                    app:contentPadding="8dp"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:cardElevation="2dp">-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical">-->
+<!--                        <TextView-->
+<!--                            android:text="WASH TYPE"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                        <com.google.android.material.divider.MaterialDivider-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"/>-->
+<!--                        <RadioGroup-->
+<!--                            app:selectedWashType="@={viewModel.washType}"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content">-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_wash_type_hot"-->
+<!--                                android:text="Hot wash"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_wash_type_warm"-->
+<!--                                android:text="Warm wash"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_wash_type_cold"-->
+<!--                                android:text="Cold wash"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_wash_type_delicate"-->
+<!--                                android:text="Delicate wash"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"/>-->
+<!--                            <RadioButton-->
+<!--                                android:id="@+id/radio_wash_type_super"-->
+<!--                                android:text="Super wash"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"/>-->
+<!--                        </RadioGroup>-->
+<!--                    </LinearLayout>-->
+<!--                </com.google.android.material.card.MaterialCardView>-->
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="24dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -265,6 +430,7 @@
                     app:errorText="@{viewModel.validation.get(`name`)}">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_service_name"
                         android:text="@={viewModel.model.name}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -282,6 +448,7 @@
                     app:errorText="@{viewModel.validation.get(`price`)}">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_price"
                         android:text="@={viewModel.price}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -299,6 +466,7 @@
                     app:errorText="@{viewModel.validation.get(`minutes`)}">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_minutes"
                         android:text="@={viewModel.minutes}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -308,13 +476,73 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-        <include
-            layout="@layout/incl_controls_crud"
-            android:id="@+id/controls"
-            android:layout_height="wrap_content"
+        <com.google.android.material.divider.MaterialDivider
+            app:layout_constraintTop_toTopOf="@id/controls"
             android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+        <LinearLayout
+            android:id="@+id/controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_close"
+                style="@style/ButtonCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icon_close"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/close"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_confirm"
+                style="@style/ButtonCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/icon_confirm"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/confirm"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+<!--        <include-->
+<!--            layout="@layout/incl_controls_crud"-->
+<!--            android:id="@+id/controls"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

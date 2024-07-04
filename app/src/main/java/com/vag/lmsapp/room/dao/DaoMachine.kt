@@ -21,7 +21,7 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
     abstract suspend fun get(id: UUID): EntityMachine?
 
     @Query("SELECT stack_order FROM machines WHERE machine_type = :machineType AND service_type = :serviceType ORDER BY stack_order DESC")
-    abstract suspend fun getLastStackOrder(machineType: EnumMachineType, serviceType: EnumServiceType): Int?
+    abstract suspend fun getLastStackOrder(machineType: EnumMachineType?, serviceType: EnumServiceType?): Int?
 
     @Query("SELECT * FROM machines ORDER BY stack_order")
     abstract fun getAllAsLiveData(): LiveData<List<EntityMachine>>

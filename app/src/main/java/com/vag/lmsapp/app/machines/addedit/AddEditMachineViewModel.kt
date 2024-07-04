@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
+import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.room.entities.EntityMachine
 import com.vag.lmsapp.room.repository.MachineRepository
 import com.vag.lmsapp.util.DataState
@@ -27,12 +28,18 @@ constructor(
     val connecting = MutableLiveData(false)
 //    val state = MutableLiveData<RemoteActivationState>()
 
-    fun get(id: String?, machineType: EnumMachineType, serviceType: EnumServiceType) {
+    fun get(id: String?, filter: MachineTypeFilter?) {
         model.value.let {
             if(it != null) return
             viewModelScope.launch {
-                val stackOrder = repository.getLastStackOrder(machineType, serviceType) + 1
-                super.get(id.toUUID(), EntityMachine(stackOrder, machineType, serviceType, 0, stackOrder))
+                val stackOrder = repository.getLastStackOrder(filter) + 1
+                super.get(id.toUUID(), EntityMachine(
+                    stackOrder,
+                    filter?.machineType,
+                    filter?.serviceType,
+                    0,
+                    stackOrder
+                ))
             }
         }
     }

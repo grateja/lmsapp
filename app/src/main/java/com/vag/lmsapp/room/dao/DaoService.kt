@@ -28,4 +28,7 @@ abstract class DaoService : BaseDao<EntityService> {
 
     @Query("SELECT * FROM services WHERE id = :serviceId")
     abstract fun getPreviewAsLiveData(serviceId: UUID): LiveData<ServicePreview?>
+
+    @Query("UPDATE services SET hidden = CASE WHEN hidden = 1 THEN 0 ELSE 1 END WHERE id = :serviceId")
+    abstract suspend fun hideToggle(serviceId: UUID)
 }

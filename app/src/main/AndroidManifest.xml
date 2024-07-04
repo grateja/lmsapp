@@ -34,6 +34,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
         <activity
+            android:name=".app.services.delete.ServiceDeleteActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.daily_report.job_order_items.preview.DailyReportJobOrderItemsPreviewActivity"
             android:exported="false" />
         <activity

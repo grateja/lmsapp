@@ -37,8 +37,7 @@ constructor(
 //    }
 
     fun openAddEdit(serviceId: UUID?) {
-        val machineType = selectedTab.value ?: EnumMachineType.REGULAR
-        _dataState.value = DataState.OpenAddEdit(serviceId, machineType)
+        _dataState.value = DataState.OpenAddEdit(serviceId, _filter.value)
     }
 
     fun resetState() {
@@ -53,6 +52,6 @@ constructor(
 
     sealed class DataState {
         object StateLess : DataState()
-        class OpenAddEdit(val serviceId: UUID?, val machineType: EnumMachineType) : DataState()
+        class OpenAddEdit(val serviceId: UUID?, val filter: MachineTypeFilter?) : DataState()
     }
 }

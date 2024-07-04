@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class EnumServiceType(val id: Int, val value: String, val icon: Int) : Parcelable {
-    WASH(1, "Wash", R.drawable.icon_washes),
-    DRY(2, "Dry", R.drawable.icon_dries);
+    WASH(1, "Wash", R.drawable.icon_service_type_wash),
+    DRY(2, "Dry", R.drawable.icon_service_type_dry);
 
     override fun toString(): String {
         return value

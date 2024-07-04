@@ -11,6 +11,8 @@ import com.vag.lmsapp.app.services.edit.AddEditServiceActivity
 import com.vag.lmsapp.databinding.FragmentServicePreviewBottomSheetBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.util.Constants.Companion.PAYLOAD
+import com.vag.lmsapp.util.CrudActivity.Companion.ENTITY_ID
+import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
@@ -50,6 +52,15 @@ class ServicePreviewBottomSheetFragment : BaseModalFragment() {
         binding.buttonCardEdit.setOnClickListener {
             viewModel.openEdit()
         }
+        binding.buttonCardDelete.setOnClickListener {
+            requireContext().showDeleteConfirmationDialog("Are you sure you want to delete this service?", "This action cannot be undone! Do you want to continue?") {
+                viewModel.delete()
+                dismiss()
+            }
+        }
+        binding.buttonCardHideToggle.setOnClickListener {
+            viewModel.hideToggle()
+        }
     }
 
     private fun subscribeListeners() {
@@ -57,11 +68,12 @@ class ServicePreviewBottomSheetFragment : BaseModalFragment() {
             when(it) {
                 is ServicePreviewViewModel.NavigationState.OpenEdit -> {
                     val intent = Intent(context, AddEditServiceActivity::class.java).apply {
-                        putExtra(AddEditServiceActivity.SERVICE_ID_EXTRA, it.serviceId.toString())
+                        putExtra(ENTITY_ID, it.serviceId.toString())
                     }
                     startActivity(intent)
                     viewModel.resetState()
                 }
+
                 else -> {}
             }
         })

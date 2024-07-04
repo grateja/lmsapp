@@ -32,6 +32,8 @@
 
     <color name="background_success">#E3F3D3</color>
 
+    <color name="card_disabled_cover">#90EEEEEE</color>
+
     <color name="color_code_dashboard">#E75263</color>
     <color name="color_code_job_order">#F46D43</color>
     <color name="darker_color_code_job_order_darker">#C43205</color>

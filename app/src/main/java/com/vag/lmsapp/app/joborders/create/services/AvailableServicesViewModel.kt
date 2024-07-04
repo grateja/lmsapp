@@ -35,7 +35,7 @@ constructor(
         fun update() {
             val filter = _filter.value
             value = _availableServices.value?.filter {
-                it.serviceType == filter?.serviceType && it.machineType == filter?.machineType
+                it.serviceType == filter?.serviceType && it.machineType == filter.machineType && ((it.hidden && it.selected) || !it.hidden)
             } ?: emptyList()
         }
         addSource(_filter) {update()}

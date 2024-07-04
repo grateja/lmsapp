@@ -16,6 +16,8 @@ import com.vag.lmsapp.room.entities.EntityService
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.app.services.preview.ServicePreviewBottomSheetFragment
 import com.vag.lmsapp.model.EnumServiceType
+import com.vag.lmsapp.model.MachineTypeFilter
+import com.vag.lmsapp.util.CrudActivity.Companion.ENTITY_ID
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -69,9 +71,8 @@ class ServicesActivity : AppCompatActivity() {
             viewModel.openAddEdit(null)
         }
         launcher.onOk = {
-            val machineType = it.data?.getParcelableExtra<EnumMachineType>(AddEditServiceActivity.MACHINE_TYPE_EXTRA)
-            val serviceType = it.data?.getParcelableExtra<EnumServiceType>(AddEditServiceActivity.SERVICE_TYPE_EXTRA)
-            viewModel.setMachineType(machineType, serviceType)
+            val filter = it.data?.getParcelableExtra<MachineTypeFilter>(AddEditServiceActivity.MACHINE_TYPE_FILTER)
+            viewModel.setMachineType(filter?.machineType, filter?.serviceType)
 //            val index = EnumMachineType.values().indexOf(
 //                machineType ?: EnumMachineType.REGULAR_WASHER
 //            )
@@ -80,10 +81,10 @@ class ServicesActivity : AppCompatActivity() {
         }
     }
 
-    private fun openAddEdit(serviceId: UUID?, machineType: EnumMachineType) {
+    private fun openAddEdit(serviceId: UUID?, filter: MachineTypeFilter?) {
         val intent = Intent(this, AddEditServiceActivity::class.java).apply {
-            putExtra(AddEditServiceActivity.SERVICE_ID_EXTRA, serviceId.toString())
-            putExtra(AddEditServiceActivity.MACHINE_TYPE_EXTRA, machineType as Parcelable)
+            putExtra(ENTITY_ID, serviceId.toString())
+            putExtra(AddEditServiceActivity.MACHINE_TYPE_FILTER, filter)
         }
         launcher.launch(intent)
     }
@@ -101,7 +102,7 @@ class ServicesActivity : AppCompatActivity() {
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is ServicesViewModel.DataState.OpenAddEdit -> {
-                    openAddEdit(it.serviceId, it.machineType)
+                    openAddEdit(it.serviceId, it.filter)
                     viewModel.resetState()
                 }
 

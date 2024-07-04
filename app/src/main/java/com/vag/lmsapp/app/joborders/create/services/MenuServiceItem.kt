@@ -45,6 +45,9 @@ data class MenuServiceItem(
 
     @ColumnInfo(name = "deleted")
     var deleted: Boolean = false,
+
+    @ColumnInfo(name = "hidden")
+    var hidden: Boolean = false,
 ) : Parcelable {
 
     @IgnoredOnParcel
@@ -81,6 +84,6 @@ data class MenuServiceItem(
     }
 
     fun icon(): Int {
-        return washType?.icon ?: R.drawable.icon_dries
+        return washType?.icon ?: R.drawable.icon_service_type_dry
     }
 }

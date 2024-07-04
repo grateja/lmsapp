@@ -26,8 +26,8 @@ class MachineRepository
         return daoMachine.getAll(machineType, serviceType)
     }
 
-    suspend fun getLastStackOrder(machineType: EnumMachineType, serviceType: EnumServiceType) : Int {
-        return daoMachine.getLastStackOrder(machineType, serviceType)?:1
+    suspend fun getLastStackOrder(filter: MachineTypeFilter?) : Int {
+        return daoMachine.getLastStackOrder(filter?.machineType, filter?.serviceType)?:1
     }
 
 //    suspend fun setWorkerId(machineId: UUID, workerId: UUID?) {
