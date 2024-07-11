@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
+import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.ITEM_PRESET_EXTRA
 import com.vag.lmsapp.app.joborders.create.shared_ui.CreateJobOrderModifyQuantityBottomSheetFragment
 import com.vag.lmsapp.app.joborders.create.shared_ui.QuantityModel
 import com.vag.lmsapp.databinding.ActivityJobOrderCreateSelectPackageBinding
@@ -57,6 +58,9 @@ class JobOrderCreateSelectPackageActivity : AppCompatActivity() {
             adapter.setData(it)
             intent.getParcelableArrayListExtra<MenuJobOrderPackage>(JobOrderCreateActivity.PAYLOAD_EXTRA).let {
                 viewModel.setPreselectedPackages(it)
+            }
+            intent.getParcelableExtra<MenuJobOrderPackage>(ITEM_PRESET_EXTRA)?.let {
+                itemClick(it)
             }
 //            viewModel.setPreselectedPackages(
 //                intent.getParcelableArrayListExtra<MenuJobOrderPackage>("packages")?.toList()

@@ -125,7 +125,9 @@ interface DaoJobOrder {
     suspend fun getUnpaidByCustomerId(customerId: UUID): List<JobOrderPaymentMinimal>
 
     @Query("""
-        SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, pa.created_at as date_paid, pa.cashless_provider, jo.sync,
+        SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at,
+            cu.name, cu.crn,
+            pa.created_at as date_paid, pa.cashless_provider, pa.payment_method, jo.sync,
                CASE
                    WHEN jo.payment_id IS NOT NULL OR date(jo.created_at / 1000, 'unixepoch', 'localtime') != date('now', 'localtime') THEN 1
                    ELSE 0

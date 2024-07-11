@@ -66,19 +66,19 @@
                 </TableRow>
                 <TableRow
                     android:layout_marginVertical="8dp"
-                    android:visibility="@{viewModel.payment.payment.change() > 0}">
+                    android:visibility="@{viewModel.payment.payment.change > 0}">
                     <TextView
                         android:text="CHANGE"
                         android:layout_weight="1"/>
                     <TextView
                         style="@style/Bold"
                         android:textAlignment="textEnd"
-                        android:peso="@{viewModel.payment.payment.change()}"
+                        android:peso="@{viewModel.payment.payment.change}"
                         tools:text="P 230.0"/>
                 </TableRow>
                 <TableRow
                     android:layout_marginVertical="8dp"
-                    android:visibility="@{viewModel.payment.payment.entityCashless != null}">
+                    android:visibility="@{viewModel.payment.payment.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}">
                     <TextView
                         android:text="PAYMENT METHOD"
                         android:layout_weight="1"/>

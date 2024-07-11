@@ -50,7 +50,7 @@
                     tools:text="Please pay: P 202.20"/>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
+                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_marginVertical="12dp"
                     android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_marginVertical="12dp"
                     android:layout_width="match_parent"
@@ -92,7 +92,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_marginVertical="12dp"
                     android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_marginVertical="12dp"
                     android:layout_width="match_parent"
@@ -149,7 +149,7 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <androidx.fragment.app.FragmentContainerView
-                    android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
                     android:id="@+id/fragment_proof_of_payment"
                     android:name="com.vag.lmsapp.app.joborders.payment.ProofOfPaymentFragment"
                     android:layout_width="match_parent"

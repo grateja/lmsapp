@@ -125,7 +125,7 @@
                                     tools:text="P 90.2"/>
                             </TableRow>
                             <TableRow
-                                android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
+                                android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
                                 style="@style/DefinitionTermRow">
                                 <TextView android:text="Cash tendered"
                                     android:textColor="#F6C948"
@@ -138,7 +138,7 @@
                                     tools:text="P 90.2"/>
                             </TableRow>
                             <TableRow
-                                android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                                android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
                                 style="@style/DefinitionTermRow">
                                 <TextView android:text="Cashless amount sent"
                                     android:textColor="#F6C948"
@@ -151,7 +151,7 @@
                                     tools:text="P 90.2"/>
                             </TableRow>
                             <TableRow
-                                android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                                android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
                                 style="@style/DefinitionTermRow">
                                 <TextView android:text="Cashless provider"
                                     android:textColor="#F6C948"
@@ -164,7 +164,7 @@
                                     tools:text="G-Cash"/>
                             </TableRow>
                             <TableRow
-                                android:visibility="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                                android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
                                 style="@style/DefinitionTermRow">
                                 <TextView android:text="Cashless ref.#"
                                     android:textColor="#F6C948"
@@ -229,6 +229,26 @@
                                 android:layout_height="wrap_content"
                                 android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.CASH.value}"
                                 tools:text="Cash"
+                                app:drawableTopCompat="@drawable/icon_payment_cash" />
+                        </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_marginEnd="4dp"
+                            app:strokeWidth="2dp"
+                            app:strokeColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.MIXED ? @color/color_code_payments : @color/regularColor}"
+                            style="@style/CardPrimary"
+                            android:id="@+id/card_payment_option_mixed"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_gravity="center"
+                                style="@style/TextItemTitle"
+                                android:textColor="@color/text_dark_grey"
+                                android:textAlignment="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.MIXED.value}"
+                                tools:text="Mixed"
                                 app:drawableTopCompat="@drawable/icon_payment_cash" />
                         </com.google.android.material.card.MaterialCardView>
                         <com.google.android.material.card.MaterialCardView

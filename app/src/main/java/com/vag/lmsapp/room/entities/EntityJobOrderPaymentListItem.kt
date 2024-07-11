@@ -32,6 +32,12 @@ data class EntityJobOrderPaymentListItem(
     val sync: Boolean
 ) {
     fun paymentOption() : String {
-        return cashlessProvider ?: "Cash"
+        return if(paymentMethod == EnumPaymentMethod.CASH) {
+            "CASH"
+        } else if(paymentMethod == EnumPaymentMethod.CASHLESS) {
+            cashlessProvider ?: ""
+        } else {
+            "CASH + $cashlessProvider"
+        }
     }
 }

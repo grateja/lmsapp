@@ -1,6 +1,9 @@
 package com.vag.lmsapp.app.joborders
 
+import java.util.UUID
+
 data class JobOrderItemMinimal(
+    val id: UUID,
     val quantity: Int,
     val name: String,
     val discountedPrice: Float

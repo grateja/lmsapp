@@ -18,6 +18,8 @@ constructor(
         const val JOB_ORDER_DISCLAIMER = "disclaimer"
         const val SHOW_DISCLAIMER = "showDisclaimer"
 
+        const val SHOW_PACKAGE_ITEMS = "showPackageItems"
+        const val SHOW_PACKAGE_PRICE = "showPackagePrice"
         const val SHOW_JO_ITEMIZED = "showJoItemized"
         const val SHOW_JO_PRICES = "showJoPrices"
         const val SHOW_CLAIM_STUB_ITEMIZED = "showClaimStubItemized"
@@ -34,6 +36,8 @@ constructor(
 
     val showJoItemized = getAsLiveData(SHOW_JO_ITEMIZED, true)
     val showJoPrices = getAsLiveData(SHOW_JO_PRICES, true)
+
+    val showPackageItems = getAsLiveData(SHOW_PACKAGE_ITEMS, true)
 
     val showClaimStubItemized = getAsLiveData(SHOW_CLAIM_STUB_ITEMIZED, true)
     val showClaimStubJoPrices = getAsLiveData(SHOW_CLAIM_STUB_PRICES, true)

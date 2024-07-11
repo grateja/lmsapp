@@ -79,6 +79,10 @@ class JobOrderPaymentActivity : AppCompatActivity() {
             viewModel.setPaymentMethod(EnumPaymentMethod.CASHLESS)
             fragment.show(supportFragmentManager, null)
         }
+        binding.cardPaymentOptionMixed.setOnClickListener {
+            viewModel.setPaymentMethod(EnumPaymentMethod.MIXED)
+            fragment.show(supportFragmentManager, null)
+        }
         binding.cardDatePaid.setOnClickListener {
             auth(AUTH_REQUEST_MODIFY_DATE_ACTION, "Modification of date paid requires authentication!")
         }

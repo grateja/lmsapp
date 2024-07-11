@@ -2,6 +2,7 @@ package com.vag.lmsapp.app.joborders.list
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
+import com.vag.lmsapp.model.EnumPaymentMethod
 import kotlinx.parcelize.Parcelize
 import java.time.Instant
 import java.util.*
@@ -37,6 +38,9 @@ data class JobOrderListItem(
     @ColumnInfo("cashless_provider")
     val cashlessProvider: String?,
 
+    @ColumnInfo("payment_method")
+    val paymentMethod: EnumPaymentMethod?,
+
     val locked: Boolean,
 
     val sync: Boolean
@@ -44,7 +48,12 @@ data class JobOrderListItem(
     fun paymentStatus() : String {
         return if(datePaid == null)
             "UNPAID"
-        else
-            cashlessProvider ?: "Cash"
+        else if(paymentMethod == EnumPaymentMethod.CASH) {
+            "CASH"
+        } else if(paymentMethod == EnumPaymentMethod.CASHLESS) {
+            cashlessProvider ?: ""
+        } else {
+            "CASH + $cashlessProvider"
+        }
     }
 }

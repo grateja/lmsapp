@@ -34,22 +34,21 @@ abstract class DaoDailyReport {
     @Query("""
         SELECT 
         CASE 
-            WHEN e.payment_method = 1 THEN 'CASH'
-            WHEN e.payment_method = 2 THEN cashless_provider
+            WHEN payment_method = 1 THEN 'CASH'
+            WHEN payment_method = 2 THEN cashless_provider
+            WHEN payment_method = 3 THEN 'CASH + ' || cashless_provider
         END AS provider,
         COUNT(*) AS count,
-        SUM(CASE 
-            WHEN e.payment_method = 1 THEN e.amount_due
-            WHEN e.payment_method = 2 THEN cashless_amount
-        END) AS amount
-    FROM job_order_payments e
+        SUM(amount_due) AS amount
+    FROM job_order_payments
         WHERE
-            DATE(e.created_at / 1000, 'unixepoch', 'localtime') = :date
+            DATE(created_at / 1000, 'unixepoch', 'localtime') = :date
             AND deleted = 0
     GROUP BY 
         CASE 
-            WHEN e.payment_method = 1 THEN 'CASH'
-            WHEN e.payment_method = 2 THEN cashless_provider
+            WHEN payment_method = 1 THEN 'CASH'
+            WHEN payment_method = 2 THEN cashless_provider
+            WHEN payment_method = 3 THEN 'CASH + ' || cashless_provider
         END
     """)
     abstract fun jobOrderPayment(date: LocalDate): LiveData<List<DailyReportJobOrderPayment>>

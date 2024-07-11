@@ -105,8 +105,9 @@ constructor(
         fun update() {
             val cash = cashReceived.value?.toFloatOrNull() ?: 0f
             val amountToPay = amountToPay.value ?: 0f
-            val change = cash - amountToPay
-            value = if(change >= 0 && amountToPay > 0) { change } else { 0f }
+            val cashless = cashlessAmount.value?.toFloatOrNull() ?: 0f
+            val change = (cash + cashless) - amountToPay
+            value = change //if(change >= 0 && amountToPay > 0) { change } else { 0f }
         }
         addSource(cashReceived){update()}
         addSource(amountToPay){update()}
@@ -219,6 +220,49 @@ constructor(
                     }
                 }
             }
+        } else if(paymentMethod.value == EnumPaymentMethod.MIXED) {
+            val cash = cashReceived.value?.toFloatOrNull() ?: 0f
+            val cashless = cashlessAmount.value?.toFloatOrNull() ?: 0f
+            validation.addRule(
+                "cashReceived",
+                cash + cashless,
+                arrayOf(
+                    Rule.Required,
+                    Rule.IsNumeric,
+                    Rule.Min(amountToPay.value, "The payment amount is insufficient.")
+                )
+            )
+            validation.addRule(
+                "cashlessAmount",
+                cash + cashless,
+                arrayOf(
+                    Rule.Required,
+                    Rule.IsNumeric,
+                    Rule.Min(amountToPay.value, "The payment amount is insufficient."),
+                    Rule.Max(amountToPay.value, "Cannot pay cashless more than the required amount")
+                )
+            )
+            validation.addRule(
+                "cashlessProvider",
+                cashlessProvider.value,
+                arrayOf(
+                    Rule.Required
+                )
+            )
+            validation.addRule(
+                "cashlessRefNumber",
+                cashlessRefNumber.value,
+                arrayOf(
+                    Rule.Required
+                )
+            )
+            if(requirePictureOnCashlessPayment.value == true) {
+                _paymentId.value?.let {
+                    if(!getApplication<Application>().file(it).exists()) {
+                        validation.addError("proofOfPayment", "Proof of payment is required!")
+                    }
+                }
+            }
         } else {
             _dataState.value = DataState.InvalidOperation("Please select payment option!")
             return
@@ -235,8 +279,7 @@ constructor(
 
     fun save(userId: UUID) {
         viewModelScope.launch {
-            val cashless = if(paymentMethod.value == EnumPaymentMethod.CASHLESS) {
-                cashReceived.value = ""
+            val cashless = if(paymentMethod.value == EnumPaymentMethod.CASHLESS || paymentMethod.value == EnumPaymentMethod.MIXED) {
                 EntityCashless(
                     cashlessProvider.value,
                     cashlessRefNumber.value,
@@ -252,11 +295,18 @@ constructor(
 
             val jobOrderIds = payableJobOrders?.filter { it.selected }?.map { it.id } ?: return@launch
 
+            val cashReceived = if(paymentMethod.value == EnumPaymentMethod.CASH || paymentMethod.value == EnumPaymentMethod.MIXED) {
+                cashReceived.value?.toFloatOrNull() ?: 0f
+            } else 0f
+
+            val change = change.value ?: 0f
+
             val payment = EntityJobOrderPayment(
                 id,
                 paymentMethod.value!!,
                 amountToPay.value ?: 0f,
-                cashReceived.value?.toFloatOrNull() ?: 0f,
+                cashReceived,
+                change,
                 userId,
                 orNumber.value,
                 cashless

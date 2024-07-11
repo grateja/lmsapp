@@ -15,6 +15,7 @@ import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.joborders.JobOrderItemMinimal
 import com.vag.lmsapp.app.joborders.cancel.JobOrderCancelActivity
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
+import com.vag.lmsapp.app.joborders.create.packages.preview.JobOrderPackagePreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.gallery.PictureAdapter
 import com.vag.lmsapp.app.joborders.gallery.JobOrderGalleryBottomSheetFragment
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
@@ -140,16 +141,16 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
             adapter.setData(it)
         })
         viewModel.jobOrder.observe(viewLifecycleOwner, Observer {
-            it?.packages?.filter { !it.deleted }?.map { JobOrderItemMinimal(it.quantity, it.packageName, it.price) }?.let {
+            it?.packages?.filter { !it.deleted }?.map { JobOrderItemMinimal(it.packageId, it.quantity, it.packageName, it.price) }?.let {
                 packagesAdapter.setData(it)
             }
-            it?.services?.filter { !it.deleted && it.jobOrderPackageId == null }?.map { JobOrderItemMinimal(it.quantity, it.label(), it.discountedPrice) }?.let { services ->
+            it?.services?.filter { !it.deleted && it.jobOrderPackageId == null }?.map { JobOrderItemMinimal(it.id, it.quantity, it.label(), it.discountedPrice) }?.let { services ->
                 servicesAdapter.setData(services)
             }
-            it?.products?.filter { !it.deleted && it.jobOrderPackageId == null }?.map { JobOrderItemMinimal(it.quantity, it.productName, it.discountedPrice) }?.let { products ->
+            it?.products?.filter { !it.deleted && it.jobOrderPackageId == null }?.map { JobOrderItemMinimal(it.id, it.quantity, it.productName, it.discountedPrice) }?.let { products ->
                 productsAdapter.setData(products)
             }
-            it?.extras?.filter { !it.deleted && it.jobOrderPackageId == null }?.map { JobOrderItemMinimal(it.quantity, it.extrasName, it.discountedPrice) }?.let { extras ->
+            it?.extras?.filter { !it.deleted && it.jobOrderPackageId == null }?.map { JobOrderItemMinimal(it.id, it.quantity, it.extrasName, it.discountedPrice) }?.let { extras ->
                 extrasAdapter.setData(extras)
             }
 //            it?.let {
@@ -206,6 +207,10 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
 
         adapter.onItemClick = {
             viewModel.openGallery()
+        }
+
+        packagesAdapter.onItemClick = {
+            JobOrderPackagePreviewBottomSheetFragment.newInstance(it.id).show(parentFragmentManager,null)
         }
 
 //        adapter.onItemClick = {

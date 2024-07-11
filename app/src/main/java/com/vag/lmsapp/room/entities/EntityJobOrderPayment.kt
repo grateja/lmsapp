@@ -25,6 +25,10 @@ data class EntityJobOrderPayment(
     @ColumnInfo(name = "cash_received")
     var cashReceived: Float,
 
+    @Json(name = "change")
+    @ColumnInfo(name = "change")
+    var change: Float,
+
     @Json(name = "staff_id")
     @ColumnInfo(name = "user_id")
     var userId: UUID,
@@ -35,18 +39,20 @@ data class EntityJobOrderPayment(
 
     @Embedded
     var entityCashless: EntityCashless? = null,
-//
-//    @Embedded
-//    var jobOrderPaymentVoid: EntityJobOrderVoid? = null,
 ) : BaseEntity() {
     @Json(ignore = true)
     var sync: Boolean = false
 
-    fun change() : Float {
-        return cashReceived - amountDue
-    }
+//    fun change() : Float {
+//        val cashlessAmount = entityCashless?.amount ?: 0f
+//        return cashReceived.plus(cashlessAmount) - amountDue
+//    }
 
     fun method() : String {
         return entityCashless?.provider ?: "CASH"
+    }
+
+    fun excessAmount() : Float {
+        return entityCashless?.amount?.minus(amountDue) ?: 0f
     }
 }

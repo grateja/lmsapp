@@ -26,6 +26,7 @@ import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
 import com.vag.lmsapp.app.joborders.gallery.PictureAdapter
 import com.vag.lmsapp.app.joborders.create.packages.JobOrderCreateSelectPackageActivity
 import com.vag.lmsapp.app.joborders.create.packages.MenuJobOrderPackage
+import com.vag.lmsapp.app.joborders.create.packages.preview.JobOrderPackagePreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.create.products.JobOrderCreateSelectProductsActivity
 import com.vag.lmsapp.app.joborders.create.products.JobOrderProductsItemAdapter
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
@@ -203,6 +204,11 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
             }
         }
 
+        packageAdapter.onItemClick = {
+            viewModel.openPackages(it)
+//            JobOrderPackagePreviewBottomSheetFragment.newInstance(it.packageRefId).show(supportFragmentManager, null)
+        }
+
         servicesAdapter.apply {
             onItemClick = {
                 viewModel.openServices(it)
@@ -237,7 +243,7 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         }
 
         binding.inclPackageLegend.cardLegend.setOnClickListener {
-            viewModel.openPackages()
+            viewModel.openPackages(null)
         }
 
         binding.inclServicesLegend.cardLegend.setOnClickListener {
@@ -292,7 +298,7 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is CreateJobOrderViewModel.DataState.OpenPackages -> {
-                    openPackages(it.list)
+                    openPackages(it.list, it.item)
                     viewModel.resetState()
                 }
                 is CreateJobOrderViewModel.DataState.OpenServices -> {
@@ -381,12 +387,13 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         launcher.launch(intent)
     }
 
-    private fun openPackages(packages: List<MenuJobOrderPackage>?) {
+    private fun openPackages(packages: List<MenuJobOrderPackage>?, itemPreset: MenuJobOrderPackage?) {
         val intent = Intent(this, JobOrderCreateSelectPackageActivity::class.java).apply {
             action = ACTION_SYNC_PACKAGE
             packages?.let {
                 putParcelableArrayListExtra(PAYLOAD_EXTRA, ArrayList(it))
             }
+            putExtra(ITEM_PRESET_EXTRA, itemPreset)
         }
         launcher.launch(intent)
     }

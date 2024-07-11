@@ -38,7 +38,7 @@ constructor(
         object StateLess: DataState()
         data class SaveSuccess(val jobOrderId: UUID, val customerId: UUID): DataState()
         data class OpenServices(val list: List<MenuServiceItem>?, val item: MenuServiceItem?): DataState()
-        data class OpenPackages(val list: List<MenuJobOrderPackage>?) : DataState()
+        data class OpenPackages(val list: List<MenuJobOrderPackage>?, val item: MenuJobOrderPackage?) : DataState()
         data class OpenProducts(val list: List<MenuProductItem>?, val item: MenuProductItem?): DataState()
         data class OpenExtras(val list: List<MenuExtrasItem>?, val item: MenuExtrasItem?): DataState()
         data class OpenDelivery(val deliveryCharge: DeliveryCharge?): DataState()
@@ -734,9 +734,9 @@ constructor(
         }
     }
 
-    fun openPackages() {
+    fun openPackages(itemPreset: MenuJobOrderPackage?) {
         jobOrderPackages.value.let {
-            _dataState.value = DataState.OpenPackages(it)
+            _dataState.value = DataState.OpenPackages(it, itemPreset)
         }
     }
 
