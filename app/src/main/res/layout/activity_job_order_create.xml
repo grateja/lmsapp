@@ -28,14 +28,14 @@
                     app:title="@{viewModel.saved ? `Create Job Order` : `*Create New Job Order`}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll|enterAlways|snap"/>
+                    app:layout_scrollFlags="scroll|enterAlways"/>
                 <com.google.android.material.card.MaterialCardView
                     app:cardCornerRadius="20dp"
                     app:cardBackgroundColor="@color/darker_color_code_job_order_darker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:layout_scrollFlags="scroll|enterAlways|snap">
+                    app:layout_scrollFlags="scroll|enterAlways">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout="@layout/fragment_create_job_order_info"
-                    app:layout_scrollFlags="scroll|enterAlways|snap"/>
+                    app:layout_scrollFlags="scroll|enterAlways"/>
             </com.google.android.material.appbar.AppBarLayout>
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/scrollview"

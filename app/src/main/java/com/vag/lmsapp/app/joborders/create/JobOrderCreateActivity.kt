@@ -162,6 +162,11 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
                         viewModel.loadByJobOrderId(it)
                     }
                 }
+                JobOrderPaymentActivity.ACTION_LOAD_BY_CUSTOMER -> {
+                    data.getStringExtra(PAYMENT_ID).toUUID()?.let {
+                        viewModel.loadPayment(it)
+                    }
+                }
                 ACTION_SYNC_SERVICES -> {
                     data.getParcelableArrayListExtra<MenuServiceItem>(PAYLOAD_EXTRA)?.toList().let {
                         viewModel.syncServices(it)

@@ -74,7 +74,7 @@ constructor(
         _dataState.value = DataState.StateLess
     }
 
-    val jobOrderId = MutableLiveData<UUID>()
+    private val _jobOrderId = MutableLiveData<UUID>()
     val createdAt = MutableLiveData<Instant>()
     val jobOrderNumber = MutableLiveData("")
     val currentCustomer = _customerId.switchMap { customerRepository.getCustomerAsLiveData(it) } //MutableLiveData<CustomerMinimal>()
@@ -83,6 +83,9 @@ constructor(
     val jobOrderProducts = MutableLiveData<List<MenuProductItem>>()
     val jobOrderExtras = MutableLiveData<List<MenuExtrasItem>>()
     val discount = MutableLiveData<MenuDiscount>()
+    private val _paymentId = MutableLiveData<UUID>()
+
+    val payment = _paymentId.switchMap { paymentRepository.getPaymentWithJobOrdersAsLiveData(it) }
 
     val jobOrderPackages = MutableLiveData<List<MenuJobOrderPackage>>()
 
@@ -92,9 +95,7 @@ constructor(
 
     val unpaidJobOrders = _customerId.switchMap { jobOrderRepository.getAllUnpaidByCustomerIdAsLiveData(it) }
 
-    val jobOrderPictures = jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
-
-    val payment = jobOrderId.switchMap { paymentRepository.getPaymentWithJobOrdersAsLiveData(it) }
+    val jobOrderPictures = _jobOrderId.switchMap { jobOrderRepository.getPicturesAsLiveData(it) }
 
     /** region mediator live data */
 
@@ -403,7 +404,7 @@ constructor(
 
     fun loadEmptyJobOrder(customerId: UUID?) {
         viewModelScope.launch {
-            jobOrderId.value = UUID.randomUUID()
+            _jobOrderId.value = UUID.randomUUID()
             createdAt.value = Instant.now()
             jobOrderNumber.value = jobOrderRepository.getNextJONumber()
             customerId?.let {
@@ -416,13 +417,13 @@ constructor(
         viewModelScope.launch {
             jobOrderRepository.getJobOrderWithItems(joId).let {
                 _customerId.value = it?.jobOrder?.customerId
-                jobOrderId.value = it?.jobOrder?.id
+                _jobOrderId.value = it?.jobOrder?.id
                 createdAt.value = it?.jobOrder?.createdAt
                 jobOrderNumber.value = it?.jobOrder?.jobOrderNumber
                 if(it != null) {
                     prepare(it)
                 } else {
-                    jobOrderId.value = UUID.randomUUID()
+                    _jobOrderId.value = UUID.randomUUID()
                     createdAt.value = Instant.now()
                     jobOrderNumber.value = jobOrderRepository.getNextJONumber()
                 }
@@ -434,12 +435,16 @@ constructor(
         _customerId.value = customerId
         viewModelScope.launch {
             jobOrderRepository.getCurrentJobOrder(customerId)?.let { jobOrderWithItems ->
-                jobOrderId.value = jobOrderWithItems.jobOrder.id
+                _jobOrderId.value = jobOrderWithItems.jobOrder.id
                 createdAt.value = jobOrderWithItems.jobOrder.createdAt
                 jobOrderNumber.value = jobOrderWithItems.jobOrder.jobOrderNumber
                 prepare(jobOrderWithItems)
             }
         }
+    }
+
+    fun loadPayment(paymentId: UUID) {
+        _paymentId.value = paymentId
     }
 
     fun setCustomerId(customerId: UUID) {
@@ -453,6 +458,7 @@ constructor(
             val packageServices = _packageServices.map{ it.copy() }.toMutableList()
             val packageProducts = _packageProducts.map{ it.copy() }.toMutableList()
             val packageExtras = _packageExtras.map{ it.copy() }.toMutableList()
+            val jobOrderId = _jobOrderId.value
 
             packages?.onEach { _jobOrderPackage ->
                 packageRepository.getPackageServicesByPackageId(_jobOrderPackage.packageRefId).onEach {_packageService ->
@@ -471,7 +477,7 @@ constructor(
                     } else if(packageService == null) {
                         packageServices.add(
                             EntityJobOrderService(
-                                jobOrderId.value!!,
+                                jobOrderId,
                                 _packageService.serviceId,
                                 _jobOrderPackage.packageRefId,
                                 _packageService.serviceName,
@@ -503,7 +509,7 @@ constructor(
                     } else if(packageProduct == null) {
                         packageProducts.add(
                             EntityJobOrderProduct(
-                                jobOrderId.value!!,
+                                jobOrderId,
                                 _packageProduct.productId,
                                 _jobOrderPackage.packageRefId,
                                 _packageProduct.productName,
@@ -532,7 +538,7 @@ constructor(
                     } else if(packageExtra == null) {
                         packageExtras.add(
                             EntityJobOrderExtras(
-                                jobOrderId.value!!,
+                                jobOrderId,
                                 _packageExtra.extrasId,
                                 _jobOrderPackage.packageRefId,
                                 _packageExtra.extrasName,
@@ -778,7 +784,7 @@ constructor(
         if(saved.value != true) {
             _dataState.value = DataState.InvalidOperation("The Job Order has not been saved yet!")
         }
-        val paymentId = payment.value?.payment?.id
+        val paymentId = _paymentId.value
         if(paymentId != null) {
             _dataState.value = DataState.OpenPayment(paymentId)
         } else {
@@ -787,7 +793,7 @@ constructor(
     }
 
     fun openPictures() {
-        jobOrderId.value?.let {
+        _jobOrderId.value?.let {
             _dataState.value = DataState.OpenPictures(it)
         }
     }
@@ -835,14 +841,14 @@ constructor(
     }
 
     fun requestCancel() {
-        _dataState.value = DataState.RequestCancel(jobOrderId.value)
+        _dataState.value = DataState.RequestCancel(_jobOrderId.value)
     }
 
     fun requestExit() {
         val hasAny = hasAny.value ?: false
         val saved = saved.value ?: false
         val modified = _modified.value ?: false
-        val jobOrderId = jobOrderId.value
+        val jobOrderId = _jobOrderId.value
 
         // modified and not saved = canceled
         // not modified = canceled
@@ -867,8 +873,8 @@ constructor(
             val discountInPeso = discountInPeso.value ?: 0f
             val discountedAmount = subtotal - discountInPeso
             val createdAt = createdAt.value!!
-            val jobOrderId = jobOrderId.value ?: UUID.randomUUID()
-            val paymentId = payment.value?.payment?.id
+            val jobOrderId = _jobOrderId.value ?: UUID.randomUUID()
+            val paymentId = _paymentId.value //payment.value?.payment?.id
 
             val jobOrderServices = jobOrderServices.value
             val jobOrderProducts = jobOrderProducts.value
@@ -1019,11 +1025,12 @@ constructor(
                 discount
             )
 
-            jobOrderRepository.save(jobOrderWithItem)
-            _dataState.value = DataState.SaveSuccess(jobOrder.id, customerId)
-            _saved.value = true
+            jobOrderRepository.save(jobOrderWithItem).let {
+                _dataState.value = DataState.SaveSuccess(jobOrder.id, customerId)
+                _saved.value = true
 
-            prepare(jobOrderWithItem)
+                loadByJobOrderId(jobOrderId)
+            }
         }
     }
     fun pickCustomer() {
@@ -1039,7 +1046,7 @@ constructor(
         }
     }
     fun openPrinterOptions() {
-        jobOrderId.value?.let {
+        _jobOrderId.value?.let {
             _dataState.value = DataState.OpenPrinter(it)
         }
     }
