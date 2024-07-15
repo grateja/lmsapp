@@ -21,6 +21,7 @@ class AvailableServicesViewModel
 constructor(
     private val serviceRepository: WashServiceRepository
 ) : ViewModel() {
+    private var loaded = false;
     private val _filter = MutableLiveData(
         MachineTypeFilter(
             EnumMachineType.REGULAR,
@@ -45,9 +46,9 @@ constructor(
     val dataState = MutableLiveData<DataState>()
 //    val selectedTab = MutableLiveData<EnumMachineType>()
 
-//    init {
-//        loadServices()
-//    }
+    init {
+        loadServices()
+    }
 
     fun setMachineType(machineType: EnumMachineType?, serviceType: EnumServiceType?) {
         _filter.value = MachineTypeFilter(
@@ -55,11 +56,11 @@ constructor(
         )
     }
 
-//    private fun loadServices() {
-//        viewModelScope.launch {
-//            availableServices.value = serviceRepository.menuItems()
-//        }
-//    }
+    private fun loadServices() {
+        viewModelScope.launch {
+            availableServices.value = serviceRepository.menuItems()
+        }
+    }
 
 //    fun getServices(machineType: EnumMachineType) : List<MenuServiceItem> {
 //        return availableServices.value?.filter {it.machineType == machineType}?: listOf()
@@ -68,6 +69,7 @@ constructor(
     fun setPreSelectedServices(services: List<MenuServiceItem>?) {
         println("preset services")
         println(services)
+        if(loaded) return
         viewModelScope.launch {
             _availableServices.value = serviceRepository.menuItems().map {msi ->
                 services?.find { it.serviceRefId == msi.serviceRefId }?.let {
@@ -81,6 +83,7 @@ constructor(
                 }
                 msi
             }
+            loaded = true
         }
 //        services?.forEach { msi ->
 //            availableServices.value?.find {

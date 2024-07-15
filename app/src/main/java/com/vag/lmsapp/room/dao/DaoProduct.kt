@@ -61,4 +61,7 @@ abstract class DaoProduct : BaseDao<EntityProduct> {
 
     @Query("SELECT * FROM products WHERE sync = 0 OR :forced")
     abstract suspend fun unSynced(forced: Boolean): List<EntityProduct>
+
+    @Query("UPDATE products SET hidden = CASE WHEN hidden = 1 THEN 0 ELSE 1 END WHERE id = :productId")
+    abstract suspend fun hideToggle(productId: UUID?)
 }

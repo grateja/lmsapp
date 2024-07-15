@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.joborders.create.products
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,12 +19,19 @@ class AvailableProductsViewModel
     private val repository: ProductRepository
 )
 : ViewModel() {
-    val availableProducts = MutableLiveData<List<MenuProductItem>>()
+    private val _availableProducts = MutableLiveData<List<MenuProductItem>>()
+    val availableProducts = MediatorLiveData<List<MenuProductItem>>().apply {
+        addSource(_availableProducts) {
+            value = it.filter {
+                ((it.hidden && it.selected) || !it.hidden)
+            }
+        }
+    }
     val dataState = MutableLiveData<DataState>()
 
-    init {
-        loadProducts()
-    }
+//    init {
+//        loadProducts()
+//    }
 
     private fun loadProducts() {
         viewModelScope.launch {
@@ -44,18 +52,29 @@ class AvailableProductsViewModel
     }
 
     fun setPreselectedProducts(products: List<MenuProductItem>?) {
-        products?.forEach { mpi ->
-            availableProducts.value?.find { mpi.productRefId.toString() == it.productRefId.toString() }?.apply {
-                this.joProductItemId = mpi.joProductItemId
-                this.quantity = mpi.quantity
-                this.selected = !mpi.deleted
-                this.deleted = mpi.deleted
+        viewModelScope.launch {
+            _availableProducts.value = repository.menuItems().map {mpi ->
+                products?.find { mpi.productRefId == it.productRefId }?.let {
+                    mpi.joProductItemId = it.joProductItemId
+                    mpi.quantity = it.quantity
+                    mpi.selected = !it.deleted
+                    mpi.deleted = mpi.deleted
+                }
+                mpi
             }
         }
+//        products?.forEach { mpi ->
+//            availableProducts.value?.find { mpi.productRefId.toString() == it.productRefId.toString() }?.apply {
+//                this.joProductItemId = mpi.joProductItemId
+//                this.quantity = mpi.quantity
+//                this.selected = !mpi.deleted
+//                this.deleted = mpi.deleted
+//            }
+//        }
     }
 
     fun putProduct(quantityModel: QuantityModel) {
-        val product = availableProducts.value?.find { it.productRefId == quantityModel.id }?.apply {
+        val product = _availableProducts.value?.find { it.productRefId == quantityModel.id }?.apply {
             selected = true
             quantity = quantityModel.quantity
             deleted = false
@@ -64,7 +83,7 @@ class AvailableProductsViewModel
     }
 
     fun removeProduct(quantityModel: QuantityModel) {
-        availableProducts.value?.find { it.productRefId == quantityModel.id }?.apply {
+        _availableProducts.value?.find { it.productRefId == quantityModel.id }?.apply {
             if(this.joProductItemId != null) {
                 // It's already in the database
                 // Just mark deleted
@@ -77,7 +96,7 @@ class AvailableProductsViewModel
     }
 
     fun prepareSubmit() {
-        availableProducts.value?.let { list ->
+        _availableProducts.value?.let { list ->
             val validation = InputValidation()
             list.filter { it.selected } .onEach {
                 if(it.joProductItemId == null && it.quantity > it.currentStock) {

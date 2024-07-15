@@ -38,4 +38,6 @@ constructor (
     fun getProductAsLiveData(productId: UUID?) = daoProduct.getAsLiveData(productId)
 
     suspend fun unSynced(forced: Boolean) = daoProduct.unSynced(forced)
+
+    suspend fun hideToggle(productId: UUID?) = daoProduct.hideToggle(productId)
 }

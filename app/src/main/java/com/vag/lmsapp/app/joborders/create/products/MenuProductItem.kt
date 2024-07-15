@@ -42,6 +42,8 @@ data class MenuProductItem(
 
     @ColumnInfo(name = "deleted")
     var deleted: Boolean = false,
+
+    var hidden: Boolean = false,
 ) : Parcelable {
     @IgnoredOnParcel
     @Ignore

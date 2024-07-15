@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.room.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -46,6 +48,14 @@ constructor(
 
     fun resetState() {
         _navigationState.value = NavigationState.StateLess
+    }
+
+    fun hideToggle() {
+        viewModelScope.launch {
+            _productId.value.let {
+                repository.hideToggle(it)
+            }
+        }
     }
 
     sealed class NavigationState {

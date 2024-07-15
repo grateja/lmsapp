@@ -27,7 +27,9 @@ class EntityProduct(
 
     @Json(name = "product_type")
     @ColumnInfo(name = "product_type")
-    var productType: EnumProductType
+    var productType: EnumProductType,
+
+    var hidden: Boolean = false,
 ) : BaseEntity() {
     constructor() : this("", 0f, 0f, EnumMeasureUnit.PCS, 0f, EnumProductType.OTHER)
 

@@ -55,6 +55,9 @@ class ProductPreviewBottomSheetFragment : ModalFragment<UUID>() {
                 viewModel.deleteProduct()
             }
         }
+        binding.buttonCardHideToggle.setOnClickListener {
+            viewModel.hideToggle()
+        }
     }
 
     private fun subscribeListeners() {

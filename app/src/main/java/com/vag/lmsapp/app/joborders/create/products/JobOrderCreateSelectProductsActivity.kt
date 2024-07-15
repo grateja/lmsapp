@@ -35,6 +35,7 @@ class JobOrderCreateSelectProductsActivity : AppCompatActivity() {
         intent.getParcelableExtra<MenuProductItem>(JobOrderCreateActivity.ITEM_PRESET_EXTRA)?.let {
             itemClick(it)
         }
+        viewModel.setPreselectedProducts(intent.getParcelableArrayListExtra<MenuProductItem?>(JobOrderCreateActivity.PAYLOAD_EXTRA)?.toList())
     }
 
     private fun subscribeEvents() {
@@ -47,7 +48,7 @@ class JobOrderCreateSelectProductsActivity : AppCompatActivity() {
         }
         viewModel.availableProducts.observe(this, Observer {
             productsAdapter.setData(it)
-            viewModel.setPreselectedProducts(intent.getParcelableArrayListExtra<MenuProductItem?>(JobOrderCreateActivity.PAYLOAD_EXTRA)?.toList())
+//            viewModel.setPreselectedProducts(intent.getParcelableArrayListExtra<MenuProductItem?>(JobOrderCreateActivity.PAYLOAD_EXTRA)?.toList())
         })
 
         viewModel.dataState.observe(this, Observer {
