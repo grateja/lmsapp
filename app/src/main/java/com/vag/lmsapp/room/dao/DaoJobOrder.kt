@@ -183,7 +183,6 @@ interface DaoJobOrder {
         WHERE
             (cu.name LIKE '%' || :keyword || '%' OR jo.job_order_number LIKE '%' || :keyword || '%' OR cu.crn LIKE '%' || :keyword || '%')
             AND (:nonVoidOnly = 1 AND jo.void_date IS NULL OR :nonVoidOnly = 0 AND jo.void_date IS NOT NULL)
-            AND ((:paymentStatus = 0 AND jo.payment_id IS NOT NULL) OR (:paymentStatus = 1 AND jo.payment_id IS NULL) OR (:paymentStatus = 2))
             AND (jo.deleted = 0)
             AND (:customerId IS NULL OR cu.id = :customerId)
             AND ((:dateFrom IS NULL AND :dateTo IS NULL)
@@ -194,7 +193,6 @@ interface DaoJobOrder {
     """)
     fun count(
         keyword: String?,
-        paymentStatus: EnumPaymentStatus?,
         customerId: UUID?,
         filterBy: EnumJoFilterBy?,
         nonVoidOnly: Boolean,
@@ -225,7 +223,6 @@ interface DaoJobOrder {
             ),
             count(
                 keyword,
-                af.paymentStatus,
                 customerId,
                 af.filterBy,
                 nonVoidOnly,

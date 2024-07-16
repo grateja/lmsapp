@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/Theme.MaterialComponents.Light"
-            app:elevation="24dp"
             android:fitsSystemWindows="true">
 
             <androidx.appcompat.widget.Toolbar
@@ -24,80 +23,80 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/color_code_customers"
+                android:background="@color/white"
                 android:animateLayoutChanges="true"
                 app:layout_scrollFlags="scroll|enterAlways|snap" />
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
-                <LinearLayout
-                    android:layout_margin="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ORDER BY: "/>
+<!--            <HorizontalScrollView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_scrollFlags="scroll|enterAlways|snap">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_margin="8dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="ORDER BY: "/>-->
 <!--                    <Spinner-->
 <!--                        android:id="@+id/spinnerOrderBy"-->
-<!--                        app:text="@={viewModel.filterParams.orderBy}"-->
+<!--                        app:text="@={viewModel.orderBy}"-->
 <!--                        android:entries="@array/order_by_customers"-->
 <!--                        android:layout_width="wrap_content"-->
 <!--                        android:layout_height="wrap_content"/>-->
-                    <Spinner
-                        android:id="@+id/spinnerSortDirection"
-                        app:sortDirection="@={viewModel.filterParams.sortDirection}"
-                        android:entries="@array/sort_direction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <CheckBox
-                        android:text="Hide all without JO"
-                        android:checked="@={viewModel.hideAllWithoutJo}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </HorizontalScrollView>
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_date_range"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
-                <LinearLayout
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_margin="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:visibility="@{viewModel.dateFilter != null}"
-                        android:textColor="@color/teal_700"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:text="@{viewModel.dateFilter.toString()}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:visibility="@{viewModel.dateFilter == null}"
-                        android:textColor="@color/teal_700"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:text="Select dates"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-                    <ImageButton
-                        android:visibility="@{viewModel.dateFilter != null}"
-                        android:id="@+id/button_clear_date_filter"
-                        android:background="@color/transparent"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:scaleType="center"
-                        android:src="@android:drawable/ic_menu_close_clear_cancel" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+<!--                    <Spinner-->
+<!--                        android:id="@+id/spinnerSortDirection"-->
+<!--                        app:sortDirection="@={viewModel.sortDirection}"-->
+<!--                        android:entries="@array/sort_direction"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"/>-->
+<!--                    <CheckBox-->
+<!--                        android:text="Hide all without JO"-->
+<!--                        android:checked="@={viewModel.hideAllWithoutJo}"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"/>-->
+<!--                </LinearLayout>-->
+<!--            </HorizontalScrollView>-->
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:id="@+id/card_date_range"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_scrollFlags="scroll|enterAlways|snap">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_margin="12dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <TextView-->
+<!--                        android:visibility="@{viewModel.dateFilter != null}"-->
+<!--                        android:textColor="@color/teal_700"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:text="@{viewModel.dateFilter.toString()}"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"/>-->
+<!--                    <TextView-->
+<!--                        android:visibility="@{viewModel.dateFilter == null}"-->
+<!--                        android:textColor="@color/teal_700"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:text="Select dates"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"/>-->
+<!--                    <ImageButton-->
+<!--                        android:visibility="@{viewModel.dateFilter != null}"-->
+<!--                        android:id="@+id/button_clear_date_filter"-->
+<!--                        android:background="@color/transparent"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:scaleType="center"-->
+<!--                        android:src="@android:drawable/ic_menu_close_clear_cancel" />-->
+<!--                </LinearLayout>-->
+<!--            </com.google.android.material.card.MaterialCardView>-->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/button_create_new_customer"
                 android:layout_width="match_parent"
@@ -107,7 +106,7 @@
                 app:cardCornerRadius="20dp"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
                 <FrameLayout
-                    android:background="@drawable/dotted_stroke"
+                    android:background="@drawable/dotted_stroke_green"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp">
@@ -119,10 +118,11 @@
                         android:divider="@drawable/divider_10"
                         android:showDividers="middle">
                         <ImageView
-                            android:src="@drawable/icon_add"
+                            android:src="@drawable/icon_add_green"
                             android:layout_width="25dp"
                             android:layout_height="25dp"/>
                         <TextView
+                            android:textColor="@color/green"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Create new customer"/>

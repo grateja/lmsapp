@@ -96,7 +96,7 @@
                     app:cardElevation="0dp"
                     app:cardCornerRadius="20dp">
                     <FrameLayout
-                        android:background="@drawable/dotted_stroke"
+                        android:background="@drawable/dotted_stroke_green"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp">
@@ -108,12 +108,13 @@
                             android:divider="@drawable/divider_10"
                             android:showDividers="middle">
                             <ImageView
-                                android:src="@drawable/icon_add"
+                                android:src="@drawable/icon_add_green"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/green"
                                 android:text="Create new job order"/>
                         </LinearLayout>
                     </FrameLayout>

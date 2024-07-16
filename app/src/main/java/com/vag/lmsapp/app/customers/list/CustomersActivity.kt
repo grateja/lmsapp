@@ -8,12 +8,14 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.customers.create.CustomerAddEditBottomSheetFragment
+import com.vag.lmsapp.app.customers.list.advanced_filter.CustomerListFilterBottomSheetFragment
 import com.vag.lmsapp.app.customers.preview.CustomerPreviewActivity
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityCustomersBinding
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.FilterActivity
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -64,12 +66,12 @@ class CustomersActivity : FilterActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.filter(true)
         }
-        binding.cardDateRange.setOnClickListener {
-            viewModel.showDatePicker()
-        }
-        binding.buttonClearDateFilter.setOnClickListener {
-            viewModel.clearDates()
-        }
+//        binding.cardDateRange.setOnClickListener {
+//            viewModel.showDatePicker()
+//        }
+//        binding.buttonClearDateFilter.setOnClickListener {
+//            viewModel.clearDates()
+//        }
         binding.buttonCreateNewCustomer.setOnClickListener {
             CustomerAddEditBottomSheetFragment.newInstance(null, null, false).apply {
                 onOk = {
@@ -80,9 +82,9 @@ class CustomersActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.dataState.observe(this, Observer {
+        viewModel.filterState.observe(this, Observer {
             when(it) {
-                is ListViewModel.DataState.LoadItems -> {
+                is FilterState.LoadItems -> {
                     if(it.reset) {
                         adapter.setData(it.items)
                     } else {
@@ -101,6 +103,14 @@ class CustomersActivity : FilterActivity() {
                     viewModel.clearState()
                 }
 
+//                is CustomersViewModel.NavigationState.OpenAdvancedFilter -> {
+//                    CustomerListFilterBottomSheetFragment.newInstance(it.advancedFilter).apply {
+////                        onOk = {
+////                            viewModel.setFilterParams(it)
+////                        }
+//                    }.show(supportFragmentManager, null)
+//                }
+
                 else -> {}
             }
         })
@@ -113,13 +123,32 @@ class CustomersActivity : FilterActivity() {
         viewModel.dateFilter.observe(this, Observer {
             viewModel.filter(true)
         })
+        viewModel.sortDirection.observe(this, Observer {
+            viewModel.filter(true)
+        })
+        viewModel.hideAllWithoutJo.observe(this, Observer {
+            viewModel.filter(true)
+        })
+//        viewModel.filterParams.observe(this, Observer {
+//            viewModel.filter(true)
+//        })
+    }
+
+    override fun onAdvancedSearchClick() {
+        CustomerListFilterBottomSheetFragment().apply {
+//                        onOk = {
+//                            viewModel.setFilterParams(it)
+//                        }
+        }.show(supportFragmentManager, null)
+//        viewModel.showAdvancedFilter()
     }
 
 
     override var filterHint = "Search customer name or CRN"
-    override var toolbarBackground: Int = R.color.color_code_customers
+    override var toolbarBackground: Int = R.color.white
 
     override fun onQuery(keyword: String?) {
         viewModel.setKeyword(keyword)
+        viewModel.filter(true)
     }
 }

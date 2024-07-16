@@ -12,4 +12,5 @@ sealed class DataState<out R> {
     data class AuthenticationPassed<out T>(val loginCredentials: LoginCredentials) : DataState<T>()
     data class RequestExit(val promptPass: Boolean) : DataState<Nothing>()
     data class Submit<out T>(val data: T): DataState<T>()
+    data class LoadItems<R>(val items: List<R>, val reset: Boolean) : DataState<R>()
 }

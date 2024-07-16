@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.EnumJoFilterBy
+import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.model.JobOrderAdvancedFilter
 import com.vag.lmsapp.room.repository.JobOrderRepository
 import com.vag.lmsapp.viewmodels.ListViewModel
@@ -144,6 +145,14 @@ constructor(
     fun setView(nonVoidOnly: Boolean) {
         this.nonVoidOnly.value = nonVoidOnly
         filter(true)
+    }
+
+    fun setPaymentStatus(status: EnumPaymentStatus) {
+        filterParams.value = filterParams.value?.copy(
+            paymentStatus = status
+        ) ?: JobOrderAdvancedFilter(
+            paymentStatus = status
+        )
     }
 
     sealed class NavigationState {

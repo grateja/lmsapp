@@ -19,9 +19,13 @@ import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.toUUID
 import com.vag.lmsapp.viewmodels.ListViewModel
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.ACTION_LOAD_EMPTY_JOB_ORDER
+import com.vag.lmsapp.app.joborders.list.JobOrderPaymentStatusPricePagerAdapter
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
+import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +42,7 @@ class CustomerPreviewActivity : AppCompatActivity() {
     private val viewModel: CustomerPreviewViewModel by viewModels()
     private val jobOrdersViewModel: JobOrderListViewModel by viewModels()
     private val launcher = ActivityLauncher(this)
+    private var paymentStatusPaymentPager = JobOrderPaymentStatusPricePagerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,7 @@ class CustomerPreviewActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         binding.recyclerJobOrderList.adapter = adapter
+        binding.amountPager.adapter = paymentStatusPaymentPager
 
         subscribeEvents()
         subscribeListeners()
@@ -58,6 +64,53 @@ class CustomerPreviewActivity : AppCompatActivity() {
 //            jobOrdersViewModel.filter(true)
 //        }, 1000)
         window.statusBarColor = getColor(R.color.white)
+        setupTab()
+        jobOrdersViewModel.setPaymentStatus(EnumPaymentStatus.ALL)
+    }
+
+    private fun setupTab() {
+        binding.tabItemPaymentStatusAll.setOnClickListener {
+            jobOrdersViewModel.setPaymentStatus(EnumPaymentStatus.ALL)
+            jobOrdersViewModel.filter(true)
+            binding.amountPager.setCurrentItem(0, true)
+        }
+        binding.tabItemPaymentStatusPaid.setOnClickListener {
+            jobOrdersViewModel.setPaymentStatus(EnumPaymentStatus.PAID)
+            jobOrdersViewModel.filter(true)
+            binding.amountPager.setCurrentItem(1, true)
+        }
+        binding.tabItemPaymentStatusUnpaid.setOnClickListener {
+            jobOrdersViewModel.setPaymentStatus(EnumPaymentStatus.UNPAID)
+            jobOrdersViewModel.filter(true)
+            binding.amountPager.setCurrentItem(2, true)
+        }
+        jobOrdersViewModel.result.observe(this, Observer{
+            paymentStatusPaymentPager.setJobOrderSummary(it)
+        })
+
+//        binding.tab.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                val paymentStatus = when(tab?.id) {
+//                    R.id.tab_item_payment_status_paid -> {
+//                        EnumPaymentStatus.PAID
+//                    }
+//                    R.id.tab_item_payment_status_unpaid -> {
+//                        EnumPaymentStatus.UNPAID
+//                    }
+//                    else -> { EnumPaymentStatus.ALL }
+//                }
+//                println("payment status")
+//                println(paymentStatus)
+//                println(tab)
+//                jobOrdersViewModel.setPaymentStatus(paymentStatus)
+//                jobOrdersViewModel.filter(true)
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) { }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) { }
+//
+//        })
     }
 
     private fun subscribeEvents() {

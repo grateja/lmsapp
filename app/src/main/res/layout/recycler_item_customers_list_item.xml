@@ -39,6 +39,14 @@
                 app:layout_constraintTop_toTopOf="@id/labelName"
                 tools:text="CRN0392029" />
 
+            <ImageView
+                android:id="@+id/icon_customer"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/prepend_icon_customer"/>
+
             <TextView
                 android:id="@+id/labelName"
                 style="@style/Bold.Black"
@@ -46,10 +54,12 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.customer.name}"
                 android:textSize="18sp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/icon_customer"
                 app:layout_constraintEnd_toStartOf="@+id/labelCRN"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon_customer"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Chris Hemsworth"/>
+                tools:text="Chris Hemsworth" />
             <ImageView
                 android:id="@+id/icon_sync"
                 android:layout_width="20dp"
@@ -62,13 +72,13 @@
 
             <TextView
                 android:id="@+id/label_last_job_order"
-                android:visibility="@{viewModel.lastVisit != null}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelName"
-                android:text="Last JO: "/>
+                android:text="Last JO: "
+                android:visibility="@{viewModel.lastVisit != null}"
+                app:layout_constraintStart_toStartOf="@+id/labelName"
+                app:layout_constraintTop_toBottomOf="@id/labelName" />
 
             <TextView
                 android:id="@+id/text_last_job_order"

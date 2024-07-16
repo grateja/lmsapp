@@ -160,7 +160,6 @@
                     app:layout_constraintStart_toStartOf="@id/label_email"
                     app:layout_constraintTop_toBottomOf="@id/label_email"/>
 
-
                 <LinearLayout
                     android:layout_marginTop="18dp"
                     android:layout_width="match_parent"
@@ -195,7 +194,7 @@
                         app:cardElevation="0dp"
                         app:cardCornerRadius="20dp">
                         <FrameLayout
-                            android:background="@drawable/dotted_stroke"
+                            android:background="@drawable/dotted_stroke_green"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <LinearLayout
@@ -206,10 +205,11 @@
                                 android:divider="@drawable/divider_10"
                                 android:showDividers="middle">
                                 <ImageView
-                                    android:src="@drawable/icon_add"
+                                    android:src="@drawable/icon_add_green"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"/>
                                 <TextView
+                                    android:textColor="@color/green"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Create new job order"/>

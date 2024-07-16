@@ -2,12 +2,14 @@ package com.vag.lmsapp.app.customers.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.app.dashboard.data.DateFilter
-import com.vag.lmsapp.model.BaseFilterParams
 import com.vag.lmsapp.room.repository.CustomerRepository
-import com.vag.lmsapp.viewmodels.ListViewModel
+import com.vag.lmsapp.util.EnumSortDirection
+import com.vag.lmsapp.util.FilterState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -19,9 +21,21 @@ class CustomersViewModel
 @Inject
 constructor(
     private val repository: CustomerRepository
-) : ListViewModel<CustomerListItem, BaseFilterParams>() {
+) : ViewModel() {
+    private var _job: Job? = null
+    private var _page = 1
+
+    val keyword = MutableLiveData("")
     val total = MutableLiveData(0)
     val hideAllWithoutJo = MutableLiveData(false)
+    val sortDirection = MutableLiveData(EnumSortDirection.ASC)
+    val orderBy = MutableLiveData("Name")
+
+    private val _filterState = MutableLiveData<FilterState<CustomerListItem>>()
+    val filterState: LiveData<FilterState<CustomerListItem>> = _filterState
+
+    private val _loading = MutableLiveData(false)
+    val loading: LiveData<Boolean> = _loading
 
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
@@ -37,11 +51,10 @@ constructor(
         _dateFilter.value = null
     }
 
-    override fun filter(reset: Boolean) {
-        println("filtering keme")
-        job?.cancel()
+    fun filter(reset: Boolean) {
+        _job?.cancel()
 
-        job = viewModelScope.launch {
+        _job = viewModelScope.launch {
             if(!keyword.value.isNullOrBlank()) {
                 delay(500)
             } else {
@@ -49,17 +62,16 @@ constructor(
             }
 
             if(reset) {
-                page.value = 1
+                _page = 1
             }
-            val filterParams = filterParams.value
             val keyword = keyword.value
-            val page = page.value ?: 1
-            val orderBy = filterParams?.orderBy
-            val sortDirection = filterParams?.sortDirection
+            val page = _page ?: 1
+            val orderBy = orderBy.value ?: "Name"
+            val sortDirection = sortDirection.value ?: EnumSortDirection.ASC
             val hideAllWithoutJo = hideAllWithoutJo.value ?: true
             val dateFilter = _dateFilter.value
 
-            loading.value = true
+            _loading.value = true
 
             val items = repository.getListItems(
                 keyword,
@@ -69,14 +81,14 @@ constructor(
                 hideAllWithoutJo,
                 dateFilter
             )
-            _dataState.value = DataState.LoadItems(items.result, reset)
+            _filterState.value = FilterState.LoadItems(items.result, reset)
             total.value = items.count
-            loading.value = false
+            _loading.value = false
         }
     }
 
     fun loadMore() {
-        page.value = page.value?.plus(1)
+        ++_page
         filter(false)
     }
 
@@ -87,13 +99,22 @@ constructor(
         }
     }
 
-    override fun clearState() {
+    fun setKeyword(keyword: String?) {
+        this.keyword.value = keyword
+    }
+//
+//    fun showAdvancedFilter() {
+//        val filter = filterParams.value ?: CustomersAdvancedFilter()
+//        _navigationState.value = NavigationState.OpenAdvancedFilter(filter)
+//    }
+
+    fun clearState() {
         _navigationState.value = NavigationState.StateLess
-        super.clearState()
     }
 
     sealed class NavigationState {
         object StateLess: NavigationState()
         data class OpenDateFilter(val dateFilter: DateFilter): NavigationState()
+//        data class OpenAdvancedFilter(val advancedFilter: CustomersAdvancedFilter): NavigationState()
     }
 }

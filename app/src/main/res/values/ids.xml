@@ -14,4 +14,8 @@
     <item name="radio_product_type_detergent" type="id"/>
     <item name="radio_product_type_fab_con" type="id"/>
     <item name="radio_product_type_other" type="id"/>
+
+    <item name="tab_item_payment_status_all" type="id"/>
+    <item name="tab_item_payment_status_unpaid" type="id"/>
+    <item name="tab_item_payment_status_paid" type="id"/>
 </resources>

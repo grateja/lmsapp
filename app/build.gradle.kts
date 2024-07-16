@@ -128,4 +128,6 @@ dependencies {
     implementation("org.apache.poi:poi:5.2.2")
     implementation("org.apache.poi:poi-ooxml:5.2.2")
     implementation("org.apache.commons:commons-compress:1.21")
+
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 }
