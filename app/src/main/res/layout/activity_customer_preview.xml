@@ -19,7 +19,6 @@
             android:background="@color/color_code_customers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:elevation="24dp"
             android:fitsSystemWindows="true">
 <!--            <androidx.appcompat.widget.Toolbar-->
 <!--                android:id="@+id/toolbar"-->
@@ -45,12 +44,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:cardBackgroundColor="@color/color_code_customers"
                 app:cardElevation="20dp"
                 app:cardCornerRadius="0dp"
                 app:contentPadding="12dp"
                 tools:visibility="visible"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:id="@+id/card_customer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -90,6 +88,23 @@
                 android:text="@{jobOrderViewModel.result + ` Total Job Orders`}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/RoundCard.NoElevation"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="150dp"
+                android:visibility="@{jobOrderViewModel.result.totalResultCount == 0}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="No Job orders!" />
+            </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

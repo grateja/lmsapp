@@ -23,7 +23,7 @@ class CustomerDetailsFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.buttonEdit.setOnClickListener {
+        binding.buttonCardEdit.setOnClickListener {
             viewModel.showCustomer()
         }
         binding.buttonCreateNewJobOrder.setOnClickListener {

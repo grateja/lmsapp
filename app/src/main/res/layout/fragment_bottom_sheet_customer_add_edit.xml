@@ -12,139 +12,186 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/addEditCustomerFragment"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="24dp"
-            app:behavior_peekHeight="1000dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/main_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/button_close">
+                <LinearLayout
+                    android:id="@+id/addEditCustomerFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    app:behavior_peekHeight="1000dp"
+                    android:orientation="vertical">
 
-            <TextView
-                style="@style/TextTitleFragment"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <TextView
+                            style="@style/TextTitleFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.enumCRUDAction.toString(` Customer`)}"
+                            tools:text="Edit customer"
+                            android:layout_weight="1"/>
+                        <ImageButton
+                            android:id="@+id/button_save"
+                            android:contentDescription="@string/Continue"
+                            android:src="@drawable/icon_confirm"
+                            android:layout_width="50dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:padding="8dp"
+                            android:background="@drawable/background_selector"/>
+                    </LinearLayout>
+
+                    <!--            <LinearLayout-->
+                    <!--                android:layout_width="match_parent"-->
+                    <!--                android:layout_height="wrap_content"-->
+                    <!--                android:layout_marginBottom="16dp"-->
+                    <!--                android:gravity="center">-->
+
+                    <!--                <Button-->
+                    <!--                    android:id="@+id/buttonSave"-->
+                    <!--                    android:text="@string/save"-->
+                    <!--                    style="@style/RoundButtonPrimary"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content" />-->
+                    <!--                <TextView-->
+                    <!--                    android:layout_weight="1"-->
+                    <!--                    android:layout_width="0dp"-->
+                    <!--                    android:layout_height="wrap_content"/>-->
+
+                    <!--                <Button-->
+                    <!--                    android:id="@+id/buttonClose"-->
+                    <!--                    android:text="@string/close"-->
+                    <!--                    style="@style/RoundButtonNeutral"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content" />-->
+                    <!--            </LinearLayout>-->
+
+                    <ProgressBar
+                        android:id="@+id/progressBarSaving"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/labelCRN"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="CRN"
+                        app:errorEnabled="true"
+                        app:errorText="@{viewModel.validation.get(`crn`)}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textCRN"
+                            android:text="@={viewModel.model.crn}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`crn`)}"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/labelName"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Name"
+                        app:errorEnabled="true"
+                        app:errorText="@{viewModel.validation.get(`name`)}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textName"
+                            android:text="@={viewModel.model.name}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords"
+                            android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`name`)}"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/labelAddress"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Address"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textAddress"
+                            android:text="@={viewModel.model.address}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/labelContactNumber"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Contact Number"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textContactNumber"
+                            android:text="@={viewModel.model.contactNumber}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/labelEmail"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textEmail"
+                            android:text="@={viewModel.model.email}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textWebEmailAddress"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/button_close"
+                style="@style/ButtonCard.Margin8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.enumCRUDAction.toString(` Customer`)}"
-                tools:text="Edit customer"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:gravity="center">
-
-                <Button
-                    android:id="@+id/buttonSave"
-                    android:text="@string/save"
-                    style="@style/RoundButtonPrimary"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/buttonClose"
-                    android:text="@string/close"
-                    style="@style/RoundButtonNeutral"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/progressBarSaving"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/labelCRN"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="CRN"
-                app:errorEnabled="true"
-                app:errorText="@{viewModel.validation.get(`crn`)}">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textCRN"
-                    android:text="@={viewModel.model.crn}"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`crn`)}"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/labelName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Name"
-                app:errorEnabled="true"
-                app:errorText="@{viewModel.validation.get(`name`)}">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textName"
-                    android:text="@={viewModel.model.name}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`name`)}"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/labelAddress"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Address"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textAddress"
-                    android:text="@={viewModel.model.address}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/labelContactNumber"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Contact Number"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textContactNumber"
-                    android:text="@={viewModel.model.contactNumber}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/labelEmail"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textEmail"
-                    android:text="@={viewModel.model.email}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textWebEmailAddress"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
+                    android:orientation="vertical"
+                    style="@style/LinearLayoutDivider5.Center">
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/icon_close"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/close"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

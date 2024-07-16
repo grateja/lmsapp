@@ -57,6 +57,7 @@ class CustomerPreviewActivity : AppCompatActivity() {
 //        Handler(Looper.getMainLooper()).postDelayed({
 //            jobOrdersViewModel.filter(true)
 //        }, 1000)
+        window.statusBarColor = getColor(R.color.white)
     }
 
     private fun subscribeEvents() {
@@ -76,7 +77,7 @@ class CustomerPreviewActivity : AppCompatActivity() {
                 abs(verticalOffset) >= appBarLayout.totalScrollRange -> {
                     binding.cardCustomerName.visibility = View.VISIBLE
                 } else -> {
-                    binding.cardCustomerName.visibility = View.INVISIBLE
+                    binding.cardCustomerName.visibility = View.GONE
                 }
             }
         })
@@ -93,7 +94,7 @@ class CustomerPreviewActivity : AppCompatActivity() {
         viewModel.navigationState.observe(this, Observer {
             when(it) {
                 is CustomerPreviewViewModel.NavigationState.EditCustomer -> {
-                    val edit = CustomerAddEditBottomSheetFragment.getInstance(it.customerId, null, false)
+                    val edit = CustomerAddEditBottomSheetFragment.newInstance(it.customerId, null, false)
                     edit.show(supportFragmentManager, null)
                     viewModel.resetState()
                 }

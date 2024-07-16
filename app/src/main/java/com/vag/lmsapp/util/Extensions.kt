@@ -542,3 +542,9 @@ fun Int?.greaterThan(value: Int?) : Boolean {
         it != null && value != null && it > value
     }
 }
+
+fun String?.isNotEmpty() : Boolean {
+    return this.let {
+        it != null && it.trim() == ""
+    }
+}

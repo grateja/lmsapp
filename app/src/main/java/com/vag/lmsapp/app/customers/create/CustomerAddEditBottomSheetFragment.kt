@@ -137,19 +137,26 @@ class CustomerAddEditBottomSheetFragment : ModalFragment<CustomerMinimal?>(), In
 
 
     companion object {
-        const val CUSTOMER_ID_EXTRA = "data"
-        var instance: CustomerAddEditBottomSheetFragment? = null
-        fun getInstance(customerId: UUID?, presetName: String?, showSearchButton: Boolean) : CustomerAddEditBottomSheetFragment {
-            if(instance == null || instance?.dismissed == true) {
-                instance = CustomerAddEditBottomSheetFragment().apply {
-                    arguments = Bundle().apply {
-                        putString("data", customerId.toString())
-                        putString("name", presetName)
-                        putBoolean("showSearchButton", showSearchButton)
-                    }
+//        const val CUSTOMER_ID_EXTRA = "data"
+//        var instance: CustomerAddEditBottomSheetFragment? = null
+        fun newInstance(customerId: UUID?, presetName: String?, showSearchButton: Boolean) : CustomerAddEditBottomSheetFragment {
+            return CustomerAddEditBottomSheetFragment().apply {
+                arguments = Bundle().apply {
+                    putString("data", customerId.toString())
+                    putString("name", presetName)
+                    putBoolean("showSearchButton", showSearchButton)
                 }
             }
-            return instance as CustomerAddEditBottomSheetFragment
+//            if(instance == null || instance?.dismissed == true) {
+//                instance = CustomerAddEditBottomSheetFragment().apply {
+//                    arguments = Bundle().apply {
+//                        putString("data", customerId.toString())
+//                        putString("name", presetName)
+//                        putBoolean("showSearchButton", showSearchButton)
+//                    }
+//                }
+//            }
+//            return instance as CustomerAddEditBottomSheetFragment
         }
     }
 }

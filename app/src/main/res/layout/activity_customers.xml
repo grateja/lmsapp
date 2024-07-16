@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.google.android.material.appbar.AppBarLayout
-            android:background="@color/secondary_background"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/Theme.MaterialComponents.Light"
@@ -29,10 +29,11 @@
                 app:layout_scrollFlags="scroll|enterAlways|snap" />
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
                 <LinearLayout
                     android:layout_margin="8dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
@@ -97,6 +98,38 @@
                         android:src="@android:drawable/ic_menu_close_clear_cancel" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/button_create_new_customer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="18dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="20dp"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+                <FrameLayout
+                    android:background="@drawable/dotted_stroke"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+                    <LinearLayout
+                        android:padding="18dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle">
+                        <ImageView
+                            android:src="@drawable/icon_add"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Create new customer"/>
+                    </LinearLayout>
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

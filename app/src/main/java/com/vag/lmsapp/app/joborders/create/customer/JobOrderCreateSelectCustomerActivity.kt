@@ -190,7 +190,7 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
 //    }
 
     private fun editCustomer(customerId: UUID?) {
-        customerModal = CustomerAddEditBottomSheetFragment.getInstance(customerId, searchBar?.query.toString(), false)
+        customerModal = CustomerAddEditBottomSheetFragment.newInstance(customerId, searchBar?.query.toString(), false)
         customerModal.show(supportFragmentManager, "KEME")
         customerModal.onOk = {
             it?.let {

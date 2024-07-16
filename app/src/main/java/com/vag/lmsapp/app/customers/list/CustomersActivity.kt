@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
+import com.vag.lmsapp.app.customers.create.CustomerAddEditBottomSheetFragment
 import com.vag.lmsapp.app.customers.preview.CustomerPreviewActivity
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
@@ -68,6 +69,13 @@ class CustomersActivity : FilterActivity() {
         }
         binding.buttonClearDateFilter.setOnClickListener {
             viewModel.clearDates()
+        }
+        binding.buttonCreateNewCustomer.setOnClickListener {
+            CustomerAddEditBottomSheetFragment.newInstance(null, null, false).apply {
+                onOk = {
+                    viewModel.filter(true)
+                }
+            }.show(supportFragmentManager, null)
         }
     }
 

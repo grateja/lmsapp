@@ -1,6 +1,7 @@
 package com.vag.lmsapp.viewmodels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vag.lmsapp.model.BaseFilterParams
@@ -19,6 +20,11 @@ abstract class ListViewModel<T, F: BaseFilterParams?> : ViewModel(), ListViewMod
 //    val sortDirection = MutableLiveData<EnumSortDirection>()
     val page = MutableLiveData(1)
     val loading = MutableLiveData(false)
+    val hasItems = MediatorLiveData<Boolean>().apply {
+        addSource(items) {
+            value = it.size > 0
+        }
+    }
 
     protected var job: Job? = null
 
