@@ -8,6 +8,7 @@ import com.vag.lmsapp.app.customers.CustomerMinimal
 import com.vag.lmsapp.app.customers.list.CustomerListItem
 import com.vag.lmsapp.app.customers.list.CustomerQueryResult
 import com.vag.lmsapp.room.entities.EntityCustomer
+import com.vag.lmsapp.util.ResultCount
 import java.time.LocalDate
 import java.util.UUID
 
@@ -78,10 +79,10 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
         FROM 
             customers cu 
         LEFT JOIN 
-            job_orders jo ON jo.customer_id = cu.id 
+            job_orders jo ON jo.customer_id = cu.id AND jo.void_date IS NULL
         WHERE 
-            ((:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders)) OR 
-            (:hideAllWithoutJO = 0) AND (cu.name LIKE '%' || :keyword || '%' OR cu.crn LIKE '%' || :keyword || '%') AND cu.deleted = 0) 
+            ((:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders) OR 
+            (:hideAllWithoutJO = 0)) AND (cu.name LIKE '%' || :keyword || '%' OR cu.crn LIKE '%' || :keyword || '%') AND cu.deleted = 0)
             AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR 
             (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(cu.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR 
             (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(cu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) 
@@ -101,20 +102,33 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
     fun load(keyword: String?, orderBy: String?, sortDirection: String?, offset: Int, hideAllWithoutJO: Boolean, dateFrom: LocalDate?, dateTo: LocalDate?): List<CustomerListItem>
 
     @Query("""
-        SELECT COUNT(*) 
-        FROM customers 
-        WHERE (name LIKE '%' || :keyword || '%' OR crn like '%' || :keyword || '%' AND deleted = 0) 
-        AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR 
-        (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR 
-        (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo))
+        SELECT
+        (
+            SELECT COUNT(DISTINCT cu.id) 
+            FROM customers cu
+        LEFT JOIN 
+            job_orders jo ON jo.customer_id = cu.id AND jo.void_date IS NULL
+        WHERE
+            (:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders) OR 
+            (:hideAllWithoutJO = 0)) AND
+                (name LIKE '%' || :keyword || '%' OR crn like '%' || :keyword || '%' AND cu.deleted = 0) 
+                AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR 
+                (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(cu.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR 
+                (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(cu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo))
+        ) AS filtered,
+        (
+            SELECT COUNT(*) 
+            FROM customers 
+            WHERE deleted = 0
+        ) AS total
     """)
-    fun count(keyword: String?, dateFrom: LocalDate?, dateTo: LocalDate?): Int
+    fun count(keyword: String?, dateFrom: LocalDate?, dateTo: LocalDate?, hideAllWithoutJO: Boolean): ResultCount
 
     @Transaction
     suspend fun getListItem(keyword: String?, orderBy: String?, sortDirection: String?, offset: Int, hideAllWithoutJO: Boolean, dateFrom: LocalDate?, dateTo: LocalDate?): CustomerQueryResult {
         return CustomerQueryResult(
             load(keyword, orderBy, sortDirection, offset, hideAllWithoutJO, dateFrom, dateTo),
-            count(keyword, dateFrom, dateTo)
+            count(keyword, dateFrom, dateTo, hideAllWithoutJO)
         )
     }
 

@@ -16,6 +16,7 @@ import com.vag.lmsapp.databinding.ActivityCustomersBinding
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.util.FilterState
+import com.vag.lmsapp.util.toFormattedString
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -126,8 +127,14 @@ class CustomersActivity : FilterActivity() {
         viewModel.sortDirection.observe(this, Observer {
             viewModel.filter(true)
         })
+        viewModel.orderBy.observe(this, Observer {
+            viewModel.filter(true)
+        })
         viewModel.hideAllWithoutJo.observe(this, Observer {
             viewModel.filter(true)
+        })
+        viewModel.total.observe(this, Observer {
+            binding.textResultCount.text = resources.getQuantityString(R.plurals.result_count, it.filtered, it.filtered.toFormattedString(), it.total.toFormattedString())
         })
 //        viewModel.filterParams.observe(this, Observer {
 //            viewModel.filter(true)

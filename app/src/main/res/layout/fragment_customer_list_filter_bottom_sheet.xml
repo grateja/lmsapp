@@ -45,12 +45,46 @@
 <!--            <com.google.android.material.divider.MaterialDivider-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="1dp"/>-->
-            <Spinner
-                android:id="@+id/spinnerSortDirection"
-                app:sortDirection="@={viewModel.sortDirection}"
-                android:entries="@array/sort_direction"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                style="@style/LinearLayoutDivider5.Center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Order by:"/>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/RoundCard.NoElevation"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/neutral"
+                    app:contentPadding="8dp">
+                    <Spinner
+                        android:id="@+id/spinnerOrderBy"
+                        app:text="@={viewModel.orderBy}"
+                        android:entries="@array/order_by_customers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/RoundCard.NoElevation"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/neutral"
+                    app:contentPadding="8dp">
+                    <Spinner
+                        android:id="@+id/spinnerSortDirection"
+                        app:sortDirection="@={viewModel.sortDirection}"
+                        android:entries="@array/sort_direction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 <!--            <com.google.android.material.divider.MaterialDivider-->
 <!--                android:layout_width="match_parent"-->
@@ -58,10 +92,30 @@
 
             <androidx.appcompat.widget.SwitchCompat
                 android:checked="@={viewModel.hideAllWithoutJo}"
+                android:layout_marginHorizontal="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hide customers without job orders"
-                android:layout_marginHorizontal="8dp"/>
+                android:text="Hide customers without job orders"/>
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    style="@style/RoundCard.NoElevation.Stroke">-->
+<!--                    <TextView-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginVertical="8dp"-->
+<!--                        android:layout_marginHorizontal="16dp"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:localDate="@{viewModel.dateFilter.dateFrom}"-->
+<!--                        tools:text="Jan 1, 2023"/>-->
+<!--                </com.google.android.material.card.MaterialCardView>-->
+<!--            </LinearLayout>-->
 
 <!--            <com.google.android.material.divider.MaterialDivider-->
 <!--                android:layout_marginBottom="50dp"-->

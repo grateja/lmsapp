@@ -155,6 +155,11 @@ fun setPeso(view: TextView, value: String?) {
     view.text = "P %s".format(NumberFormat.getNumberInstance(Locale("en", "PH")).format(amount))
 }
 
+fun Int?.toFormattedString() : String {
+    val amount = this ?: 0
+    return "%s".format(NumberFormat.getNumberInstance(Locale.US).format(amount))
+}
+
 fun View.hideKeyboard() : Boolean {
     val imm = ContextCompat.getSystemService(this.context, InputMethodManager::class.java) as InputMethodManager
     return imm.hideSoftInputFromWindow(this.windowToken, 0)

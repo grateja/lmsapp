@@ -8,6 +8,7 @@ import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.room.repository.CustomerRepository
 import com.vag.lmsapp.util.EnumSortDirection
 import com.vag.lmsapp.util.FilterState
+import com.vag.lmsapp.util.ResultCount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -26,7 +27,7 @@ constructor(
     private var _page = 1
 
     val keyword = MutableLiveData("")
-    val total = MutableLiveData(0)
+    val total = MutableLiveData<ResultCount>()
     val hideAllWithoutJo = MutableLiveData(false)
     val sortDirection = MutableLiveData(EnumSortDirection.ASC)
     val orderBy = MutableLiveData("Name")

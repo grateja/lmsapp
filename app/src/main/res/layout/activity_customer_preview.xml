@@ -16,10 +16,16 @@
         android:layout_height="match_parent">
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
-            android:background="@color/color_code_customers"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer details"
+                style="@style/TextTitleFragment.Center"
+                app:layout_scrollFlags="scroll|enterAlways"/>
 <!--            <androidx.appcompat.widget.Toolbar-->
 <!--                android:id="@+id/toolbar"-->
 <!--                android:layout_width="match_parent"-->

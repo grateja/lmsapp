@@ -46,9 +46,9 @@ constructor(
     val dataState = MutableLiveData<DataState>()
 //    val selectedTab = MutableLiveData<EnumMachineType>()
 
-    init {
-        loadServices()
-    }
+//    init {
+//        loadServices()
+//    }
 
     fun setMachineType(machineType: EnumMachineType?, serviceType: EnumServiceType?) {
         _filter.value = MachineTypeFilter(
@@ -56,11 +56,11 @@ constructor(
         )
     }
 
-    private fun loadServices() {
-        viewModelScope.launch {
-            availableServices.value = serviceRepository.menuItems()
-        }
-    }
+//    private fun loadServices() {
+//        viewModelScope.launch {
+//            availableServices.value = serviceRepository.menuItems()
+//        }
+//    }
 
 //    fun getServices(machineType: EnumMachineType) : List<MenuServiceItem> {
 //        return availableServices.value?.filter {it.machineType == machineType}?: listOf()

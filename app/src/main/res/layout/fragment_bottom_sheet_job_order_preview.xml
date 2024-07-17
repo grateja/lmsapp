@@ -85,46 +85,131 @@
                         android:layout_marginHorizontal="18dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <TableLayout
-                            android:layout_margin="12dp"
-                            style="@style/Caption.Definition"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_margin="16dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                            <TableRow
-                                android:layout_marginVertical="8dp">
-                                <TextView
-                                    android:text="CUSTOMER NAME"
-                                    android:layout_weight="1"/>
-                                <TextView
-                                    style="@style/Bold"
-                                    android:textAlignment="textEnd"
-                                    android:text="@{viewModel.jobOrder.customer.name}"
-                                    tools:text="Tony Stark"/>
-                            </TableRow>
-                            <TableRow
-                                android:layout_marginVertical="8dp">
-                                <TextView
-                                    android:text="DATE CREATED"
-                                    android:layout_weight="1"/>
-                                <TextView
-                                    style="@style/Bold"
-                                    android:textAlignment="textEnd"
-                                    android:text="@{viewModel.jobOrder.jobOrder.createdAt}"
-                                    tools:text="Jan 16, 2025 4:23 AM"/>
-                            </TableRow>
-                            <TableRow
+                            <ImageView
+                                android:id="@+id/icon_customer"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/prepend_icon_customer"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"/>
+                            <TextView
+                                android:id="@+id/label_customer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Customer name"
+                                app:layout_constraintStart_toEndOf="@id/icon_customer"
+                                app:layout_constraintTop_toTopOf="@id/icon_customer"
+                                android:layout_marginStart="8dp"/>
+                            <TextView
+                                android:id="@+id/text_customer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@id/label_customer"
+                                app:layout_constraintStart_toStartOf="@id/label_customer"
+                                android:text="@{viewModel.jobOrder.customer.name}"
+                                tools:text="Tony Stark"
+                                android:textSize="18sp"
+                                android:textColor="@color/black"/>
+                            <ImageView
+                                android:id="@+id/icon_date_created"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/prepend_icon_date"
+                                android:layout_marginTop="12dp"
+                                app:layout_constraintTop_toBottomOf="@id/text_customer"
+                                app:layout_constraintStart_toStartOf="parent"/>
+                            <TextView
+                                android:id="@+id/label_date_created"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Created"
+                                app:layout_constraintTop_toTopOf="@id/icon_date_created"
+                                app:layout_constraintStart_toEndOf="@id/icon_date_created"
+                                android:layout_marginStart="8dp"/>
+                            <TextView
+                                android:id="@+id/text_date_created"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@id/label_date_created"
+                                app:layout_constraintStart_toStartOf="@id/label_date_created"
+                                android:date="@{viewModel.jobOrder.jobOrder.createdAt}"
+                                tools:text="Jan 1, 2024"
+                                android:textSize="18sp"
+                                android:textColor="@color/black"/>
+                            <ImageView
+                                android:id="@+id/icon_date_paid"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/prepend_icon_date"
+                                android:layout_marginTop="12dp"
                                 android:visibility="@{viewModel.hasPayment}"
-                                android:layout_marginVertical="8dp">
-                                <TextView
-                                    android:text="DATE PAID"
-                                    android:layout_weight="1"/>
-                                <TextView
-                                    style="@style/Bold"
-                                    android:textAlignment="textEnd"
-                                    android:text="@{viewModel.jobOrder.paymentWithUser.payment.createdAt}"
-                                    tools:text="Jan 17, 2025 8:23 AM"/>
-                            </TableRow>
-                        </TableLayout>
+                                app:layout_constraintTop_toBottomOf="@id/text_date_created"
+                                app:layout_constraintStart_toStartOf="parent"/>
+                            <TextView
+                                android:id="@+id/label_date_paid"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Paid"
+                                android:visibility="@{viewModel.hasPayment}"
+                                app:layout_constraintTop_toTopOf="@id/icon_date_paid"
+                                app:layout_constraintStart_toEndOf="@id/icon_date_paid"
+                                android:layout_marginStart="8dp"/>
+                            <TextView
+                                android:id="@+id/text_date_paid"
+                                android:visibility="@{viewModel.hasPayment}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@id/label_date_paid"
+                                app:layout_constraintStart_toStartOf="@id/label_date_paid"
+                                android:date="@{viewModel.jobOrder.paymentWithUser.payment.createdAt}"
+                                tools:text="Jan 1, 2024"
+                                android:textSize="18sp"
+                                android:textColor="@color/black"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                        <TableLayout-->
+<!--                            android:layout_margin="12dp"-->
+<!--                            style="@style/Caption.Definition"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content">-->
+<!--                            <TableRow-->
+<!--                                android:layout_marginVertical="8dp">-->
+<!--                                <TextView-->
+<!--                                    android:text="CUSTOMER NAME"-->
+<!--                                    android:layout_weight="1"/>-->
+<!--                                <TextView-->
+<!--                                    style="@style/Bold"-->
+<!--                                    android:textAlignment="textEnd"-->
+<!--                                    android:text="@{viewModel.jobOrder.customer.name}"-->
+<!--                                    tools:text="Tony Stark"/>-->
+<!--                            </TableRow>-->
+<!--                            <TableRow-->
+<!--                                android:layout_marginVertical="8dp">-->
+<!--                                <TextView-->
+<!--                                    android:text="DATE CREATED"-->
+<!--                                    android:layout_weight="1"/>-->
+<!--                                <TextView-->
+<!--                                    style="@style/Bold"-->
+<!--                                    android:textAlignment="textEnd"-->
+<!--                                    android:text="@{viewModel.jobOrder.jobOrder.createdAt}"-->
+<!--                                    tools:text="Jan 16, 2025 4:23 AM"/>-->
+<!--                            </TableRow>-->
+<!--                            <TableRow-->
+<!--                                android:visibility="@{viewModel.hasPayment}"-->
+<!--                                android:layout_marginVertical="8dp">-->
+<!--                                <TextView-->
+<!--                                    android:text="DATE PAID"-->
+<!--                                    android:layout_weight="1"/>-->
+<!--                                <TextView-->
+<!--                                    style="@style/Bold"-->
+<!--                                    android:textAlignment="textEnd"-->
+<!--                                    android:text="@{viewModel.jobOrder.paymentWithUser.payment.createdAt}"-->
+<!--                                    tools:text="Jan 17, 2025 8:23 AM"/>-->
+<!--                            </TableRow>-->
+<!--                        </TableLayout>-->
                     </com.google.android.material.card.MaterialCardView>
                     <TextView
                         android:visibility="@{viewModel.hasPackages}"

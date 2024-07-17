@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <plurals name="result_count">
+        <item quantity="zero">No records!</item>
+        <item quantity="one">Only 1 record found!</item>
+        <item quantity="other">Showing %s result out of %s total records</item>
+    </plurals>
+
     <plurals name="job_orders">
         <item quantity="zero">No job orders</item>
         <item quantity="one">%d job order</item>
