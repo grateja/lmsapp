@@ -21,6 +21,8 @@ constructor (
         return daoCustomer.get(id)
     }
 
+    fun getCustomerByPaymentIdAsLiveData(paymentId: UUID?) = daoCustomer.getCustomerByPaymentIdAsLiveData(paymentId)
+
 //    suspend fun filter(keyword: String) : List<EntityCustomer> {
 //        return daoCustomer.getAll(keyword)
 //    }

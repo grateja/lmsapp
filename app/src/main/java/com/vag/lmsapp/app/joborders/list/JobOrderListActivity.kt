@@ -18,6 +18,7 @@ import com.vag.lmsapp.viewmodels.ListViewModel
 import com.google.android.material.tabs.TabLayout
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
+import com.vag.lmsapp.model.EnumPaymentStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,7 +32,7 @@ class JobOrderListActivity : FilterActivity() {
     private val viewModelPreview: JobOrderPreviewViewModel by viewModels()
 
     override var filterHint = "Search customer name or CRN"
-    override var toolbarBackground: Int = R.color.color_code_job_order
+    override var toolbarBackground: Int = R.color.white
 
     private val adapter = Adapter<JobOrderListItem>(R.layout.recycler_item_job_order_list_item)
     private lateinit var dateRangeDialog: BottomSheetDateRangePickerFragment
@@ -46,19 +47,7 @@ class JobOrderListActivity : FilterActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.tabRegularAndTrashed.apply {
-            this.addTab(this.newTab().setText("Active"))
-            this.addTab(this.newTab().setText("Deleted"))
-            this.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-                    viewModel.setView(tab?.position == 0)
-                }
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) { }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) { }
-            })
-        }
+        setupTab()
 
         subscribeEvents()
         subscribeListeners()
@@ -74,6 +63,22 @@ class JobOrderListActivity : FilterActivity() {
             viewModel.setAdvancedFilter(it ?: JobOrderAdvancedFilter())
         }
     }
+
+    private fun setupTab() {
+        binding.paymentStatusTab.tabItemPaymentStatusAll.setOnClickListener {
+            viewModel.setPaymentStatus(EnumPaymentStatus.ALL)
+            viewModel.filter(true)
+        }
+        binding.paymentStatusTab.tabItemPaymentStatusPaid.setOnClickListener {
+            viewModel.setPaymentStatus(EnumPaymentStatus.PAID)
+            viewModel.filter(true)
+        }
+        binding.paymentStatusTab.tabItemPaymentStatusUnpaid.setOnClickListener {
+            viewModel.setPaymentStatus(EnumPaymentStatus.UNPAID)
+            viewModel.filter(true)
+        }
+    }
+
 
     override fun onAdvancedSearchClick() {
         viewModel.showAdvancedFilter()
@@ -105,9 +110,9 @@ class JobOrderListActivity : FilterActivity() {
         binding.buttonCreateNewJobOrder.setOnClickListener {
             createNewJo()
         }
-        binding.cardAdvancedOptions.setOnClickListener {
-            viewModel.showAdvancedFilter()
-        }
+//        binding.cardAdvancedOptions.setOnClickListener {
+//            viewModel.showAdvancedFilter()
+//        }
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.filter(true)
         }

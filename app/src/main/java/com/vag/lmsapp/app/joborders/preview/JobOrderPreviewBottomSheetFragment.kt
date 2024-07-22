@@ -100,6 +100,7 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                 is JobOrderPreviewViewModel.NavigationState.OpenPayment -> {
                     val intent = Intent(context, PaymentPreviewActivity::class.java).apply {
                         putExtra(PAYMENT_ID, it.paymentId.toString())
+                        putExtra(CUSTOMER_ID, it.customerId.toString())
                     }
                     startActivity(intent)
                     viewModel.resetState()

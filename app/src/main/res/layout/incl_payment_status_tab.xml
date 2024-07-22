@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="paymentStatus"
+            type="com.vag.lmsapp.model.EnumPaymentStatus" />
+        <variable
+            name="jobOrderResult"
+            type="com.vag.lmsapp.app.joborders.list.JobOrderResultSummary" />
+    </data>
+    <LinearLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tab_item_payment_status_all"
+            android:layout_width="0dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp"
+            app:cardBackgroundColor="@{paymentStatus == com.vag.lmsapp.model.EnumPaymentStatus.ALL ? @color/white : @color/transparent}"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:layout_margin="16dp"
+                android:textColor="@{paymentStatus == com.vag.lmsapp.model.EnumPaymentStatus.ALL ? @color/primary : @color/text_dark_grey}"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:text="@{`All (` + jobOrderResult.totalResultCount + `)`}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="All (10)"/>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tab_item_payment_status_paid"
+            android:layout_width="0dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp"
+            app:cardBackgroundColor="@{paymentStatus == com.vag.lmsapp.model.EnumPaymentStatus.PAID ? @color/white : @color/transparent}"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:layout_margin="16dp"
+                android:textColor="@{paymentStatus == com.vag.lmsapp.model.EnumPaymentStatus.PAID ? @color/primary : @color/text_dark_grey}"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:text="@{`Paid (` + jobOrderResult.paidCount + `)`}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Paid (10)"/>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tab_item_payment_status_unpaid"
+            android:layout_width="0dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp"
+            app:cardBackgroundColor="@{paymentStatus == com.vag.lmsapp.model.EnumPaymentStatus.UNPAID ? @color/white : @color/transparent}"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:layout_margin="16dp"
+                android:textColor="@{paymentStatus == com.vag.lmsapp.model.EnumPaymentStatus.UNPAID ? @color/primary : @color/text_dark_grey}"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:text="@{`Unpaid (` + jobOrderResult.unpaidCount + `)`}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Unpaid (10)"/>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</layout>

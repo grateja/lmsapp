@@ -30,7 +30,6 @@ class JobOrderPaymentViewModel
 constructor(
     private val jobOrderRepository: JobOrderRepository,
     private val paymentRepository: PaymentRepository,
-//    private val appPreferenceRepository: AppPreferenceRepository,
     private val customerRepository: CustomerRepository,
     private val dataStoreRepository: JobOrderSettingsRepository,
     application: Application
@@ -49,6 +48,7 @@ constructor(
         data object RemoveProofOfPayment: DataState()
         data class OpenPromptReplacePictureWithCamera(val paymentId: UUID): DataState()
         data object OpenPromptReplacePictureWithFile: DataState()
+        data class InitiateDelete(val paymentId: UUID): DataState()
     }
 
     val requireOrNumber = dataStoreRepository.requireOrNumber
@@ -62,7 +62,7 @@ constructor(
     val cashlessProviders = paymentRepository.getCashlessProviders()
     val datePaid = MutableLiveData(Instant.now())
 
-    private val _customerId = MutableLiveData<UUID>()
+    private val _customerId = MutableLiveData<UUID?>()
     val customer = _customerId.switchMap { customerRepository.getCustomerAsLiveData(it) }
 
     private val _paymentId = MutableLiveData(UUID.randomUUID())
@@ -142,8 +142,9 @@ constructor(
         _dataState.value = DataState.StateLess
     }
 
-    fun getPayment(paymentId: UUID) {
+    fun getPayment(paymentId: UUID?, customerId: UUID?) {
         _paymentId.value = paymentId
+        _customerId.value = customerId
     }
 
     fun getUnpaidByCustomerId(customerId: UUID) {
@@ -362,6 +363,12 @@ constructor(
             } finally {
                 _dataState.value = DataState.RemoveProofOfPayment
             }
+        }
+    }
+
+    fun initiateDelete() {
+        _paymentId.value?.let {
+            _dataState.value = DataState.InitiateDelete(it)
         }
     }
 }

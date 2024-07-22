@@ -37,6 +37,8 @@ class CustomersActivity : FilterActivity() {
 
         subscribeEvents()
         subscribeListeners()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onResume() {

@@ -14,6 +14,12 @@ import java.util.UUID
 
 @Dao
 interface DaoCustomer : BaseDao<EntityCustomer> {
+    @Query("""
+        SELECT * FROM customers WHERE id = (
+            SELECT customer_id FROM job_orders WHERE payment_id = :paymentId
+        )
+    """)
+    fun getCustomerByPaymentIdAsLiveData(paymentId: UUID?): EntityCustomer?
 
     @Query("""
         SELECT * 
@@ -79,10 +85,10 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
         FROM 
             customers cu 
         LEFT JOIN 
-            job_orders jo ON jo.customer_id = cu.id AND jo.void_date IS NULL
+            job_orders jo ON jo.customer_id = cu.id
         WHERE 
-            ((:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders) OR 
-            (:hideAllWithoutJO = 0)) AND (cu.name LIKE '%' || :keyword || '%' OR cu.crn LIKE '%' || :keyword || '%') AND cu.deleted = 0)
+            ((:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders WHERE void_date IS NULL) OR :hideAllWithoutJO = 0)
+            AND (cu.name LIKE '%' || :keyword || '%' OR cu.crn LIKE '%' || :keyword || '%') AND cu.deleted = 0)
             AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR 
             (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(cu.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR 
             (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(cu.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) 
@@ -107,9 +113,9 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
             SELECT COUNT(DISTINCT cu.id) 
             FROM customers cu
         LEFT JOIN 
-            job_orders jo ON jo.customer_id = cu.id AND jo.void_date IS NULL
+            job_orders jo ON jo.customer_id = cu.id
         WHERE
-            (:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders) OR 
+            (:hideAllWithoutJO = 1 AND cu.id IN (SELECT DISTINCT customer_id FROM job_orders WHERE void_date IS NULL) OR 
             (:hideAllWithoutJO = 0)) AND
                 (name LIKE '%' || :keyword || '%' OR crn like '%' || :keyword || '%' AND cu.deleted = 0) 
                 AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR 

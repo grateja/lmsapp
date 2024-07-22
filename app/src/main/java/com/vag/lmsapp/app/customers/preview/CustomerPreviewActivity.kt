@@ -53,6 +53,7 @@ class CustomerPreviewActivity : AppCompatActivity() {
 
         binding.recyclerJobOrderList.adapter = adapter
         binding.amountPager.adapter = paymentStatusPaymentPager
+        binding.amountPager.isUserInputEnabled = false
 
         subscribeEvents()
         subscribeListeners()
@@ -69,17 +70,17 @@ class CustomerPreviewActivity : AppCompatActivity() {
     }
 
     private fun setupTab() {
-        binding.tabItemPaymentStatusAll.setOnClickListener {
+        binding.paymentStatusTab.tabItemPaymentStatusAll.setOnClickListener {
             jobOrdersViewModel.setPaymentStatus(EnumPaymentStatus.ALL)
             jobOrdersViewModel.filter(true)
             binding.amountPager.setCurrentItem(0, true)
         }
-        binding.tabItemPaymentStatusPaid.setOnClickListener {
+        binding.paymentStatusTab.tabItemPaymentStatusPaid.setOnClickListener {
             jobOrdersViewModel.setPaymentStatus(EnumPaymentStatus.PAID)
             jobOrdersViewModel.filter(true)
             binding.amountPager.setCurrentItem(1, true)
         }
-        binding.tabItemPaymentStatusUnpaid.setOnClickListener {
+        binding.paymentStatusTab.tabItemPaymentStatusUnpaid.setOnClickListener {
             jobOrdersViewModel.setPaymentStatus(EnumPaymentStatus.UNPAID)
             jobOrdersViewModel.filter(true)
             binding.amountPager.setCurrentItem(2, true)

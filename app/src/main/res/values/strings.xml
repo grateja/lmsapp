@@ -93,6 +93,7 @@
     <string-array name="order_by_job_orders">
         <item>Date Created</item>
         <item>Job Order Number</item>
+        <item>Amount</item>
         <item>Date Paid</item>
         <item>Customer Name</item>
     </string-array>

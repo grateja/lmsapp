@@ -146,10 +146,12 @@ interface DaoJobOrder {
                  OR (:filterBy = 'paid' AND :dateFrom IS NOT NULL AND :dateTo IS NULL AND date(pa.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom)
                  OR (:filterBy = 'paid' AND :dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(pa.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo))
         ORDER BY
+            CASE WHEN :orderBy = 'Amount' AND :sortDirection = 'ASC' THEN jo.discounted_amount END ASC,
             CASE WHEN :orderBy = 'Date Created' AND :sortDirection = 'ASC' THEN jo.created_at END ASC,
             CASE WHEN :orderBy = 'Date Paid' AND :sortDirection = 'ASC' THEN pa.created_at END ASC,
             CASE WHEN :orderBy = 'Customer Name' AND :sortDirection = 'ASC' THEN cu.name END ASC,
             CASE WHEN :orderBy = 'Job Order Number' AND :sortDirection = 'ASC' THEN jo.job_order_number END ASC,
+            CASE WHEN :orderBy = 'Amount' AND :sortDirection = 'DESC' THEN jo.discounted_amount END DESC,
             CASE WHEN :orderBy = 'Date Created' AND :sortDirection = 'DESC' THEN jo.created_at END DESC,
             CASE WHEN :orderBy = 'Date Paid' AND :sortDirection = 'DESC' THEN pa.created_at END DESC,
             CASE WHEN :orderBy = 'Customer Name' AND :sortDirection = 'DESC' THEN cu.name END DESC,

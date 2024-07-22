@@ -98,7 +98,7 @@ interface DaoJobOrderPayment {
 
     @Query("""
         SELECT 
-            p.id, payment_method, amount_due, or_number, cashless_provider, c.name, p.created_at, 
+            p.id, payment_method, amount_due, or_number, cashless_provider, c.id AS customer_id, c.name, p.created_at, 
             GROUP_CONCAT(jo.job_order_number, ', ') AS job_order_reference,
             p.sync 
         FROM job_order_payments AS p 

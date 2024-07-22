@@ -43,7 +43,7 @@ constructor(
         data class OpenExtras(val list: List<MenuExtrasItem>?, val item: MenuExtrasItem?): DataState()
         data class OpenDelivery(val deliveryCharge: DeliveryCharge?): DataState()
         data class OpenDiscount(val discount: MenuDiscount?): DataState()
-        data class OpenPayment(val paymentId: UUID) : DataState()
+        data class OpenPayment(val paymentId: UUID, val customerId: UUID?) : DataState()
         data class MakePayment(val customerId: UUID) : DataState()
         data class InvalidOperation(val message: String, val errorCode: String? = null): DataState()
         data class RequestExit(val canExit: Boolean, val resultCode: Int, val jobOrderId: UUID?) : DataState()
@@ -785,8 +785,9 @@ constructor(
             _dataState.value = DataState.InvalidOperation("The Job Order has not been saved yet!")
         }
         val paymentId = _paymentId.value
+        val customerId = _customerId.value
         if(paymentId != null) {
-            _dataState.value = DataState.OpenPayment(paymentId)
+            _dataState.value = DataState.OpenPayment(paymentId, customerId)
         } else {
             _dataState.value = DataState.MakePayment(currentCustomer.value!!.id)
         }

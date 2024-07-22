@@ -93,7 +93,7 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_job_order_create)
-        window.statusBarColor = getColor(R.color.color_code_job_order)
+//        window.statusBarColor = getColor(R.color.color_code_job_order)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -344,7 +344,7 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
                     startSync(it.jobOrderId)
                 }
                 is CreateJobOrderViewModel.DataState.OpenPayment -> {
-                    openPayment(it.paymentId)
+                    openPayment(it.paymentId, it.customerId)
                     viewModel.resetState()
                 }
                 is CreateJobOrderViewModel.DataState.MakePayment -> {
@@ -465,9 +465,10 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         launcher.launch(intent)
     }
 
-    private fun openPayment(paymentId: UUID?) {
+    private fun openPayment(paymentId: UUID?, customerId: UUID?) {
         val intent = Intent(this, PaymentPreviewActivity::class.java).apply {
             putExtra(PAYMENT_ID, paymentId.toString())
+            putExtra(CUSTOMER_ID, customerId.toString())
         }
 
         launcher.launch(intent)

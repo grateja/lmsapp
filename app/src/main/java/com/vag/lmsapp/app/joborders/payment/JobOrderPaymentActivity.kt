@@ -56,9 +56,9 @@ class JobOrderPaymentActivity : AppCompatActivity() {
                 viewModel.getUnpaidByCustomerId(it)
             }
         } else if(intent.action == ACTION_LOAD_BY_PAYMENT) {
-            intent.getStringExtra(PAYMENT_ID).toUUID()?.let {
-                viewModel.getPayment(it)
-            }
+            val paymentId = intent.getStringExtra(PAYMENT_ID).toUUID()
+            val customerId = intent.getStringExtra(CUSTOMER_ID).toUUID()
+            viewModel.getPayment(paymentId, customerId)
         }
     }
 

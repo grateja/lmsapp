@@ -14,6 +14,7 @@ import com.vag.lmsapp.app.joborders.payment.delete.JobOrderPaymentDeleteActivity
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
 import com.vag.lmsapp.databinding.ActivityPaymentPreviewBinding
 import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
 import com.vag.lmsapp.util.showConfirmationDialog
 import com.vag.lmsapp.util.toUUID
@@ -25,7 +26,6 @@ class PaymentPreviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPaymentPreviewBinding
     private val viewModel: JobOrderPaymentViewModel by viewModels()
     private val adapter = JobOrderListPaymentAdapter(true) //Adapter<JobOrderPaymentMinimal>(R.layout.recycler_item_job_order_read_only)
-    private var paymentId: UUID? = null
     private val launcher = ActivityLauncher(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +36,10 @@ class PaymentPreviewActivity : AppCompatActivity() {
 
         binding.recyclerJobOrderPaymentMinimal.adapter = adapter
 
-        paymentId = intent.getStringExtra(PAYMENT_ID)?.toUUID()?.also {
-            viewModel.getPayment(it)
-        }
+        val customerId = intent.getStringExtra(CUSTOMER_ID)?.toUUID()
+        val paymentId = intent.getStringExtra(PAYMENT_ID)?.toUUID()
+
+        viewModel.getPayment(paymentId, customerId)
 
         subscribeListeners()
         subscribeEvents()
@@ -50,7 +51,7 @@ class PaymentPreviewActivity : AppCompatActivity() {
         JobOrderPreviewBottomSheetFragment.newInstance(true, jobOrderId).show(supportFragmentManager, null)
     }
 
-    private fun initiateDelete() {
+    private fun initiateDelete(paymentId: UUID) {
         showConfirmationDialog("Delete payment?", "Are you sure you want to delete this payment? All the job orders associated to this payment will be marked as unpaid") {
             val intent = Intent(this, JobOrderPaymentDeleteActivity::class.java).apply {
                 putExtra(PAYMENT_ID, paymentId.toString())
@@ -72,13 +73,22 @@ class PaymentPreviewActivity : AppCompatActivity() {
         viewModel.jobOrders.observe(this, Observer {
             adapter.setData(it)
         })
+        viewModel.dataState.observe(this, Observer {
+            when(it) {
+                is JobOrderPaymentViewModel.DataState.InitiateDelete -> {
+                    initiateDelete(it.paymentId)
+                    viewModel.resetState()
+                }
+                else -> {}
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.save_delete_menu, menu)
         menu?.findItem(R.id.menu_save)?.isVisible = false
         menu?.findItem(R.id.menu_delete)?.setOnMenuItemClickListener {
-            initiateDelete()
+            viewModel.initiateDelete()
             true
         }
         return super.onCreateOptionsMenu(menu)

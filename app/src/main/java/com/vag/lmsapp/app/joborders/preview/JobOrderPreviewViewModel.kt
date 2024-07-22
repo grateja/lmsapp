@@ -171,8 +171,8 @@ constructor(
 //    }
     fun openPayment() {
         if(hasPayment.value == true) {
-            jobOrder.value?.jobOrder?.paymentId?.let {
-                _navigationState.value = NavigationState.OpenPayment(it)
+            jobOrder.value?.jobOrder?.let {
+                _navigationState.value = NavigationState.OpenPayment(it.paymentId!!, it.customerId)
             }
         } else {
             jobOrder.value?.customer?.id?.let {
@@ -204,7 +204,7 @@ constructor(
         data object StateLess: NavigationState()
         data class InitiateEdit(val id: UUID): NavigationState()
         data class MakePayment(val customerId: UUID): NavigationState()
-        data class OpenPayment(val paymentId: UUID): NavigationState()
+        data class OpenPayment(val paymentId: UUID, val customerId: UUID): NavigationState()
         data class OpenPrint(val id: UUID) : NavigationState()
         data class OpenDelete(val id: UUID) : NavigationState()
         data object RequestEdit: NavigationState()

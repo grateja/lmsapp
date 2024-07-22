@@ -20,6 +20,9 @@ data class EntityJobOrderPaymentListItem(
     @ColumnInfo("cashless_provider")
     val cashlessProvider: String?,
 
+    @ColumnInfo("customer_id")
+    val customerId: UUID,
+
     @ColumnInfo("name")
     val customerName: String,
 

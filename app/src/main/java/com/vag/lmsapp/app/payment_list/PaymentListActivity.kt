@@ -12,6 +12,7 @@ import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityPaymentListBinding
 import com.vag.lmsapp.room.entities.EntityJobOrderPaymentListItem
+import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
 import com.vag.lmsapp.util.FilterActivity
@@ -49,9 +50,10 @@ class PaymentListActivity : FilterActivity() {
         viewModel.setKeyword(keyword)
     }
 
-    private fun openPayment(paymentId: UUID) {
+    private fun openPayment(paymentId: UUID, customerId: UUID) {
         val intent = Intent(this, PaymentPreviewActivity::class.java).apply {
             putExtra(PAYMENT_ID, paymentId.toString())
+            putExtra(CUSTOMER_ID, customerId.toString())
         }
         startActivity(intent)
     }
@@ -70,7 +72,7 @@ class PaymentListActivity : FilterActivity() {
             viewModel.loadMore()
         }
         adapter.onItemClick = {
-            openPayment(it.id)
+            openPayment(it.id, it.customerId)
         }
 //        binding.cardDateRange.setOnClickListener {
 //            viewModel.showDatePicker()
