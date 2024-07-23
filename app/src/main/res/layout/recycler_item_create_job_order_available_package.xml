@@ -9,6 +9,7 @@
     </data>
     <com.google.android.material.card.MaterialCardView
         style="@style/CardMenuItem"
+        android:layout_marginVertical="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout

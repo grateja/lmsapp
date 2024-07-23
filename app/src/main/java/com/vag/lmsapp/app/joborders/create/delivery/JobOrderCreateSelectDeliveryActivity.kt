@@ -64,11 +64,11 @@ class JobOrderCreateSelectDeliveryActivity : AppCompatActivity() {
             showOptions()
         }
 
-        binding.buttonCancel.setOnClickListener {
+        binding.cardButtonClose.setOnClickListener {
             finish()
         }
 
-        binding.buttonRemove.setOnClickListener {
+        binding.cardButtonDelete.setOnClickListener {
             viewModel.prepareDeliveryCharge(true)
         }
     }

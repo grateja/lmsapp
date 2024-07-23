@@ -37,6 +37,7 @@
                         tools:text="Regular Keme"/>
                     <NumberPicker
                         android:layout_gravity="center"
+                        android:layout_marginVertical="16dp"
                         android:scaleY="1.2"
                         android:scaleX="1.2"
                         android:id="@+id/number_picker_quantity"
@@ -85,41 +86,115 @@
 <!--                            android:padding="0dp"-->
 <!--                            android:text="+" />-->
 <!--                    </LinearLayout>-->
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:divider="@drawable/divider_20"
                         android:showDividers="middle"
                         android:gravity="start">
-                        <Button
-                            android:id="@+id/buttonCancel"
-                            style="@style/RoundButtonNeutral"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/buttonConfirm"
-                            android:layout_marginEnd="12dp"
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_button_delete"
+                            style="@style/ButtonCard"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/cancel" />
+                            android:layout_weight="1">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:layout_margin="6dp"
+                                android:divider="@drawable/divider_5"
+                                android:showDividers="middle|end|beginning">
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:padding="3dp"
+                                    android:src="@drawable/icon_delete"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/remove"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_button_close"
+                            style="@style/ButtonCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:layout_margin="6dp"
+                                android:divider="@drawable/divider_5"
+                                android:showDividers="middle|end|beginning">
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/icon_close"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/close"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_button_confirm"
+                            style="@style/ButtonCard"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:layout_margin="6dp"
+                                android:divider="@drawable/divider_5"
+                                android:showDividers="middle|end|beginning">
+                                <ImageView
+                                    android:layout_width="27dp"
+                                    android:layout_height="27dp"
+                                    android:src="@drawable/icon_confirm"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/confirm"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
 
-                        <Button
-                            android:id="@+id/buttonConfirm"
-                            style="@style/RoundButtonPrimary"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/confirm" />
+                        <!--                        <Button-->
+<!--                            android:id="@+id/buttonCancel"-->
+<!--                            style="@style/RoundButtonNeutral"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            app:layout_constraintEnd_toStartOf="@id/buttonConfirm"-->
+<!--                            android:layout_marginEnd="12dp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/cancel" />-->
 
-                        <Button
-                            android:id="@+id/buttonRemove"
-                            style="@style/RoundButtonNeutral"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/remove" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                        <Button-->
+<!--                            android:id="@+id/buttonConfirm"-->
+<!--                            style="@style/RoundButtonPrimary"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/confirm" />-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/buttonRemove"-->
+<!--                            style="@style/RoundButtonNeutral"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/remove" />-->
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 <!--        </FrameLayout>-->

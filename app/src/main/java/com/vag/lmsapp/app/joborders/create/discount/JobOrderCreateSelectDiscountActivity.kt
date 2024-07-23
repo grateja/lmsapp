@@ -49,11 +49,11 @@ class JobOrderCreateSelectDiscountActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.buttonCancel.setOnClickListener {
+        binding.cardButtonClose.setOnClickListener {
             finish()
         }
 
-        binding.buttonRemove.setOnClickListener {
+        binding.cardButtonDelete.setOnClickListener {
             setResult(RESULT_OK, Intent().apply {
                 action = intent.action
                 putExtra(JobOrderCreateActivity.PAYLOAD_EXTRA, "")

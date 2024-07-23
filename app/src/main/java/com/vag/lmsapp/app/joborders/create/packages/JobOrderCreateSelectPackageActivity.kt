@@ -45,10 +45,10 @@ class JobOrderCreateSelectPackageActivity : AppCompatActivity() {
 
     private fun subscribeEvents() {
         adapter.onItemClick = { itemClick(it) }
-        binding.buttonOk.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.prepareSubmit()
         }
-        binding.buttonCancel.setOnClickListener {
+        binding.cardButtonClose.setOnClickListener {
             finish()
         }
     }

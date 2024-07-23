@@ -10,11 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:divider="@drawable/divider_20"
+        android:divider="@drawable/divider_5"
         android:showDividers="middle"
         android:layout_marginVertical="8dp">
         <TextView
-            style="@style/Bold"
+            style="@style/Bold.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/symbol_bullet"/>
+        <TextView
+            android:textColor="@color/black"
             tools:text="Regular Wash"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -25,11 +30,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.quantityStrAbbr()}"/>
-        <TextView
-            style="@style/Bold.Black"
-            tools:text="P5.20"
+        <com.google.android.material.card.MaterialCardView
+            style="@style/CardSpan"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:peso="@{viewModel.total()}"/>
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/Bold"
+                android:textColor="@color/primary"
+                tools:text="P5.20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:peso="@{viewModel.total()}"/>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>

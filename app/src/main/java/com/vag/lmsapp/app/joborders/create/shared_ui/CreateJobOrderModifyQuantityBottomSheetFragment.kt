@@ -56,7 +56,7 @@ class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityMo
 //            println(it)
 //        }
 
-        binding.buttonConfirm.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.confirm()
 //            if(binding.textQuantity.text.toString().toInt() > 0) {
 //                onOk?.invoke(binding.viewModel!!)
@@ -64,7 +64,7 @@ class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityMo
 //            }
         }
 
-        binding.buttonCancel.setOnClickListener {
+        binding.cardButtonClose.setOnClickListener {
             dismiss()
         }
 
@@ -86,7 +86,7 @@ class CreateJobOrderModifyQuantityBottomSheetFragment : ModalFragment<QuantityMo
 //            }
 //        }
 
-        binding.buttonRemove.setOnClickListener {
+        binding.cardButtonDelete.setOnClickListener {
             viewModel.remove()
             dismiss()
         }

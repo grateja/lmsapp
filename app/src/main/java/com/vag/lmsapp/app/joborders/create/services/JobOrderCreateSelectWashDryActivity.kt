@@ -111,10 +111,10 @@ class JobOrderCreateSelectWashDryActivity : AppCompatActivity() {
 //                viewModel.setMachineType(tab?.text.toString())
 //            }
 //        })
-        binding.buttonOk.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.prepareSubmit()
         }
-        binding.buttonCancel.setOnClickListener {
+        binding.cardButtonClose.setOnClickListener {
             finish()
         }
 //        viewModel.selectedTab.observe(this, Observer {

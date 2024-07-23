@@ -40,10 +40,10 @@ class JobOrderCreateSelectProductsActivity : AppCompatActivity() {
 
     private fun subscribeEvents() {
         productsAdapter.onItemClick = { itemClick(it) }
-        binding.buttonOk.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.prepareSubmit()
         }
-        binding.buttonCancel.setOnClickListener {
+        binding.cardButtonClose.setOnClickListener {
             finish()
         }
         viewModel.availableProducts.observe(this, Observer {

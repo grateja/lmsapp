@@ -29,35 +29,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_scrollFlags="scroll|enterAlways"/>
-                <com.google.android.material.card.MaterialCardView
-                    app:cardCornerRadius="20dp"
-                    app:cardBackgroundColor="@color/darker_color_code_job_order_darker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:layout_scrollFlags="scroll|enterAlways">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="40dp"
-                        android:layout_marginVertical="4dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/neutral"
-                            android:text="JOB ORDER#"/>
-                        <TextView
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/rammetto_one"
-                            android:textSize="20sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewModel.jobOrderNumber}"
-                            tools:text="000034"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    app:cardCornerRadius="20dp"-->
+<!--                    app:cardBackgroundColor="@color/darker_color_code_job_order_darker"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    app:layout_scrollFlags="scroll|enterAlways">-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_marginHorizontal="40dp"-->
+<!--                        android:layout_marginVertical="4dp">-->
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textColor="@color/neutral"-->
+<!--                            android:text="JOB ORDER#"/>-->
+<!--                        <TextView-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:fontFamily="@font/rammetto_one"-->
+<!--                            android:textSize="20sp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@{viewModel.jobOrderNumber}"-->
+<!--                            tools:text="000034"/>-->
+<!--                    </LinearLayout>-->
+<!--                </com.google.android.material.card.MaterialCardView>-->
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/job_order_info"
                     android:name="com.vag.lmsapp.app.joborders.create.shared_ui.CreateJobOrderInfoFragment"
@@ -89,28 +89,28 @@
                         layout="@layout/incl_legend_create_job_order"
                         app:title="@{`PACKAGES`}"
                         app:hasItems="@{viewModel.hasPackages}"
-                        app:prompt="@{`No Packages selected`}"/>
+                        app:prompt="@{`No Packages selected. Tap here to add!`}"/>
 
                     <include
                         android:id="@+id/inclServicesLegend"
                         layout="@layout/incl_legend_create_job_order"
                         app:title="@{`SERVICES`}"
                         app:hasItems="@{viewModel.hasServices}"
-                        app:prompt="@{`No Services selected`}"/>
+                        app:prompt="@{`No Services selected. Tap here to add!`}"/>
 
                     <!--                Products -->
                     <include android:id="@+id/inclProductsLegend"
                         layout="@layout/incl_legend_create_job_order"
                         app:title="@{`PRODUCTS / CHEMICALS`}"
                         app:hasItems="@{viewModel.hasProducts}"
-                        app:prompt="@{`(No selected products/chemicals)`}"/>
+                        app:prompt="@{`(No selected products/chemicals). Tap here to add!`}"/>
                     <!--                Extras -->
                     <include
                         android:id="@+id/inclExtrasLegend"
                         layout="@layout/incl_legend_create_job_order"
                         app:title="@{`EXTRAS`}"
                         app:hasItems="@{viewModel.hasExtras}"
-                        app:prompt="@{`No Services selected`}"/>
+                        app:prompt="@{`No Services selected. Tap here to add!`}"/>
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/job_order_delivery"
@@ -207,18 +207,25 @@
                 android:orientation="horizontal"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:gravity="center">
-                <TextView
-                    android:visibility="@{viewModel.hasAny &amp;&amp; !viewModel.saved}"
-                    style="@style/TileTitle"
-                    android:layout_weight="3"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:peso="@{viewModel.discountedAmount}"
-                    tools:text="P 240.0"/>
+                    app:cardBackgroundColor="@color/primary"
+                    style="@style/CardSpan">
+                    <TextView
+                        android:visibility="@{viewModel.hasAny &amp;&amp; !viewModel.saved}"
+                        style="@style/TileTitle"
+                        android:textColor="@color/white"
+                        android:layout_weight="3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:peso="@{viewModel.discountedAmount}"
+                        tools:text="P 240.0"/>
+                </com.google.android.material.card.MaterialCardView>
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/button_confirm"
                     style="@style/ButtonCard"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:visibility="@{viewModel.hasAny &amp;&amp; !viewModel.saved}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">

@@ -11,122 +11,101 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp">
+            <TextView
+                style="@style/TextTitleFragment.Center"
+                android:text="Select wash/dry services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.card.MaterialCardView>
+
         <include
+            android:layout_marginTop="16dp"
             android:id="@+id/tabMachineType"
             layout="@layout/incl_tab_machines_simple"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
             app:serviceType="@{viewModel.filter.serviceType}"
             app:machineType="@{viewModel.filter.machineType}"/>
-        <include
-            android:id="@+id/inclMachines"
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/controls"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabMachineType">
+
+            <include
+                android:id="@+id/inclMachines"
+                layout="@layout/incl_create_job_order_available_services"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                app:readOnly="@{true}" />
+        </com.google.android.material.card.MaterialCardView>
+        <LinearLayout
+            android:id="@+id/controls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-            app:readOnly="@{true}"
-            app:layout_constraintTop_toBottomOf="@id/tabMachineType"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            layout="@layout/incl_create_job_order_available_services" />
-<!--        <androidx.core.widget.NestedScrollView-->
-<!--            android:id="@+id/mainContainer"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/tabMachineType"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/buttonOk"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp">-->
-<!--            <LinearLayout-->
-<!--                android:weightSum="100"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_margin="8dp">-->
-<!--                <include-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:id="@+id/inclMenu8KGDryers"-->
-<!--                    layout="@layout/incl_available_services" />-->
-<!--                <include-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:id="@+id/inclMenu8KGWashers"-->
-<!--                    layout="@layout/incl_available_services" />-->
-<!--                <include-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:id="@+id/inclMenu12KGDryers"-->
-<!--                    layout="@layout/incl_available_services" />-->
-<!--                <include-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:id="@+id/inclMenu12KGWashers"-->
-<!--                    layout="@layout/incl_available_services" />-->
-<!--            </LinearLayout>-->
-<!--        </androidx.core.widget.NestedScrollView>-->
-        <Button
-            style="@style/RoundButtonNeutral"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/buttonOk"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="8dp"
-            android:id="@+id/buttonCancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel" />
-        <Button
-            style="@style/RoundButtonPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/buttonCancel"
-            android:id="@+id/buttonOk"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/ok" />
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            android:id="@+id/bottomSheetJobOrderPanel"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/white"-->
-<!--            app:cardElevation="24dp"-->
-<!--            app:behavior_hideable="false"-->
-<!--            app:behavior_peekHeight="86dp"-->
-<!--            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="vertical">-->
-<!--                <com.google.android.material.divider.MaterialDivider-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="5dp"/>-->
-<!--                <com.google.android.material.card.MaterialCardView-->
-<!--                    android:id="@+id/cardBottomSheetExpander"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:contentPaddingTop="8dp"-->
-<!--                    app:contentPaddingBottom="8dp"-->
-<!--                    app:cardElevation="0dp">-->
-<!--                    <ImageView-->
-<!--                        android:background="@color/white"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:src="@android:drawable/button_onoff_indicator_off" />-->
-<!--                </com.google.android.material.card.MaterialCardView>-->
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="89dp"-->
-<!--                    android:text="some text missing"/>-->
-<!--                <Button-->
-<!--                    android:id="@+id/buttonOk"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="ok" />-->
-<!--            </LinearLayout>-->
-<!--        </com.google.android.material.card.MaterialCardView>-->
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_close"
+                style="@style/ButtonCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icon_close"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/close"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_confirm"
+                style="@style/ButtonCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/icon_confirm"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/confirm"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -43,10 +43,10 @@ class JobOrderCreateSelectExtrasActivity : AppCompatActivity() {
     }
     private fun subscribeEvents() {
         extrasAdapter.onItemClick = { itemClick(it) }
-        binding.buttonOk.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.prepareSubmit()
         }
-        binding.buttonCancel.setOnClickListener {
+        binding.cardButtonClose.setOnClickListener {
             finish()
         }
         viewModel.availableExtras.observe(this, Observer {

@@ -34,9 +34,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
         <activity
-            android:name=".app.services.delete.ServiceDeleteActivity"
-            android:exported="false" />
-        <activity
             android:name=".app.daily_report.job_order_items.preview.DailyReportJobOrderItemsPreviewActivity"
             android:exported="false" />
         <activity
@@ -343,7 +340,8 @@
         <activity
             android:name=".app.joborders.create.packages.JobOrderCreateSelectPackageActivity"
             android:exported="false"
-            android:label="Select Package">
+            android:label="Select Package"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -504,7 +502,8 @@
         <activity
             android:name=".app.joborders.create.extras.JobOrderCreateSelectExtrasActivity"
             android:exported="false"
-            android:label="Select Extras Services">
+            android:label="Select Extras Services"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -512,7 +511,8 @@
         <activity
             android:name=".app.joborders.create.delivery.JobOrderCreateSelectDeliveryActivity"
             android:exported="false"
-            android:label="Select Delivery">
+            android:label="Select Delivery"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -520,7 +520,8 @@
         <activity
             android:name=".app.joborders.create.products.JobOrderCreateSelectProductsActivity"
             android:exported="false"
-            android:label="Select Products">
+            android:label="Select Products"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -528,7 +529,8 @@
         <activity
             android:name=".app.joborders.create.services.JobOrderCreateSelectWashDryActivity"
             android:exported="false"
-            android:label="Select Machine Services">
+            android:label="Select Machine Services"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -211,13 +211,25 @@
 <!--                            </TableRow>-->
 <!--                        </TableLayout>-->
                     </com.google.android.material.card.MaterialCardView>
-                    <TextView
+                    <LinearLayout
                         android:visibility="@{viewModel.hasPackages}"
-                        style="@style/CardTitle"
-                        android:text="PACKAGES"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="18dp"/>
+                        android:orientation="horizontal"
+                        style="@style/LinearLayoutDivider5.Center"
+                        android:layout_marginVertical="4dp"
+                        android:layout_marginHorizontal="16dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/prepend_icon_package"/>
+                        <TextView
+                            style="@style/Bold"
+                            android:layout_weight="1"
+                            android:text="PACKAGES"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                     <com.google.android.material.card.MaterialCardView
                         android:visibility="@{viewModel.hasPackages}"
                         style="@style/RoundCard.NoElevation"
@@ -234,13 +246,25 @@
                             android:nestedScrollingEnabled="false"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </com.google.android.material.card.MaterialCardView>
-                    <TextView
+                    <LinearLayout
                         android:visibility="@{viewModel.hasService}"
-                        style="@style/CardTitle"
-                        android:text="SERVICES"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="18dp"/>
+                        android:orientation="horizontal"
+                        style="@style/LinearLayoutDivider5.Center"
+                        android:layout_marginVertical="4dp"
+                        android:layout_marginHorizontal="16dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/prepend_icon_wash_services"/>
+                        <TextView
+                            style="@style/Bold"
+                            android:layout_weight="1"
+                            android:text="SERVICES"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                     <com.google.android.material.card.MaterialCardView
                         android:visibility="@{viewModel.hasService}"
                         style="@style/RoundCard.NoElevation"
@@ -258,13 +282,25 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        style="@style/CardTitle"
+                    <LinearLayout
                         android:visibility="@{viewModel.hasProduct}"
-                        android:text="PRODUCTS"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="18dp"/>
+                        android:orientation="horizontal"
+                        style="@style/LinearLayoutDivider5.Center"
+                        android:layout_marginVertical="4dp"
+                        android:layout_marginHorizontal="16dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/prepend_icon_products"/>
+                        <TextView
+                            style="@style/Bold"
+                            android:layout_weight="1"
+                            android:text="PRODUCTS"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                     <com.google.android.material.card.MaterialCardView
                         style="@style/RoundCard.NoElevation"
                         android:visibility="@{viewModel.hasProduct}"
@@ -281,13 +317,25 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        style="@style/CardTitle"
+                    <LinearLayout
                         android:visibility="@{viewModel.hasExtras}"
-                        android:text="EXTRAS"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="18dp"/>
+                        android:orientation="horizontal"
+                        style="@style/LinearLayoutDivider5.Center"
+                        android:layout_marginVertical="4dp"
+                        android:layout_marginHorizontal="16dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/prepend_icon_extra_services"/>
+                        <TextView
+                            style="@style/Bold"
+                            android:layout_weight="1"
+                            android:text="EXTRAS"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                     <com.google.android.material.card.MaterialCardView
                         style="@style/RoundCard.NoElevation"
                         android:visibility="@{viewModel.hasExtras}"
@@ -304,13 +352,25 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:text="DELIVERY"
-                        style="@style/CardTitle"
+                    <LinearLayout
                         android:visibility="@{viewModel.hasDelivery}"
-                        android:layout_marginHorizontal="18dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        style="@style/LinearLayoutDivider5.Center"
+                        android:layout_marginVertical="4dp"
+                        android:layout_marginHorizontal="16dp">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/prepend_icon_delivery"/>
+                        <TextView
+                            style="@style/Bold"
+                            android:layout_weight="1"
+                            android:text="PICKUP AND DELIVERY"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                     <com.google.android.material.card.MaterialCardView
                         android:visibility="@{viewModel.hasDelivery}"
                         style="@style/RoundCard.NoElevation"
@@ -401,11 +461,18 @@
                                     android:text="Current amount due"
                                     android:layout_weight="1"
                                     style="@style/TextItemTitle.Medium.Bold"/>
-                                <TextView
-                                    android:textAlignment="textEnd"
-                                    android:peso="@{viewModel.jobOrder.jobOrder.discountedAmount}"
-                                    tools:text="P10.10"
-                                    style="@style/TextItemTitle.Medium.Bold"/>
+                                <com.google.android.material.card.MaterialCardView
+                                    style="@style/CardSpan"
+                                    app:cardBackgroundColor="@color/primary">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="textEnd"
+                                        android:peso="@{viewModel.jobOrder.jobOrder.discountedAmount}"
+                                        tools:text="P10.10"
+                                        android:textColor="@color/white"
+                                        style="@style/TextItemTitle.Medium.Bold"/>
+                                </com.google.android.material.card.MaterialCardView>
                             </TableRow>
                         </TableLayout>
                     </com.google.android.material.card.MaterialCardView>

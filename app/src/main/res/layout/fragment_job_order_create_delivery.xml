@@ -36,7 +36,7 @@
                     android:layout_marginVertical="24dp"
                     android:layout_marginStart="24dp"
                     android:textStyle="italic|bold"
-                    android:text="No pickup &amp; delivery selected" />
+                    android:text="No pickup &amp; delivery selected. Tap here to add!" />
             </com.google.android.material.card.MaterialCardView>
 <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
