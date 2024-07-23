@@ -148,9 +148,9 @@ constructor(
     }
 
     fun setPaymentStatus(status: EnumPaymentStatus) {
-        filterParams.value = filterParams.value?.copy(
+        filterParams.value = filterParams.value?.apply{
             paymentStatus = status
-        ) ?: JobOrderAdvancedFilter(
+        } ?: JobOrderAdvancedFilter(
             paymentStatus = status
         )
     }

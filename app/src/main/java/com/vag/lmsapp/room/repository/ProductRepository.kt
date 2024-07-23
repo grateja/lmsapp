@@ -1,6 +1,7 @@
 package com.vag.lmsapp.room.repository
 
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
+import com.vag.lmsapp.app.joborders.create.products.ProductAvailabilityChecker
 import com.vag.lmsapp.app.products.ProductItemFull
 import com.vag.lmsapp.room.dao.DaoProduct
 import com.vag.lmsapp.room.entities.EntityProduct
@@ -30,7 +31,7 @@ constructor (
         return daoProduct.filter(keyword)
     }
 
-    suspend fun checkAll(products: List<MenuProductItem>) : String? {
+    suspend fun checkAll(products: List<ProductAvailabilityChecker>) : String? {
         return daoProduct.checkAll(products)
     }
 

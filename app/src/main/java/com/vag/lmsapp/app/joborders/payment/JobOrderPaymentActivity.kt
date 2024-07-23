@@ -3,6 +3,7 @@ package com.vag.lmsapp.app.joborders.payment
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -97,6 +98,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
         }
         dateTimePicker.setOnDateTimeSelectedListener {
             viewModel.setDateTime(it)
+            Toast.makeText(this, "Date time paid modified", Toast.LENGTH_SHORT).show()
         }
         authLauncher.onOk = { result ->
             when(result.data?.action) {

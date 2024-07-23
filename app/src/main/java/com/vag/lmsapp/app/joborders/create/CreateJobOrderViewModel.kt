@@ -8,6 +8,7 @@ import com.vag.lmsapp.app.joborders.create.discount.MenuDiscount
 import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
 import com.vag.lmsapp.app.joborders.create.packages.MenuJobOrderPackage
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
+import com.vag.lmsapp.app.joborders.create.products.ProductAvailabilityChecker
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
 import com.vag.lmsapp.model.EnumDiscountApplicable
 import com.vag.lmsapp.room.entities.*
@@ -821,12 +822,30 @@ constructor(
         }
 
         viewModelScope.launch {
-            val products = jobOrderProducts.value?.filter {
+            val products = (jobOrderProducts.value?.filter {
                 !it.deleted
+            } ?: emptyList()).map {
+                ProductAvailabilityChecker(
+                    it.productRefId,
+                    it.joProductItemId,
+                    it.quantity
+                )
             }
 
-            if(!products.isNullOrEmpty()) {
-                products.let {
+            val packageProducts = _packageProducts.filter {
+                !it.deleted
+            }.map {
+                ProductAvailabilityChecker(
+                    it.productId,
+                    it.id,
+                    it.quantity
+                )
+            }
+
+            val combi = products + packageProducts
+
+            if(combi.isNotEmpty()) {
+                combi.let {
                     val unavailable = productsRepository.checkAll(it)
                     if(unavailable != null) {
                         _dataState.value = DataState.InvalidOperation(unavailable)
