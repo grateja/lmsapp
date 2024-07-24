@@ -82,5 +82,4 @@
         <item quantity="one">%d unpaid job order</item>
         <item quantity="other">%d unpaid job orders</item>
     </plurals>
-
 </resources>

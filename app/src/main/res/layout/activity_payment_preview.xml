@@ -14,12 +14,22 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                app:title="Payment preview"
-                android:background="@color/color_code_payments"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="0dp">
+                <TextView
+                    style="@style/TextTitleFragment.Center"
+                    android:text="Payment preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.card.MaterialCardView>
+            <!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                app:title="Payment preview"-->
+<!--                android:background="@color/color_code_payments"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.core.widget.NestedScrollView
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -44,32 +54,95 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <TextView
-                            android:layout_marginTop="18dp"
-                            android:layout_marginStart="18dp"
-                            android:layout_width="wrap_content"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="CUSTOMER"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
-                            style="@style/TextItemTitle"
-                            tools:text="Tony Stark"
-                            android:text="@{viewModel.customer.name}"/>
-                        <TextView
-                            android:layout_marginTop="18dp"
-                            android:layout_marginStart="18dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="DATE"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="18dp"
-                            style="@style/TextItemTitle"
-                            tools:text="Jan 5, 2023"
-                            android:text="@{viewModel.payment.payment.createdAt}"/>
+                            android:orientation="horizontal"
+                            android:layout_marginVertical="16dp"
+                            android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                            <ImageView
+                                android:id="@+id/icon_customer"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/prepend_icon_customer"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"/>
+                            <TextView
+                                android:id="@+id/label_customer"
+                                android:layout_marginStart="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CUSTOMER NAME"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/icon_customer"/>
+                            <TextView
+                                android:id="@+id/text_customer"
+                                style="@style/TextDefinition.Light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewModel.customer.name}"
+                                android:layout_marginBottom="12dp"
+                                tools:text="Tony Stark"
+                                app:layout_constraintStart_toStartOf="@id/label_customer"
+                                app:layout_constraintTop_toBottomOf="@id/label_customer"/>
+
+
+                            <ImageView
+                                android:id="@+id/icon_date_paid"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="16dp"
+                                android:src="@drawable/prepend_icon_date"
+                                app:layout_constraintTop_toBottomOf="@id/text_customer"
+                                app:layout_constraintStart_toStartOf="parent"/>
+                            <TextView
+                                android:id="@+id/label_date_paid"
+                                android:layout_marginStart="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="DATE"
+                                app:layout_constraintTop_toTopOf="@id/icon_date_paid"
+                                app:layout_constraintStart_toEndOf="@id/icon_date_paid"/>
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                style="@style/TextDefinition.Light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                android:text="@{viewModel.datePaid}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@id/label_date_paid"
+                                app:layout_constraintTop_toBottomOf="@id/label_date_paid"
+                                tools:text="Jul 24, 2024 5:20 pm" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                        <TextView-->
+<!--                            android:layout_marginTop="18dp"-->
+<!--                            android:layout_marginStart="18dp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="CUSTOMER"/>-->
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="18dp"-->
+<!--                            style="@style/TextItemTitle"-->
+<!--                            tools:text="Tony Stark"-->
+<!--                            android:text="@{viewModel.customer.name}"/>-->
+<!--                        <TextView-->
+<!--                            android:layout_marginTop="18dp"-->
+<!--                            android:layout_marginStart="18dp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="DATE"/>-->
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="18dp"-->
+<!--                            style="@style/TextItemTitle"-->
+<!--                            tools:text="Jan 5, 2023"-->
+<!--                            android:text="@{viewModel.payment.payment.createdAt}"/>-->
 
                         <com.google.android.material.divider.MaterialDivider
                             android:layout_marginTop="8dp"

@@ -32,7 +32,7 @@ class PaymentPreviewActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment_preview)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        setSupportActionBar(binding.toolbar)
+//        setSupportActionBar(binding.toolbar)
 
         binding.recyclerJobOrderPaymentMinimal.adapter = adapter
 
@@ -44,7 +44,7 @@ class PaymentPreviewActivity : AppCompatActivity() {
         subscribeListeners()
         subscribeEvents()
 
-        window.statusBarColor = resources.getColor(R.color.color_code_payments, null)
+        window.statusBarColor = resources.getColor(R.color.white, null)
     }
 
     private fun openJobOrder(jobOrderId: UUID) {

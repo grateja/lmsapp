@@ -53,7 +53,7 @@ constructor(
 
     val requireOrNumber = dataStoreRepository.requireOrNumber
     val requirePictureOnCashlessPayment = dataStoreRepository.requirePictureOnCashlessPayment
-    val paymentMethod = MutableLiveData<EnumPaymentMethod>()
+    val paymentMethod = MutableLiveData(EnumPaymentMethod.CASH)
     val cashReceived = MutableLiveData("")
     val cashlessAmount = MutableLiveData("")
     val cashlessRefNumber = MutableLiveData("")
@@ -92,6 +92,12 @@ constructor(
             value = payableJobOrders.value?.filter{ it.selected }?.sumOf { it.discountedAmount.toDouble() }?.toFloat() ?: 0f
         }
         addSource(payableJobOrders) {update()}
+    }
+
+    val selectedJobOrdersCount = MediatorLiveData<Int>().apply {
+        addSource(_payableJobOrders) {
+            value = it.filter {it.selected}.size
+        }
     }
 
     val remainingBalance = MediatorLiveData<Float>().apply {

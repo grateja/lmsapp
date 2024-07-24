@@ -47,7 +47,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.recyclerJobOrderPaymentMinimal.adapter = adapter
 
-        window.statusBarColor = resources.getColor(R.color.color_code_payments, null)
+        window.statusBarColor = resources.getColor(R.color.white, null)
 
         subscribeEvents()
         subscribeListeners()
@@ -93,7 +93,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
         adapter.onItemClick = {
             JobOrderPreviewBottomSheetFragment.newInstance(true, it.id).show(supportFragmentManager, null)
         }
-        binding.buttonSave.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.validate()
         }
         dateTimePicker.setOnDateTimeSelectedListener {
@@ -121,8 +121,8 @@ class JobOrderPaymentActivity : AppCompatActivity() {
         viewModel.payableJobOrders.observe(this, Observer {
             adapter.setData(it)
         })
-        viewModel.amountToPay.observe(this, Observer {
-        })
+//        viewModel.amountToPay.observe(this, Observer {
+//        })
 
         viewModel.dataState.observe(this, Observer {
             when(it) {

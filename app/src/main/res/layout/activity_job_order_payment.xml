@@ -14,27 +14,89 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_code_payments">
-            <androidx.appcompat.widget.Toolbar
-                app:title="Payment"
+            android:background="@color/white">
+            <TextView
+                android:text="Make Payment"
+                style="@style/TextTitleFragment.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-            <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="CUSTOMER NAME"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"/>
-            <TextView
-                style="@style/TextDefinition.Light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.customer.name}"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="12dp"
-                tools:text="Tony Stark"/>
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                <ImageView
+                    android:id="@+id/icon_customer"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/prepend_icon_customer"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/label_customer"
+                    android:layout_marginStart="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CUSTOMER NAME"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/icon_customer"/>
+                <TextView
+                    android:id="@+id/text_customer"
+                    style="@style/TextDefinition.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.customer.name}"
+                    android:layout_marginBottom="12dp"
+                    tools:text="Tony Stark"
+                    app:layout_constraintStart_toStartOf="@id/label_customer"
+                    app:layout_constraintTop_toBottomOf="@id/label_customer"/>
+
+
+                <ImageView
+                    android:id="@+id/icon_date_paid"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/prepend_icon_date"
+                    app:layout_constraintTop_toBottomOf="@id/text_customer"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <TextView
+                    android:id="@+id/label_date_paid"
+                    android:layout_marginStart="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DATE"
+                    app:layout_constraintTop_toTopOf="@id/icon_date_paid"
+                    app:layout_constraintStart_toEndOf="@id/icon_date_paid"/>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/TextDefinition.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@{viewModel.datePaid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/label_date_paid"
+                    app:layout_constraintTop_toBottomOf="@id/label_date_paid"
+                    tools:text="Jul 24, 2024 5:20 pm" />
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/RoundCard.NoElevation"
+                    android:id="@+id/card_date_paid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/label_date_paid">
+                    <ImageView
+                        android:layout_margin="8dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/icon_edit" />
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -49,6 +111,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
@@ -72,6 +135,77 @@
                             android:layout_height="wrap_content"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                     </com.google.android.material.card.MaterialCardView>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RoundCard.NoElevation"
+                        android:layout_marginVertical="8dp"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="8dp"
+                            android:layout_marginHorizontal="16dp"
+                            style="@style/LinearLayoutDivider5.Center">
+                            <TextView
+                                style="@style/TextItemTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total payable amount"
+                                android:layout_weight="1"/>
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/CardSpan">
+                                <TextView
+                                    style="@style/TileTitle"
+                                    android:textColor="@color/primary"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:text="P 90.2"
+                                    android:peso="@{viewModel.payableAmount}"/>
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:visibility="@{viewModel.selectedJobOrdersCount > 0}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RoundCard.NoElevation"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="8dp"
+                            android:layout_marginHorizontal="16dp"
+                            style="@style/LinearLayoutDivider5.Center">
+                            <TextView
+                                android:id="@+id/label_amount_to_pay"
+                                style="@style/TextItemTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="1/1 Selected Job Orders"
+                                android:text="@{viewModel.selectedJobOrdersCount + `/` + viewModel.payableJobOrders.size + ` selected job orders`}"
+                                android:layout_weight="1"/>
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/CardSpan"
+                                app:cardBackgroundColor="@color/primary">
+                                <TextView
+                                    style="@style/TileTitle"
+                                    android:textColor="@color/white"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:text="P 90.2"
+                                    android:peso="@{viewModel.amountToPay}"/>
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
                     <TextView
                         style="@style/CardTitle"
                         android:text="SUMMARY"
@@ -83,127 +217,145 @@
                         android:layout_height="wrap_content"
                         style="@style/CardItemWrapper"
                         android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
-                        <TableLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="16dp">
-                            <TableRow
-                                android:id="@+id/card_date_paid"
-                                style="@style/DefinitionTermRow">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Date"/>
-                                <TextView android:text="@{viewModel.datePaid}"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="January 12, 2023"/>
-                                <ImageView
-                                    android:src="@drawable/icon_edit"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_height="20dp"
-                                    android:layout_width="20dp"/>
-                            </TableRow>
-                            <TableRow
-                                style="@style/DefinitionTermRow">
-                                <TextView android:text="Total Payable Amount"
-                                    style="@style/Bold.Black"/>
-                                <TextView android:peso="@{viewModel.payableAmount}"
-                                    style="@style/Bold.Black"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="P 90.2"/>
-                            </TableRow>
-                            <TableRow
-                                style="@style/DefinitionTermRow">
-                                <TextView android:text="Amount to pay"
-                                    style="@style/Bold"/>
-                                <TextView android:peso="@{viewModel.amountToPay}"
-                                    style="@style/Bold"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="P 90.2"/>
-                            </TableRow>
-                            <TableRow
-                                android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
-                                style="@style/DefinitionTermRow">
-                                <TextView android:text="Cash tendered"
-                                    android:textColor="#F6C948"
-                                    style="@style/Bold"/>
-                                <TextView android:peso="@{viewModel.cashReceived}"
-                                    style="@style/Bold"
-                                    android:textColor="#F6C948"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="P 90.2"/>
-                            </TableRow>
-                            <TableRow
-                                android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
-                                style="@style/DefinitionTermRow">
-                                <TextView android:text="Cashless amount sent"
-                                    android:textColor="#F6C948"
-                                    style="@style/Bold"/>
-                                <TextView android:peso="@{viewModel.cashlessAmount}"
-                                    style="@style/Bold"
-                                    android:textColor="#F6C948"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="P 90.2"/>
-                            </TableRow>
-                            <TableRow
-                                android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
-                                style="@style/DefinitionTermRow">
-                                <TextView android:text="Cashless provider"
-                                    android:textColor="#F6C948"
-                                    style="@style/Bold"/>
-                                <TextView android:text="@{viewModel.cashlessProvider}"
-                                    style="@style/Bold"
-                                    android:textColor="#F6C948"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="G-Cash"/>
-                            </TableRow>
-                            <TableRow
-                                android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
-                                style="@style/DefinitionTermRow">
-                                <TextView android:text="Cashless ref.#"
-                                    android:textColor="#F6C948"
-                                    style="@style/Bold"/>
-                                <TextView android:text="@{viewModel.cashlessRefNumber}"
-                                    style="@style/Bold"
-                                    android:textColor="#F6C948"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="12345678"/>
-                            </TableRow>
-                            <TableRow
-                                style="@style/DefinitionTermRow"
-                                android:visibility="@{viewModel.change > 0}">
-                                <TextView android:text="Change"/>
-                                <TextView android:peso="@{viewModel.change}"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="P 90.2"/>
-                            </TableRow>
-                            <TableRow
-                                style="@style/DefinitionTermRow"
-                                android:visibility="@{!viewModel.orNumber.isEmpty()}">
-                                <TextView android:text="OR Number"/>
-                                <TextView android:text="@{viewModel.orNumber}"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="0001"/>
-                            </TableRow>
-                            <TableRow
-                                style="@style/DefinitionTermRow"
-                                android:visibility="@{viewModel.remainingBalance > 0}">
-                                <TextView android:text="Remaining balance"/>
-                                <TextView android:peso="@{viewModel.remainingBalance}"
-                                    android:textAlignment="textEnd"
-                                    android:layout_weight="1"
-                                    tools:text="P 90.2"/>
-                            </TableRow>
-                        </TableLayout>
+                            android:orientation="vertical">
+<!--                            <com.google.android.material.card.MaterialCardView-->
+<!--                                android:id="@+id/card_date_paid"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content">-->
+<!--                                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:orientation="horizontal"-->
+<!--                                    android:layout_marginVertical="8dp"-->
+<!--                                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin">-->
+<!--&lt;!&ndash;                                    <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:id="@+id/icon_date_paid"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_width="20dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_height="20dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:src="@drawable/prepend_icon_date"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintTop_toTopOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintStart_toStartOf="parent"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:id="@+id/label_date_paid"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_marginStart="8dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:text="DATE"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintTop_toTopOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintStart_toEndOf="@id/icon_date_paid"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                    <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:id="@+id/textView3"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        style="@style/TextDefinition.Light"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_marginBottom="12dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:text="@{viewModel.datePaid}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintStart_toStartOf="@id/label_date_paid"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintTop_toBottomOf="@id/label_date_paid"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        tools:text="Jul 24, 2024 5:20 pm" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                    <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_width="25dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:layout_height="25dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        android:src="@drawable/icon_edit"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintBottom_toBottomOf="@+id/textView3"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        app:layout_constraintTop_toTopOf="@+id/label_date_paid" />&ndash;&gt;-->
+<!--                                </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--                            </com.google.android.material.card.MaterialCardView>-->
+                            <TableLayout
+                                android:animateLayoutChanges="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="16dp">
+<!--                                <TableRow-->
+<!--                                    style="@style/DefinitionTermRow">-->
+<!--                                    <TextView android:text="Total Payable Amount"-->
+<!--                                        style="@style/Bold.Black"/>-->
+<!--                                    <TextView android:peso="@{viewModel.payableAmount}"-->
+<!--                                        style="@style/Bold.Black"-->
+<!--                                        android:textAlignment="textEnd"-->
+<!--                                        android:layout_weight="1"-->
+<!--                                        tools:text="P 90.2"/>-->
+<!--                                </TableRow>-->
+                                <TableRow
+                                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS}"
+                                    style="@style/DefinitionTermRow">
+                                    <TextView android:text="Cash tendered"
+                                        style="@style/Bold"/>
+                                    <TextView android:peso="@{viewModel.cashReceived}"
+                                        style="@style/Bold"
+                                        android:textAlignment="textEnd"
+                                        android:layout_weight="1"
+                                        tools:text="P 90.2"/>
+                                </TableRow>
+                                <TableRow
+                                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
+                                    style="@style/DefinitionTermRow">
+                                    <TextView android:text="Cashless amount sent"
+                                        style="@style/Bold"/>
+                                    <TextView android:peso="@{viewModel.cashlessAmount}"
+                                        style="@style/Bold"
+                                        android:textAlignment="textEnd"
+                                        android:layout_weight="1"
+                                        tools:text="P 90.2"/>
+                                </TableRow>
+                                <TableRow
+                                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
+                                    style="@style/DefinitionTermRow">
+                                    <TextView android:text="Cashless provider"
+                                        style="@style/Bold"/>
+                                    <TextView android:text="@{viewModel.cashlessProvider}"
+                                        style="@style/Bold"
+                                        android:textAlignment="textEnd"
+                                        android:layout_weight="1"
+                                        tools:text="G-Cash"/>
+                                </TableRow>
+                                <TableRow
+                                    android:visibility="@{viewModel.paymentMethod != com.vag.lmsapp.model.EnumPaymentMethod.CASH}"
+                                    style="@style/DefinitionTermRow">
+                                    <TextView android:text="Cashless ref.#"
+                                        style="@style/Bold"/>
+                                    <TextView android:text="@{viewModel.cashlessRefNumber}"
+                                        style="@style/Bold"
+                                        android:textAlignment="textEnd"
+                                        android:layout_weight="1"
+                                        tools:text="12345678"/>
+                                </TableRow>
+                                <TableRow
+                                    style="@style/DefinitionTermRow"
+                                    android:visibility="@{viewModel.change > 0}">
+                                    <TextView android:text="Change"/>
+                                    <TextView android:peso="@{viewModel.change}"
+                                        android:textAlignment="textEnd"
+                                        android:layout_weight="1"
+                                        tools:text="P 90.2"/>
+                                </TableRow>
+                                <TableRow
+                                    style="@style/DefinitionTermRow"
+                                    android:visibility="@{!viewModel.orNumber.isEmpty()}">
+                                    <TextView android:text="OR Number"/>
+                                    <TextView android:text="@{viewModel.orNumber}"
+                                        android:textAlignment="textEnd"
+                                        android:layout_weight="1"
+                                        tools:text="0001"/>
+                                </TableRow>
+                                <TableRow
+                                    style="@style/DefinitionTermRow"
+                                    android:visibility="@{viewModel.remainingBalance > 0}">
+                                    <TextView android:text="Remaining balance"/>
+                                    <TextView android:peso="@{viewModel.remainingBalance}"
+                                        android:textAlignment="textEnd"
+                                        android:layout_weight="1"
+                                        tools:text="P 90.2"/>
+                                </TableRow>
+                            </TableLayout>
+                        </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -215,84 +367,162 @@
                             android:layout_marginEnd="4dp"
                             app:strokeWidth="2dp"
                             app:strokeColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH ? @color/color_code_payments : @color/regularColor}"
-                            style="@style/CardPrimary"
+                            style="@style/RoundCard.NoElevation.Stroke"
                             android:id="@+id/card_payment_option_cash"
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_gravity="center"
-                                style="@style/TextItemTitle"
-                                android:textColor="@color/text_dark_grey"
-                                android:textAlignment="center"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.CASH.value}"
-                                tools:text="Cash"
-                                app:drawableTopCompat="@drawable/icon_payment_cash" />
+                                style="@style/LinearLayoutDivider5.Center"
+                                android:layout_marginVertical="8dp"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="30dp"
+                                    android:src="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH ?  @drawable/icon_payment_method_cash_active :  @drawable/icon_payment_method_cash_grey}"
+                                    tools:src="@drawable/icon_payment_method_cash_grey"/>
+                                <TextView
+                                    android:textColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASH ?  @color/color_code_payments :  @color/text_dark_grey}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.CASH.value}"
+                                    tools:text="Cash"/>
+                            </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
                         <com.google.android.material.card.MaterialCardView
                             android:layout_marginEnd="4dp"
                             app:strokeWidth="2dp"
                             app:strokeColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.MIXED ? @color/color_code_payments : @color/regularColor}"
-                            style="@style/CardPrimary"
+                            style="@style/RoundCard.NoElevation.Stroke"
                             android:id="@+id/card_payment_option_mixed"
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_gravity="center"
-                                style="@style/TextItemTitle"
-                                android:textColor="@color/text_dark_grey"
-                                android:textAlignment="center"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.MIXED.value}"
-                                tools:text="Mixed"
-                                app:drawableTopCompat="@drawable/icon_payment_cash" />
+                                style="@style/LinearLayoutDivider5.Center"
+                                android:layout_marginVertical="8dp"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="30dp"
+                                    android:src="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.MIXED ?  @drawable/icon_payment_method_mixed_active :  @drawable/icon_payment_method_mixed_grey}"
+                                    tools:src="@drawable/icon_payment_method_mixed_grey"/>
+                                <TextView
+                                    android:textColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.MIXED ?  @color/color_code_payments :  @color/text_dark_grey}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.MIXED.value}"
+                                    tools:text="Mixed"/>
+                            </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
+<!--                        <com.google.android.material.card.MaterialCardView-->
+<!--                            android:layout_marginEnd="4dp"-->
+<!--                            app:strokeWidth="2dp"-->
+<!--                            app:strokeColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.MIXED ? @color/color_code_payments : @color/regularColor}"-->
+<!--                            style="@style/CardPrimary"-->
+<!--                            android:id="@+id/card_payment_option_mixed"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content">-->
+<!--                            <TextView-->
+<!--                                android:layout_gravity="center"-->
+<!--                                style="@style/TextItemTitle"-->
+<!--                                android:textColor="@color/text_dark_grey"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.MIXED.value}"-->
+<!--                                tools:text="Mixed"-->
+<!--                                app:drawableTopCompat="@drawable/icon_payment_cash" />-->
+<!--                        </com.google.android.material.card.MaterialCardView>-->
                         <com.google.android.material.card.MaterialCardView
-                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="4dp"
                             app:strokeWidth="2dp"
                             app:strokeColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS ? @color/color_code_payments : @color/regularColor}"
-                            style="@style/CardPrimary"
+                            style="@style/RoundCard.NoElevation.Stroke"
                             android:id="@+id/card_payment_option_cashless"
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:layout_gravity="center"
-                                style="@style/TextItemTitle"
-                                android:textColor="@color/text_dark_grey"
-                                android:textAlignment="center"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS.value}"
-                                tools:text="Cash"
-                                app:drawableTopCompat="@drawable/icon_payment_cashless" />
+                                style="@style/LinearLayoutDivider5.Center"
+                                android:layout_marginVertical="8dp"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="30dp"
+                                    android:src="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS ?  @drawable/icon_payment_method_cashless_active :  @drawable/icon_payment_method_cashless_grey}"
+                                    tools:src="@drawable/icon_payment_method_cashless_grey"/>
+                                <TextView
+                                    android:textColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS ?  @color/color_code_payments :  @color/text_dark_grey}"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS.value}"
+                                    tools:text="Cashless"/>
+                            </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
+<!--                        <com.google.android.material.card.MaterialCardView-->
+<!--                            android:layout_marginStart="4dp"-->
+<!--                            app:strokeWidth="2dp"-->
+<!--                            app:strokeColor="@{viewModel.paymentMethod == com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS ? @color/color_code_payments : @color/regularColor}"-->
+<!--                            style="@style/CardPrimary"-->
+<!--                            android:id="@+id/card_payment_option_cashless"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content">-->
+<!--                            <TextView-->
+<!--                                android:layout_gravity="center"-->
+<!--                                style="@style/TextItemTitle"-->
+<!--                                android:textColor="@color/text_dark_grey"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{com.vag.lmsapp.model.EnumPaymentMethod.CASHLESS.value}"-->
+<!--                                tools:text="Cash"-->
+<!--                                app:drawableTopCompat="@drawable/icon_payment_cashless" />-->
+<!--                        </com.google.android.material.card.MaterialCardView>-->
                     </LinearLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
-            <com.google.android.material.card.MaterialCardView
+
+            <LinearLayout
                 android:id="@+id/controls"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
-                <com.google.android.material.divider.MaterialDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
-                <Button
-                    android:id="@+id/button_save"
-                    android:backgroundTint="@color/color_code_payments"
-                    style="@style/RoundButton"
-                    android:text="@string/save"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_button_confirm"
+                    style="@style/ButtonCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_margin="6dp"
+                        android:divider="@drawable/divider_5"
+                        android:showDividers="middle|end|beginning">
+                        <ImageView
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:src="@drawable/icon_confirm"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/confirm"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
