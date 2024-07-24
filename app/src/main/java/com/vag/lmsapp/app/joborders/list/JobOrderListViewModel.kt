@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.EnumJoFilterBy
 import com.vag.lmsapp.model.EnumPaymentStatus
-import com.vag.lmsapp.model.JobOrderAdvancedFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.repository.JobOrderRepository
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,28 +21,21 @@ class JobOrderListViewModel
 @Inject
 constructor(
     private val jobOrderRepository: JobOrderRepository
-) : ListViewModel<JobOrderListItem, JobOrderAdvancedFilter>() {
-//    val paymentStatus = MutableLiveData(EnumPaymentStatus.ALL)
+) : ListViewModel<JobOrderListItem, JobOrderListAdvancedFilter>() {
     val result = MutableLiveData(JobOrderResultSummary())
-//    val hideDeleted = MutableLiveData(true)
     val customerId = MutableLiveData<UUID?>()
     val nonVoidOnly = MutableLiveData(true)
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
-//    val includeVoid = MutableLiveData(false)
 
-//    private val _dateFilter = MutableLiveData<DateFilter?>()
-//    val dateFilter: LiveData<DateFilter?> = _dateFilter
-//    val filterBy = MutableLiveData<EnumJoFilterBy>()
-
-    fun setFilterBy(filterBy: EnumJoFilterBy) {
-        filterParams.value = filterParams.value?.apply {
-            this.filterBy = filterBy
-        } ?: JobOrderAdvancedFilter(filterBy = filterBy)
-    }
+//
+//    fun setFilterBy(filterBy: EnumJoFilterBy) {
+//        filterParams.value = filterParams.value?.apply {
+//            this.filterBy = filterBy
+//        } ?: JobOrderListAdvancedFilter(filterBy = filterBy)
+//    }
 
     override fun filter(reset: Boolean) {
-        println("filtering $reset")
         job?.cancel()
 
         job = viewModelScope.launch {
@@ -56,18 +49,12 @@ constructor(
                 page.value = 1
             }
 
-            val filterParams = filterParams.value ?: JobOrderAdvancedFilter()
+            val filterParams = filterParams.value ?: JobOrderListAdvancedFilter()
 
             println("filter params")
             println(filterParams)
 
             val keyword = keyword.value
-//            val orderBy = filterParams?.orderBy
-//            val sortDirection = filterParams?.sortDirection
-//            val paymentStatus = filterParams?.paymentStatus
-//            val filterBy = filterParams?.filterBy ?: EnumJoFilterBy.DATE_CREATED
-//            val includeVoid = filterParams?.includeVoid ?: false
-//            val dateFilter = filterParams?.dateFilter
 
             val page = page.value ?: 1
             val customerId = customerId.value
@@ -128,14 +115,14 @@ constructor(
 //        _dateFilter.value = null
 //    }
 
-    fun setAdvancedFilter(advancedFilter: JobOrderAdvancedFilter) {
+    fun setAdvancedFilter(advancedFilter: JobOrderListAdvancedFilter) {
         filterParams.value = advancedFilter
     }
 
     fun showAdvancedFilter() {
         filterParams.value.let {
             _navigationState.value = NavigationState.ShowAdvancedFilter(
-                it ?: JobOrderAdvancedFilter()
+                it ?: JobOrderListAdvancedFilter()
             )
             println("date range")
             println(it?.dateFilter)
@@ -150,7 +137,7 @@ constructor(
     fun setPaymentStatus(status: EnumPaymentStatus) {
         filterParams.value = filterParams.value?.apply{
             paymentStatus = status
-        } ?: JobOrderAdvancedFilter(
+        } ?: JobOrderListAdvancedFilter(
             paymentStatus = status
         )
     }
@@ -158,6 +145,6 @@ constructor(
     sealed class NavigationState {
         object StateLess: NavigationState()
         data class OpenDateFilter(val dateFilter: DateFilter): NavigationState()
-        data class ShowAdvancedFilter(val advancedFilter: JobOrderAdvancedFilter): NavigationState()
+        data class ShowAdvancedFilter(val advancedFilter: JobOrderListAdvancedFilter): NavigationState()
     }
 }

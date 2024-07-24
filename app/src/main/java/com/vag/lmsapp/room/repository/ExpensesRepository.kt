@@ -2,6 +2,8 @@ package com.vag.lmsapp.room.repository
 
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.expenses.ExpenseItemFull
+import com.vag.lmsapp.app.expenses.ExpenseQueryResult
+import com.vag.lmsapp.app.expenses.advanced_filter.ExpensesAdvancedFilter
 import com.vag.lmsapp.room.dao.DaoExpense
 import com.vag.lmsapp.room.entities.EntityExpense
 import java.util.UUID
@@ -19,8 +21,9 @@ constructor (
         return dao.get(id)
     }
 
-    suspend fun filter(keyword: String, dateFilter: DateFilter?): List<ExpenseItemFull> {
-        return dao.getAll(keyword, dateFilter?.dateFrom, dateFilter?.dateTo)
+    suspend fun filter(keyword: String, advancedFilter: ExpensesAdvancedFilter, page: Int): ExpenseQueryResult {
+        val offset = (20 * page) - 20
+        return dao.queryResult(keyword, offset, advancedFilter,)
     }
 
     fun getDashboard(dateFilter: DateFilter) = dao.getDashboard(dateFilter.dateFrom, dateFilter.dateTo)

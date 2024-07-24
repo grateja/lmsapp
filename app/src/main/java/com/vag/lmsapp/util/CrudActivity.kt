@@ -2,7 +2,7 @@ package com.vag.lmsapp.util
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import com.google.android.material.card.MaterialCardView
 import com.vag.lmsapp.R
 import java.util.*
 
@@ -14,16 +14,16 @@ abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
     }
 
     private lateinit var authLauncher: AuthLauncherActivity
-    private var buttonSave: Button? = null
-    private var buttonDelete: Button? = null
-    private var buttonCancel: Button? = null
+    private var buttonSave: MaterialCardView? = null
+    private var buttonDelete: MaterialCardView? = null
+    private var buttonCancel: MaterialCardView? = null
 
     override fun onStart() {
         super.onStart()
 
-        buttonSave = findViewById(R.id.buttonSave)
-        buttonDelete = findViewById(R.id.buttonDelete)
-        buttonCancel = findViewById(R.id.buttonCancel)
+        buttonSave = findViewById(R.id.card_button_confirm)
+        buttonDelete = findViewById(R.id.card_button_delete)
+        buttonCancel = findViewById(R.id.card_button_close)
 
         buttonSave?.setOnClickListener {
             onSave()

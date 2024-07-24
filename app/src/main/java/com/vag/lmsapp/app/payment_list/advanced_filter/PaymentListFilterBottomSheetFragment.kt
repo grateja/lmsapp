@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.payment_list
+package com.vag.lmsapp.app.payment_list.advanced_filter
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,7 @@ import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.FragmentPaymentListFilterBottomSheetBinding
 import com.vag.lmsapp.fragments.ModalFragment
-import com.vag.lmsapp.model.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.util.DataState
-import com.vag.lmsapp.viewmodels.ListViewModel
 
 class PaymentListFilterBottomSheetFragment : ModalFragment<JobOrderPaymentAdvancedFilter>() {
     private lateinit var binding: FragmentPaymentListFilterBottomSheetBinding

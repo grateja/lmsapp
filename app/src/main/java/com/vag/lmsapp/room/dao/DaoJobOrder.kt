@@ -10,7 +10,7 @@ import com.vag.lmsapp.app.joborders.list.JobOrderResultSummary
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.model.EnumJoFilterBy
 import com.vag.lmsapp.model.EnumPaymentStatus
-import com.vag.lmsapp.model.JobOrderAdvancedFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.entities.*
 import com.vag.lmsapp.util.EnumSortDirection
 import java.time.Instant
@@ -205,7 +205,7 @@ interface DaoJobOrder {
     @Transaction
     suspend fun queryResult(
         keyword: String?,
-        af: JobOrderAdvancedFilter,
+        af: JobOrderListAdvancedFilter,
         offset: Int,
         customerId: UUID?,
         nonVoidOnly: Boolean

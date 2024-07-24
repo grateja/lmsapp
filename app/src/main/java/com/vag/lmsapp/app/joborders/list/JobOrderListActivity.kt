@@ -9,13 +9,12 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
-import com.vag.lmsapp.app.joborders.create.customer.JobOrderCreateSelectCustomerActivity
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityJobOrderListBinding
-import com.vag.lmsapp.model.JobOrderAdvancedFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.viewmodels.ListViewModel
-import com.google.android.material.tabs.TabLayout
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilterFragment
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
 import com.vag.lmsapp.model.EnumPaymentStatus
@@ -59,8 +58,8 @@ class JobOrderListActivity : FilterActivity() {
 //            viewModel.setFilterBy(it)
 //        }
 
-        intent.extras?.getParcelable<JobOrderAdvancedFilter>(ADVANCED_FILTER).let {
-            viewModel.setAdvancedFilter(it ?: JobOrderAdvancedFilter())
+        intent.extras?.getParcelable<JobOrderListAdvancedFilter>(ADVANCED_FILTER).let {
+            viewModel.setAdvancedFilter(it ?: JobOrderListAdvancedFilter())
         }
     }
 

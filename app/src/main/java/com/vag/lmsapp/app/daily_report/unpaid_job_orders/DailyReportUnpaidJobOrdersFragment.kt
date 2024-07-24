@@ -13,7 +13,7 @@ import com.vag.lmsapp.app.daily_report.DailyReportViewModel
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.databinding.FragmentDailyReportUnpaidJobOrdersBinding
 import com.vag.lmsapp.model.EnumPaymentStatus
-import com.vag.lmsapp.model.JobOrderAdvancedFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 
 class DailyReportUnpaidJobOrdersFragment : Fragment() {
     private lateinit var binding: FragmentDailyReportUnpaidJobOrdersBinding
@@ -44,7 +44,7 @@ class DailyReportUnpaidJobOrdersFragment : Fragment() {
 
     private fun openUnPaidJobOrders() {
         val intent = Intent(requireContext(), JobOrderListActivity::class.java).apply {
-            val filter = JobOrderAdvancedFilter(
+            val filter = JobOrderListAdvancedFilter(
                 paymentStatus = EnumPaymentStatus.UNPAID
             )
             putExtra(JobOrderListActivity.ADVANCED_FILTER, filter)

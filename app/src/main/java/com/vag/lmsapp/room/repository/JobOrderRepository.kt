@@ -3,7 +3,7 @@ package com.vag.lmsapp.room.repository
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.joborders.list.JobOrderQueryResult
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
-import com.vag.lmsapp.model.JobOrderAdvancedFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.dao.DaoJobOrder
 import com.vag.lmsapp.room.entities.*
 import java.lang.Exception
@@ -80,7 +80,7 @@ constructor (
 
     suspend fun load(
         keyword: String?,
-        af: JobOrderAdvancedFilter,
+        af: JobOrderListAdvancedFilter,
 //        orderBy: String?,
 //        sortDirection: EnumSortDirection?,
         page: Int,

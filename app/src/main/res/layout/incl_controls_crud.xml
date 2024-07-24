@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+
         <com.google.android.material.card.MaterialCardView
             android:visibility="@{viewModel.message != null &amp;&amp; viewModel.message != ``}"
             app:strokeColor="@color/danger"
@@ -33,28 +35,105 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Button
-                android:id="@+id/buttonCancel"
-                style="@style/RoundButtonNeutral"
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_close"
+                style="@style/ButtonCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel"/>
-            <Button
-                android:id="@+id/buttonSave"
-                style="@style/RoundButtonPrimary"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icon_close"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/close"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_confirm"
+                style="@style/ButtonCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/save"/>
-            <Button
-                android:id="@+id/buttonDelete"
-                style="@style/RoundButtonDanger"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/icon_confirm"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/confirm"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
                 android:visibility="@{viewModel.enumCRUDAction == com.vag.lmsapp.model.EnumCRUDAction.UPDATE}"
+                android:id="@+id/card_button_delete"
+                style="@style/ButtonCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/delete"/>
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/icon_delete"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/delete"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+<!--            <Button-->
+<!--                android:id="@+id/buttonCancel"-->
+<!--                style="@style/RoundButtonNeutral"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/cancel"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/buttonSave"-->
+<!--                style="@style/RoundButtonPrimary"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/save"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/buttonDelete"-->
+<!--                style="@style/RoundButtonDanger"-->
+<!--                android:visibility="@{viewModel.enumCRUDAction == com.vag.lmsapp.model.EnumCRUDAction.UPDATE}"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/delete"/>-->
         </LinearLayout>
     </LinearLayout>
 </layout>

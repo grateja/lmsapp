@@ -16,7 +16,7 @@ import com.vag.lmsapp.app.machines.usage.MachineUsageActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.databinding.ActivityDashboardBinding
 import com.vag.lmsapp.model.EnumJoFilterBy
-import com.vag.lmsapp.model.JobOrderAdvancedFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.entities.*
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.showDialog
@@ -117,7 +117,7 @@ class DashBoardActivity : AppCompatActivity() {
                 }
                 is DashboardViewModel.NavigationState.OpenJobOrders -> {
                     val intent = Intent(this, JobOrderListActivity::class.java).apply {
-                        val advancedFilter = JobOrderAdvancedFilter(filterBy = it.filterBy, dateFilter = it.dateFilter)
+                        val advancedFilter = JobOrderListAdvancedFilter(filterBy = it.filterBy, dateFilter = it.dateFilter)
                         putExtra(JobOrderListActivity.ADVANCED_FILTER, advancedFilter)
                         println("datefilter")
                         println(it.dateFilter)

@@ -23,7 +23,7 @@ import com.vag.lmsapp.app.export_options.ExportOptionsActivity
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.app.machines.usage.MachineUsageActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
-import com.vag.lmsapp.model.JobOrderAdvancedFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import com.vag.lmsapp.util.Constants.Companion.MACHINE_TYPE
 import java.time.LocalDate
@@ -81,9 +81,10 @@ class DailyReportActivity : AppCompatActivity() {
 
                 is DailyReportViewModel.NavigationState.OpenJobOrders -> {
                     val intent = Intent(this, JobOrderListActivity::class.java).apply {
-                        putExtra(JobOrderListActivity.ADVANCED_FILTER, JobOrderAdvancedFilter(
+                        putExtra(JobOrderListActivity.ADVANCED_FILTER, JobOrderListAdvancedFilter(
                             dateFilter = DateFilter(it.date)
-                        ))
+                        )
+                        )
                     }
                     startActivity(intent)
                     viewModel.resetState()

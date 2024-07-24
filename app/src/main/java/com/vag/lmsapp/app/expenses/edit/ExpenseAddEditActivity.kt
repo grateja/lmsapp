@@ -41,7 +41,7 @@ class ExpenseAddEditActivity(
         subscribeListeners()
         subscribeEvents()
 
-        window.statusBarColor = getColor(R.color.color_code_expenses)
+        window.statusBarColor = getColor(R.color.white)
         binding.textAmount.selectAllOnFocus()
     }
 

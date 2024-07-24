@@ -2,91 +2,94 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".app.payment_list.advanced_filter.PaymentListFilterBottomSheetFragment">
+    tools:context=".app.expenses.advanced_filter.ExpensesAdvancedFilterBottomSheetFragment">
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.payment_list.advanced_filter.PaymentListFilterViewModel" />
+            type="com.vag.lmsapp.app.expenses.advanced_filter.ExpensesAdvancedFilterViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginHorizontal="16dp"
-            android:divider="@drawable/divider_10"
-            android:showDividers="middle"
-            android:layout_marginBottom="50dp">
+            style="@style/LinearLayoutDivider5">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                style="@style/LinearLayoutDivider5.Center">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Advanced filter"
                     android:layout_weight="1"
+                    android:text="Advanced filter"
                     style="@style/TextTitleFragment"/>
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/button_close"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    style="@style/RoundCard.NoElevation">
+                    android:id="@+id/buttonClose"
+                    style="@style/RoundCard.NoElevation"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/icon_close"
-                        android:layout_margin="8dp"/>
+                        android:src="@drawable/icon_close" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
-            <!--            <com.google.android.material.divider.MaterialDivider-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="1dp"/>-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                style="@style/LinearLayoutDivider5.Center">
+                style="@style/LinearLayoutDivider5.Center"
+                android:layout_marginHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/divider">
                 <TextView
+                    android:textAlignment="textEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Order by:"/>
+                    android:text="ORDER BY:" />
+
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/RoundCard.NoElevation"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/neutral"
-                    app:contentPadding="8dp">
-                    <Spinner
-                        android:id="@+id/spinnerOrderBy"
+                    style="@style/RoundCard.NoElevation.Stroke"
+                    android:layout_weight="1">
+                    <Spinner android:id="@+id/spinnerOrderBy"
                         app:text="@={viewModel.advancedFilter.orderBy}"
-                        android:entries="@array/order_by_job_order_payments"
+                        android:entries="@array/order_by_expenses"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp" />
                 </com.google.android.material.card.MaterialCardView>
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
+                    style="@style/RoundCard.NoElevation.Stroke"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/RoundCard.NoElevation"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/neutral"
-                    app:contentPadding="8dp">
+                    android:layout_weight="1">
                     <Spinner
-                        android:id="@+id/spinnerSortDirection"
+                        android:id="@+id/spinner_sort_direction"
                         app:sortDirection="@={viewModel.advancedFilter.sortDirection}"
                         android:entries="@array/sort_direction"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
+
             <com.google.android.material.card.MaterialCardView
                 style="@style/RoundCard.NoElevation.Stroke"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,8 +116,8 @@
                         android:src="@android:drawable/ic_menu_close_clear_cancel" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
             <Button
+                android:layout_marginHorizontal="16dp"
                 style="@style/RoundButtonPrimary"
                 android:id="@+id/button_apply"
                 android:layout_width="match_parent"

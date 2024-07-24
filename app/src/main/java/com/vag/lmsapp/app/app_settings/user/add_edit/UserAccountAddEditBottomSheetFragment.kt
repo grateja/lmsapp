@@ -48,7 +48,7 @@ class UserAccountAddEditBottomSheetFragment : BaseModalFragment() {
         binding.buttonClose.setOnClickListener {
             dismiss()
         }
-        binding.controls.buttonSave.setOnClickListener {
+        binding.controls.cardButtonConfirm.setOnClickListener {
             viewModel.validate()
         }
         binding.cardRoleOwner.setOnClickListener {

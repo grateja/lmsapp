@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.app.dashboard.data.DateFilter
-import com.vag.lmsapp.model.JobOrderPaymentAdvancedFilter
+import com.vag.lmsapp.app.payment_list.advanced_filter.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.room.entities.EntityJobOrderPaymentListItem
-import com.vag.lmsapp.room.entities.QueryAggrResult
 import com.vag.lmsapp.room.repository.PaymentRepository
 import com.vag.lmsapp.util.ResultCount
 import com.vag.lmsapp.viewmodels.ListViewModel

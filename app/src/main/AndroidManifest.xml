@@ -494,7 +494,8 @@
         <activity
             android:name=".app.joborders.create.discount.JobOrderCreateSelectDiscountActivity"
             android:exported="false"
-            android:label="Select Discount">
+            android:label="Select Discount"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -8,10 +8,13 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.dashboard.data.DateFilter
+import com.vag.lmsapp.app.expenses.advanced_filter.ExpensesAdvancedFilter
+import com.vag.lmsapp.app.expenses.advanced_filter.ExpensesAdvancedFilterBottomSheetFragment
 import com.vag.lmsapp.app.expenses.edit.ExpenseAddEditActivity
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityExpensesBinding
 import com.vag.lmsapp.util.*
+import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +25,7 @@ class ExpensesActivity : FilterActivity() {
     private lateinit var dateRangeDialog: BottomSheetDateRangePickerFragment
 
     override var filterHint = "Search Expenses Remarks"
-    override var toolbarBackground: Int = R.color.color_code_expenses
+    override var toolbarBackground: Int = R.color.white
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_expenses)
@@ -33,21 +36,22 @@ class ExpensesActivity : FilterActivity() {
         binding.lifecycleOwner = this
         binding.recyclerExpenses.adapter = adapter
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         subscribeEvents()
         subscribeListeners()
 
         intent.getParcelableExtra<DateFilter>(Constants.DATE_RANGE_FILTER)?.let {
-            viewModel.setDates(it)
+            viewModel.setFilterParams(
+                ExpensesAdvancedFilter().apply {
+                    dateFilter = it
+                }
+            )
         }
     }
 
-    private fun openDateFilter(dateFilter: DateFilter) {
-        dateRangeDialog = BottomSheetDateRangePickerFragment.getInstance(dateFilter)
-        dateRangeDialog.show(supportFragmentManager, null)
-        dateRangeDialog.onOk = {
-            viewModel.setDates(it)
-            viewModel.filter(true)
-        }
+    override fun onAdvancedSearchClick() {
+        viewModel.showAdvancedFilter()
     }
 
     override fun onResume() {
@@ -60,7 +64,10 @@ class ExpensesActivity : FilterActivity() {
     }
 
     private fun subscribeEvents() {
-        binding.buttonCreateNew.setOnClickListener {
+        adapter.onScrollAtTheBottom = {
+            viewModel.loadMore()
+        }
+        binding.buttonCreateNewExpense.setOnClickListener {
             openAddEdit(null)
         }
         adapter.onItemClick = {
@@ -68,12 +75,6 @@ class ExpensesActivity : FilterActivity() {
         }
         addEditLauncher.onOk = {
             val expenseId = it.data?.getStringExtra(CrudActivity.ENTITY_ID).toUUID()
-        }
-        binding.cardDateRange.setOnClickListener {
-            viewModel.showDatePicker()
-        }
-        binding.buttonClearDateFilter.setOnClickListener {
-            viewModel.clearDates()
         }
     }
 
@@ -85,21 +86,33 @@ class ExpensesActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.items.observe(this, Observer {
-            adapter.setData(it)
-        })
-        viewModel.navigationState.observe(this, Observer {
+        viewModel.dataState.observe(this, Observer {
             when(it) {
-                is ExpensesViewModel.NavigationState.OpenDateFilter -> {
-                    openDateFilter(it.dateFilter)
+                is ListViewModel.DataState.LoadItems -> {
+                    if(it.reset) {
+                        adapter.setData(it.items)
+                    } else {
+                        adapter.addItems(it.items)
+                    }
                     viewModel.clearState()
                 }
 
                 else -> {}
             }
         })
-        viewModel.dateFilter.observe(this, Observer {
-            viewModel.filter(true)
+        viewModel.navigationState.observe(this, Observer {
+            when(it) {
+                is ExpensesViewModel.NavigationState.ShowAdvancedFilter -> {
+                    ExpensesAdvancedFilterBottomSheetFragment.newInstance(it.filter).apply{
+                        onOk = {
+                            viewModel.setFilterParams(it)
+                            viewModel.filter(true)
+                        }
+                    }.show(supportFragmentManager, null)
+                    viewModel.clearState()
+                }
+                else -> {}
+            }
         })
     }
 }

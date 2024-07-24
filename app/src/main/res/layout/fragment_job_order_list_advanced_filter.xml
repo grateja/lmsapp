@@ -2,11 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".app.joborders.list.JobOrderListAdvancedFilterFragment">
+    tools:context=".app.joborders.list.advanced_filter.JobOrderListAdvancedFilterFragment">
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.joborders.list.JobOrderListAdvancedFilterViewModel" />
+            type="com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilterViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

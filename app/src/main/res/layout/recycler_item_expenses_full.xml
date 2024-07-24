@@ -24,19 +24,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginEnd="8dp"
                 android:layout_gravity="top"
-                android:src="@drawable/icon_date"
+                android:src="@drawable/prepend_icon_date"
                 android:layout_width="20dp"
                 android:layout_height="20dp"/>
 
             <TextView
                 android:id="@+id/text_created_at"
-                app:layout_constraintTop_toTopOf="@id/icon_date"
-                app:layout_constraintStart_toEndOf="@id/icon_date"
                 style="@style/Bold"
+                android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.expense.createdAt}"
-                tools:text="Jun 4, 2023 4:40:PM"/>
+                app:layout_constraintBottom_toBottomOf="@+id/icon_date"
+                app:layout_constraintStart_toEndOf="@id/icon_date"
+                app:layout_constraintTop_toTopOf="@id/icon_date"
+                tools:text="Jun 4, 2023 4:40:PM" />
 
             <ImageView
                 android:id="@+id/icon_sync"
@@ -55,24 +57,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/icon_date"
                 android:layout_marginTop="6dp"/>
+
             <TextView
-                style="@style/TextItemTitle"
                 android:id="@+id/textTitle"
+                style="@style/TextItemTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="Door lock repair"
                 android:text="@{viewModel.expense.remarks}"
+                app:layout_constraintEnd_toStartOf="@id/text_amount"
+                app:layout_constraintStart_toStartOf="@+id/text_created_at"
                 app:layout_constraintTop_toBottomOf="@id/divider"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/text_amount"/>
+                tools:text="Door lock repair" />
+
             <TextView
                 android:id="@+id/text_added_by"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="Some description"
                 android:text="@{`ADDED BY: ` + viewModel.createdBy.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textTitle"
                 app:layout_constraintTop_toBottomOf="@id/textTitle"
-                app:layout_constraintStart_toStartOf="parent"/>
+                tools:text="Some description" />
             <TextView
                 android:id="@+id/text_amount"
                 style="@style/TextPrimary"

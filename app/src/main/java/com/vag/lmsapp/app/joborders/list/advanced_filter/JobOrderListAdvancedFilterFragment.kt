@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.joborders.list
+package com.vag.lmsapp.app.joborders.list.advanced_filter
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,11 +10,9 @@ import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.FragmentJobOrderListAdvancedFilterBinding
 import com.vag.lmsapp.fragments.ModalFragment
-import com.vag.lmsapp.model.JobOrderAdvancedFilter
 import com.vag.lmsapp.util.DataState
-import com.vag.lmsapp.viewmodels.AdvancedFilterViewModel
 
-class JobOrderListAdvancedFilterFragment : ModalFragment<JobOrderAdvancedFilter>() {
+class JobOrderListAdvancedFilterFragment : ModalFragment<JobOrderListAdvancedFilter>() {
     private lateinit var binding: FragmentJobOrderListAdvancedFilterBinding
     private val viewModel: JobOrderListAdvancedFilterViewModel by viewModels()
 
@@ -36,10 +34,8 @@ class JobOrderListAdvancedFilterFragment : ModalFragment<JobOrderAdvancedFilter>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.getParcelable<JobOrderAdvancedFilter>(PAYLOAD).let {
+        arguments?.getParcelable<JobOrderListAdvancedFilter>(PAYLOAD).let {
             viewModel.setInitialFilters(it)
-            println("date range now")
-            println(it)
         }
     }
 
@@ -55,7 +51,7 @@ class JobOrderListAdvancedFilterFragment : ModalFragment<JobOrderAdvancedFilter>
         viewModel.dataState.observe(viewLifecycleOwner, Observer {
             when(it) {
                 is DataState.Submit -> {
-                    onOk?.invoke(it.data as JobOrderAdvancedFilter)
+                    onOk?.invoke(it.data as JobOrderListAdvancedFilter)
                     dismiss()
                     viewModel.clearState()
                 }
@@ -68,16 +64,6 @@ class JobOrderListAdvancedFilterFragment : ModalFragment<JobOrderAdvancedFilter>
                 else -> {}
             }
         })
-//        viewModel.dataState.observe(viewLifecycleOwner, Observer {
-//            when(it) {
-//                is AdvancedFilterViewModel.NavigationState.ShowDateRangePicker -> {
-//                    showDatePicker(it.dateFilter)
-//                    viewModel.clearNavigation()
-//                }
-//
-//                else -> {}
-//            }
-//        })
     }
 
     private fun subscribeEvents() {
@@ -97,7 +83,7 @@ class JobOrderListAdvancedFilterFragment : ModalFragment<JobOrderAdvancedFilter>
 
     companion object {
         private var instance: JobOrderListAdvancedFilterFragment? = null
-        fun getInstance(model: JobOrderAdvancedFilter): JobOrderListAdvancedFilterFragment {
+        fun getInstance(model: JobOrderListAdvancedFilter): JobOrderListAdvancedFilterFragment {
             if(instance == null) {
                 instance = JobOrderListAdvancedFilterFragment()
             }
