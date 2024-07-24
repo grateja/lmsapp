@@ -1,6 +1,7 @@
 package com.vag.lmsapp.util
 
 import com.vag.lmsapp.app.auth.LoginCredentials
+import com.vag.lmsapp.app.dashboard.data.DateFilter
 
 sealed class DataState<out R> {
     object StateLess : DataState<Nothing>()
@@ -13,4 +14,5 @@ sealed class DataState<out R> {
     data class RequestExit(val promptPass: Boolean) : DataState<Nothing>()
     data class Submit<out T>(val data: T): DataState<T>()
     data class LoadItems<R>(val items: List<R>, val reset: Boolean) : DataState<R>()
+    data class ShowDateRangePicker(val dateFilter: DateFilter?): DataState<Nothing>()
 }

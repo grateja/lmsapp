@@ -11,8 +11,8 @@ abstract class AdvancedFilterViewModel<F: BaseFilterParams>: ViewModel() {
     private val _dataState = MutableLiveData<DataState<F?>>()
     val dataState: LiveData<DataState<F?>> = _dataState
 
-    private val _navigationState = MutableLiveData<NavigationState>()
-    val navigationState: LiveData<NavigationState> = _navigationState
+//    private val _navigationState = MutableLiveData<NavigationState>()
+//    val navigationState: LiveData<NavigationState> = _navigationState
 
     fun setInitialFilters(filters: F?) {
         advancedFilter.value = filters
@@ -28,13 +28,13 @@ abstract class AdvancedFilterViewModel<F: BaseFilterParams>: ViewModel() {
         _dataState.value = DataState.StateLess
     }
 
-    fun clearNavigation() {
-        _navigationState.value = NavigationState.Nothing
-    }
+//    fun clearNavigation() {
+//        _navigationState.value = NavigationState.Nothing
+//    }
 
     fun showDateFilter() {
         val dateFilter = advancedFilter.value?.dateFilter
-        _navigationState.value = NavigationState.ShowDateRangePicker(dateFilter)
+        _dataState.value = DataState.ShowDateRangePicker(dateFilter)
     }
 
     fun setDateRange(dateFilter: DateFilter?) {
@@ -45,8 +45,8 @@ abstract class AdvancedFilterViewModel<F: BaseFilterParams>: ViewModel() {
 
     val advancedFilter = MutableLiveData<F?>()
 
-    sealed class NavigationState {
-        object Nothing: NavigationState()
-        data class ShowDateRangePicker(val dateFilter: DateFilter?): NavigationState()
-    }
+//    sealed class NavigationState {
+//        object Nothing: NavigationState()
+//        data class ShowDateRangePicker(val dateFilter: DateFilter?): NavigationState()
+//    }
 }

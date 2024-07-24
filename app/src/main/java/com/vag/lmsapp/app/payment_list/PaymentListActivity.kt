@@ -11,6 +11,7 @@ import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityPaymentListBinding
+import com.vag.lmsapp.model.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.room.entities.EntityJobOrderPaymentListItem
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
@@ -29,6 +30,8 @@ class PaymentListActivity : FilterActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment_list)
         super.onCreate(savedInstanceState)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.recyclerPaymentList.adapter = adapter
@@ -44,7 +47,7 @@ class PaymentListActivity : FilterActivity() {
     }
 
     override var filterHint: String = "Enter OR Number or Customer name"
-    override var toolbarBackground: Int = R.color.color_code_payments
+    override var toolbarBackground: Int = R.color.white
 
     override fun onQuery(keyword: String?) {
         viewModel.setKeyword(keyword)
@@ -84,7 +87,7 @@ class PaymentListActivity : FilterActivity() {
 
     override fun onAdvancedSearchClick() {
         super.onAdvancedSearchClick()
-        viewModel.showDatePicker()
+        viewModel.showAdvancedFilter()
     }
 
     private fun subscribeListeners() {
@@ -104,15 +107,26 @@ class PaymentListActivity : FilterActivity() {
                 else -> {}
             }
         })
-        viewModel.dateFilter.observe(this, Observer {
-            viewModel.filter(true)
-        })
+//        viewModel.dateFilter.observe(this, Observer {
+//            viewModel.filter(true)
+//        })
+//        viewModel.orderBy.observe(this, Observer {
+//            viewModel.filter(true)
+//        })
+//        viewModel.sortDirection.observe(this, Observer {
+//            viewModel.filter(true)
+//        })
         viewModel.navigationState.observe(this, Observer {
             when(it) {
-                is PaymentListViewModel.NavigationState.OpenDateFilter -> {
-                    openDatePicker(it.dateFilter)
+                is PaymentListViewModel.NavigationState.ShowAdvancedFilter -> {
+                    PaymentListFilterBottomSheetFragment.newInstance(it.filter).apply{
+                        onOk = {
+                            viewModel.setFilterParams(it)
+                            viewModel.filter(true)
+                        }
+                    }.show(supportFragmentManager, null)
+                    viewModel.clearState()
                 }
-
                 else -> {}
             }
         })

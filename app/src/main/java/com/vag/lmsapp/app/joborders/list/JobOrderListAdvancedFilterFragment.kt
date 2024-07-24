@@ -60,19 +60,24 @@ class JobOrderListAdvancedFilterFragment : ModalFragment<JobOrderAdvancedFilter>
                     viewModel.clearState()
                 }
 
-                else -> {}
-            }
-        })
-        viewModel.navigationState.observe(viewLifecycleOwner, Observer {
-            when(it) {
-                is AdvancedFilterViewModel.NavigationState.ShowDateRangePicker -> {
+                is DataState.ShowDateRangePicker -> {
                     showDatePicker(it.dateFilter)
-                    viewModel.clearNavigation()
+                    viewModel.clearState()
                 }
 
                 else -> {}
             }
         })
+//        viewModel.dataState.observe(viewLifecycleOwner, Observer {
+//            when(it) {
+//                is AdvancedFilterViewModel.NavigationState.ShowDateRangePicker -> {
+//                    showDatePicker(it.dateFilter)
+//                    viewModel.clearNavigation()
+//                }
+//
+//                else -> {}
+//            }
+//        })
     }
 
     private fun subscribeEvents() {

@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 open class BaseFilterParams(
-    var orderBy: String = "Date Created",
+    open var orderBy: String = "Date Created",
     var sortDirection: EnumSortDirection = EnumSortDirection.DESC,
     open var dateFilter: DateFilter? = null
 ) : Parcelable

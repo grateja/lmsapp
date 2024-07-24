@@ -4,14 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.app.dashboard.data.DateFilter
+import com.vag.lmsapp.model.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.room.entities.EntityJobOrderPaymentListItem
 import com.vag.lmsapp.room.entities.QueryAggrResult
 import com.vag.lmsapp.room.repository.PaymentRepository
+import com.vag.lmsapp.util.ResultCount
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,18 +21,24 @@ class PaymentListViewModel
 @Inject
 constructor (
     private val repository: PaymentRepository
-): ListViewModel<EntityJobOrderPaymentListItem, Nothing>() {
+): ListViewModel<EntityJobOrderPaymentListItem, JobOrderPaymentAdvancedFilter>() {
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
 
-    private val _dateFilter = MutableLiveData<DateFilter?>()
-    val dateFilter: LiveData<DateFilter?> = _dateFilter
+//    private val _dateFilter = MutableLiveData<DateFilter?>()
+//    val dateFilter: LiveData<DateFilter?> = _dateFilter
 
-    private val _aggrResult = MutableLiveData<QueryAggrResult?>()
-    val aggrResult: LiveData<QueryAggrResult?> = _aggrResult
+    private val _total = MutableLiveData<ResultCount?>()
+    val total: LiveData<ResultCount?> = _total
+
+//    val orderBy = MutableLiveData("Date Paid")
+//    val sortDirection = MutableLiveData(EnumSortDirection.DESC)
 
     fun setDateRange(dateFilter: DateFilter) {
-        _dateFilter.value = dateFilter
+//        _dateFilter.value = dateFilter
+        filterParams.value = filterParams.value.apply {
+            this?.dateFilter = dateFilter
+        }
     }
 
     override fun filter(reset: Boolean) {
@@ -45,12 +52,16 @@ constructor (
                 page.value = 1
             }
 
-            val page = page.value ?: 1
-            val dateFilter = dateFilter.value
+            val filterParams = filterParams.value
 
-            repository.queryResult(keyword, page, dateFilter).let {
+            val page = page.value ?: 1
+            val dateFilter = filterParams?.dateFilter
+            val orderBy = filterParams?.orderBy
+            val sortDirection = filterParams?.sortDirection
+
+            repository.queryResult(keyword, page, dateFilter, orderBy, sortDirection).let {
                 _dataState.value = DataState.LoadItems(it.items, reset)
-                _aggrResult.value = it.aggResult
+                _total.value = it.resultCount
             }
         }
     }
@@ -61,23 +72,32 @@ constructor (
     }
 
     fun clearDates() {
-        _dateFilter.value = null
-    }
-
-    fun showDatePicker() {
-        _dateFilter.value.let {
-            val dateFilter = it ?: DateFilter(LocalDate.now(), null)
-            _navigationState.value = NavigationState.OpenDateFilter(dateFilter)
+        filterParams.value = filterParams.value.apply {
+            this?.dateFilter = null
         }
     }
+
+//    fun showDatePicker() {
+//        _dateFilter.value.let {
+//            val dateFilter = it ?: DateFilter(LocalDate.now(), null)
+//            _navigationState.value = NavigationState.OpenDateFilter(dateFilter)
+//        }
+//    }
 
     override fun clearState() {
         _navigationState.value = NavigationState.StateLess
         super.clearState()
     }
 
+    fun showAdvancedFilter() {
+        filterParams.value.let {
+            _navigationState.value = NavigationState.ShowAdvancedFilter(it ?: JobOrderPaymentAdvancedFilter())
+        }
+    }
+
     sealed class NavigationState {
         object StateLess: NavigationState()
         data class OpenDateFilter(val dateFilter: DateFilter): NavigationState()
+        data class ShowAdvancedFilter(val filter: JobOrderPaymentAdvancedFilter): NavigationState()
     }
 }

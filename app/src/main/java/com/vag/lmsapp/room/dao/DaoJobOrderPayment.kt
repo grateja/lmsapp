@@ -6,6 +6,8 @@ import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.app.payment_list.PaymentQueryResult
 import com.vag.lmsapp.room.entities.*
+import com.vag.lmsapp.util.EnumSortDirection
+import com.vag.lmsapp.util.ResultCount
 import java.time.Instant
 import java.time.LocalDate
 import java.util.*
@@ -110,29 +112,42 @@ interface DaoJobOrderPayment {
         (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(p.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR 
         (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(p.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)) 
         GROUP BY p.id 
-        ORDER BY p.created_at DESC 
+        ORDER BY
+            CASE WHEN :orderBy = 'Amount' AND :sortDirection = 'ASC' THEN p.amount_due END ASC,
+            CASE WHEN :orderBy = 'Date Paid' AND :sortDirection = 'ASC' THEN p.created_at END ASC,
+            CASE WHEN :orderBy = 'Customer Name' AND :sortDirection = 'ASC' THEN c.name END ASC,
+            CASE WHEN :orderBy = 'Amount' AND :sortDirection = 'DESC' THEN jo.discounted_amount END DESC,
+            CASE WHEN :orderBy = 'Date Paid' AND :sortDirection = 'DESC' THEN p.created_at END DESC,
+            CASE WHEN :orderBy = 'Customer Name' AND :sortDirection = 'DESC' THEN c.name END DESC
         LIMIT 20 OFFSET :offset
     """)
-    fun load(keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?): List<EntityJobOrderPaymentListItem>
+    fun load(keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?, orderBy: String?, sortDirection: EnumSortDirection?): List<EntityJobOrderPaymentListItem>
 
     @Query("""
-        SELECT COUNT(DISTINCT p.id) as total_count, SUM(jo.discounted_amount) as total_sum, 
-        GROUP_CONCAT(jo.job_order_number, ', ') AS job_order_reference 
-        FROM job_order_payments AS p 
-        LEFT JOIN job_orders AS jo ON p.id = jo.payment_id 
-        LEFT JOIN customers AS c ON jo.customer_id = c.id 
-        WHERE (or_number LIKE '%' || :keyword || '%' OR c.name LIKE '%' || :keyword || '%') 
-        AND p.deleted = 0 
-        AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR 
-        (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(p.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR 
-        (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(p.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo))
+        SELECT(
+            SELECT COUNT(DISTINCT p.id)
+                FROM job_order_payments AS p 
+                    LEFT JOIN job_orders AS jo ON p.id = jo.payment_id 
+                    LEFT JOIN customers AS c ON jo.customer_id = c.id 
+                WHERE (or_number LIKE '%' || :keyword || '%' OR c.name LIKE '%' || :keyword || '%' OR jo.job_order_number LIKE '%' || :keyword || '%') 
+                    AND p.deleted = 0 
+                    AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR 
+                    (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(p.created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR 
+                    (:dateFrom IS NOT NULL AND :dateTo IS NOT NULL AND date(p.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo)
+                )
+            ) AS filtered,
+            (
+            SELECT COUNT(DISTINCT id)
+                FROM job_order_payments 
+                WHERE deleted = 0
+            ) AS total
     """)
-    fun count(keyword: String?, dateFrom: LocalDate?, dateTo: LocalDate?): QueryAggrResult?
+    fun count(keyword: String?, dateFrom: LocalDate?, dateTo: LocalDate?): ResultCount?
 
     @Transaction
-    suspend fun queryResult(keyword: String?, offset: Int, dateFilter: DateFilter?): PaymentQueryResult {
+    suspend fun queryResult(keyword: String?, offset: Int, dateFilter: DateFilter?, orderBy: String?, sortDirection: EnumSortDirection?): PaymentQueryResult {
         return PaymentQueryResult(
-            load(keyword, offset, dateFilter?.dateFrom, dateFilter?.dateTo),
+            load(keyword, offset, dateFilter?.dateFrom, dateFilter?.dateTo, orderBy, sortDirection),
             count(keyword, dateFilter?.dateFrom, dateFilter?.dateTo)
         )
     }

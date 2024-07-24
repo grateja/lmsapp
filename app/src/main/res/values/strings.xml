@@ -97,6 +97,11 @@
         <item>Date Paid</item>
         <item>Customer Name</item>
     </string-array>
+    <string-array name="order_by_job_order_payments">
+        <item>Date Paid</item>
+        <item>Amount</item>
+        <item>Customer Name</item>
+    </string-array>
     <string-array name="payment_status">
         <item>Paid only</item>
         <item>Unpaid only</item>

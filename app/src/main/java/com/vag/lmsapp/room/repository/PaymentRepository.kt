@@ -5,6 +5,7 @@ import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.payment_list.PaymentQueryResult
 import com.vag.lmsapp.room.dao.DaoJobOrderPayment
 import com.vag.lmsapp.room.entities.EntityJobOrderPayment
+import com.vag.lmsapp.util.EnumSortDirection
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -43,8 +44,8 @@ constructor (
 
     fun getJobOrdersByPaymentId(paymentId: UUID) = daoPayment.getJobOrdersByPaymentId(paymentId)
 
-    suspend fun queryResult(keyword: String?, page: Int, dateFilter: DateFilter?) : PaymentQueryResult {
+    suspend fun queryResult(keyword: String?, page: Int, dateFilter: DateFilter?, orderBy: String?, sortDirection: EnumSortDirection?) : PaymentQueryResult {
         val offset = (20 * page) - 20
-        return daoPayment.queryResult(keyword, offset, dateFilter)
+        return daoPayment.queryResult(keyword, offset, dateFilter, orderBy, sortDirection)
     }
 }
