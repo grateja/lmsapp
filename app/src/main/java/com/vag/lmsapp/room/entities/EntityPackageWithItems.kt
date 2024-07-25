@@ -3,7 +3,7 @@ package com.vag.lmsapp.room.entities
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.vag.lmsapp.app.packages.EnumPackageItemType
-import com.vag.lmsapp.app.packages.PackageItem
+import com.vag.lmsapp.app.packages.list.PackageItem
 
 //data class EntityPackageServiceWithService(
 //    @Embedded

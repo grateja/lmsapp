@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.vag.lmsapp.app.packages.PackageItem
+import com.vag.lmsapp.app.packages.list.PackageItem
 import com.vag.lmsapp.app.packages.preview.modify_item.PackagePreviewSelectedItemViewModel
 import com.vag.lmsapp.databinding.FragmentPackagePreviewSelectItemBottomSheetBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
-import com.vag.lmsapp.fragments.ModalFragment
 import com.vag.lmsapp.util.Constants.Companion.PAYLOAD
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.selectAllOnFocus

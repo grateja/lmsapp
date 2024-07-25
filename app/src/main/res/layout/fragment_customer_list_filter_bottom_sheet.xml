@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.customers.list.CustomersViewModel" />
+            type="com.vag.lmsapp.app.customers.list.advanced_filter.CustomerListAdvancedFilterViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                     app:contentPadding="8dp">
                     <Spinner
                         android:id="@+id/spinnerOrderBy"
-                        app:text="@={viewModel.orderBy}"
+                        app:text="@={viewModel.advancedFilter.orderBy}"
                         android:entries="@array/order_by_customers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -79,70 +79,61 @@
                     app:contentPadding="8dp">
                     <Spinner
                         android:id="@+id/spinnerSortDirection"
-                        app:sortDirection="@={viewModel.sortDirection}"
+                        app:sortDirection="@={viewModel.advancedFilter.sortDirection}"
                         android:entries="@array/sort_direction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-<!--            <com.google.android.material.divider.MaterialDivider-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"/>-->
-
             <androidx.appcompat.widget.SwitchCompat
-                android:checked="@={viewModel.hideAllWithoutJo}"
+                android:checked="@={viewModel.advancedFilter.hideAllWithoutJo}"
                 android:layout_marginHorizontal="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hide customers without job orders"/>
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal">-->
-<!--                <com.google.android.material.card.MaterialCardView-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    style="@style/RoundCard.NoElevation.Stroke">-->
-<!--                    <TextView-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_marginVertical="8dp"-->
-<!--                        android:layout_marginHorizontal="16dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:localDate="@{viewModel.dateFilter.dateFrom}"-->
-<!--                        tools:text="Jan 1, 2023"/>-->
-<!--                </com.google.android.material.card.MaterialCardView>-->
-<!--            </LinearLayout>-->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/RoundCard.NoElevation.Stroke"
+                android:layout_marginVertical="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_select_date_range"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_margin="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="@{viewModel.advancedFilter.dateFilter == null ? `Select date range` : viewModel.advancedFilter.dateFilter.toString()}"
+                        tools:text="Select dates range"/>
 
-<!--            <com.google.android.material.divider.MaterialDivider-->
-<!--                android:layout_marginBottom="50dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="1dp"/>-->
+                    <ImageButton
+                        android:visibility="@{viewModel.advancedFilter.dateFilter != null}"
+                        android:id="@+id/button_clear_date_filter"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@color/transparent"
+                        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
 
-            <!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/button_card_close"-->
-<!--                style="@style/ButtonCard.Margin8"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    style="@style/LinearLayoutDivider5.Center">-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="20dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:src="@drawable/icon_close"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/close"/>-->
-<!--                </LinearLayout>-->
-<!--            </com.google.android.material.card.MaterialCardView>-->
+            <Button
+                style="@style/RoundButtonPrimary"
+                android:id="@+id/button_apply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apply"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="24dp"/>
+
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -2,6 +2,8 @@ package com.vag.lmsapp.room.repository
 
 import androidx.lifecycle.LiveData
 import com.vag.lmsapp.app.extras.ExtrasItemFull
+import com.vag.lmsapp.app.extras.list.ExtrasQueryResult
+import com.vag.lmsapp.app.extras.list.advanced_filter.ExtrasAdvancedFilter
 import com.vag.lmsapp.room.dao.DaoExtras
 //import com.csi.palabakosys.room.dao.DaoOtherService
 import com.vag.lmsapp.room.entities.EntityExtras
@@ -23,8 +25,9 @@ constructor (
 
     suspend fun menuItems() = daoExtras.menuItems()
 
-    suspend fun filter(keyword: String) : List<ExtrasItemFull> {
-        return daoExtras.filter(keyword)
+    suspend fun filter(keyword: String?, page: Int, advancedFilter: ExtrasAdvancedFilter) : ExtrasQueryResult {
+        val offset = (20 * page) - 20
+        return daoExtras.queryResult(keyword ?: "", offset, advancedFilter)
     }
 
     fun getCategories(): LiveData<List<String>> = daoExtras.getCategories()

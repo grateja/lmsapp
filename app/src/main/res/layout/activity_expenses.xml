@@ -122,7 +122,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
                     android:textColor="@color/black"
-                    android:text="@{`Showing total of : ` + viewModel.total.filtered + ` item(s) out of ` + viewModel.total.total}"
+                    android:text="@{`Showing total of : ` + viewModel.resultCount.filtered + ` item(s) out of ` + viewModel.resultCount.total}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Total page"/>

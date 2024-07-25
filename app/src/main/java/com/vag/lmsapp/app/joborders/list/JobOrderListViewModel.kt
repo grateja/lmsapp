@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.app.dashboard.data.DateFilter
-import com.vag.lmsapp.model.EnumJoFilterBy
 import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.repository.JobOrderRepository
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -25,15 +25,6 @@ constructor(
     val result = MutableLiveData(JobOrderResultSummary())
     val customerId = MutableLiveData<UUID?>()
     val nonVoidOnly = MutableLiveData(true)
-    private val _navigationState = MutableLiveData<NavigationState>()
-    val navigationState: LiveData<NavigationState> = _navigationState
-
-//
-//    fun setFilterBy(filterBy: EnumJoFilterBy) {
-//        filterParams.value = filterParams.value?.apply {
-//            this.filterBy = filterBy
-//        } ?: JobOrderListAdvancedFilter(filterBy = filterBy)
-//    }
 
     override fun filter(reset: Boolean) {
         job?.cancel()
@@ -46,74 +37,24 @@ constructor(
             }
 
             if(reset) {
-                page.value = 1
+                page = 1
             }
 
             val filterParams = filterParams.value ?: JobOrderListAdvancedFilter()
-
-            println("filter params")
-            println(filterParams)
-
             val keyword = keyword.value
-
-            val page = page.value ?: 1
             val customerId = customerId.value
             val nonVoidOnly = nonVoidOnly.value ?: true
 
-            val result = jobOrderRepository.load(keyword, filterParams, page, customerId, nonVoidOnly)
-
-            this@JobOrderListViewModel.result.value = result.count
-
-            _dataState.value = DataState.LoadItems(result.items, reset)
+            jobOrderRepository.load(keyword, filterParams, page, customerId, nonVoidOnly).let {
+                setResult(it.items, it.resultCount, reset)
+                result.value = it.count
+            }
         }
-    }
-
-    fun loadMore() {
-        page.value = page.value?.plus(1)
-        filter(false)
     }
 
     fun setCustomerId(customerId: UUID?) {
         this.customerId.value = customerId
     }
-
-//    fun setDateRange(dateFilter: DateFilter?) {
-//        filterParams.value = filterParams.value?.apply {
-//            this.dateFilter = dateFilter
-//        } ?: JobOrderAdvancedFilter().apply {
-//            this.dateFilter = dateFilter
-//        }
-//
-////        filter(true)
-//    }
-
-//    fun showDatePicker() {
-//        _dateFilter.value.let {
-//            val dateFilter = it ?: DateFilter(LocalDate.now(), null)
-//            _navigationState.value = NavigationState.OpenDateFilter(dateFilter)
-//        }
-//    }
-
-//    fun showAdvancedFilter() {
-//        val orderBy = orderBy.value ?: "Date Created"
-//        val sortDirection = sortDirection.value ?: EnumSortDirection.DESC
-//        val filterBy = filterBy.value
-//        val includeVoid = includeVoid.value ?: false
-//
-//        val dateFilter = _dateFilter.value
-//        filterParams.value ?: JobOrderAdvancedFilter(dateFilter, filterBy, includeVoid).let {
-//            _navigationState.value = NavigationState.ShowAdvancedFilter(it)
-//        }
-//    }
-
-    override fun clearState() {
-        _navigationState.value = NavigationState.StateLess
-        super.clearState()
-    }
-
-//    fun clearDates() {
-//        _dateFilter.value = null
-//    }
 
     fun setAdvancedFilter(advancedFilter: JobOrderListAdvancedFilter) {
         filterParams.value = advancedFilter
@@ -121,18 +62,16 @@ constructor(
 
     fun showAdvancedFilter() {
         filterParams.value.let {
-            _navigationState.value = NavigationState.ShowAdvancedFilter(
+            setFilterState(FilterState.ShowAdvancedFilter(
                 it ?: JobOrderListAdvancedFilter()
-            )
-            println("date range")
-            println(it?.dateFilter)
+            ))
         }
     }
 
-    fun setView(nonVoidOnly: Boolean) {
-        this.nonVoidOnly.value = nonVoidOnly
-        filter(true)
-    }
+//    fun setView(nonVoidOnly: Boolean) {
+//        this.nonVoidOnly.value = nonVoidOnly
+//        filter(true)
+//    }
 
     fun setPaymentStatus(status: EnumPaymentStatus) {
         filterParams.value = filterParams.value?.apply{
@@ -140,11 +79,5 @@ constructor(
         } ?: JobOrderListAdvancedFilter(
             paymentStatus = status
         )
-    }
-
-    sealed class NavigationState {
-        object StateLess: NavigationState()
-        data class OpenDateFilter(val dateFilter: DateFilter): NavigationState()
-        data class ShowAdvancedFilter(val advancedFilter: JobOrderListAdvancedFilter): NavigationState()
     }
 }

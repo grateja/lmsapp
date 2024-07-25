@@ -21,7 +21,7 @@ constructor (
         return dao.get(id)
     }
 
-    suspend fun filter(keyword: String, advancedFilter: ExpensesAdvancedFilter, page: Int): ExpenseQueryResult {
+    suspend fun filter(keyword: String?, advancedFilter: ExpensesAdvancedFilter, page: Int): ExpenseQueryResult {
         val offset = (20 * page) - 20
         return dao.queryResult(keyword, offset, advancedFilter,)
     }

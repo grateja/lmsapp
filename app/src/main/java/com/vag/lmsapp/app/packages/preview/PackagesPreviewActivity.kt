@@ -10,7 +10,7 @@ import com.vag.lmsapp.app.joborders.create.extras.AvailableExtrasAdapter
 import com.vag.lmsapp.app.joborders.create.products.AvailableProductsAdapter
 import com.vag.lmsapp.app.joborders.create.services.AvailableServicesAdapter
 import com.vag.lmsapp.app.packages.EnumPackageItemType
-import com.vag.lmsapp.app.packages.PackageItem
+import com.vag.lmsapp.app.packages.list.PackageItem
 import com.vag.lmsapp.databinding.ActivityPackagesPreviewBinding
 import com.vag.lmsapp.util.Constants.Companion.PACKAGE_ID
 import com.vag.lmsapp.util.toUUID
@@ -45,7 +45,8 @@ class PackagesPreviewActivity : AppCompatActivity() {
 
     private fun subscribeEvents() {
         servicesAdapter.onItemClick = {
-            viewModel.selectPackageItem(PackageItem(
+            viewModel.selectPackageItem(
+                PackageItem(
                 EnumPackageItemType.WASH_DRY,
                 it.serviceRefId,
                 it.abbr(),
@@ -53,11 +54,13 @@ class PackagesPreviewActivity : AppCompatActivity() {
                 it.price,
                 it.quantity,
                 !it.selected
-            ))
+            )
+            )
         }
 
         productsAdapter.onItemClick = {
-            viewModel.selectPackageItem(PackageItem(
+            viewModel.selectPackageItem(
+                PackageItem(
                 EnumPackageItemType.PRODUCTS,
                 it.productRefId,
                 it.name,
@@ -65,11 +68,13 @@ class PackagesPreviewActivity : AppCompatActivity() {
                 it.price,
                 it.quantity,
                 !it.selected
-            ))
+            )
+            )
         }
 
         extrasAdapter.onItemClick = {
-            viewModel.selectPackageItem(PackageItem(
+            viewModel.selectPackageItem(
+                PackageItem(
                 EnumPackageItemType.EXTRAS,
                 it.extrasRefId,
                 it.name,
@@ -77,7 +82,8 @@ class PackagesPreviewActivity : AppCompatActivity() {
                 it.price,
                 it.quantity,
                 !it.selected
-            ))
+            )
+            )
         }
 
         binding.buttonCardConfirm.setOnClickListener {

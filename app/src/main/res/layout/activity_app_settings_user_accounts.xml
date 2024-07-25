@@ -9,12 +9,53 @@
             type="com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:background="@drawable/background_gradient_secondary"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/button_create_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginVertical="16dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="20dp"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+                <FrameLayout
+                    android:background="@drawable/dotted_stroke_green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+                    <LinearLayout
+                        android:padding="18dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle">
+                        <ImageView
+                            android:src="@drawable/icon_add_green"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"/>
+                        <TextView
+                            android:textColor="@color/green"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Create new customer"/>
+                    </LinearLayout>
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_roles"
                 android:layout_width="match_parent"
@@ -36,25 +77,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.tabs.TabLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_users"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/tab_roles"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButtonAdd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="30dp"
-                android:clickable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/icon_add" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_users"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

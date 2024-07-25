@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.extras
+package com.vag.lmsapp.app.extras.list
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +7,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
+import com.vag.lmsapp.app.extras.ExtrasItemFull
 import com.vag.lmsapp.app.extras.edit.ExtrasAddEditActivity
+import com.vag.lmsapp.app.extras.list.advanced_filter.ExtrasAdvancedFilterBottomSheetFragment
 import com.vag.lmsapp.databinding.ActivityExtrasBinding
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.FilterActivity
-import com.vag.lmsapp.util.toUUID
+import com.vag.lmsapp.util.FilterState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,10 +21,9 @@ class ExtrasActivity : FilterActivity() {
     private lateinit var binding: ActivityExtrasBinding
     private val viewModel: ExtrasViewModel by viewModels()
     private val adapter = Adapter<ExtrasItemFull>(R.layout.recycler_item_extras_full)
-//    private val addEditLauncher = ActivityLauncher(this)
+    override var enableAdvancedFilter = true
 
     override var filterHint = "Search Expenses Remarks"
-    override var toolbarBackground: Int = R.color.teal_700
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_extras)
@@ -45,14 +46,17 @@ class ExtrasActivity : FilterActivity() {
     }
 
     private fun subscribeEvents() {
-        binding.buttonCreateNew.setOnClickListener {
+        adapter.onScrollAtTheBottom = {
+            viewModel.loadMore()
+        }
+        binding.buttonCreateNewExtraService.setOnClickListener {
             openAddEdit(null)
         }
         adapter.onItemClick = {
             openAddEdit(it)
         }
         addEditLauncher.onOk = {
-            val expenseId = it.data?.getStringExtra(CrudActivity.ENTITY_ID).toUUID()
+            viewModel.filter(true)
         }
     }
 
@@ -64,8 +68,35 @@ class ExtrasActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.items.observe(this, Observer {
-            adapter.setData(it)
+        viewModel.filterState.observe(this, Observer {
+            when(it) {
+                is FilterState.LoadItems -> {
+                    if(it.reset) {
+                        adapter.setData(it.items)
+                    } else {
+                        adapter.addItems(it.items)
+                    }
+                    viewModel.clearState()
+                }
+
+                is FilterState.ShowAdvancedFilter -> {
+                    ExtrasAdvancedFilterBottomSheetFragment.newInstance(it.advancedFilter).apply{
+                        onOk = {
+                            viewModel.setFilterParams(it)
+                            viewModel.filter(true)
+                        }
+                    }.show(supportFragmentManager, null)
+                    viewModel.clearState()
+                }
+
+
+
+                else -> {}
+            }
         })
+    }
+
+    override fun onAdvancedSearchClick() {
+        viewModel.showAdvancedFilter()
     }
 }

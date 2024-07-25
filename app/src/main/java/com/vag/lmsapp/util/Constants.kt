@@ -3,6 +3,7 @@ package com.vag.lmsapp.util
 class Constants {
     companion object {
         const val AUTH_ID = "auth_id"
+        const val ADVANCED_FILTER = "advanced_filter"
         const val CASCADE_CLOSE = "cascade_close"
         const val MACHINE_ID_EXTRA = "machineId"
         const val MACHINE_TYPE = "machine_type"

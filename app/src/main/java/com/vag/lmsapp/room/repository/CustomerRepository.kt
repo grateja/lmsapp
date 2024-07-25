@@ -2,7 +2,9 @@ package com.vag.lmsapp.room.repository
 
 import com.vag.lmsapp.app.customers.CustomerMinimal
 import com.vag.lmsapp.app.customers.list.CustomerQueryResult
+import com.vag.lmsapp.app.customers.list.advanced_filter.CustomersAdvancedFilter
 import com.vag.lmsapp.app.dashboard.data.DateFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.dao.DaoCustomer
 import com.vag.lmsapp.room.entities.EntityCustomer
 import com.vag.lmsapp.util.EnumSortDirection
@@ -41,9 +43,9 @@ constructor (
         return daoCustomer.getCustomersMinimal(keyword, 20, offset, customerId)
     }
 
-    suspend fun getListItems(keyword: String?, orderBy: String?, sortDirection: EnumSortDirection?, page: Int, hideAllWithoutJO: Boolean, dateFilter: DateFilter?): CustomerQueryResult {
+    suspend fun getListItems(keyword: String?, page: Int, advancedFilter: CustomersAdvancedFilter): CustomerQueryResult {
         val offset = (20 * page) - 20
-        return daoCustomer.getListItem(keyword, orderBy, sortDirection.toString(), offset, hideAllWithoutJO, dateFilter?.dateFrom, dateFilter?.dateTo)
+        return daoCustomer.getListItem(keyword, offset, advancedFilter)
     }
 
     suspend fun getCustomerMinimalByCRN(crn: String?): EntityCustomer? {

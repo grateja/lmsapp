@@ -113,10 +113,9 @@
         </activity>
         <activity
             android:name=".app.app_settings.user.list.AppSettingsUserAccountsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:exported="false"
+            android:label="User accounts"
+            android:theme="@style/LightActionBar">
         </activity>
         <activity
             android:name=".app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity"
@@ -210,12 +209,10 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".app.packages.PackagesActivity"
+            android:name=".app.packages.list.PackagesActivity"
             android:exported="false"
-            android:label="Packages">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:label="Packages"
+            android:theme="@style/LightActionBar">
         </activity>
         <activity
             android:name=".app.services.edit.AddEditServiceActivity"
@@ -271,19 +268,14 @@
         <activity
             android:name=".app.extras.edit.ExtrasAddEditActivity"
             android:exported="false"
-            android:label="Extras Services">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:label="Extras Services"
+            android:theme="@style/LightActionBar">
         </activity>
         <activity
-            android:name=".app.extras.ExtrasActivity"
+            android:name=".app.extras.list.ExtrasActivity"
             android:exported="false"
             android:label="Extras Services"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:theme="@style/LightActionBar">
         </activity>
         <activity
             android:name=".app.products.edit.ProductAddEditActivity"
@@ -294,13 +286,10 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".app.products.ProductsActivity"
+            android:name=".app.products.list.ProductsActivity"
             android:exported="false"
             android:label="Products"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:theme="@style/LightActionBar">
         </activity>
         <activity
             android:name=".app.discounts.edit.DiscountAddEditActivity"
@@ -311,13 +300,10 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".app.discounts.DiscountsActivity"
+            android:name=".app.discounts.list.DiscountsActivity"
             android:exported="false"
             android:label="Discounts"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:theme="@style/LightActionBar">
         </activity>
         <activity
             android:name=".app.expenses.edit.ExpenseAddEditActivity"

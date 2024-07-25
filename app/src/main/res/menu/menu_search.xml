@@ -8,11 +8,6 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
     <item
-        android:id="@+id/menu_add"
-        android:icon="@drawable/icon_add_small"
-        android:title="Create new"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/menu_advanced_option"
         android:icon="@drawable/icon_toolbar_options"
         android:title="Advanced search"

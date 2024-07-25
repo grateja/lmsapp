@@ -11,6 +11,7 @@ import com.vag.lmsapp.app.joborders.create.delivery.DeliveryVehiclesAdapter
 import com.vag.lmsapp.app.pickup_and_deliveries.add_edit.AddEditDeliveryProfileActivity
 import com.vag.lmsapp.databinding.ActivityPickupAndDeliveriesBinding
 import com.vag.lmsapp.util.CrudActivity
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
@@ -52,12 +53,15 @@ class PickupAndDeliveriesActivity : AppCompatActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.dataState.observe(this, Observer {
+        viewModel.filterState.observe(this, Observer {
             when(it) {
-                is ListViewModel.DataState.LoadItems -> {
+                is FilterState.LoadItems -> {
                     if(it.reset) {
                         adapter.setData(it.items)
+                    } else {
+//                        adapter.addItems(it.items)
                     }
+                    viewModel.clearState()
                 }
 
                 else -> {}

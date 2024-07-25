@@ -11,24 +11,24 @@ import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityExtrasAddEditBinding
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.DataState
+import com.vag.lmsapp.util.selectAllOnFocus
 import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class ExtrasAddEditActivity(
-//    override var requireAuthOnSave: Boolean = false,
-//    override var requireAuthOnDelete: Boolean = false
-) : CrudActivity() {
+class ExtrasAddEditActivity : CrudActivity() {
     private lateinit var binding: ActivityExtrasAddEditBinding
     private val viewModel: ExtrasAddEditViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_extras_add_edit)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_extras_add_edit)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.controls.viewModel = viewModel
+
+        binding.textPrice.selectAllOnFocus()
 
         subscribeListeners()
     }

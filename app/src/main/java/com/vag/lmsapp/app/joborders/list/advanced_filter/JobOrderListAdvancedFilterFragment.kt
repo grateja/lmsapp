@@ -82,15 +82,12 @@ class JobOrderListAdvancedFilterFragment : ModalFragment<JobOrderListAdvancedFil
     }
 
     companion object {
-        private var instance: JobOrderListAdvancedFilterFragment? = null
-        fun getInstance(model: JobOrderListAdvancedFilter): JobOrderListAdvancedFilterFragment {
-            if(instance == null) {
-                instance = JobOrderListAdvancedFilterFragment()
+        fun newInstance(model: JobOrderListAdvancedFilter): JobOrderListAdvancedFilterFragment {
+            return JobOrderListAdvancedFilterFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(PAYLOAD, model)
+                }
             }
-            instance?.arguments = Bundle().apply {
-                putParcelable(PAYLOAD, model)
-            }
-            return instance as JobOrderListAdvancedFilterFragment
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.discounts
+package com.vag.lmsapp.app.discounts.list
 
 import androidx.lifecycle.*
 import com.vag.lmsapp.room.entities.EntityDiscount
@@ -27,7 +27,8 @@ constructor(
             loading.value = true
             delay(500)
             keyword.value?.let {
-                items.value = repository.filter(it)
+                val items = repository.filter(it)
+                setResult(items, null, reset)
             }
         }
     }

@@ -19,7 +19,8 @@ constructor(
     override fun filter(reset: Boolean) {
         viewModelScope.launch {
             repository.getAll().let {
-                _dataState.value = DataState.LoadItems(it, reset)
+//                _dataState.value = DataState.LoadItems(it, reset)
+                setResult(it, null, reset)
             }
         }
     }

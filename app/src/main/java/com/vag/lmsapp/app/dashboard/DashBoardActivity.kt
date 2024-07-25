@@ -19,6 +19,7 @@ import com.vag.lmsapp.model.EnumJoFilterBy
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.entities.*
 import com.vag.lmsapp.util.Constants
+import com.vag.lmsapp.util.Constants.Companion.ADVANCED_FILTER
 import com.vag.lmsapp.util.showDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
@@ -118,7 +119,7 @@ class DashBoardActivity : AppCompatActivity() {
                 is DashboardViewModel.NavigationState.OpenJobOrders -> {
                     val intent = Intent(this, JobOrderListActivity::class.java).apply {
                         val advancedFilter = JobOrderListAdvancedFilter(filterBy = it.filterBy, dateFilter = it.dateFilter)
-                        putExtra(JobOrderListActivity.ADVANCED_FILTER, advancedFilter)
+                        putExtra(ADVANCED_FILTER, advancedFilter)
                         println("datefilter")
                         println(it.dateFilter)
 //                        putExtra(Constants.DATE_RANGE_FILTER, it.dateFilter)

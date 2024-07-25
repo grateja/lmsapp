@@ -36,9 +36,9 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
     private val customersAdapter = Adapter<CustomerMinimal>(R.layout.recycler_item_customer_minimal)
 
     override var filterHint = "Search Customer Name/CRN"
-    override var toolbarBackground: Int = R.color.color_code_customers
+//    override var toolbarBackground: Int = R.color.color_code_customers
     override var enableAdvancedFilter = false
-    override var enableAddButton = true
+//    override var enableAddButton = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_job_order_create_select_customer)
@@ -61,20 +61,20 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.dataState.observe(this, Observer {
-            when(it) {
-                is ListViewModel.DataState.LoadItems -> {
-                    if(it.reset) {
-                        customersAdapter.setData(it.items)
-                    } else {
-                        customersAdapter.addItems(it.items)
-                    }
-                    viewModel.clearState()
-                }
-
-                else -> {}
-            }
-        })
+//        viewModel.dataState.observe(this, Observer {
+//            when(it) {
+//                is ListViewModel.DataState.LoadItems -> {
+//                    if(it.reset) {
+//                        customersAdapter.setData(it.items)
+//                    } else {
+//                        customersAdapter.addItems(it.items)
+//                    }
+//                    viewModel.clearState()
+//                }
+//
+//                else -> {}
+//            }
+//        })
         unpaidPromptViewModel.dataState.observe(this, Observer {
             when(it) {
                 is JobOrdersUnpaidPromptViewModel.DataState.OpenPayment -> {
@@ -129,9 +129,9 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
         })
     }
 
-    override fun onAddButtonClick() {
-        editCustomer(null)
-    }
+//    override fun onAddButtonClick() {
+//        editCustomer(null)
+//    }
 
     private fun subscribeEvents() {
 //        binding.buttonCreateNew.setOnClickListener {

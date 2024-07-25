@@ -16,6 +16,8 @@ interface DaoPackage : BaseDao<EntityPackage> {
     """)
     suspend fun getAll(keyword: String?): List<MenuJobOrderPackage>
 
+
+
     @Query("""
         SELECT * FROM package_services WHERE package_id = :packageId AND deleted = 0
     """)
@@ -78,15 +80,6 @@ interface DaoPackage : BaseDao<EntityPackage> {
     @Query("SELECT * FROM packages WHERE id = :packageId AND deleted = 0")
     suspend fun getById(packageId: UUID?): EntityPackageWithItems?
 
-//    @Query("SELECT * FROM package_services WHERE package_id = :packageId")
-//    fun packageServicesAsLiveData(packageId: UUID?): LiveData<List<EntityPackageServiceWithService>>
-//
-//    @Query("SELECT * FROM package_products WHERE package_id = :packageId")
-//    fun packageProductsAsLiveData(packageId: UUID?): LiveData<List<EntityPackageProductWithProduct>>
-//
-//    @Query("SELECT * FROM package_extras WHERE package_id = :packageId")
-//    fun packageExtrasAsLiveData(packageId: UUID?): LiveData<List<EntityPackageExtrasWithExtras>>
-
     @Query("SELECT * FROM packages WHERE id = :packageId")
     fun getAsLiveData(packageId: UUID?): LiveData<EntityPackage>
 
@@ -106,4 +99,12 @@ interface DaoPackage : BaseDao<EntityPackage> {
             insertExtras(it)
         }
     }
+
+    @Query("""
+        SELECT *
+        FROM packages
+        WHERE package_name LIKE '%' || :keyword || '%'
+            AND deleted = 0
+    """)
+    suspend fun filter(keyword: String?): List<EntityPackageWithItems>
 }

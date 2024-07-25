@@ -28,6 +28,7 @@ import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
 import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
+import com.vag.lmsapp.util.FilterState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
@@ -163,14 +164,15 @@ class CustomerPreviewActivity : AppCompatActivity() {
                 else -> {}
             }
         })
-        jobOrdersViewModel.dataState.observe(this, Observer {
+        jobOrdersViewModel.filterState.observe(this, Observer {
             when(it) {
-                is ListViewModel.DataState.LoadItems -> {
+                is FilterState.LoadItems -> {
                     if(it.reset) {
                         adapter.setData(it.items)
                     } else {
                         adapter.addItems(it.items)
                     }
+                    viewModel.resetState()
                 }
 
                 else -> {}

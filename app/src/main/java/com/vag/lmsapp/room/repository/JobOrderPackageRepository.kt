@@ -1,6 +1,7 @@
 package com.vag.lmsapp.room.repository
 
 import com.vag.lmsapp.app.joborders.create.packages.MenuJobOrderPackage
+import com.vag.lmsapp.model.BaseFilterParams
 import com.vag.lmsapp.room.dao.DaoPackage
 import com.vag.lmsapp.room.entities.*
 import java.util.*
@@ -33,6 +34,8 @@ constructor(private val daoPackage: DaoPackage) : BaseRepository<EntityPackage>(
     }
 
     fun getAllAsLiveData() = daoPackage.getAllAsLiveData()
+
+    suspend fun filter(keyword: String?) = daoPackage.filter(keyword)
 
     suspend fun syncServices(services: List<EntityPackageService>) {
         daoPackage.syncServices(services)

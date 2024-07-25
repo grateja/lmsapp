@@ -7,6 +7,8 @@ import androidx.room.Transaction
 import com.vag.lmsapp.app.customers.CustomerMinimal
 import com.vag.lmsapp.app.customers.list.CustomerListItem
 import com.vag.lmsapp.app.customers.list.CustomerQueryResult
+import com.vag.lmsapp.app.customers.list.advanced_filter.CustomersAdvancedFilter
+import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.entities.EntityCustomer
 import com.vag.lmsapp.util.ResultCount
 import java.time.LocalDate
@@ -131,10 +133,10 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
     fun count(keyword: String?, dateFrom: LocalDate?, dateTo: LocalDate?, hideAllWithoutJO: Boolean): ResultCount
 
     @Transaction
-    suspend fun getListItem(keyword: String?, orderBy: String?, sortDirection: String?, offset: Int, hideAllWithoutJO: Boolean, dateFrom: LocalDate?, dateTo: LocalDate?): CustomerQueryResult {
+    suspend fun getListItem(keyword: String?, offset: Int, advancedFilter: CustomersAdvancedFilter): CustomerQueryResult {
         return CustomerQueryResult(
-            load(keyword, orderBy, sortDirection, offset, hideAllWithoutJO, dateFrom, dateTo),
-            count(keyword, dateFrom, dateTo, hideAllWithoutJO)
+            load(keyword, advancedFilter.orderBy, advancedFilter.sortDirection.toString(), offset, advancedFilter.hideAllWithoutJo, advancedFilter.dateFilter?.dateFrom, advancedFilter.dateFilter?.dateTo),
+            count(keyword, advancedFilter.dateFilter?.dateFrom, advancedFilter.dateFilter?.dateTo, advancedFilter.hideAllWithoutJo)
         )
     }
 

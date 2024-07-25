@@ -1,7 +1,6 @@
-package com.vag.lmsapp.app.packages
+package com.vag.lmsapp.app.packages.list
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -12,24 +11,37 @@ import com.vag.lmsapp.app.packages.preview.PackagesPreviewActivity
 import com.vag.lmsapp.databinding.ActivityPackagesBinding
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.Constants.Companion.PACKAGE_ID
+import com.vag.lmsapp.util.FilterActivity
+import com.vag.lmsapp.util.FilterState
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class PackagesActivity : AppCompatActivity() {
+class PackagesActivity : FilterActivity() {
+    override var filterHint = "Search package name"
+    override fun onQuery(keyword: String?) {
+        viewModel.setKeyword(keyword)
+    }
+
+    override var enableAdvancedFilter = false
     private lateinit var binding: ActivityPackagesBinding
     private val viewModel: PackagesViewModel by viewModels()
     private val adapter = PackagesAdapter()
     private val launcher = ActivityLauncher(this)
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_packages)
+        super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.recyclerPackages.adapter = adapter
 
         subscribeEvents()
         subscribeListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.filter(true)
     }
 
     private fun subscribeEvents() {
@@ -43,8 +55,15 @@ class PackagesActivity : AppCompatActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.packages.observe(this, Observer {
-            adapter.setData(it)
+        viewModel.filterState.observe(this, Observer {
+            when(it) {
+                is FilterState.LoadItems -> {
+                    adapter.setData(it.items)
+                    viewModel.clearState()
+                }
+
+                else -> {}
+            }
         })
     }
 

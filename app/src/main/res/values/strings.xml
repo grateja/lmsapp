@@ -107,6 +107,21 @@
         <item>Amount</item>
         <item>Remarks</item>
     </string-array>
+    <string-array name="order_by_products">
+        <item>Name</item>
+        <item>Product Type</item>
+        <item>Current Stock</item>
+        <item>Price</item>
+    </string-array>
+    <string-array name="order_by_extras">
+        <item>Name</item>
+        <item>Category</item>
+        <item>Price</item>
+    </string-array>
+    <string-array name="order_by_users">
+        <item>Name</item>
+        <item>Email</item>
+    </string-array>
     <string-array name="payment_status">
         <item>Paid only</item>
         <item>Unpaid only</item>

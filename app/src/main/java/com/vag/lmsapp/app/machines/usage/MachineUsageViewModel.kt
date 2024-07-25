@@ -41,17 +41,12 @@ constructor(
         _machineId.value = machineId
     }
 
-    fun setDateFilter(dateFilter: DateFilter) {
-        _dateFilter.value = dateFilter
-    }
+//    fun setDateFilter(dateFilter: DateFilter) {
+//        _dateFilter.value = dateFilter
+//    }
 
     fun setMachineType(machineType: EnumMachineType?) {
         this.machineType.value = machineType
-    }
-
-    fun loadMore() {
-        page.value = page.value?.plus(1)
-        filter(false)
     }
 
     override fun filter(reset: Boolean) {
@@ -62,19 +57,19 @@ constructor(
         job = viewModelScope.launch {
             delay(500)
             if(reset) {
-                page.value = 1
+                page = 1
             }
             val machineId = _machineId.value
             val machineType = machineType.value
             val serviceType = serviceType.value
             val dateFilter = _dateFilter.value
-            val page = page.value ?: 1
             val keyword = keyword.value
             val items = machineRepository.getMachineUsage(machineId, MachineTypeFilter(
                 machineType,
                 serviceType
             ), keyword, page, dateFilter)
-            _dataState.value = DataState.LoadItems(items, reset)
+            setResult(items, null, reset)
+//            _dataState.value = DataState.LoadItems(items, reset)
         }
     }
     fun clearDates() {

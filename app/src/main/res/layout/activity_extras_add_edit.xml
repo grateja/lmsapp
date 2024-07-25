@@ -8,69 +8,100 @@
             name="viewModel"
             type="com.vag.lmsapp.app.extras.edit.ExtrasAddEditViewModel" />
     </data>
-    <LinearLayout
-        android:layout_margin="@dimen/activity_horizontal_margin"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <LinearLayout
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Category"
-                app:errorEnabled="true"
-                app:errorText="@{viewModel.validation.get(`category`)}">
+            app:cardCornerRadius="0dp">
+            <TextView
+                style="@style/TextTitleFragment.Center"
+                android:text="@{viewModel.enumCRUDAction.toString() + ` extra service`}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/textCategory"
-                    android:completionThreshold="0"
-                    android:padding="12dp"
-                    android:text="@={viewModel.model.category}"
+        <com.google.android.material.card.MaterialCardView
+            style="@style/RoundCard.NoElevation"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginVertical="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/controls">
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textAutoComplete"
-                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`category`)}"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Name"
-                app:errorEnabled="true"
-                app:errorText="@{viewModel.validation.get(`name`)}">
+                    android:layout_marginVertical="24dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Category"
+                        app:errorEnabled="true"
+                        app:errorText="@{viewModel.validation.get(`category`)}">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:text="@={viewModel.model.name}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`name`)}"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Price"
-                app:errorEnabled="true"
-                app:errorText="@{viewModel.validation.get(`price`)}">
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/textCategory"
+                            android:completionThreshold="0"
+                            android:padding="12dp"
+                            android:text="@={viewModel.model.category}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textAutoComplete"
+                            android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`category`)}"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Name"
+                        app:errorEnabled="true"
+                        app:errorText="@{viewModel.validation.get(`name`)}">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:text="@={viewModel.model.price + ``}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`price`)}"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <include
-                android:id="@+id/controls"
-                layout="@layout/incl_controls_crud"/>
-        </LinearLayout>
-    </LinearLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:text="@={viewModel.model.name}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords"
+                            android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`name`)}"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Price"
+                        app:errorEnabled="true"
+                        app:errorText="@{viewModel.validation.get(`price`)}">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/text_price"
+                            android:text="@={viewModel.model.price + ``}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`price`)}"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </com.google.android.material.card.MaterialCardView>
+        <include
+            android:id="@+id/controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            layout="@layout/incl_controls_crud"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

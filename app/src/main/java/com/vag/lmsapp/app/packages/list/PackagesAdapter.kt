@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.packages
+package com.vag.lmsapp.app.packages.list
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

@@ -8,30 +8,24 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.work.Constraints
-import androidx.work.ExistingWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.EndingActivity
 import com.vag.lmsapp.app.app_settings.developer.AppSettingsNetworkActivity
 import com.vag.lmsapp.app.customers.list.CustomersActivity
-import com.vag.lmsapp.app.discounts.DiscountsActivity
+import com.vag.lmsapp.app.discounts.list.DiscountsActivity
 import com.vag.lmsapp.app.expenses.ExpensesActivity
-import com.vag.lmsapp.app.extras.ExtrasActivity
+import com.vag.lmsapp.app.extras.list.ExtrasActivity
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
-import com.vag.lmsapp.app.packages.PackagesActivity
+import com.vag.lmsapp.app.packages.list.PackagesActivity
 import com.vag.lmsapp.app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity
 import com.vag.lmsapp.app.app_settings.printer.SettingsPrinterActivity
 import com.vag.lmsapp.app.app_settings.shop_info.ShopInfoActivity
 import com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsActivity
 import com.vag.lmsapp.app.daily_report.DailyReportActivity
 import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
-import com.vag.lmsapp.app.products.ProductsActivity
+import com.vag.lmsapp.app.products.list.ProductsActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
-import com.vag.lmsapp.app.dashboard.DashBoardActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.services.ServicesActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
@@ -44,8 +38,6 @@ import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.viewmodels.MainViewModel
-import com.vag.lmsapp.worker.BacklogSyncWorker
-import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

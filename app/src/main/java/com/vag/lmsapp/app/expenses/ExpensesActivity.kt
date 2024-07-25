@@ -22,10 +22,8 @@ class ExpensesActivity : FilterActivity() {
     private lateinit var binding: ActivityExpensesBinding
     private val viewModel: ExpensesViewModel by viewModels()
     private val adapter = Adapter<ExpenseItemFull>(R.layout.recycler_item_expenses_full)
-    private lateinit var dateRangeDialog: BottomSheetDateRangePickerFragment
 
     override var filterHint = "Search Expenses Remarks"
-    override var toolbarBackground: Int = R.color.white
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_expenses)
@@ -36,27 +34,17 @@ class ExpensesActivity : FilterActivity() {
         binding.lifecycleOwner = this
         binding.recyclerExpenses.adapter = adapter
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         subscribeEvents()
         subscribeListeners()
 
-        intent.getParcelableExtra<DateFilter>(Constants.DATE_RANGE_FILTER)?.let {
-            viewModel.setFilterParams(
-                ExpensesAdvancedFilter().apply {
-                    dateFilter = it
-                }
-            )
+        intent.getParcelableExtra<DateFilter>(Constants.DATE_RANGE_FILTER).let {
+            viewModel.setDateFilter(it)
+            viewModel.filter(true)
         }
     }
 
     override fun onAdvancedSearchClick() {
         viewModel.showAdvancedFilter()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.filter(true)
     }
 
     override fun onQuery(keyword: String?) {
@@ -74,7 +62,7 @@ class ExpensesActivity : FilterActivity() {
             openAddEdit(it)
         }
         addEditLauncher.onOk = {
-            val expenseId = it.data?.getStringExtra(CrudActivity.ENTITY_ID).toUUID()
+            viewModel.filter(true)
         }
     }
 
@@ -86,9 +74,9 @@ class ExpensesActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.dataState.observe(this, Observer {
+        viewModel.filterState.observe(this, Observer {
             when(it) {
-                is ListViewModel.DataState.LoadItems -> {
+                is FilterState.LoadItems -> {
                     if(it.reset) {
                         adapter.setData(it.items)
                     } else {
@@ -97,13 +85,8 @@ class ExpensesActivity : FilterActivity() {
                     viewModel.clearState()
                 }
 
-                else -> {}
-            }
-        })
-        viewModel.navigationState.observe(this, Observer {
-            when(it) {
-                is ExpensesViewModel.NavigationState.ShowAdvancedFilter -> {
-                    ExpensesAdvancedFilterBottomSheetFragment.newInstance(it.filter).apply{
+                is FilterState.ShowAdvancedFilter -> {
+                    ExpensesAdvancedFilterBottomSheetFragment.newInstance(it.advancedFilter).apply{
                         onOk = {
                             viewModel.setFilterParams(it)
                             viewModel.filter(true)
@@ -111,6 +94,7 @@ class ExpensesActivity : FilterActivity() {
                     }.show(supportFragmentManager, null)
                     viewModel.clearState()
                 }
+
                 else -> {}
             }
         })

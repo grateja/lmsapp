@@ -5,7 +5,7 @@ import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
 import com.vag.lmsapp.app.joborders.create.services.MenuServiceItem
 import com.vag.lmsapp.app.packages.EnumPackageItemType
-import com.vag.lmsapp.app.packages.PackageItem
+import com.vag.lmsapp.app.packages.list.PackageItem
 import com.vag.lmsapp.room.entities.EntityPackage
 import com.vag.lmsapp.room.entities.EntityPackageExtras
 import com.vag.lmsapp.room.entities.EntityPackageProduct
@@ -17,7 +17,6 @@ import com.vag.lmsapp.room.repository.JobOrderPackageRepository
 import com.vag.lmsapp.room.repository.ProductRepository
 import com.vag.lmsapp.room.repository.WashServiceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject

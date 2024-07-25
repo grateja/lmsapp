@@ -8,6 +8,7 @@
     </data>
     <com.google.android.material.card.MaterialCardView
         style="@style/CardItemList.FullWidth"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:id="@+id/cardDiscount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

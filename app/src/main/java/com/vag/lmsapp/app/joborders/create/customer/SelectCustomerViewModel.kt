@@ -64,30 +64,25 @@ constructor(
             delay(500)
 
             if(reset) {
-                page.value = 1
+                page = 1
             }
 
             val filterParams = filterParams.value
 
             val keyword = keyword.value
-            val page = page.value ?: 1
 
             val result = repository.getCustomersMinimal(
                 keyword,
                 page,
                 _currentCustomerId
             )
-            _dataState.value = DataState.LoadItems(
-                result,
-                reset
-            )
+            setResult(result, null, reset)
+//            _dataState.value = DataState.LoadItems(
+//                result,
+//                reset
+//            )
             loading.value = false
         }
-    }
-
-    fun loadMore() {
-        page.value = page.value?.plus(1)
-        filter(false)
     }
 
     fun setCurrentCustomerId(customerId: UUID) {

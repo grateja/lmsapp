@@ -13,6 +13,7 @@ import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.FilterActivity
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.util.toUUID
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +67,7 @@ class MachineUsageActivity : FilterActivity() {
 //    }
 
     override var filterHint: String = "Search customer name"
-    override var toolbarBackground: Int = R.color.color_code_machines
+//    override var toolbarBackground: Int = R.color.color_code_machines
     override var enableAdvancedFilter = false
 
     override fun onQuery(keyword: String?) {
@@ -99,14 +100,15 @@ class MachineUsageActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.dataState.observe(this, Observer {
+        viewModel.filterState.observe(this, Observer {
             when(it) {
-                is ListViewModel.DataState.LoadItems -> {
+                is FilterState.LoadItems -> {
                     if(it.reset) {
                         adapter.setData(it.items)
                     } else {
                         adapter.addItems(it.items)
                     }
+                    viewModel.clearState()
                 }
 
                 else -> {}

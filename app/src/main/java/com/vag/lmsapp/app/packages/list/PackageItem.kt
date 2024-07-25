@@ -1,6 +1,7 @@
-package com.vag.lmsapp.app.packages
+package com.vag.lmsapp.app.packages.list
 
 import android.os.Parcelable
+import com.vag.lmsapp.app.packages.EnumPackageItemType
 import kotlinx.parcelize.Parcelize
 import java.util.*
 

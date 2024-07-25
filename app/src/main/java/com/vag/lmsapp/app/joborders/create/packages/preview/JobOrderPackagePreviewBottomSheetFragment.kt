@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
-import com.vag.lmsapp.app.packages.PackageItem
+import com.vag.lmsapp.app.packages.list.PackageItem
 import com.vag.lmsapp.databinding.FragmentJobOrderPackagePreviewBottomSheetBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.util.CrudActivity.Companion.ENTITY_ID

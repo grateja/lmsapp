@@ -26,8 +26,7 @@
     </style>
 
     <style name="LightActionBar" parent="Theme.LMS2025.NoActionBar">
-        <item name="android:windowLightStatusBar">true
-        </item> <!-- Set to true to use light status bar text -->
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <!--    <style name="Theme.LMS2022.NoActionBar.Dashboard" parent="Theme.LMS2022.NoActionBar">-->

@@ -3,6 +3,8 @@ package com.vag.lmsapp.room.repository
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
 import com.vag.lmsapp.app.joborders.create.products.ProductAvailabilityChecker
 import com.vag.lmsapp.app.products.ProductItemFull
+import com.vag.lmsapp.app.products.list.ProductQueryResult
+import com.vag.lmsapp.app.products.list.advanced_filter.ProductListAdvancedFilter
 import com.vag.lmsapp.room.dao.DaoProduct
 import com.vag.lmsapp.room.entities.EntityProduct
 import java.util.UUID
@@ -27,8 +29,9 @@ constructor (
 
     suspend fun menuItems() = daoProduct.menuItems()
 
-    suspend fun filter(keyword: String) : List<ProductItemFull> {
-        return daoProduct.filter(keyword)
+    suspend fun filter(keyword: String, page: Int, advancedFilter: ProductListAdvancedFilter?) : ProductQueryResult {
+        val offset = (20 * page) - 20
+        return daoProduct.queryResult(keyword, offset, advancedFilter)
     }
 
     suspend fun checkAll(products: List<ProductAvailabilityChecker>) : String? {

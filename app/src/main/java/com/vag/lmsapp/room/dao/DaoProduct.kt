@@ -5,8 +5,11 @@ import androidx.room.*
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
 import com.vag.lmsapp.app.joborders.create.products.ProductAvailabilityChecker
 import com.vag.lmsapp.app.products.ProductItemFull
+import com.vag.lmsapp.app.products.list.ProductQueryResult
+import com.vag.lmsapp.app.products.list.advanced_filter.ProductListAdvancedFilter
 import com.vag.lmsapp.app.products.preview.ProductPreview
 import com.vag.lmsapp.room.entities.EntityProduct
+import com.vag.lmsapp.util.ResultCount
 import java.util.UUID
 
 @Dao
@@ -20,8 +23,45 @@ abstract class DaoProduct : BaseDao<EntityProduct> {
     @Query("SELECT *, 1 as quantity, 0 as void, 0 as discounted_price FROM products WHERE deleted = 0")
     abstract suspend fun menuItems(): List<MenuProductItem>
 
-    @Query("SELECT * FROM products WHERE name LIKE '%' || :keyword || '%' AND deleted = 0 ORDER BY name")
-    abstract suspend fun filter(keyword: String): List<ProductItemFull>
+    @Query("""
+        SELECT *
+        FROM products 
+        WHERE name LIKE '%' || :keyword || '%' 
+            AND deleted = 0 
+        ORDER BY
+            CASE WHEN :orderBy = 'Name' AND :sortDirection = 'ASC' THEN name END ASC,
+            CASE WHEN :orderBy = 'Current Stock' AND :sortDirection = 'ASC' THEN current_stock END ASC,
+            CASE WHEN :orderBy = 'Price' AND :sortDirection = 'ASC' THEN price END ASC,
+            CASE WHEN :orderBy = 'Product Type' AND :sortDirection = 'ASC' THEN product_type END ASC,
+            CASE WHEN :orderBy = 'Name' AND :sortDirection = 'DESC' THEN name END DESC,
+            CASE WHEN :orderBy = 'Current Stock' AND :sortDirection = 'DESC' THEN current_stock END DESC,
+            CASE WHEN :orderBy = 'Price' AND :sortDirection = 'DESC' THEN price END DESC,
+            CASE WHEN :orderBy = 'Product Type' AND :sortDirection = 'DESC' THEN product_type END DESC
+        LIMIT 20 OFFSET :offset
+    """)
+    abstract suspend fun filter(keyword: String, offset: Int, orderBy: String?, sortDirection: String?): List<ProductItemFull>
+
+    @Query("")
+    suspend fun queryResult(keyword: String, offset: Int, advancedFilter: ProductListAdvancedFilter?): ProductQueryResult {
+        return ProductQueryResult(
+            filter(keyword, offset, advancedFilter?.orderBy, advancedFilter?.sortDirection?.toString()),
+            count(keyword)
+        )
+    }
+
+    @Query("""SELECT
+        (
+            SELECT COUNT(*)
+            FROM products
+            WHERE name LIKE '%' || :keyword || '%'
+                AND deleted = 0
+        ) AS filtered, (
+            SELECT COUNT(*)
+            FROM products
+            WHERE deleted = 0
+        ) AS total
+    """)
+    abstract suspend fun count(keyword: String): ResultCount
 
     @Query("""
         SELECT *, current_stock - (

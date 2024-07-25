@@ -1,43 +1,55 @@
 package com.vag.lmsapp.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.BaseFilterParams
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.util.ListViewModelInterface
+import com.vag.lmsapp.util.ResultCount
 import kotlinx.coroutines.Job
 
-abstract class ListViewModel<T, F: BaseFilterParams?> : ViewModel(), ListViewModelInterface {
-    protected val _dataState = MutableLiveData<DataState<T>>()
-    val dataState: LiveData<DataState<T>> = _dataState
+abstract class ListViewModel<T, F: BaseFilterParams> : ViewModel(), ListViewModelInterface {
+    private val _filterState = MutableLiveData<FilterState<T, F>>()
+    val filterState: LiveData<FilterState<T, F>> = _filterState
+
+    private val _resultCount = MutableLiveData<ResultCount?>()
+    val resultCount: LiveData<ResultCount?> = _resultCount
 
     override val keyword = MutableLiveData("")
     val filterParams = MutableLiveData<F>()
 
-    val items = MutableLiveData<List<T>>()
-//    val orderBy = MutableLiveData("created_at")
-//    val sortDirection = MutableLiveData<EnumSortDirection>()
-    val page = MutableLiveData(1)
     val loading = MutableLiveData(false)
-    val hasItems = MediatorLiveData<Boolean>().apply {
-        addSource(items) {
-            value = it.size > 0
-        }
+
+    protected var page: Int = 1
+    protected var job: Job? = null
+
+    protected fun setResult(items: List<T>, resultCount: ResultCount?, reset: Boolean) {
+        _filterState.value = FilterState.LoadItems(items, reset)
+        _resultCount.value = resultCount
     }
 
-    protected var job: Job? = null
+    protected fun setFilterState(filterState: FilterState<T, F>) {
+        _filterState.value = filterState
+    }
+
+    fun setDateFilter(dateFilter: DateFilter?) {
+        filterParams.value = filterParams.value.apply {
+            this?.dateFilter = dateFilter
+        }
+    }
 
     open fun setFilterParams(filterParams: F) {
         this.filterParams.value = filterParams
     }
 
     open fun clearState() {
-        _dataState.value = DataState.StateLess
+        _filterState.value = FilterState.StateLess()
     }
 
-    sealed class DataState<out R> {
-        data class LoadItems<R>(val items: List<R>, val reset: Boolean) : DataState<R>()
-        object StateLess: DataState<Nothing>()
+    fun loadMore() {
+        ++page
+        filter(false)
     }
 }

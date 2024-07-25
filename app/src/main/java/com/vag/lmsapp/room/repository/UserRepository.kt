@@ -1,10 +1,12 @@
 package com.vag.lmsapp.room.repository
 
 import androidx.lifecycle.LiveData
+import com.vag.lmsapp.app.app_settings.user.UserPreview
+import com.vag.lmsapp.app.app_settings.user.list.advanced_filter.UserAccountAdvancedFilter
 import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.room.dao.DaoUser
 import com.vag.lmsapp.room.entities.EntityUser
-import java.lang.Exception
+import com.vag.lmsapp.util.QueryResult
 import java.util.ArrayList
 import java.util.UUID
 import javax.inject.Inject
@@ -22,6 +24,11 @@ constructor (
     }
 
     fun getByRoleAsLiveData(role: Role?) = daoUser.getByRoleAsLiveData(role)
+
+    suspend fun filter(keyword: String?, page: Int, advancedFilter: UserAccountAdvancedFilter): QueryResult<UserPreview> {
+        val offset = (page * 20) - 20
+        return daoUser.queryResult(keyword ?: "", offset, advancedFilter)
+    }
 
     suspend fun getAdmin() : EntityUser? {
         return daoUser.getAdmin()

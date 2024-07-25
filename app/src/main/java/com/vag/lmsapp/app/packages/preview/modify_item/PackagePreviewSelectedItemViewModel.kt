@@ -3,7 +3,7 @@ package com.vag.lmsapp.app.packages.preview.modify_item
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vag.lmsapp.app.packages.PackageItem
+import com.vag.lmsapp.app.packages.list.PackageItem
 import com.vag.lmsapp.model.Rule
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.InputValidation

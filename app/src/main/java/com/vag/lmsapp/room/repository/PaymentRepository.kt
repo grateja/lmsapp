@@ -3,6 +3,7 @@ package com.vag.lmsapp.room.repository
 import androidx.lifecycle.LiveData
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.payment_list.PaymentQueryResult
+import com.vag.lmsapp.app.payment_list.advanced_filter.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.room.dao.DaoJobOrderPayment
 import com.vag.lmsapp.room.entities.EntityJobOrderPayment
 import com.vag.lmsapp.util.EnumSortDirection
@@ -44,8 +45,8 @@ constructor (
 
     fun getJobOrdersByPaymentId(paymentId: UUID) = daoPayment.getJobOrdersByPaymentId(paymentId)
 
-    suspend fun queryResult(keyword: String?, page: Int, dateFilter: DateFilter?, orderBy: String?, sortDirection: EnumSortDirection?) : PaymentQueryResult {
+    suspend fun queryResult(keyword: String?, page: Int, advancedFilter: JobOrderPaymentAdvancedFilter?) : PaymentQueryResult {
         val offset = (20 * page) - 20
-        return daoPayment.queryResult(keyword, offset, dateFilter, orderBy, sortDirection)
+        return daoPayment.queryResult(keyword, offset, advancedFilter)
     }
 }

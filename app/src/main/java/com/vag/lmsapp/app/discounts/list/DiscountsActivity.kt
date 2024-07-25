@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.discounts
+package com.vag.lmsapp.app.discounts.list
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,7 @@ import com.vag.lmsapp.databinding.ActivityDiscountsBinding
 import com.vag.lmsapp.room.entities.EntityDiscount
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.FilterActivity
+import com.vag.lmsapp.util.FilterState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,9 +20,9 @@ class DiscountsActivity : FilterActivity() {
     private lateinit var binding: ActivityDiscountsBinding
     private val viewModel: DiscountsViewModel by viewModels()
     private val adapter = Adapter<EntityDiscount>(R.layout.recycler_item_discounts_full)
+    override var enableAdvancedFilter: Boolean = false
 
     override var filterHint = "Search Discounts"
-    override var toolbarBackground: Int = R.color.teal_700
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_discounts)
@@ -52,8 +53,19 @@ class DiscountsActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.items.observe(this, Observer {
-            adapter.setData(it)
+        viewModel.filterState.observe(this, Observer {
+            when(it) {
+                is FilterState.LoadItems -> {
+                    if(it.reset) {
+                        adapter.setData(it.items)
+                    } else {
+                        adapter.addItems(it.items)
+                    }
+                    viewModel.clearState()
+                }
+
+                else -> {}
+            }
         })
     }
 

@@ -14,6 +14,7 @@ import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.databinding.FragmentDailyReportUnpaidJobOrdersBinding
 import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
+import com.vag.lmsapp.util.Constants.Companion.ADVANCED_FILTER
 
 class DailyReportUnpaidJobOrdersFragment : Fragment() {
     private lateinit var binding: FragmentDailyReportUnpaidJobOrdersBinding
@@ -47,7 +48,7 @@ class DailyReportUnpaidJobOrdersFragment : Fragment() {
             val filter = JobOrderListAdvancedFilter(
                 paymentStatus = EnumPaymentStatus.UNPAID
             )
-            putExtra(JobOrderListActivity.ADVANCED_FILTER, filter)
+            putExtra(ADVANCED_FILTER, filter)
         }
         startActivity(intent)
     }

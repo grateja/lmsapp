@@ -5,6 +5,7 @@ import androidx.room.*
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.app.payment_list.PaymentQueryResult
+import com.vag.lmsapp.app.payment_list.advanced_filter.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.room.entities.*
 import com.vag.lmsapp.util.EnumSortDirection
 import com.vag.lmsapp.util.ResultCount
@@ -145,10 +146,10 @@ interface DaoJobOrderPayment {
     fun count(keyword: String?, dateFrom: LocalDate?, dateTo: LocalDate?): ResultCount?
 
     @Transaction
-    suspend fun queryResult(keyword: String?, offset: Int, dateFilter: DateFilter?, orderBy: String?, sortDirection: EnumSortDirection?): PaymentQueryResult {
+    suspend fun queryResult(keyword: String?, offset: Int, advancedFilter: JobOrderPaymentAdvancedFilter?): PaymentQueryResult {
         return PaymentQueryResult(
-            load(keyword, offset, dateFilter?.dateFrom, dateFilter?.dateTo, orderBy, sortDirection),
-            count(keyword, dateFilter?.dateFrom, dateFilter?.dateTo)
+            load(keyword, offset, advancedFilter?.dateFilter?.dateFrom, advancedFilter?.dateFilter?.dateTo, advancedFilter?.orderBy, advancedFilter?.sortDirection),
+            count(keyword, advancedFilter?.dateFilter?.dateFrom, advancedFilter?.dateFilter?.dateTo)
         )
     }
 

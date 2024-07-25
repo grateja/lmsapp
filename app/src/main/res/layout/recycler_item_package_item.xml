@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.packages.PackageItem" />
+            type="com.vag.lmsapp.app.packages.list.PackageItem" />
     </data>
     <FrameLayout
         android:layout_width="match_parent"

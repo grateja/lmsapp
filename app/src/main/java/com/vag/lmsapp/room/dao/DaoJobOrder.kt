@@ -230,7 +230,8 @@ interface DaoJobOrder {
                 nonVoidOnly,
                 af.dateFilter?.dateFrom,
                 af.dateFilter?.dateTo
-            )
+            ),
+            null
         )
     }
 

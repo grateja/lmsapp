@@ -17,6 +17,7 @@ import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
 import com.vag.lmsapp.util.FilterActivity
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
@@ -30,8 +31,6 @@ class PaymentListActivity : FilterActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment_list)
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.recyclerPaymentList.adapter = adapter
@@ -39,15 +38,13 @@ class PaymentListActivity : FilterActivity() {
         subscribeListeners()
         subscribeEvents()
 
-        intent.getParcelableExtra<DateFilter>(DATE_RANGE_FILTER)?.let {
-            viewModel.setDateRange(it)
+        intent.getParcelableExtra<DateFilter>(DATE_RANGE_FILTER).let {
+            viewModel.setDateFilter(it)
+            viewModel.filter(true)
         }
-
-        viewModel.filter(true)
     }
 
     override var filterHint: String = "Enter OR Number or Customer name"
-    override var toolbarBackground: Int = R.color.white
 
     override fun onQuery(keyword: String?) {
         viewModel.setKeyword(keyword)
@@ -58,16 +55,7 @@ class PaymentListActivity : FilterActivity() {
             putExtra(PAYMENT_ID, paymentId.toString())
             putExtra(CUSTOMER_ID, customerId.toString())
         }
-        startActivity(intent)
-    }
-
-    private fun openDatePicker(dateFilter: DateFilter) {
-        BottomSheetDateRangePickerFragment.getInstance(dateFilter).let {
-            it.show(supportFragmentManager, null)
-            it.onOk = {
-                viewModel.setDateRange(it)
-            }
-        }
+        addEditLauncher.launch(intent)
     }
 
     private fun subscribeEvents() {
@@ -77,12 +65,9 @@ class PaymentListActivity : FilterActivity() {
         adapter.onItemClick = {
             openPayment(it.id, it.customerId)
         }
-//        binding.cardDateRange.setOnClickListener {
-//            viewModel.showDatePicker()
-//        }
-//        binding.buttonClearDateFilter.setOnClickListener {
-//            viewModel.clearDates()
-//        }
+        addEditLauncher.onOk = {
+            viewModel.filter(true)
+        }
     }
 
     override fun onAdvancedSearchClick() {
@@ -91,35 +76,19 @@ class PaymentListActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.dataState.observe(this, Observer {
+        viewModel.filterState.observe(this, Observer {
             when(it) {
-                is ListViewModel.DataState.LoadItems -> {
+                is FilterState.LoadItems -> {
                     if(it.reset) {
                         adapter.setData(it.items)
                     } else {
                         adapter.addItems(it.items)
                     }
-                    println("all items")
-                    println(it.items)
                     viewModel.clearState()
                 }
 
-                else -> {}
-            }
-        })
-//        viewModel.dateFilter.observe(this, Observer {
-//            viewModel.filter(true)
-//        })
-//        viewModel.orderBy.observe(this, Observer {
-//            viewModel.filter(true)
-//        })
-//        viewModel.sortDirection.observe(this, Observer {
-//            viewModel.filter(true)
-//        })
-        viewModel.navigationState.observe(this, Observer {
-            when(it) {
-                is PaymentListViewModel.NavigationState.ShowAdvancedFilter -> {
-                    PaymentListFilterBottomSheetFragment.newInstance(it.filter).apply{
+                is FilterState.ShowAdvancedFilter -> {
+                    PaymentListFilterBottomSheetFragment.newInstance(it.advancedFilter).apply{
                         onOk = {
                             viewModel.setFilterParams(it)
                             viewModel.filter(true)
@@ -127,6 +96,7 @@ class PaymentListActivity : FilterActivity() {
                     }.show(supportFragmentManager, null)
                     viewModel.clearState()
                 }
+
                 else -> {}
             }
         })

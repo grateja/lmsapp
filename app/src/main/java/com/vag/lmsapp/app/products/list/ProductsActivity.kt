@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.products
+package com.vag.lmsapp.app.products.list
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
+import com.vag.lmsapp.app.products.ProductItemFull
 import com.vag.lmsapp.app.products.edit.ProductAddEditActivity
+import com.vag.lmsapp.app.products.list.advanced_filter.ProductListAdvancedFilterBottomSheetFragment
 import com.vag.lmsapp.app.products.preview.ProductPreviewBottomSheetFragment
 import com.vag.lmsapp.databinding.ActivityProductsBinding
 import com.vag.lmsapp.util.*
@@ -19,10 +21,9 @@ class ProductsActivity : FilterActivity() {
     private lateinit var binding: ActivityProductsBinding
     private val viewModel: ProductsViewModel by viewModels()
     private val adapter = Adapter<ProductItemFull>(R.layout.recycler_item_products_full)
-//    private val addEditLauncher = ActivityLauncher(this)
+    override var enableAdvancedFilter = true
 
-    override var filterHint = "Search Discounts"
-    override var toolbarBackground: Int = R.color.teal_700
+    override var filterHint = "Search Products"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_products)
@@ -38,22 +39,22 @@ class ProductsActivity : FilterActivity() {
     }
 
     private fun subscribeEvents() {
+        adapter.onScrollAtTheBottom = {
+            viewModel.loadMore()
+        }
         binding.buttonCreateNew.setOnClickListener {
-            openAddEdit(null)
+            addProduct()
         }
         adapter.onItemClick = {
             openPreview(it.product.id)
-//            openAddEdit(it)
         }
-        addEditLauncher.onOk = {
-            val expenseId = it.data?.getStringExtra(CrudActivity.ENTITY_ID).toUUID()
-        }
+//        addEditLauncher.onOk = {
+//            viewModel.filter(true)
+//        }
     }
 
-    private fun openAddEdit(item: ProductItemFull?) {
-        val intent = Intent(this, ProductAddEditActivity::class.java).apply {
-            putExtra(CrudActivity.ENTITY_ID, item?.product?.id.toString())
-        }
+    private fun addProduct() {
+        val intent = Intent(this, ProductAddEditActivity::class.java)
         addEditLauncher.launch(intent)
     }
 
@@ -62,8 +63,30 @@ class ProductsActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
-        viewModel.items.observe(this, Observer {
-            adapter.setData(it)
+        viewModel.filterState.observe(this, Observer {
+            when(it) {
+                is FilterState.LoadItems -> {
+                    if(it.reset) {
+                        adapter.setData(it.items)
+                    } else {
+                        adapter.addItems(it.items)
+                    }
+                    viewModel.clearState()
+                }
+
+                is FilterState.ShowAdvancedFilter -> {
+                    ProductListAdvancedFilterBottomSheetFragment.newInstance(it.advancedFilter).apply{
+                        onOk = {
+                            viewModel.setFilterParams(it)
+                            viewModel.filter(true)
+                        }
+                    }.show(supportFragmentManager, null)
+                    viewModel.clearState()
+                }
+
+
+                else -> {}
+            }
         })
     }
 
@@ -74,5 +97,9 @@ class ProductsActivity : FilterActivity() {
 
     override fun onQuery(keyword: String?) {
         viewModel.setKeyword(keyword)
+    }
+
+    override fun onAdvancedSearchClick() {
+        viewModel.showAdvancedFilter()
     }
 }
