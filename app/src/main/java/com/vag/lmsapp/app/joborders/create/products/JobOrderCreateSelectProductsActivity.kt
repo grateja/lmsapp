@@ -19,7 +19,7 @@ class JobOrderCreateSelectProductsActivity : AppCompatActivity() {
 
     private val viewModel: AvailableProductsViewModel by viewModels()
 
-    private lateinit var modifyQuantityDialog: CreateJobOrderModifyQuantityBottomSheetFragment
+//    private lateinit var modifyQuantityDialog: CreateJobOrderModifyQuantityBottomSheetFragment
 
     private val productsAdapter = AvailableProductsAdapter()
 

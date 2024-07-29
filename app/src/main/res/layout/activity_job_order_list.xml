@@ -144,6 +144,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_job_order_list"
                     android:orientation="vertical"
+                    android:paddingTop="16dp"
+                    android:clipToPadding="false"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

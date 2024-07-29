@@ -29,13 +29,29 @@
             android:visibility="@{hasItems || (!hasItems &amp;&amp; !locked)}"
             android:orientation="vertical"
             tools:background="#ddd">
-            <TextView
-                android:id="@+id/textLegendTitle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{title}"
-                style="@style/CardTitle"
-                tools:text="SOME TITLE"/>
+                android:orientation="horizontal"
+                style="@style/LinearLayoutDivider5.Center">
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+                <TextView
+                    android:id="@+id/textLegendTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{title}"
+                    style="@style/CardTitle"
+                    android:layout_marginVertical="12dp"
+                    android:layout_weight="1"
+                    tools:text="SOME TITLE"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/browse_right"/>
+            </LinearLayout>
             <com.google.android.material.card.MaterialCardView
                 android:visibility="@{!hasItems}"
                 style="@style/CardItemWrapper"

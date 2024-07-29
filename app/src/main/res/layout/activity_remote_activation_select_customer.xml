@@ -29,41 +29,72 @@
                 android:text="Select customer"
                 android:layout_marginBottom="18dp"/>
         </com.google.android.material.appbar.AppBarLayout>
-        <androidx.core.widget.NestedScrollView
+        <TextView
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text="@{`There are currently no customers who have available ` + viewModel.machine.machineType + ` services.`}"
-                    android:textAlignment="center"
-                    android:visibility="@{viewModel.customerQueues.size() == 0}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="Some text" />
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="@{`There are currently no customers who have available ` + viewModel.machine.machineType + ` services.`}"
+            android:textAlignment="center"
+            android:visibility="@{viewModel.customerQueues.size() == 0}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Some text" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:visibility="@{viewModel.customerQueues.size() > 0}"
-                    android:id="@+id/recyclerCustomerQueues"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:visibility="@{viewModel.customerQueues.size() > 0}"
+            android:paddingTop="16dp"
+            android:clipToPadding="false"
+            android:id="@+id/recyclerCustomerQueues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+<!--        <androidx.core.widget.NestedScrollView-->
+<!--            app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:padding="12dp"-->
+<!--                    android:text="@{`There are currently no customers who have available ` + viewModel.machine.machineType + ` services.`}"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:visibility="@{viewModel.customerQueues.size() == 0}"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    tools:text="Some text" />-->
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:visibility="@{viewModel.customerQueues.size() > 0}"-->
+<!--                    android:paddingTop="16dp"-->
+<!--                    android:clipToPadding="false"-->
+<!--                    android:id="@+id/recyclerCustomerQueues"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:nestedScrollingEnabled="false"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+<!--            </LinearLayout>-->
+<!--        </androidx.core.widget.NestedScrollView>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
 

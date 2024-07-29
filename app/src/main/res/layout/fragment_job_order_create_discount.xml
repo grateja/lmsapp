@@ -19,12 +19,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/textLegendTitle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="DISCOUNT"
-                style="@style/CardTitle"/>
+                android:orientation="horizontal"
+                style="@style/LinearLayoutDivider5.Center">
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/prepend_icon_discount"/>
+                <TextView
+                    android:id="@+id/textLegendTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="12dp"
+                    android:text="DISCOUNT"
+                    style="@style/CardTitle"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/browse_right"/>
+            </LinearLayout>
             <com.google.android.material.card.MaterialCardView
                 android:visibility="@{!viewModel.hasDiscount}"
                 style="@style/CardItemWrapper"

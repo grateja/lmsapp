@@ -104,6 +104,11 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         binding.recyclerJobOrderGallery.adapter = pictureListAdapter
         binding.recyclerJobOrderGallery.setGridLayout(this, 30.dp)
 
+        binding.inclPackageLegend.icon.setImageResource(R.drawable.prepend_icon_package)
+        binding.inclServicesLegend.icon.setImageResource(R.drawable.prepend_icon_wash_services)
+        binding.inclExtrasLegend.icon.setImageResource(R.drawable.prepend_icon_extra_services)
+        binding.inclProductsLegend.icon.setImageResource(R.drawable.prepend_icon_products)
+
         subscribeEvents()
 
         when(intent.action) {

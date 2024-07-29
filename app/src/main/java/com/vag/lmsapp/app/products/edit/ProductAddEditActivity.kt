@@ -94,7 +94,8 @@ class ProductAddEditActivity(
                     confirmExit(it.promptPass)
                 }
                 is DataState.ValidationPassed -> {
-                    viewModel.save()
+//                    viewModel.save()
+                    authenticate(1)
                     viewModel.resetState()
                 }
 
@@ -118,7 +119,9 @@ class ProductAddEditActivity(
     }
 
     override fun confirmSave(loginCredentials: LoginCredentials?) {
-        viewModel.save()
+        loginCredentials?.userId?.let {
+            viewModel.save(it)
+        }
     }
 
     override fun confirmDelete(loginCredentials: LoginCredentials?) {

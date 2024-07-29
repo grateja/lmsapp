@@ -18,6 +18,7 @@ import com.vag.lmsapp.databinding.ActivityJobOrderCreateSelectCustomerBinding
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.FilterActivity
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.util.showConfirmationDialog
 import com.vag.lmsapp.util.toUUID
 import com.vag.lmsapp.viewmodels.ListViewModel
@@ -127,6 +128,20 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
                 else -> {}
             }
         })
+        viewModel.filterState.observe(this, Observer {
+            when(it) {
+                is FilterState.LoadItems -> {
+                    if(it.reset) {
+                        customersAdapter.setData(it.items)
+                    } else {
+                        customersAdapter.addItems(it.items)
+                    }
+                    viewModel.clearState()
+                }
+
+                else -> {}
+            }
+        })
     }
 
 //    override fun onAddButtonClick() {
@@ -134,14 +149,14 @@ class JobOrderCreateSelectCustomerActivity : FilterActivity() {
 //    }
 
     private fun subscribeEvents() {
-//        binding.buttonCreateNew.setOnClickListener {
-//            editCustomer(null)
-//            customerModal = AddEditCustomerFragment.getInstance(null)
+        binding.buttonCreateNew.setOnClickListener {
+            editCustomer(null)
+//            customerModal = CustomerAddEditBottomSheetFragment.newInstance(null, null, true)
 //            customerModal.show(supportFragmentManager, "KEME")
 //            customerModal.onOk = {
-//                openCreateJobOrderActivity(it!!)
+//                previewCustomer(it?.id)
 //            }
-//        }
+        }
         customersAdapter.onItemClick = {
             previewCustomer(it.id)
         }

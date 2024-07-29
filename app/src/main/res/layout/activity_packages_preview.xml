@@ -38,14 +38,13 @@
             <androidx.core.widget.NestedScrollView
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                android:layout_height="match_parent">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:visibility="@{viewModel.availableServices != null &amp;&amp; !viewModel.availableServices.isEmpty()}"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"                        android:visibility="@{viewModel.availableServices != null &amp;&amp; !viewModel.availableServices.isEmpty()}"
                         style="@style/CardTitle"
                         android:layout_marginTop="16dp"
                         android:text="@string/wash_dry_services"
@@ -65,7 +64,7 @@
                             android:layout_height="wrap_content"/>
                     </com.google.android.material.card.MaterialCardView>
                     <TextView
-                        android:visibility="@{viewModel.availableExtras != null &amp;&amp; !viewModel.availableExtras.isEmpty()}"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"                        android:visibility="@{viewModel.availableExtras != null &amp;&amp; !viewModel.availableExtras.isEmpty()}"
                         style="@style/CardTitle"
                         android:layout_marginTop="16dp"
                         android:text="@string/extra_services"
@@ -85,6 +84,7 @@
                             android:layout_height="wrap_content"/>
                     </com.google.android.material.card.MaterialCardView>
                     <TextView
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                         android:visibility="@{viewModel.availableProducts != null &amp;&amp; !viewModel.availableProducts.isEmpty()}"
                         style="@style/CardTitle"
                         android:layout_marginTop="16dp"

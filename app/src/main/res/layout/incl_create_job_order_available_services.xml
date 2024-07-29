@@ -16,27 +16,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            style="@style/LinearLayoutDivider5.Center">
             <TextView
                 style="@style/TileTitle"
+                android:layout_marginVertical="16dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_margin="8dp"
                 android:text="@{machineTypeFilter.toString()}"
                 tools:text="Regular Washer"/>
-            <Button
-                android:id="@+id/buttonAdd"
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/button_create_new"
                 android:visibility="@{!readOnly}"
-                style="@style/RoundButtonNeutral"
-                android:text="Add"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="20dp">
+                <FrameLayout
+                    android:background="@drawable/dotted_stroke_green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="24dp">
+                        <ImageView
+                            android:src="@drawable/icon_add_green"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"/>
+                        <TextView
+                            android:textColor="@color/green"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add"/>
+                    </LinearLayout>
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--            <Button-->
+<!--                android:id="@+id/buttonAdd"-->
+<!--                android:visibility="@{!readOnly}"-->
+<!--                style="@style/RoundButtonNeutral"-->
+<!--                android:text="Add"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"/>-->
         </LinearLayout>
 
         <LinearLayout

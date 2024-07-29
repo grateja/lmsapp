@@ -73,12 +73,12 @@ class AddEditServiceActivity(
 //        viewModel.requestExit()
 //    }
 
-    @Deprecated("Deprecated in Java")
-    @SuppressLint("MissingSuperCall")
-    override fun onBackPressed() {
-        // super.onBackPressed()
-        viewModel.requestExit()
-    }
+//    @Deprecated("Deprecated in Java")
+//    @SuppressLint("MissingSuperCall")
+//    override fun onBackPressed() {
+//        // super.onBackPressed()
+//        viewModel.requestExit()
+//    }
 
 //    private fun subscribeEvents() {
 //        binding.controls.buttonSave.setOnClickListener {

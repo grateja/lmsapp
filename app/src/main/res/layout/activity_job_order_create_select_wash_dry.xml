@@ -16,6 +16,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardElevation="8dp"
             app:cardCornerRadius="0dp">
             <TextView
                 style="@style/TextTitleFragment.Center"
@@ -48,7 +49,6 @@
                 layout="@layout/incl_create_job_order_available_services"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 app:readOnly="@{true}" />
         </com.google.android.material.card.MaterialCardView>
         <LinearLayout

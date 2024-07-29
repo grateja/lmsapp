@@ -8,7 +8,8 @@
             type="com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem" />
     </data>
     <com.google.android.material.card.MaterialCardView
-        style="@style/CardMenuItem"
+        style="@style/CardItemList.FullWidth"
+        app:strokeWidth="1dp"
         android:layout_marginVertical="4dp"
         android:id="@+id/jobOrderMenuItem"
         android:layout_width="match_parent"

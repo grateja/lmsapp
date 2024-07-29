@@ -67,7 +67,7 @@ class ServicesActivity : AppCompatActivity() {
             ServicePreviewBottomSheetFragment.newInstance(it.id).show(supportFragmentManager, null)
 //            viewModel.openAddEdit(it.id)
         }
-        binding.inclMachines.buttonAdd.setOnClickListener {
+        binding.inclMachines.buttonCreateNew.setOnClickListener {
             viewModel.openAddEdit(null)
         }
         launcher.onOk = {

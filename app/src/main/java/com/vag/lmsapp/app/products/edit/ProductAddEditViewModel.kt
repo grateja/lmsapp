@@ -37,6 +37,10 @@ constructor(
         super.isInvalid(inputValidation)
     }
 
+    fun save(userId: UUID) {
+        super.save()
+    }
+
 //    override fun save() {
 //        val measureUnit = this.measureUnit.value
 //

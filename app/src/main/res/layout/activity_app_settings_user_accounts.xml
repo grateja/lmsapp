@@ -80,6 +80,8 @@
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_users"
+            android:paddingTop="16dp"
+            android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"

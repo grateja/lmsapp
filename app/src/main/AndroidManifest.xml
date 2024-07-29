@@ -217,7 +217,8 @@
         <activity
             android:name=".app.services.edit.AddEditServiceActivity"
             android:exported="false"
-            android:label="Services">
+            android:label="Services"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -225,7 +226,8 @@
         <activity
             android:name=".app.services.ServicesActivity"
             android:exported="false"
-            android:label="Services">
+            android:label="Services"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -536,7 +538,7 @@
             android:exported="false"
             android:label="Select Customer"
             android:noHistory="true"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+            android:theme="@style/LightActionBar"/>
         <activity
             android:name=".app.main_menu.MainActivity"
             android:exported="true"
