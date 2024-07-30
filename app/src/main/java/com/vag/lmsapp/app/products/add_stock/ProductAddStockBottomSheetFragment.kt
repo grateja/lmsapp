@@ -53,8 +53,11 @@ class ProductAddStockBottomSheetFragment : ModalFragment<UUID>() {
     }
 
     private fun subscribeEvents() {
-        binding.cardButtonConfirm.setOnClickListener {
+        binding.buttonConfirm.setOnClickListener {
             viewModel.validate()
+        }
+        binding.cardButtonClose.setOnClickListener {
+            dismiss()
         }
         authLauncher.onOk = { loginCredentials, code ->
             if(code == 1) {

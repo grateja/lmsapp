@@ -8,6 +8,9 @@
         <variable
             name="viewModel"
             type="com.vag.lmsapp.app.products.preview.ProductPreviewViewModel" />
+        <variable
+            name="inventoryLogViewModel"
+            type="com.vag.lmsapp.app.products.preview.inventory_in.InventoryLogViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,31 +40,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_scrollFlags="enterAlways|scroll"/>
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tab_product_view_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/title_divider"
-                    app:layout_scrollFlags="noScroll">
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tab_stock_out"
-                        android:text="Stock out"/>
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tab_stock_in"
-                        android:text="Stock in"/>
-                </com.google.android.material.tabs.TabLayout>
+<!--                <com.google.android.material.tabs.TabLayout-->
+<!--                    android:id="@+id/tab_product_view_type"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/title_divider"-->
+<!--                    app:layout_scrollFlags="noScroll">-->
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:id="@+id/tab_stock_out"-->
+<!--                        android:text="Stock out"/>-->
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:id="@+id/tab_stock_in"-->
+<!--                        android:text="Stock in"/>-->
+<!--                </com.google.android.material.tabs.TabLayout>-->
             </com.google.android.material.appbar.AppBarLayout>
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/product_view_pager"
+<!--            <androidx.viewpager2.widget.ViewPager2-->
+<!--                android:id="@+id/product_view_pager"-->
+<!--                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toTopOf="@id/controls"/>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="@{inventoryLogViewModel.resultCount.filtered > 0}"
+                android:id="@+id/recycler_inventory_log"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:clipToPadding="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/controls"/>
+                android:layout_height="match_parent"/>
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <com.google.android.material.card.MaterialCardView

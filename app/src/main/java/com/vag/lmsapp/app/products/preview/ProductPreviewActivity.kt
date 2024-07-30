@@ -11,14 +11,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayoutMediator
 import com.vag.lmsapp.R
+import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.products.add_stock.ProductAddStockBottomSheetFragment
 import com.vag.lmsapp.app.products.edit.ProductAddEditActivity
 import com.vag.lmsapp.app.products.preview.inventory_in.InventoryLogFragment
 import com.vag.lmsapp.app.products.preview.inventory_in.InventoryLogViewModel
 import com.vag.lmsapp.app.products.preview.inventory_out.JobOrderProductFragment
 import com.vag.lmsapp.databinding.ActivityProductPreviewBinding
+import com.vag.lmsapp.room.entities.EntityInventoryLogFull
 import com.vag.lmsapp.util.Constants.Companion.PRODUCT_ID
 import com.vag.lmsapp.util.CrudActivity
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.util.FragmentsAdapter
 import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.toUUID
@@ -31,7 +34,8 @@ class ProductPreviewActivity : AppCompatActivity() {
     private val viewModel: ProductPreviewViewModel by viewModels()
     private val inventoryViewModel: InventoryLogViewModel by viewModels()
 
-    private val fragmentAdapter = FragmentsAdapter(this)
+//    private val fragmentAdapter = FragmentsAdapter(this)
+    private val adapter = Adapter<EntityInventoryLogFull>(R.layout.recycler_item_inventory_log)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,16 +43,18 @@ class ProductPreviewActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_preview)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.productViewPager.adapter = fragmentAdapter
+        binding.inventoryLogViewModel = inventoryViewModel
+        binding.recyclerInventoryLog.adapter = adapter
+//        binding.productViewPager.adapter = fragmentAdapter
 
-        fragmentAdapter.setData(arrayListOf(
-            InventoryLogFragment(),
-            JobOrderProductFragment()
-        ))
+//        fragmentAdapter.setData(arrayListOf(
+//            InventoryLogFragment(),
+//            JobOrderProductFragment()
+//        ))
 
-        TabLayoutMediator(binding.tabProductViewType, binding.productViewPager) {tab, position ->
-            tab.text = listOf("Stock in", "Stock out")[position]
-        }.attach()
+//        TabLayoutMediator(binding.tabProductViewType, binding.productViewPager) {tab, position ->
+//            tab.text = listOf("Stock in", "Stock out")[position]
+//        }.attach()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -73,6 +79,9 @@ class ProductPreviewActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
+        adapter.onScrollAtTheBottom = {
+            inventoryViewModel.loadMore()
+        }
         binding.cardButtonEdit.setOnClickListener {
             viewModel.editProduct()
         }
@@ -111,6 +120,20 @@ class ProductPreviewActivity : AppCompatActivity() {
                 }
             }
         })
+        inventoryViewModel.filterState.observe(this, Observer {
+            when(it) {
+                is FilterState.LoadItems -> {
+                    if(it.reset) {
+                        adapter.setData(it.items)
+                    } else {
+                        adapter.addItems(it.items)
+                    }
+                    inventoryViewModel.clearState()
+                }
+                else -> {}
+            }
+        })
+
     }
 
 

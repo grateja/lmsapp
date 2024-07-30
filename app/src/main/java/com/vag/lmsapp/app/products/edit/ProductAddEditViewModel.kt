@@ -23,7 +23,9 @@ constructor(
 
     fun get(id: UUID?) {
         viewModelScope.launch {
-            val entity = super.get(id, EntityProduct())
+            val entity = super.get(id, EntityProduct().apply {
+                unitPerServe = 1f
+            })
 //            measureUnit.value = entity.measureUnit
         }
     }
