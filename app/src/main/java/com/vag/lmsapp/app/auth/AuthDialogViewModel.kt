@@ -64,6 +64,10 @@ constructor(
         _permissions.value = permissions
     }
 
+    fun clearState() {
+        _dataState.value = DataState.StateLess
+    }
+
     @SuppressLint("Get all the permissions not present on user privileges")
     private fun checkPermissions(userPrivileges: List<EnumActionPermission>) : List<EnumActionPermission> {
         if(userPrivileges.contains(EnumActionPermission.ALL)) return emptyList()

@@ -449,7 +449,7 @@
             android:exported="false"
             android:label="Authentication required"
             android:launchMode="singleInstance"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

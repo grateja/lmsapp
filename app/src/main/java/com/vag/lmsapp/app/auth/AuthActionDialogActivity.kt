@@ -148,9 +148,11 @@ class AuthActionDialogActivity : AppCompatActivity() {
                         putExtra(RESULT, it.data)
                     })
                     finish()
+                    viewModel.clearState()
                 }
                 is DataState.Invalidate -> {
                     showDialog(it.message)
+                    viewModel.clearState()
                 }
 
                 else -> {}
