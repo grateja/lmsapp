@@ -7,12 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.vag.lmsapp.R
+import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.products.add_stock.ProductAddStockBottomSheetFragment
 import com.vag.lmsapp.app.products.edit.ProductAddEditActivity
+import com.vag.lmsapp.app.products.preview.inventory_in.InventoryLogViewModel
 import com.vag.lmsapp.databinding.FragmentProductPreviewBottomSheetBinding
 import com.vag.lmsapp.fragments.ModalFragment
+import com.vag.lmsapp.room.entities.EntityInventoryLogFull
 import com.vag.lmsapp.util.Constants.Companion.ID
 import com.vag.lmsapp.util.CrudActivity
+import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +28,8 @@ class ProductPreviewBottomSheetFragment : ModalFragment<UUID>() {
     override var fullHeight = true
     private lateinit var binding: FragmentProductPreviewBottomSheetBinding
     private val viewModel: ProductPreviewViewModel by viewModels()
+    private val inventoryLogViewModel: InventoryLogViewModel by viewModels()
+    private val adapter = Adapter<EntityInventoryLogFull>(R.layout.recycler_item_inventory_log)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +45,8 @@ class ProductPreviewBottomSheetFragment : ModalFragment<UUID>() {
 
         arguments?.getString(ID).toUUID()?.let {
             viewModel.setProductId(it)
+            inventoryLogViewModel.setProductId(it)
+            inventoryLogViewModel.filter(true)
         }
 
         return binding.root
@@ -81,6 +90,16 @@ class ProductPreviewBottomSheetFragment : ModalFragment<UUID>() {
                 else -> {
 
                 }
+            }
+        })
+
+        inventoryLogViewModel.filterState.observe(viewLifecycleOwner, Observer {
+            when(it) {
+                is FilterState.LoadItems -> {
+
+                    inventoryLogViewModel.clearState()
+                }
+                else -> {}
             }
         })
     }

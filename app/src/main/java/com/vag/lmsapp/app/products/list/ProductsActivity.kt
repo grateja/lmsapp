@@ -10,9 +10,10 @@ import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.products.ProductItemFull
 import com.vag.lmsapp.app.products.edit.ProductAddEditActivity
 import com.vag.lmsapp.app.products.list.advanced_filter.ProductListAdvancedFilterBottomSheetFragment
-import com.vag.lmsapp.app.products.preview.ProductPreviewBottomSheetFragment
+import com.vag.lmsapp.app.products.preview.ProductPreviewActivity
 import com.vag.lmsapp.databinding.ActivityProductsBinding
 import com.vag.lmsapp.util.*
+import com.vag.lmsapp.util.Constants.Companion.PRODUCT_ID
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 
@@ -59,7 +60,11 @@ class ProductsActivity : FilterActivity() {
     }
 
     private fun openPreview(productId: UUID) {
-        ProductPreviewBottomSheetFragment.newInstance(productId).show(supportFragmentManager, null)
+//        ProductPreviewBottomSheetFragment.newInstance(productId).show(supportFragmentManager, null)
+        val intent = Intent(this, ProductPreviewActivity::class.java).apply {
+            putExtra(PRODUCT_ID, productId.toString())
+        }
+        startActivity(intent)
     }
 
     private fun subscribeListeners() {

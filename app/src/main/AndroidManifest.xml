@@ -34,6 +34,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
         <activity
+            android:name=".app.products.preview.ProductPreviewActivity"
+            android:theme="@style/LightActionBar"
+            android:label="Product preview"
+            android:exported="false" />
+        <activity
             android:name=".app.daily_report.job_order_items.preview.DailyReportJobOrderItemsPreviewActivity"
             android:exported="false" />
         <activity
@@ -115,8 +120,7 @@
             android:name=".app.app_settings.user.list.AppSettingsUserAccountsActivity"
             android:exported="false"
             android:label="User accounts"
-            android:theme="@style/LightActionBar">
-        </activity>
+            android:theme="@style/LightActionBar"></activity>
         <activity
             android:name=".app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity"
             android:exported="false"
@@ -212,8 +216,7 @@
             android:name=".app.packages.list.PackagesActivity"
             android:exported="false"
             android:label="Packages"
-            android:theme="@style/LightActionBar">
-        </activity>
+            android:theme="@style/LightActionBar"></activity>
         <activity
             android:name=".app.services.edit.AddEditServiceActivity"
             android:exported="false"
@@ -271,14 +274,12 @@
             android:name=".app.extras.edit.ExtrasAddEditActivity"
             android:exported="false"
             android:label="Extras Services"
-            android:theme="@style/LightActionBar">
-        </activity>
+            android:theme="@style/LightActionBar"></activity>
         <activity
             android:name=".app.extras.list.ExtrasActivity"
             android:exported="false"
             android:label="Extras Services"
-            android:theme="@style/LightActionBar">
-        </activity>
+            android:theme="@style/LightActionBar"></activity>
         <activity
             android:name=".app.products.edit.ProductAddEditActivity"
             android:exported="false"
@@ -291,8 +292,7 @@
             android:name=".app.products.list.ProductsActivity"
             android:exported="false"
             android:label="Products"
-            android:theme="@style/LightActionBar">
-        </activity>
+            android:theme="@style/LightActionBar"></activity>
         <activity
             android:name=".app.discounts.edit.DiscountAddEditActivity"
             android:exported="false"
@@ -305,8 +305,7 @@
             android:name=".app.discounts.list.DiscountsActivity"
             android:exported="false"
             android:label="Discounts"
-            android:theme="@style/LightActionBar">
-        </activity>
+            android:theme="@style/LightActionBar"></activity>
         <activity
             android:name=".app.expenses.edit.ExpenseAddEditActivity"
             android:exported="false"
@@ -538,7 +537,7 @@
             android:exported="false"
             android:label="Select Customer"
             android:noHistory="true"
-            android:theme="@style/LightActionBar"/>
+            android:theme="@style/LightActionBar" />
         <activity
             android:name=".app.main_menu.MainActivity"
             android:exported="true"

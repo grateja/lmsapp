@@ -24,4 +24,14 @@ data class EntityInventoryLogFull(
         entityColumn = "id"
     )
     val expense: EntityExpense? = null
-)
+) {
+    private fun serving() : String {
+        return if(product.unitPerServe == 1f) { "" } else {
+            "${product.unitPerServe}"
+        } + "${product.measureUnit}"
+    }
+
+    fun quantityStr() : String {
+        return "+${inventoryLog.quantity} " + serving()
+    }
+}

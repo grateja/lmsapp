@@ -12,4 +12,6 @@ constructor (
     private val dao: DaoJobOrderProduct,
 ) {
     fun getDashboard(dateFilter: DateFilter) = dao.getDashboard(dateFilter.dateFrom, dateFilter.dateTo)
+
+
 }
