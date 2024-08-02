@@ -33,22 +33,4 @@ data class DateFilter(
                 } ?: ""
             )
     }
-
-//    override fun toString(): String {
-//        val dateFromString = dateFrom.toShort()
-//        val dateToString = dateTo?.toShort()
-//
-//        return if (dateTo != null) {
-//            "$dateFromString to $dateToString"
-//        } else {
-//            dateFromString
-//        } + (
-//            dateTo?.let {
-//                dateTo?.let {
-//                    val days = ChronoUnit.DAYS.between(dateFrom, dateTo)
-//                    " (${days + 1} days)"
-//                } ?: ""
-//            } ?: ""
-//        )
-//    }
 }

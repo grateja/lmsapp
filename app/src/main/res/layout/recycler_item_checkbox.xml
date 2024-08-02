@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.export_options.data.Selections" />
+    </data>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/LinearLayoutDivider5.Center">
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:checked="@={viewModel.selected}"
+                android:enabled="@{viewModel.count > 0}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="@{viewModel.text}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Keme"/>
+            <TextView
+                android:layout_weight="1"
+                android:text="@{`(` + viewModel.count + `)`}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="(10)"/>
+        </LinearLayout>
+    </FrameLayout>
+</layout>

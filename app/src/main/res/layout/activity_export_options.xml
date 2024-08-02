@@ -62,145 +62,100 @@
             </LinearLayout>
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
+            tools:background="@color/text_dark_grey"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-            <LinearLayout
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                android:layout_height="0dp"
+                android:paddingTop="16dp"
+                android:clipToPadding="false"
+                app:layout_constraintBottom_toTopOf="@+id/button_create_file"
+                app:layout_constraintTop_toTopOf="parent">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeCustomers}"
-                        android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/RoundCard.NoElevation"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.customersCount > 0}"/>
-                    <TextView
-                        tools:text="New customers (12)"
-                        android:text="@{`New customers (` + viewModel.customersCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeJobOrders}"
-                        android:layout_width="wrap_content"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toTopOf="@+id/button_create_file"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_item_checkbox"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="16dp"
+                            android:nestedScrollingEnabled="false"
+                            android:clipToPadding="false"
+                            android:orientation="vertical"
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toTopOf="@+id/button_create_file"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </com.google.android.material.card.MaterialCardView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.jobOrdersCount > 0}"/>
-                    <TextView
-                        tools:text="Job orders (12)"
-                        android:text="@{`Job orders (` + viewModel.jobOrdersCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:orientation="horizontal"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                        style="@style/LinearLayoutDivider5.Center">
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/checkbox_select_all"
+                            android:layout_marginStart="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/text_select_all"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeServices}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.jobOrdersServicesCount > 0}"/>
-                    <TextView
-                        tools:text="Services (12)"
-                        android:text="@{`Wash and dry services (` + viewModel.jobOrdersServicesCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeProducts}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.jobOrdersProductsCount > 0}"/>
-                    <TextView
-                        tools:text="Products (12)"
-                        android:text="@{`Products and Chemicals (` + viewModel.jobOrdersProductsCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeExtras}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.jobOrdersExtrasCount > 0}"/>
-                    <TextView
-                        tools:text="Extras (12)"
-                        android:text="@{`Extras (` + viewModel.jobOrdersExtrasCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeMachineUsages}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.machineUsagesCount > 0}"/>
-                    <TextView
-                        tools:text="Machine usages (12)"
-                        android:text="@{`Machine usages (` + viewModel.machineUsagesCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeDeliveryCharges}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.deliveryChargesCount > 0}"/>
-                    <TextView
-                        tools:text="Delivery charges (12)"
-                        android:text="@{`Delivery charges (` + viewModel.deliveryChargesCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeExpenses}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.expensesCount > 0}"/>
-                    <TextView
-                        tools:text="Expenses (12)"
-                        android:text="@{`Expenses (` + viewModel.expensesCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <CheckBox
-                        android:checked="@={viewModel.includeUnpaidJobOrders}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="@{viewModel.unpaidJobOrdersCount > 0}"/>
-                    <TextView
-                        tools:text="Unpaid job orders (12)"
-                        android:text="@{`Unpaid job orders (` + viewModel.unpaidJobOrdersCount + `)`}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-            </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+<!--            <TextView-->
+<!--                android:id="@+id/text_progress"-->
+<!--                android:text="@{viewModel.progressReport.toString()}"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintBottom_toTopOf="@id/controls"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"/>-->
+            <Button
+                style="@style/RoundButtonPrimary"
+                android:id="@+id/button_create_file"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                app:layout_constraintBottom_toTopOf="@id/controls"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="@{viewModel.progressReport == null}"
+                android:text="@{viewModel.exportString}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <Button
+                style="@style/RoundButtonNeutral"
+                android:id="@+id/button_cancel"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                app:layout_constraintBottom_toTopOf="@id/controls"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="@{viewModel.progressReport != null}"
+                android:text="@{viewModel.exportString}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:id="@+id/controls"
+                android:visibility="@{viewModel.file.exists() &amp;&amp; !viewModel.requireRefresh}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

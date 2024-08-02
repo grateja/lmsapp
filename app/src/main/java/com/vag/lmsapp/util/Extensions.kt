@@ -261,6 +261,43 @@ fun setMomentAgo(view: TextView, dateTime: Instant?) {
     view.text = text
 }
 
+fun Instant?.setMomentAgo(): String {
+    if(this == null) {
+        return ""
+    }
+    val now = Instant.now()
+    val duration = Duration.between(this, now).abs()
+
+    return when {
+        duration.toDays() >= 365 -> {
+            val years = duration.toDays() / 365
+            "$years ${if (years == 1L) "year ago" else "years ago"}"
+        }
+        duration.toDays() >= 30 -> {
+            val months = duration.toDays() / 30
+            "$months ${if (months == 1L) "month ago" else "months ago"}"
+        }
+        duration.toDays() >= 7 -> {
+            val weeks = duration.toDays() / 7
+            "$weeks ${if (weeks == 1L) "week ago" else "weeks ago"}"
+        }
+        duration.toDays() >= 1 -> {
+            val days = duration.toDays()
+            "$days ${if (days == 1L) "day ago" else "days ago"}"
+        }
+        duration.toHours() >= 1 -> {
+            val hours = duration.toHours()
+            "$hours ${if (hours == 1L) "hour ago" else "hours ago"}"
+        }
+        duration.toMinutes() >= 1 -> {
+            val minutes = duration.toMinutes()
+            "$minutes ${if (minutes == 1L) "minute ago" else "minutes ago"}"
+        }
+        else -> "just now"
+    }
+}
+
+
 fun Context.showDeleteConfirmationDialog(title: String? = "Delete this item", message: String? = "Are you sure you want to proceed?", onDeleteConfirmed: () -> Unit) {
     AlertDialog.Builder(this).apply {
         setTitle(title)

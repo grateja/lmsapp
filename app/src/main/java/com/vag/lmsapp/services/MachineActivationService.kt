@@ -89,7 +89,7 @@ class MachineActivationService : Service() {
             enqueue(queue)
         }
 
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     private fun checkInconsistencies(queues: MachineActivationQueues?) {

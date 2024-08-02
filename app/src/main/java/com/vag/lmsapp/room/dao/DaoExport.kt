@@ -70,7 +70,7 @@ interface DaoExport {
     suspend fun jobOrderServices(dateFrom: LocalDate, dateTo: LocalDate): List<ExportDataJobOrderService>
 
     @Query("""
-        SELECT COUNT(*)
+        SELECT COALESCE(SUM(jos.quantity), 0)
         FROM job_order_services jos
         JOIN job_orders jo ON jo.id = jos.job_order_id
         WHERE DATE(jo.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo

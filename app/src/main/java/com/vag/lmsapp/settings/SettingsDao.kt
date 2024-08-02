@@ -130,6 +130,7 @@ constructor(@ApplicationContext private val context: Context) {
     }
 
     suspend fun <T> update(value: T, key: String) {
+        println("update preferences $key : $value")
         if(value != null) {
             when (value!!::class) {
                 Int::class -> writeData(intPreferencesKey(key), value as Int)

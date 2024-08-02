@@ -4,6 +4,7 @@ import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.vag.lmsapp.adapters.ArrayListIntAdapter
+import com.vag.lmsapp.adapters.DateFilterAdapter
 import com.vag.lmsapp.adapters.InstantAdapter
 import com.vag.lmsapp.adapters.UUIDAdapter
 import com.vag.lmsapp.network.ConnectivityRepository
@@ -42,6 +43,7 @@ class NetworkModule {
             .add(InstantAdapter())
             .add(ArrayListIntAdapter())
             .add(KotlinJsonAdapterFactory())
+            .add(DateFilterAdapter())
 //            .add { type, _, moshi -> NullSafeAdapter.create<Any>(type, moshi) }
             .build()
     }
