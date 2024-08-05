@@ -3,9 +3,11 @@ package com.vag.lmsapp.util
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.card.MaterialCardView
 import com.vag.lmsapp.R
 
 abstract class FilterActivity : AppCompatActivity(), FilterActivityInterface {
@@ -14,6 +16,7 @@ abstract class FilterActivity : AppCompatActivity(), FilterActivityInterface {
 //    override var enableAddButton: Boolean = false
 
     private lateinit var toolbar: Toolbar
+    private var buttonCreateWrapper: MaterialCardView? = null
     protected lateinit var addEditLauncher: ActivityLauncher
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +25,8 @@ abstract class FilterActivity : AppCompatActivity(), FilterActivityInterface {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 //        window.statusBarColor = resources.getColor(toolbarBackground, null)
+
+        buttonCreateWrapper = findViewById(R.id.button_create_new)
 
         addEditLauncher = ActivityLauncher(this)
     }
@@ -36,13 +41,15 @@ abstract class FilterActivity : AppCompatActivity(), FilterActivityInterface {
         searchBar?.apply {
             maxWidth = Integer.MAX_VALUE
             queryHint = filterHint
-//            setOnQueryTextFocusChangeListener { _, b ->
-//                if(b) {
+            setOnQueryTextFocusChangeListener { _, b ->
+                if(b) {
+                    buttonCreateWrapper?.remove()
 //                    toolbar.setBackgroundColor(applicationContext.getColor(R.color.white))
-//                } else {
+                } else {
+                    buttonCreateWrapper?.show()
 //                    toolbar.setBackgroundColor(applicationContext.getColor(toolbarBackground))
-//                }
-//            }
+                }
+            }
         }
         searchBar?.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

@@ -101,6 +101,22 @@
                     android:visibility="@{viewModel.contactNumber != null &amp;&amp; !viewModel.contactNumber.isEmpty()}"
                     app:layout_constraintTop_toBottomOf="@id/label_contact_number"
                     app:layout_constraintStart_toStartOf="@id/label_contact_number"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/button_options_contact"
+                    style="@style/RoundCard.NoElevation"
+                    android:visibility="@{viewModel.contactNumber != null &amp;&amp; !viewModel.contactNumber.isEmpty()}"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_contact_number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/label_contact_number">
+                    <ImageView
+                        android:padding="4dp"
+                        android:src="@drawable/icon_toolbar_options"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </com.google.android.material.card.MaterialCardView>
                 <ImageView
                     android:id="@+id/icon_address"
                     android:layout_width="20dp"

@@ -1,9 +1,11 @@
 package com.vag.lmsapp.app.customers.preview
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -11,23 +13,17 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.customers.create.CustomerAddEditBottomSheetFragment
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
-import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.ACTION_LOAD_BY_CUSTOMER_ID
 import com.vag.lmsapp.app.joborders.list.JobOrderListItem
 import com.vag.lmsapp.app.joborders.list.JobOrderListViewModel
 import com.vag.lmsapp.databinding.ActivityCustomerPreviewBinding
 import com.vag.lmsapp.util.ActivityLauncher
 import com.vag.lmsapp.util.toUUID
-import com.vag.lmsapp.viewmodels.ListViewModel
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.ACTION_LOAD_EMPTY_JOB_ORDER
 import com.vag.lmsapp.app.joborders.list.JobOrderPaymentStatusPricePagerAdapter
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
-import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel
 import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
-import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.FilterState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
@@ -160,7 +156,6 @@ class CustomerPreviewActivity : AppCompatActivity() {
                     }
                     launcher.launch(intent)
                 }
-
                 else -> {}
             }
         })

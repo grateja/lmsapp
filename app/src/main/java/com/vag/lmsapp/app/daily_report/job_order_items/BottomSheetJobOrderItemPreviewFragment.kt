@@ -11,6 +11,7 @@ import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.daily_report.DailyReportViewModel
 import com.vag.lmsapp.databinding.FragmentBottomSheetJobOrderItemPreviewBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
+import com.vag.lmsapp.util.Constants.Companion.PAYLOAD
 
 class BottomSheetJobOrderItemPreviewFragment : BaseModalFragment() {
     override var fullHeight: Boolean = true
@@ -37,6 +38,20 @@ class BottomSheetJobOrderItemPreviewFragment : BaseModalFragment() {
             adapter.setData(it)
         })
 
+        arguments?.getString(PAYLOAD)?.let {
+            binding.textTitle.text = it
+        }
+
         return binding.root
+    }
+
+    companion object {
+        fun newInstance(title: String): BottomSheetJobOrderItemPreviewFragment {
+            return BottomSheetJobOrderItemPreviewFragment().apply {
+                arguments = Bundle().apply {
+                    putString(PAYLOAD, title)
+                }
+            }
+        }
     }
 }

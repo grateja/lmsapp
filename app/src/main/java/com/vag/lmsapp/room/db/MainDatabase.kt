@@ -39,7 +39,8 @@ import com.vag.lmsapp.util.converters.*
     EntityDiscount::class,
     EntityActivityLog::class,
     SanctumToken::class,
-], version = 15,
+    EntityTextMessageTemplate::class,
+], version = 16,
     exportSchema = true,
 )
 @TypeConverters(
@@ -77,7 +78,6 @@ abstract class MainDatabase : RoomDatabase() {
     abstract fun daoExpense() : DaoExpense
     abstract fun daoInventoryLog() : DaoInventoryLog
     abstract fun daoDiscount() : DaoDiscount
-//    abstract fun daoCashlessProvider() : DaoCashlessProvider
     abstract fun daoShop() : DaoShop
     abstract fun daoJobOrderQueues() : DaoJobOrderQueues
     abstract fun daoRemote() : DaoRemote
@@ -90,6 +90,7 @@ abstract class MainDatabase : RoomDatabase() {
     abstract fun daoSync(): DaoSync
     abstract fun daoDailyReport(): DaoDailyReport
     abstract fun daoExport(): DaoExport
+    abstract fun daoTextMessageTemplate(): DaoTextMessageTemplate
 
     companion object {
         private const val DATABASE_NAME: String = "main_db"
@@ -119,7 +120,8 @@ abstract class MainDatabase : RoomDatabase() {
                         DropColumnClaimReceiptPicturesUri(),
                         AddColumnJobOrderItemsVoid(),
                         AddColumnJobOrderItemDiscountedPrice(),
-                        AddColumnServiceType()
+                        AddColumnServiceType(),
+                        CreateTableTextMessageTemplate()
 //                        AddColumnPaymentVoid(),
 //                        CreateTablePackage(),
 //                        CreateTablePackageService(),

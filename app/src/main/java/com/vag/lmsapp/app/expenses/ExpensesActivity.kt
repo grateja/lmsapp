@@ -55,7 +55,7 @@ class ExpensesActivity : FilterActivity() {
         adapter.onScrollAtTheBottom = {
             viewModel.loadMore()
         }
-        binding.buttonCreateNewExpense.setOnClickListener {
+        binding.buttonCreateNew.setOnClickListener {
             openAddEdit(null)
         }
         adapter.onItemClick = {

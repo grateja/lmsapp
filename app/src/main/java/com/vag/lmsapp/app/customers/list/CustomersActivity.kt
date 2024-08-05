@@ -60,7 +60,7 @@ class CustomersActivity : FilterActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.filter(true)
         }
-        binding.buttonCreateNewCustomer.setOnClickListener {
+        binding.buttonCreateNew.setOnClickListener {
             CustomerAddEditBottomSheetFragment.newInstance(null, null, false).apply {
                 onOk = {
                     viewModel.filter(true)

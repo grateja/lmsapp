@@ -318,10 +318,12 @@ class MachineActivationService : Service() {
         val subnet = dataStoreRepository.getSubnet()
         val ipAddress = "$prefix.$subnet.${machine.ipEnd}" //appPreferences.ipSettings.toString(machine.ipEnd)
         val url = "http://$ipAddress/$endpoint" //appPreferences.urlSettings.toString(ipAddress)
+        val serviceType = machine.serviceType?.value ?: "Wash"
 
         val requestBody = FormBody.Builder()
             .add("pulse", pulse.toString())
             .add("token", token)
+            .add("serviceType", serviceType)
             .build()
 
         println(url)

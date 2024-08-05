@@ -94,7 +94,7 @@ constructor(
             viewModelScope.launch {
                 dailyReportRepository.getJobOrderItemsDetailsServices(it, enumServiceType).let {
                     jobOrderItemDetails.value = it
-                    _navigationState.value = NavigationState.OpenJobOrderItems
+                    _navigationState.value = NavigationState.OpenJobOrderItems(enumServiceType.value + " services")
                 }
             }
         }
@@ -105,7 +105,7 @@ constructor(
             viewModelScope.launch {
                 dailyReportRepository.getJobOrderItemsDetailsExtras(it).let {
                     jobOrderItemDetails.value = it
-                    _navigationState.value = NavigationState.OpenJobOrderItems
+                    _navigationState.value = NavigationState.OpenJobOrderItems("Extra services")
                 }
             }
         }
@@ -116,7 +116,7 @@ constructor(
             viewModelScope.launch {
                 dailyReportRepository.getJobOrderItemsDetailsProducts(it).let {
                     jobOrderItemDetails.value = it
-                    _navigationState.value = NavigationState.OpenJobOrderItems
+                    _navigationState.value = NavigationState.OpenJobOrderItems("Products and chemicals")
                 }
             }
         }
@@ -127,7 +127,7 @@ constructor(
             viewModelScope.launch {
                 dailyReportRepository.getJobOrderItemsDetailsDeliveries(it).let {
                     jobOrderItemDetails.value = it
-                    _navigationState.value = NavigationState.OpenJobOrderItems
+                    _navigationState.value = NavigationState.OpenJobOrderItems("Pickup and Deliveries")
                 }
             }
         }
@@ -139,7 +139,7 @@ constructor(
         data class OpenJobOrders(val date: LocalDate): NavigationState()
         data class OpenPayments(val date: LocalDate): NavigationState()
         data class OpenExpenses(val date: LocalDate): NavigationState()
-        data object OpenJobOrderItems: NavigationState()
+        data class OpenJobOrderItems(val title: String): NavigationState()
         data class OpenMachineUsage(val date: LocalDate, val machineType: EnumMachineType): NavigationState()
     }
 }

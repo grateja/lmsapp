@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white">
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/button_create_new_job_order"
+                    android:id="@+id/button_create_new"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"

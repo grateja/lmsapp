@@ -119,7 +119,9 @@ class DailyReportActivity : AppCompatActivity() {
                 }
 
                 is DailyReportViewModel.NavigationState.OpenJobOrderItems -> {
-                    BottomSheetJobOrderItemPreviewFragment().show(supportFragmentManager, "open_washes")
+                    BottomSheetJobOrderItemPreviewFragment
+                        .newInstance(it.title)
+                        .show(supportFragmentManager, "open_washes")
                     viewModel.resetState()
                 }
 

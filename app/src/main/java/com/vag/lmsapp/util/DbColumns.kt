@@ -30,5 +30,6 @@ class DbColumns {
         const val SERVICES = "services"
         const val SHOP = "shops"
         const val USERS = "users"
+        const val TEXT_MESSAGE_TEMPLATES = "text_message_templates"
     }
 }

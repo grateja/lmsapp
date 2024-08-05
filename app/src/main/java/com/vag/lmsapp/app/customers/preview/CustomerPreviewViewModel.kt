@@ -67,10 +67,23 @@ constructor(
         }
     }
 
+    fun prepareCall() {
+        customer.value?.contactNumber?.let {
+            _navigationState.value = NavigationState.OpenDial(it)
+        }
+    }
+
+    fun showMessageWithTemplate(template: String) {
+        val contactNumber = customer.value?.contactNumber ?: ""
+        _navigationState.value = NavigationState.OpenMessage(contactNumber, template)
+    }
+
     sealed class NavigationState {
         data object StateLess: NavigationState()
         data class EditCustomer(val customerId: UUID): NavigationState()
         data class PrepareNewJobOrder(val customerId: UUID): NavigationState()
         data class InvalidOperation(val message: String): NavigationState()
+        data class OpenDial(val contactNumber: String): NavigationState()
+        data class OpenMessage(val contactNumber: String, val message: String): NavigationState()
     }
 }

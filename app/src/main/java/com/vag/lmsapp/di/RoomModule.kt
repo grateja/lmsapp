@@ -194,6 +194,12 @@ object RoomModule {
         return mainDatabase.daoExport()
     }
 
+    @Singleton
+    @Provides
+    fun providesDaoTextMessageTemplate(mainDatabase: MainDatabase): DaoTextMessageTemplate {
+        return mainDatabase.daoTextMessageTemplate()
+    }
+
 
 //    @Singleton
 //    @Provides

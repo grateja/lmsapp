@@ -86,7 +86,7 @@ class JobOrderListActivity : FilterActivity() {
         adapter.onScrollAtTheBottom = {
             viewModel.loadMore()
         }
-        binding.buttonCreateNewJobOrder.setOnClickListener {
+        binding.buttonCreateNew.setOnClickListener {
             createNewJo()
         }
         binding.swipeRefresh.setOnRefreshListener {

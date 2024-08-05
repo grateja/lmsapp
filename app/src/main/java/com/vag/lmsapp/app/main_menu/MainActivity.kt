@@ -21,6 +21,7 @@ import com.vag.lmsapp.app.packages.list.PackagesActivity
 import com.vag.lmsapp.app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity
 import com.vag.lmsapp.app.app_settings.printer.SettingsPrinterActivity
 import com.vag.lmsapp.app.app_settings.shop_info.ShopInfoActivity
+import com.vag.lmsapp.app.app_settings.text_message_templates.TextMessageTemplateListActivity
 import com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsActivity
 import com.vag.lmsapp.app.daily_report.DailyReportActivity
 import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
@@ -120,6 +121,12 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
                         "Shop information",
                         "Give some description to your shop.",
                         ShopInfoActivity::class.java,
+                        permissions = listOf(EnumActionPermission.MODIFY_SETTINGS_SHOP_DETAILS)
+                    ),
+                    MenuItem(
+                        "Text templates",
+                        "Some descriptions.",
+                        TextMessageTemplateListActivity::class.java,
                         permissions = listOf(EnumActionPermission.MODIFY_SETTINGS_SHOP_DETAILS)
                     ),
                     MenuItem(

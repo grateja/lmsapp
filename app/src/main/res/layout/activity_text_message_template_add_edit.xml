@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".app.app_settings.text_message_templates.add_edit.TextMessageTemplateAddEditActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.app_settings.text_message_templates.add_edit.TextMessageTemplateAddEditViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp">
+            <TextView
+                style="@style/TextTitleFragment.Center"
+                android:text="@{viewModel.enumCRUDAction.toString() + ` template`}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.card.MaterialCardView>
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toTopOf="@id/controls">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:clipToPadding="false"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    app:errorEnabled="true"
+                    app:errorText="@{viewModel.validation.get(`title`)}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:text="@={viewModel.model.title}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`title`)}"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Message"
+                    app:errorEnabled="true"
+                    app:errorText="@{viewModel.validation.get(`message`)}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:text="@={viewModel.model.message}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`message`)}"
+                        android:gravity="top"
+                        android:minHeight="86dp"
+                        android:maxLines="100" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <include
+            android:id="@+id/controls"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/incl_controls_crud"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
