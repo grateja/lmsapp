@@ -125,6 +125,12 @@ open class Adapter<R>(private val layoutId: Int) : RecyclerView.Adapter<Adapter.
         return list.size
     }
 
+    fun moveItem(fromPosition: Int, toPosition: Int) {
+        val item = list.removeAt(fromPosition)
+        list.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, item)
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
     class ViewHolder<T>(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(model: T) {
             binding.setVariable(BR.viewModel, model)

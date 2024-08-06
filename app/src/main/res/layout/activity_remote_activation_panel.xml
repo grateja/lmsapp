@@ -15,17 +15,20 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:background="@color/color_code_machines"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
             <TextView
                 android:visibility="@{!viewModel.isWiFiConnected()}"
                 android:id="@+id/text_connectivity_prompt"
                 android:text="@string/prompt_no_wifi_connectivity"
+                android:background="@color/black"
+                android:textColor="@color/white"
+                android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:background="@color/color_code_machines"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"/>
             <include
                 android:id="@+id/tabMachineType"
                 android:layout_width="match_parent"

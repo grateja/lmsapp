@@ -8,7 +8,7 @@
             type="com.vag.lmsapp.app.machines.MachineListItem" />
     </data>
     <com.google.android.material.card.MaterialCardView
-        style="@style/CardMenuItem"
+        style="@style/CardItemList.FullWidth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,8 +29,27 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/textMachineName"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="@{viewModel.machine.ipEnd + ``}"
+                android:text="@{`IP End: ` + viewModel.machine.ipEnd}"
                 tools:text="192.168.210.11"/>
+
+            <TextView
+                android:id="@+id/text_usage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Used today: ` + viewModel.usageForTheDay}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textMachineName"
+                tools:text="192.168.210.11" />
+
+            <TextView
+                android:id="@+id/text_total_usage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Total usage: ` + viewModel.totalUsage}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textMachineName"
+                tools:text="192.168.210.11" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

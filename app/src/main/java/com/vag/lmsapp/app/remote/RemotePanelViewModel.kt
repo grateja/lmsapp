@@ -52,9 +52,6 @@ constructor(
     }
 
     fun setMachineType(machineType: EnumMachineType, serviceType: EnumServiceType) {
-//        _serviceType.value = serviceType
-//        _machineType.value = machineType
-
         _filter.value = MachineTypeFilter(
             machineType, serviceType
         )

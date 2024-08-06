@@ -1,6 +1,7 @@
 package com.vag.lmsapp.room.repository
 
 import com.vag.lmsapp.app.dashboard.data.DateFilter
+import com.vag.lmsapp.app.machines.MachineListItem
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.MachineTypeFilter
@@ -53,4 +54,6 @@ class MachineRepository
     fun getMachineUsageAsLiveData(id: UUID?) = daoMachine.getMachineUsageAsLiveData(id)
 
     suspend fun addRemarks(machineRemarks: EntityMachineRemarks) = daoMachine.addRemarks(machineRemarks)
+
+    suspend fun rearrange(machines: List<MachineListItem>) = daoMachine.rearrange(machines)
 }

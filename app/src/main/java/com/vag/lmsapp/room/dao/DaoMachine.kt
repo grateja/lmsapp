@@ -13,32 +13,33 @@ import java.time.LocalDate
 import java.util.*
 
 @Dao
-abstract class DaoMachine : BaseDao<EntityMachine> {
+interface DaoMachine : BaseDao<EntityMachine> {
     @Query("SELECT * FROM machines WHERE machine_type = :machineType AND service_type = :serviceType ORDER BY stack_order")
-    abstract suspend fun getAll(machineType: EnumMachineType, serviceType: EnumServiceType): List<EntityMachine>
+    suspend fun getAll(machineType: EnumMachineType, serviceType: EnumServiceType): List<EntityMachine>
 
     @Query("SELECT * FROM machines WHERE id = :id")
-    abstract suspend fun get(id: UUID): EntityMachine?
+    suspend fun get(id: UUID): EntityMachine?
 
     @Query("SELECT stack_order FROM machines WHERE machine_type = :machineType AND service_type = :serviceType ORDER BY stack_order DESC")
-    abstract suspend fun getLastStackOrder(machineType: EnumMachineType?, serviceType: EnumServiceType?): Int?
+    suspend fun getLastStackOrder(machineType: EnumMachineType?, serviceType: EnumServiceType?): Int?
 
     @Query("SELECT * FROM machines ORDER BY stack_order")
-    abstract fun getAllAsLiveData(): LiveData<List<EntityMachine>>
+    fun getAllAsLiveData(): LiveData<List<EntityMachine>>
 
     @Query("""
         SELECT m.*, 
-            SUM(CASE WHEN mu.id IS NOT NULL AND date(mu.created_at / 1000, 'unixepoch', 'localtime') = date('now', 'localtime') THEN 1 ELSE 0 END) AS usage_for_the_day
+            SUM(CASE WHEN mu.id IS NOT NULL AND date(mu.created_at / 1000, 'unixepoch', 'localtime') = date('now', 'localtime') THEN 1 ELSE 0 END) AS usage_for_the_day,
+            COUNT(*) AS total_usage
         FROM machines m 
         LEFT JOIN machine_usages mu ON m.id = mu.machine_id
         WHERE machine_type = :machineType AND service_type = :serviceType
         GROUP BY m.id
         ORDER BY stack_order
     """)
-    abstract fun getListAllAsLiveData(machineType: EnumMachineType?, serviceType: EnumServiceType?): LiveData<List<MachineListItem>>
+    fun getListAllAsLiveData(machineType: EnumMachineType?, serviceType: EnumServiceType?): LiveData<List<MachineListItem>>
 
     @Query("SELECT * FROM machines WHERE id = :id")
-    abstract fun getMachineLiveData(id: UUID?): LiveData<EntityMachine?>
+    fun getMachineLiveData(id: UUID?): LiveData<EntityMachine?>
 
     @Query("""
         SELECT mu.id, machine_id, ma.machine_number, ma.created_at, mu.machine_id, mu.customer_id, mu.created_at AS activated, cu.name as customer_name, jos.job_order_id, jos.service_name, jos.svc_minutes, jos.svc_wash_type, jos.svc_machine_type, job_order_number, jos.price, jos.discounted_price, mu.sync
@@ -57,17 +58,27 @@ abstract class DaoMachine : BaseDao<EntityMachine> {
         ORDER BY activated DESC
         LIMIT 20 OFFSET :offset
     """)
-    abstract suspend fun getMachineUsage(machineId: UUID?, machineType: EnumMachineType?, serviceType: EnumServiceType?, keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?): List<EntityMachineUsageDetails>
+    suspend fun getMachineUsage(machineId: UUID?, machineType: EnumMachineType?, serviceType: EnumServiceType?, keyword: String?, offset: Int, dateFrom: LocalDate?, dateTo: LocalDate?): List<EntityMachineUsageDetails>
 
     @Query("SELECT * FROM machines WHERE sync = 0 OR :forced")
-    abstract suspend fun unSynced(forced: Boolean): List<EntityMachine>
+    suspend fun unSynced(forced: Boolean): List<EntityMachine>
 
     @Query("SELECT * FROM machine_usages WHERE id = :machineUsageId")
-    abstract suspend fun getMachineUsage(machineUsageId: UUID): EntityMachineUsageFull?
+    suspend fun getMachineUsage(machineUsageId: UUID): EntityMachineUsageFull?
 
     @Query("SELECT * FROM machine_usages WHERE id = :id")
-    abstract fun getMachineUsageAsLiveData(id: UUID?): LiveData<EntityMachineUsageFull?>
+    fun getMachineUsageAsLiveData(id: UUID?): LiveData<EntityMachineUsageFull?>
 
     @Upsert
-    abstract suspend fun addRemarks(machineRemarks: EntityMachineRemarks)
+    suspend fun addRemarks(machineRemarks: EntityMachineRemarks)
+
+    @Query("UPDATE machines SET stack_order = :newOrder WHERE id = :machineId")
+    suspend fun setStackOrder(machineId: UUID, newOrder: Int)
+
+    @Transaction
+    suspend fun rearrange(machines: List<MachineListItem>) {
+        machines.forEach {
+            setStackOrder(it.machine.id, it.machine.stackOrder!!)
+        }
+    }
 }

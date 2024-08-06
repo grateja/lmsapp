@@ -25,4 +25,7 @@ data class MachineListItem(
 
     @ColumnInfo(name = "usage_for_the_day")
     val usageForTheDay: Int,
+
+    @ColumnInfo(name = "total_usage")
+    val totalUsage: Int
 )
