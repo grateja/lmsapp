@@ -140,6 +140,7 @@
                                 tools:text="Jan 1, 2024"
                                 android:textSize="18sp"
                                 android:textColor="@color/black"/>
+
                             <ImageView
                                 android:id="@+id/icon_date_paid"
                                 android:layout_width="18dp"
@@ -169,6 +170,23 @@
                                 tools:text="Jan 1, 2024"
                                 android:textSize="18sp"
                                 android:textColor="@color/black"/>
+
+                            <TextView
+                                android:id="@+id/label_unpaid"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:background="@color/danger"
+                                android:paddingVertical="8dp"
+                                android:paddingStart="24dp"
+                                android:text="Unpaid"
+                                android:textColor="@color/white"
+                                style="@style/Bold"
+                                android:visibility="@{!viewModel.hasPayment}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/text_date_paid" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 <!--                        <TableLayout-->
 <!--                            android:layout_margin="12dp"-->

@@ -33,6 +33,8 @@ class SelectCustomerPreviewBottomSheetFragment : BaseModalFragment() {
         subscribeEvents()
         subscribeListeners()
 
+        binding.inclCustomerDetails.allowCallAndMessage = false
+
         return binding.root
     }
 

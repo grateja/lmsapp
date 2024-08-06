@@ -172,7 +172,7 @@
                                 android:visibility="@{viewModel.jobOrderPictures.size == 0}"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/no_pictures_available_click_here_to_add"
+                                android:text="@{viewModel.saved &amp;&amp; !viewModel.deleted ? @string/no_pictures_available_click_here_to_add : @string/save_to_add_pictures}"
                                 app:layout_constraintTop_toBottomOf="@id/icon_browse_right"/>
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recycler_job_order_gallery"

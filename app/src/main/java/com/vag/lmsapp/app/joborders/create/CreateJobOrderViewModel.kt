@@ -795,9 +795,12 @@ constructor(
     }
 
     fun openPictures() {
-        _jobOrderId.value?.let {
-            _dataState.value = DataState.OpenPictures(it)
-        }
+        if(_saved.value == true)
+            _jobOrderId.value?.let {
+                _dataState.value = DataState.OpenPictures(it)
+            }
+        else
+            _dataState.value = DataState.InvalidOperation("Save the current job order to add pictures")
     }
 
     fun validate() {

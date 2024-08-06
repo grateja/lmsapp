@@ -7,6 +7,9 @@
         <variable
             name="viewModel"
             type="com.vag.lmsapp.room.entities.EntityCustomer" />
+        <variable
+            name="allowCallAndMessage"
+            type="Boolean" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -105,7 +108,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/button_options_contact"
                     style="@style/RoundCard.NoElevation"
-                    android:visibility="@{viewModel.contactNumber != null &amp;&amp; !viewModel.contactNumber.isEmpty()}"
+                    android:visibility="@{viewModel.contactNumber != null &amp;&amp; !viewModel.contactNumber.isEmpty() &amp;&amp; allowCallAndMessage}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     app:layout_constraintBottom_toBottomOf="@+id/text_contact_number"
