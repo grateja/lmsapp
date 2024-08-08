@@ -64,11 +64,11 @@ constructor(
             val serviceType = serviceType.value
             val dateFilter = _dateFilter.value
             val keyword = keyword.value
-            val items = machineRepository.getMachineUsage(machineId, MachineTypeFilter(
-                machineType,
-                serviceType
-            ), keyword, page, dateFilter)
-            setResult(items, null, reset)
+//            val items = machineRepository.getMachineUsage(machineId, MachineTypeFilter(
+//                machineType,
+//                serviceType
+//            ), keyword, page, dateFilter)
+//            setResult(items, null, reset)
 //            _dataState.value = DataState.LoadItems(items, reset)
         }
     }

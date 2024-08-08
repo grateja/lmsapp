@@ -25,23 +25,6 @@ constructor(
 
     val filter: LiveData<MachineTypeFilter> = _filter
 
-//    private val _machineType = MutableLiveData(EnumMachineType.REGULAR_WASHER)
-//    val machineType: LiveData<EnumMachineType> = _machineType
-//
-//    private val _serviceType = MutableLiveData(EnumServiceType.WASH)
-//    val serviceType: LiveData<EnumServiceType> = _serviceType
-
-//    val filter = MediatorLiveData<MachineTypeFilter>().apply {
-//        fun update() {
-//            value = MachineTypeFilter(
-//                machineType.value,
-//                serviceType.value
-//            )
-//        }
-//        addSource(machineType) {update()}
-//        addSource(serviceType) {update()}
-//    }
-
     val machines = _filter.switchMap { machineRepository.getListAsLiveData(it) } // machineRepository.getListAsLiveData()
 
     private val _isWiFiConnected = MutableLiveData<Boolean>()

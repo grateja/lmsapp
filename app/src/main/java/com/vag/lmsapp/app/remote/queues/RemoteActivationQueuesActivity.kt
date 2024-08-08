@@ -41,7 +41,7 @@ class RemoteActivationQueuesActivity : AppCompatActivity() {
             viewModel.setCustomerQueue(it)
         }
 
-        intent.getStringExtra(Constants.MACHINE_ID_EXTRA).toUUID()?.let {
+        intent.getStringExtra(Constants.MACHINE_ID).toUUID()?.let {
             viewModel.setMachineId(it)
         }
 

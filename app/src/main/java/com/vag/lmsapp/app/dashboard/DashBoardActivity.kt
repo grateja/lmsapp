@@ -74,7 +74,7 @@ class DashBoardActivity : AppCompatActivity() {
         }
         machineUsageAdapter.onItemClick = {
             intent = Intent(this, MachineUsageActivity::class.java).apply {
-                putExtra(Constants.MACHINE_ID_EXTRA, it.machineId.toString())
+                putExtra(Constants.MACHINE_ID, it.machineId.toString())
             }
             startActivity(intent)
         }

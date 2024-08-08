@@ -24,6 +24,7 @@ import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.app.machines.usage.MachineUsageActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
+import com.vag.lmsapp.app.machines.preview.MachinePreviewActivity
 import com.vag.lmsapp.util.Constants.Companion.ADVANCED_FILTER
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import com.vag.lmsapp.util.Constants.Companion.MACHINE_TYPE
@@ -109,10 +110,11 @@ class DailyReportActivity : AppCompatActivity() {
                 }
 
                 is DailyReportViewModel.NavigationState.OpenMachineUsage -> {
-                    val intent = Intent(this, MachineUsageActivity::class.java).apply {
+                    val intent = Intent(this, MachinePreviewActivity::class.java).apply {
                         val dateRange = DateFilter(it.date)
                         putExtra(DATE_RANGE_FILTER, dateRange)
-                        putExtra(MACHINE_TYPE, it.machineType as Parcelable)
+                        putExtra(MachinePreviewActivity.MACHINE_TYPE_EXTRA, it.machineType as Parcelable)
+                        putExtra(MachinePreviewActivity.SERVICE_TYPE_EXTRA, it.serviceType as Parcelable)
                     }
                     startActivity(intent)
                     viewModel.resetState()

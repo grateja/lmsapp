@@ -29,7 +29,7 @@ class RemoteActivationRunningActivity : AppCompatActivity() {
         subscribeListeners()
         subscribeEvents()
 
-        intent.getStringExtra(Constants.MACHINE_ID_EXTRA).toUUID().let {
+        intent.getStringExtra(Constants.MACHINE_ID).toUUID().let {
             viewModel.get(it)
         }
     }

@@ -32,7 +32,7 @@
                 android:id="@+id/text_machine_type"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:text="@{viewModel.machineType.value}"
+                android:text="@{viewModel.toString()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/icon"

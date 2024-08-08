@@ -34,6 +34,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LMS2025">
         <activity
+            android:name=".app.machines.ping.PingActivity"
+            android:exported="false"
+            android:label="Ping test"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog.Alert"/>
+        <activity
+            android:name=".app.machines.preview.MachinePreviewActivity"
+            android:exported="false"
+            android:theme="@style/LightActionBar" />
+        <activity
             android:name=".app.app_settings.text_message_templates.add_edit.TextMessageTemplateAddEditActivity"
             android:exported="false"
             android:theme="@style/LightActionBar" />
@@ -446,7 +455,8 @@
         <activity
             android:name=".app.machines.addedit.MachinesAddEditActivity"
             android:exported="false"
-            android:label="Machines">
+            android:label="Machines"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -98,4 +98,16 @@ constructor(
             })
         }
     }
+
+    fun setMachineType(machineType: EnumMachineType) {
+        model.value = model.value?.apply {
+            this.machineType = machineType
+        }
+    }
+
+    fun setServiceType(serviceType: EnumServiceType) {
+        model.value = model.value?.apply {
+            this.serviceType = serviceType
+        }
+    }
 }

@@ -54,6 +54,14 @@ class TextMessageTemplateBottomSheetFragment : ModalFragment<String>() {
             onOk?.invoke(it.message)
             dismiss()
         }
+
+        binding.buttonClose.setOnClickListener {
+            dismiss()
+        }
+
+        binding.cardCustomMessage.setOnClickListener {
+            onOk?.invoke("")
+        }
     }
 
     private fun subscribeListeners() {

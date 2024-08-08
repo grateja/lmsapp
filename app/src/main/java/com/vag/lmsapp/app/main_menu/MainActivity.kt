@@ -127,8 +127,7 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
                     MenuItem(
                         "Machines",
                         "Some descriptions.",
-                        MachinesActivity::class.java,
-                        permissions = listOf(EnumActionPermission.MODIFY_SETTINGS_SHOP_DETAILS)
+                        MachinesActivity::class.java
                     ),
                     MenuItem(
                         "Text templates",

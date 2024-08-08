@@ -34,14 +34,35 @@ class MachinesAddEditActivity : AppCompatActivity() {
         subscribeEvents()
         subscribeListeners()
 
-        val machineId = intent.getStringExtra(Constants.MACHINE_ID_EXTRA).toString()
+        binding.controls.viewModel = viewModel
+
+        val machineId = intent.getStringExtra(Constants.MACHINE_ID).toString()
         val filter = intent.getParcelableExtra<MachineTypeFilter>(MACHINE_TYPE_FILTER)
         viewModel.get(machineId, filter)
     }
 
     private fun subscribeEvents() {
-        binding.buttonSave.setOnClickListener {
+        binding.controls.cardButtonConfirm.setOnClickListener {
             viewModel.save()
+        }
+        binding.controls.cardButtonClose.setOnClickListener {
+            finish()
+        }
+
+        binding.cardMachineType8kg.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.REGULAR)
+        }
+
+        binding.cardMachineType12kg.setOnClickListener {
+            viewModel.setMachineType(EnumMachineType.TITAN)
+        }
+
+        binding.cardServiceTypeDry.setOnClickListener {
+            viewModel.setServiceType(EnumServiceType.DRY)
+        }
+
+        binding.cardServiceTypeWash.setOnClickListener {
+            viewModel.setServiceType(EnumServiceType.WASH)
         }
     }
 

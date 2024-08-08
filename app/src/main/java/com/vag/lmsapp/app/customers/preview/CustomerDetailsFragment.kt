@@ -15,6 +15,7 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.app.app_settings.text_message_templates.bottom_sheet.TextMessageTemplateBottomSheetFragment
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
 import com.vag.lmsapp.databinding.FragmentCustomerDetailsBinding
+import com.vag.lmsapp.util.allowCopy
 import com.vag.lmsapp.util.showMessageDialog
 
 class CustomerDetailsFragment : Fragment() {
@@ -31,6 +32,10 @@ class CustomerDetailsFragment : Fragment() {
 
         subscribeListeners()
         subscribeEvents()
+
+        binding.inclCustomerDetails.textAddress.allowCopy()
+        binding.inclCustomerDetails.textEmail.allowCopy()
+        binding.inclCustomerDetails.allowCallAndMessage = true
 
         return binding.root
     }

@@ -2,6 +2,7 @@ package com.vag.lmsapp.room.repository
 
 import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.machines.MachineListItem
+import com.vag.lmsapp.app.machines.preview.machine_usages.MachineUsageAdvancedFilter
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.MachineTypeFilter
@@ -9,6 +10,7 @@ import com.vag.lmsapp.room.dao.DaoMachine
 import com.vag.lmsapp.room.entities.EntityMachine
 import com.vag.lmsapp.room.entities.EntityMachineRemarks
 import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
+import com.vag.lmsapp.util.QueryResult
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -43,10 +45,10 @@ class MachineRepository
 
 //    fun getDashboard(dateFilter: DateFilter) = daoMachine.getDashboard(dateFilter.dateFrom, dateFilter.dateTo)
 
-    suspend fun getMachineUsage(machineId: UUID?, machineTypeFilter: MachineTypeFilter, keyword: String?, page: Int, dateFilter: DateFilter?): List<EntityMachineUsageDetails> {
-        val offset = (20 * page) - 20
-        return daoMachine.getMachineUsage(machineId, machineTypeFilter.machineType, machineTypeFilter.serviceType, keyword, offset, dateFilter?.dateFrom, dateFilter?.dateTo)
-    }
+//    suspend fun getMachineUsage(machineId: UUID?, machineTypeFilter: MachineTypeFilter, keyword: String?, page: Int, dateFilter: DateFilter?): List<EntityMachineUsageDetails> {
+//        val offset = (20 * page) - 20
+//        return daoMachine.getMachineUsage(machineId, machineTypeFilter.machineType, machineTypeFilter.serviceType, keyword, offset, dateFilter?.dateFrom, dateFilter?.dateTo)
+//    }
 
     suspend fun unSynced(forced: Boolean) = daoMachine.unSynced(forced)
 
@@ -56,4 +58,9 @@ class MachineRepository
     suspend fun addRemarks(machineRemarks: EntityMachineRemarks) = daoMachine.addRemarks(machineRemarks)
 
     suspend fun rearrange(machines: List<MachineListItem>) = daoMachine.rearrange(machines)
+
+    suspend fun filter(keyword: String?, page: Int, filter: MachineUsageAdvancedFilter): QueryResult<EntityMachineUsageDetails> {
+        val offset = (20 * page) - 20
+        return daoMachine.filterMachineUsage(keyword, offset, filter)
+    }
 }

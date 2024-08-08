@@ -22,10 +22,15 @@ abstract class ListViewModel<T, F: BaseFilterParams> : ViewModel(), ListViewMode
 
     val loading = MutableLiveData(false)
 
+    private val _hasItems = MutableLiveData<Boolean>()
+    val hasItems: LiveData<Boolean> = _hasItems
+
     protected var page: Int = 1
     protected var job: Job? = null
 
     protected fun setResult(items: List<T>, resultCount: ResultCount?, reset: Boolean) {
+        _hasItems.value = (resultCount != null && resultCount.total > 0) || items.isNotEmpty()
+
         _filterState.value = FilterState.LoadItems(items, reset)
         _resultCount.value = resultCount
     }

@@ -31,7 +31,7 @@ class RemoteActivationCustomerActivity : AppCompatActivity() {
 
         subscribeListeners()
         subscribeEvents()
-        intent.getStringExtra(Constants.MACHINE_ID_EXTRA).toUUID()?.let {
+        intent.getStringExtra(Constants.MACHINE_ID).toUUID()?.let {
             viewModel.setMachineId(it)
         }
 
@@ -70,7 +70,7 @@ class RemoteActivationCustomerActivity : AppCompatActivity() {
                 is RemoteCustomerViewModel.NavigationState.OpenQueuesServices -> {
                     val intent = Intent(this, RemoteActivationQueuesActivity::class.java).apply {
                         putExtra(RemoteActivationQueuesActivity.CUSTOMER_QUEUE_EXTRA, it.customerQueueService)
-                        putExtra(Constants.MACHINE_ID_EXTRA, it.machineId.toString())
+                        putExtra(Constants.MACHINE_ID, it.machineId.toString())
                     }
                     launcher.launch(intent)
                     viewModel.resetNavigationState()

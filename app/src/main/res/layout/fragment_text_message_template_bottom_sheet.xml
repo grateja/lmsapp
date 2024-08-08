@@ -39,6 +39,45 @@
                         android:layout_margin="8dp"/>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
+            <TextView
+                android:text="No available text template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:visibility="@{!viewModel.hasItems}"/>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/CardItemList.FullWidth"
+                android:id="@+id/card_custom_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/divider_10"
+                    android:showDividers="middle"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/divider_10"
+                        android:showDividers="middle"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TileSubTitle"
+                            android:id="@+id/textTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Custom message"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Open messaging app and type your message"
+                            android:maxHeight="50dp"
+                            android:ellipsize="end"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:paddingTop="16dp"

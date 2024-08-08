@@ -13,4 +13,8 @@ data class DailyReportMachineUsageSummary(
 
     @ColumnInfo("svc_service_type")
     val serviceType: EnumServiceType,
-)
+) {
+    override fun toString(): String {
+        return "$machineType ${serviceType}er"
+    }
+}

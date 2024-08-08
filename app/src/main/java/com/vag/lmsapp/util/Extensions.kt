@@ -1,6 +1,8 @@
 package com.vag.lmsapp.util
 
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -17,6 +19,7 @@ import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.compose.ui.unit.Dp
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -588,5 +591,19 @@ fun Int?.greaterThan(value: Int?) : Boolean {
 fun String?.isNotEmpty() : Boolean {
     return this.let {
         it != null && it.trim() == ""
+    }
+}
+
+fun String?.copyToClipboard(context: Context) {
+    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("Copied Text", this)
+    clipboard.setPrimaryClip(clip)
+    Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+}
+
+fun TextView.allowCopy() {
+    this.setOnLongClickListener {
+        this.text?.toString()?.copyToClipboard(this.context)
+        true
     }
 }

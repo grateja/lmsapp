@@ -15,7 +15,6 @@ import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.util.FilterState
 import com.vag.lmsapp.util.toUUID
-import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +23,7 @@ class MachineUsageActivity : FilterActivity() {
     private lateinit var binding: ActivityMachineUsageBinding
     private val adapter = Adapter<EntityMachineUsageDetails>(R.layout.recycler_item_machine_usage_details)
     private lateinit var dateRangeDialog: BottomSheetDateRangePickerFragment
-    private val machineUsageFragment = MachineUsagePreviewBottomSheetFragment()
+//    private val machineUsageFragment = MachineUsagePreviewBottomSheetFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_machine_usage)
@@ -40,7 +39,7 @@ class MachineUsageActivity : FilterActivity() {
 
         window.statusBarColor = resources.getColor(R.color.color_code_machines, null)
 
-        intent.getStringExtra(Constants.MACHINE_ID_EXTRA)?.toUUID()?.let {
+        intent.getStringExtra(Constants.MACHINE_ID)?.toUUID()?.let {
             viewModel.setMachineId(it)
         }
         intent.getParcelableExtra<DateFilter>(Constants.DATE_RANGE_FILTER)?.let {
@@ -89,7 +88,7 @@ class MachineUsageActivity : FilterActivity() {
         }
         adapter.onItemClick = {
             viewModel.setCurrentItem(it)
-            machineUsageFragment.show(supportFragmentManager, null)
+//            machineUsageFragment.show(supportFragmentManager, null)
         }
         binding.cardDateRange.setOnClickListener {
             viewModel.showDatePicker()

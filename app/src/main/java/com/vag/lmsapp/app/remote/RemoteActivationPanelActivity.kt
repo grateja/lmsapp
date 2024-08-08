@@ -183,7 +183,7 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
     private fun selectMachine(item: MachineListItem) {
         val intent = if(item.machine.activationRef?.running() == true) {
             Intent(this, RemoteActivationRunningActivity::class.java).apply {
-                putExtra(Constants.MACHINE_ID_EXTRA, item.machine.id.toString())
+                putExtra(Constants.MACHINE_ID, item.machine.id.toString())
             }
         } else if(item.machine.serviceActivationId != null) {
             Intent(this, RemoteActivationPreviewActivity::class.java).apply {
@@ -195,21 +195,14 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
             }
         } else {
             Intent(this, RemoteActivationCustomerActivity::class.java).apply {
-                putExtra(Constants.MACHINE_ID_EXTRA, item.machine.id.toString())
+                putExtra(Constants.MACHINE_ID, item.machine.id.toString())
             }
         }
         launcher.launch(intent)
     }
 
     private val spanCount: Int by lazy {
-//        val columnWidth = resources.getDimensionPixelSize(R.dimen.machine_tile_width)
-//        val margin = resources.getDimension(R.dimen.activity_horizontal_margin)
         applicationContext.calculateSpanCount(R.dimen.machine_tile_width, R.dimen.activity_horizontal_margin)
-//        val displayMetrics = resources.displayMetrics`
-//        val parentWidth = displayMetrics.widthPixels - (margin * 2).toInt()
-//
-//        val spanCount = parentWidth / columnWidth
-//        if (spanCount > 0) spanCount else 1
     }
 
     private val receiver = object: BroadcastReceiver() {

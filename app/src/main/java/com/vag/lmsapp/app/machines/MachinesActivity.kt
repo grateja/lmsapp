@@ -9,14 +9,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.vag.lmsapp.R
-import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.machines.addedit.MachinesAddEditActivity
+import com.vag.lmsapp.app.machines.preview.MachinePreviewActivity
 import com.vag.lmsapp.databinding.ActivityMachinesBinding
 import com.vag.lmsapp.util.Constants
-import com.google.android.material.tabs.TabLayout
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.MachineTypeFilter
+import com.vag.lmsapp.util.Constants.Companion.MACHINE_ID
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,8 +37,6 @@ class MachinesActivity : AppCompatActivity() {
 
         subscribeEvents()
         subscribeListeners()
-
-
 
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
@@ -89,19 +87,20 @@ class MachinesActivity : AppCompatActivity() {
 //            }
 //        })
         adapter.onItemClick = {
-            val intent = Intent(this, MachinesAddEditActivity::class.java).apply {
-                putExtra(Constants.MACHINE_ID_EXTRA, it.machine.id.toString())
-                putExtra(MachinesAddEditActivity.MACHINE_TYPE_FILTER, MachineTypeFilter(
-                    it.machine.machineType,
-                    it.machine.serviceType
-                ))
+//            val intent = Intent(this, MachinesAddEditActivity::class.java).apply {
+//                putExtra(Constants.MACHINE_ID, it.machine.id.toString())
+//                putExtra(MachinesAddEditActivity.MACHINE_TYPE_FILTER, MachineTypeFilter(
+//                    it.machine.machineType,
+//                    it.machine.serviceType
+//                ))
+//            }
+            val intent = Intent(this, MachinePreviewActivity::class.java).apply {
+                putExtra(MACHINE_ID, it.machine.id.toString())
             }
             startActivity(intent)
         }
         adapter.onPositionChanged = {
             viewModel.setNewPositions(it)
-            println("rearranged")
-            println(it.map { it.machine.stackOrder })
         }
 
         binding.cardButtonConfirm.setOnClickListener {

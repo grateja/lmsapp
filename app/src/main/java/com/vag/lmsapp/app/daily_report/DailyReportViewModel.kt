@@ -86,7 +86,8 @@ constructor(
     fun openMachineUsage(machineUsage: DailyReportMachineUsageSummary) {
         val date = _date.value!!
         val machineType = machineUsage.machineType
-        _navigationState.value = NavigationState.OpenMachineUsage(date, machineType)
+        val serviceType = machineUsage.serviceType
+        _navigationState.value = NavigationState.OpenMachineUsage(date, machineType, serviceType)
     }
 
     fun openServices(enumServiceType: EnumServiceType) {
@@ -140,6 +141,6 @@ constructor(
         data class OpenPayments(val date: LocalDate): NavigationState()
         data class OpenExpenses(val date: LocalDate): NavigationState()
         data class OpenJobOrderItems(val title: String): NavigationState()
-        data class OpenMachineUsage(val date: LocalDate, val machineType: EnumMachineType): NavigationState()
+        data class OpenMachineUsage(val date: LocalDate, val machineType: EnumMachineType, val serviceType: EnumServiceType): NavigationState()
     }
 }

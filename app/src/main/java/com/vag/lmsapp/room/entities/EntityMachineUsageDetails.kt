@@ -1,11 +1,15 @@
 package com.vag.lmsapp.room.entities
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import com.vag.lmsapp.model.EnumMachineType
+import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.EnumWashType
+import kotlinx.parcelize.Parcelize
 import java.time.Instant
 import java.util.*
 
+@Parcelize
 data class EntityMachineUsageDetails(
     @ColumnInfo("id")
     val usageId: UUID,
@@ -33,6 +37,9 @@ data class EntityMachineUsageDetails(
     @ColumnInfo("svc_machine_type")
     val machineType: EnumMachineType,
 
+    @ColumnInfo("svc_service_type")
+    val serviceType: EnumServiceType,
+
     @ColumnInfo("machine_number")
     val machineNumber: Int,
 
@@ -46,9 +53,9 @@ data class EntityMachineUsageDetails(
     val discountedPrice: Float,
 
     val sync: Boolean
-) {
-    fun machineName () : String {
-        return machineType.value + " " + machineNumber
+): Parcelable {
+    fun machineName() : String {
+        return "${machineType.value} ${serviceType.value}er $machineNumber"
     }
 
     fun serviceLabel() : String {
