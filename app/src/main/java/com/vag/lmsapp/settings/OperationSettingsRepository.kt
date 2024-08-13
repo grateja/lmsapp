@@ -2,8 +2,7 @@ package com.vag.lmsapp.settings
 
 import androidx.lifecycle.MediatorLiveData
 import com.squareup.moshi.Moshi
-import com.vag.lmsapp.app.dashboard.data.DateFilter
-import java.time.LocalDate
+import com.vag.lmsapp.util.DateFilter
 import javax.inject.Inject
 import javax.inject.Singleton
 

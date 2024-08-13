@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.databinding.FragmentBottomSheetDateRangePickerBinding
 import com.vag.lmsapp.fragments.ModalFragment
+import com.vag.lmsapp.util.DateFilter
 import com.vag.lmsapp.util.DatePicker
 
 class BottomSheetDateRangePickerFragment : ModalFragment<DateFilter>() {

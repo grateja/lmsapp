@@ -67,7 +67,7 @@
                             android:id="@+id/textTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Custom message"/>
+                            android:text="Blank text message"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

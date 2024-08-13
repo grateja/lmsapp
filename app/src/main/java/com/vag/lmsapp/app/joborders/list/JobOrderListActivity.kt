@@ -7,13 +7,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
-import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityJobOrderListBinding
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.util.FilterActivity
-import com.vag.lmsapp.viewmodels.ListViewModel
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilterFragment
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.preview.JobOrderPreviewViewModel

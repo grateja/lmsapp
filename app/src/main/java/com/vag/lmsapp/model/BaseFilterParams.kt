@@ -1,7 +1,7 @@
 package com.vag.lmsapp.model
 
 import android.os.Parcelable
-import com.vag.lmsapp.app.dashboard.data.DateFilter
+import com.vag.lmsapp.util.DateFilter
 import com.vag.lmsapp.util.EnumSortDirection
 import kotlinx.parcelize.Parcelize
 

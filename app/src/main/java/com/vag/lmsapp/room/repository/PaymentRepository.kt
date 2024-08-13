@@ -1,12 +1,11 @@
 package com.vag.lmsapp.room.repository
 
 import androidx.lifecycle.LiveData
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.payment_list.PaymentQueryResult
 import com.vag.lmsapp.app.payment_list.advanced_filter.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.room.dao.DaoJobOrderPayment
 import com.vag.lmsapp.room.entities.EntityJobOrderPayment
-import com.vag.lmsapp.util.EnumSortDirection
+import com.vag.lmsapp.util.DateFilter
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton

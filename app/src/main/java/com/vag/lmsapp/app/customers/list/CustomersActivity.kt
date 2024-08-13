@@ -9,16 +9,12 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.customers.create.CustomerAddEditBottomSheetFragment
 import com.vag.lmsapp.app.customers.list.advanced_filter.CustomerListFilterBottomSheetFragment
-import com.vag.lmsapp.app.customers.list.advanced_filter.CustomersAdvancedFilter
 import com.vag.lmsapp.app.customers.preview.CustomerPreviewActivity
-import com.vag.lmsapp.app.dashboard.data.DateFilter
-import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityCustomersBinding
 import com.vag.lmsapp.util.Constants
+import com.vag.lmsapp.util.DateFilter
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.util.FilterState
-import com.vag.lmsapp.util.toFormattedString
-import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

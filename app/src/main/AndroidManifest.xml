@@ -128,14 +128,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".app.machines.usage.MachineUsageActivity"
-            android:exported="false"
-            android:theme="@style/LightActionBar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".app.app_settings.user.list.AppSettingsUserAccountsActivity"
             android:exported="false"
             android:label="User accounts"
@@ -158,14 +150,6 @@
         <activity
             android:name=".app.main_menu.SubMenuActivity"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".app.dashboard.DashBoardActivity"
-            android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar.Bridge">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

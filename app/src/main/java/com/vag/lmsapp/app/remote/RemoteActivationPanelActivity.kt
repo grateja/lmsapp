@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.vag.lmsapp.R
-import com.vag.lmsapp.app.machines.options.BottomSheetMachineOptionsFragment
 import com.vag.lmsapp.app.machines.MachineListItem
 import com.vag.lmsapp.app.remote.activate.RemoteActivationPreviewActivity
 import com.vag.lmsapp.app.remote.customer.RemoteActivationCustomerActivity
@@ -38,7 +37,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RemoteActivationPanelActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRemoteActivationPanelBinding
-    private lateinit var machineOption: BottomSheetMachineOptionsFragment
     private val viewModel: RemotePanelViewModel by viewModels()
     private val networkHelper = NetworkHelper(this)
 
@@ -136,7 +134,6 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
 
     private fun subscribeEvents() {
         adapter.onItemClick = { selectMachine(it) }
-        adapter.onOptionClick = { showOptions(it) }
         binding.tabMachineType.cardRegularWasher.setOnClickListener {
             viewModel.setMachineType(EnumMachineType.REGULAR, EnumServiceType.WASH)
         }
@@ -173,11 +170,6 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
 //            titanWashersAdapter.setData(it.filter { it.machine.machineType == EnumMachineType.TITAN_WASHER })
 //            titanDryersAdapter.setData(it.filter { it.machine.machineType == EnumMachineType.TITAN_DRYER })
         })
-    }
-
-    private fun showOptions(item: MachineListItem) {
-        machineOption = BottomSheetMachineOptionsFragment.getInstance(item.machine.id)
-        machineOption.show(supportFragmentManager, null)
     }
 
     private fun selectMachine(item: MachineListItem) {

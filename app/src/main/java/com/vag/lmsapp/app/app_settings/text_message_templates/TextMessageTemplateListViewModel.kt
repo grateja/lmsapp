@@ -35,9 +35,6 @@ constructor(
                 loading.value = false
             }
         }
-
         job?.start()
     }
-
-
 }

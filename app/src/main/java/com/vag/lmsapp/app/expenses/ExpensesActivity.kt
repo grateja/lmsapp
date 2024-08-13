@@ -7,14 +7,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
-import com.vag.lmsapp.app.dashboard.data.DateFilter
-import com.vag.lmsapp.app.expenses.advanced_filter.ExpensesAdvancedFilter
 import com.vag.lmsapp.app.expenses.advanced_filter.ExpensesAdvancedFilterBottomSheetFragment
 import com.vag.lmsapp.app.expenses.edit.ExpenseAddEditActivity
-import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.ActivityExpensesBinding
 import com.vag.lmsapp.util.*
-import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

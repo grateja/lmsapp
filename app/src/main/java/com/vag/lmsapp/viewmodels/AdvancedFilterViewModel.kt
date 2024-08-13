@@ -3,9 +3,9 @@ package com.vag.lmsapp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.BaseFilterParams
 import com.vag.lmsapp.util.DataState
+import com.vag.lmsapp.util.DateFilter
 
 abstract class AdvancedFilterViewModel<F: BaseFilterParams>: ViewModel() {
     private val _dataState = MutableLiveData<DataState<F?>>()

@@ -6,14 +6,12 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import com.squareup.moshi.Moshi
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.export_options.data.ProgressReport
 import com.vag.lmsapp.app.export_options.data.Selections
 import com.vag.lmsapp.room.repository.ExportRepository
-//import com.vag.lmsapp.services.ExcelExportService.Companion.FILENAME_JSON
 import com.vag.lmsapp.services.ExcelExportService.Companion.FILENAME_XLSX
 import com.vag.lmsapp.settings.OperationSettingsRepository
+import com.vag.lmsapp.util.DateFilter
 import com.vag.lmsapp.util.file.FileExistenceLiveData
 import com.vag.lmsapp.util.setMomentAgo
 import dagger.hilt.android.lifecycle.HiltViewModel

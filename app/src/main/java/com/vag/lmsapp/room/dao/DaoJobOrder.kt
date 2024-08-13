@@ -2,7 +2,6 @@ package com.vag.lmsapp.room.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.vag.lmsapp.app.dashboard.data.JobOrderCounts
 import com.vag.lmsapp.app.gallery.picture_preview.PhotoItem
 import com.vag.lmsapp.app.joborders.list.JobOrderListItem
 import com.vag.lmsapp.app.joborders.list.JobOrderQueryResult
@@ -313,15 +312,15 @@ interface DaoJobOrder {
     """)
     suspend fun removePicture(uriId: UUID)
 
-    @Query("""
-        SELECT
-            SUM(CASE WHEN payment_id IS NOT NULL THEN 1 ELSE 0 END) AS paid_count,
-            SUM(CASE WHEN payment_id IS NULL THEN 1 ELSE 0 END) AS unpaid_count
-        FROM job_orders
-        WHERE (date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom OR (:dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo))
-              AND deleted = 0 AND void_date IS NULL
-    """)
-    fun getDashboardJobOrders(dateFrom: LocalDate, dateTo: LocalDate?): LiveData<JobOrderCounts>
+//    @Query("""
+//        SELECT
+//            SUM(CASE WHEN payment_id IS NOT NULL THEN 1 ELSE 0 END) AS paid_count,
+//            SUM(CASE WHEN payment_id IS NULL THEN 1 ELSE 0 END) AS unpaid_count
+//        FROM job_orders
+//        WHERE (date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom OR (:dateTo IS NOT NULL AND date(created_at / 1000, 'unixepoch', 'localtime') BETWEEN :dateFrom AND :dateTo))
+//              AND deleted = 0 AND void_date IS NULL
+//    """)
+//    fun getDashboardJobOrders(dateFrom: LocalDate, dateTo: LocalDate?): LiveData<JobOrderCounts>
 
     @Query("""
         SELECT jo.id, jo.job_order_number, jo.discounted_amount, jo.payment_id, jo.customer_id, jo.created_at, cu.name, cu.crn, jo.sync,

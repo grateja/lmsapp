@@ -3,11 +3,9 @@ package com.vag.lmsapp.room.repository
 import com.vag.lmsapp.app.customers.CustomerMinimal
 import com.vag.lmsapp.app.customers.list.CustomerQueryResult
 import com.vag.lmsapp.app.customers.list.advanced_filter.CustomersAdvancedFilter
-import com.vag.lmsapp.app.dashboard.data.DateFilter
-import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.dao.DaoCustomer
 import com.vag.lmsapp.room.entities.EntityCustomer
-import com.vag.lmsapp.util.EnumSortDirection
+import com.vag.lmsapp.util.DateFilter
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton

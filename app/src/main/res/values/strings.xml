@@ -86,6 +86,7 @@
         <item>ASC</item>
     </string-array>
     <string-array name="order_by_customers">
+        <item>CRN</item>
         <item>Number of Job Orders</item>
         <item>Last Visit</item>
         <item>First Visit</item>

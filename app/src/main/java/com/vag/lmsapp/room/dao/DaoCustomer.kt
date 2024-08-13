@@ -97,6 +97,8 @@ interface DaoCustomer : BaseDao<EntityCustomer> {
         GROUP BY 
             cu.id 
         ORDER BY 
+            CASE WHEN :orderBy = 'CRN' AND :sortDirection = 'ASC' THEN cu.crn END ASC, 
+            CASE WHEN :orderBy = 'CRN' AND :sortDirection = 'DESC' THEN cu.crn END DESC, 
             CASE WHEN :orderBy = 'Name' AND :sortDirection = 'ASC' THEN cu.name END ASC, 
             CASE WHEN :orderBy = 'Name' AND :sortDirection = 'DESC' THEN cu.name END DESC, 
             CASE WHEN :orderBy = 'First Visit' AND :sortDirection = 'ASC' THEN first_visit END ASC, 

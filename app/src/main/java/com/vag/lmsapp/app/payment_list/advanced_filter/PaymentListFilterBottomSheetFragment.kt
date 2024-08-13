@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.shared_ui.BottomSheetDateRangePickerFragment
 import com.vag.lmsapp.databinding.FragmentPaymentListFilterBottomSheetBinding
 import com.vag.lmsapp.fragments.ModalFragment
 import com.vag.lmsapp.util.DataState
+import com.vag.lmsapp.util.DateFilter
 
 class PaymentListFilterBottomSheetFragment : ModalFragment<JobOrderPaymentAdvancedFilter>() {
     private lateinit var binding: FragmentPaymentListFilterBottomSheetBinding

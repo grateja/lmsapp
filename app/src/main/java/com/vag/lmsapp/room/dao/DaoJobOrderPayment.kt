@@ -2,14 +2,12 @@ package com.vag.lmsapp.room.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.app.payment_list.PaymentQueryResult
 import com.vag.lmsapp.app.payment_list.advanced_filter.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.room.entities.*
 import com.vag.lmsapp.util.EnumSortDirection
 import com.vag.lmsapp.util.ResultCount
-import java.time.Instant
 import java.time.LocalDate
 import java.util.*
 

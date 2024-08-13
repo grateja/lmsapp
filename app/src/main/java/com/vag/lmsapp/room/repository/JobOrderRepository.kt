@@ -1,6 +1,5 @@
 package com.vag.lmsapp.room.repository
 
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.app.joborders.list.JobOrderQueryResult
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentMinimal
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
@@ -129,8 +128,6 @@ constructor (
 //    }
 
     suspend fun attachPictures(jobOrderPictures: List<EntityJobOrderPictures>) = daoJobOrder.attachPictures(jobOrderPictures)
-
-    fun getDashboard(dateFilter: DateFilter) = daoJobOrder.getDashboardJobOrders(dateFilter.dateFrom, dateFilter.dateTo)
 
     fun getUnpaidJobOrdersAsLiveData(customerId: UUID) = daoJobOrder.getUnpaidJobOrdersAsLiveData(customerId)
 

@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.dashboard.data
+package com.vag.lmsapp.util
 
 import android.os.Parcelable
 import com.vag.lmsapp.util.toShort
@@ -31,6 +31,6 @@ data class DateFilter(
                         ""
                     }
                 } ?: ""
-            )
+                )
     }
 }

@@ -3,7 +3,7 @@ package com.vag.lmsapp.app.shared_ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vag.lmsapp.app.dashboard.data.DateFilter
+import com.vag.lmsapp.util.DateFilter
 import java.time.LocalDate
 
 class BottomSheetDateRangePickerViewModel: ViewModel() {

@@ -1,7 +1,6 @@
 package com.vag.lmsapp.util
 
 import com.vag.lmsapp.app.auth.LoginCredentials
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 
 sealed class DataState<out R> {
     object StateLess : DataState<Nothing>()

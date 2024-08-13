@@ -1,10 +1,10 @@
 package com.vag.lmsapp.app.joborders.list.advanced_filter
 
 import android.os.Parcelable
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.BaseFilterParams
 import com.vag.lmsapp.model.EnumJoFilterBy
 import com.vag.lmsapp.model.EnumPaymentStatus
+import com.vag.lmsapp.util.DateFilter
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

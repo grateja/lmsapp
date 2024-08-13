@@ -1,9 +1,7 @@
 package com.vag.lmsapp.app.joborders.list
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.vag.lmsapp.app.dashboard.data.DateFilter
 import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.room.repository.JobOrderRepository
