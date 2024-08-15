@@ -8,7 +8,8 @@ import com.vag.lmsapp.util.DbColumns.Companion.EXTRAS
 data class EntityExtras(
     var name: String,
     var price: Float,
-    var category: String
+    var category: String,
+    var hidden: Boolean = false
 ) : BaseEntity() {
     constructor() : this("", 0f, "")
 

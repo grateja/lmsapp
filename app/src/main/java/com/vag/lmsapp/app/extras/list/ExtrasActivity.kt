@@ -10,6 +10,7 @@ import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.extras.ExtrasItemFull
 import com.vag.lmsapp.app.extras.edit.ExtrasAddEditActivity
 import com.vag.lmsapp.app.extras.list.advanced_filter.ExtrasAdvancedFilterBottomSheetFragment
+import com.vag.lmsapp.app.extras.preview.ExtrasPreviewBottomSheetFragment
 import com.vag.lmsapp.databinding.ActivityExtrasBinding
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.FilterActivity
@@ -53,7 +54,12 @@ class ExtrasActivity : FilterActivity() {
             openAddEdit(null)
         }
         adapter.onItemClick = {
-            openAddEdit(it)
+            ExtrasPreviewBottomSheetFragment.newInstance(it.extras.id).apply {
+                onOk = {
+                    viewModel.filter(true)
+                }
+            }.show(supportFragmentManager, null)
+//            openAddEdit(it)
         }
         addEditLauncher.onOk = {
             viewModel.filter(true)

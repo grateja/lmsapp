@@ -33,4 +33,8 @@ constructor (
     fun getCategories(): LiveData<List<String>> = daoExtras.getCategories()
 
     suspend fun unSynced(forced: Boolean) = daoExtras.unSynced(forced)
+
+    fun getAsLiveData(extrasId: UUID) = daoExtras.getAsLiveData(extrasId)
+
+    suspend fun hideToggle(extrasId: UUID) = daoExtras.hideToggle(extrasId)
 }

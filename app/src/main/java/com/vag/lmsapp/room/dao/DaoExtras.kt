@@ -79,4 +79,10 @@ abstract class DaoExtras : BaseDao<EntityExtras> {
         WHERE sync = 0 OR :forced
     """)
     abstract suspend fun unSynced(forced: Boolean): List<EntityExtras>
+
+    @Query("SELECT * FROM extras WHERE id = :extrasId")
+    abstract fun getAsLiveData(extrasId: UUID): LiveData<ExtrasItemFull?>
+
+    @Query("UPDATE extras SET hidden = CASE WHEN hidden = 1 THEN 0 ELSE 1 END WHERE id = :extrasId")
+    abstract suspend fun hideToggle(extrasId: UUID)
 }

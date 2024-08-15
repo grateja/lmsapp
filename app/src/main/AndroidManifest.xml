@@ -37,7 +37,7 @@
             android:name=".app.machines.ping.PingActivity"
             android:exported="false"
             android:label="Ping test"
-            android:theme="@style/Theme.MaterialComponents.Light.Dialog.Alert"/>
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog.Alert" />
         <activity
             android:name=".app.machines.preview.MachinePreviewActivity"
             android:exported="false"
@@ -73,7 +73,7 @@
         <activity
             android:name=".app.app_settings.shop_info.ShopInfoActivity"
             android:exported="false"
-            android:theme="@style/LightActionBar"/>
+            android:theme="@style/LightActionBar" />
         <activity
             android:name=".app.lms_live.register.RegisterWithQrCodeActivity"
             android:exported="false" />
@@ -343,8 +343,8 @@
             android:name=".app.joborders.cancel.JobOrderCancelActivity"
             android:exported="false"
             android:label="Cancel Job Order"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/LightActionBar">
+            android:theme="@style/LightActionBar"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
