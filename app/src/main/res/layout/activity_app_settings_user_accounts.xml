@@ -50,7 +50,7 @@
                             android:textColor="@color/green"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Create new customer"/>
+                            android:text="Create new user"/>
                     </LinearLayout>
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>

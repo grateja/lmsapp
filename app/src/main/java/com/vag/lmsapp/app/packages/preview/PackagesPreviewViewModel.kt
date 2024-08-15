@@ -31,13 +31,16 @@ constructor(
     private val productsRepository: ProductRepository,
     private val extrasRepository: ExtrasRepository
 ) : ViewModel() {
-    private val _totalPriceRefresher = MutableLiveData(true)
+    private val _requireRefresh = MutableLiveData(false)
+
+    private val _modified = MutableLiveData(false)
+    val modified: LiveData<Boolean> = _modified
 
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
 
-    private val _packagePromo = MutableLiveData<EntityPackage>()
-    val packagePromo: LiveData<EntityPackage> = _packagePromo
+    private val _packageId = MutableLiveData<UUID>()
+    val packagePromo = _packageId.switchMap { packageRepository.getAsLiveData(it) }
 
     private val _availableServices = MutableLiveData<List<MenuServiceItem>?>()
     val availableServices: LiveData<List<MenuServiceItem>?> = _availableServices
@@ -47,15 +50,6 @@ constructor(
 
     private val _availableExtras = MutableLiveData<List<MenuExtrasItem>?>()
     val availableExtras: LiveData<List<MenuExtrasItem>?> = _availableExtras
-
-//    private val _packageServices = MutableLiveData<List<EntityPackageService>>()
-//    val packageServices: LiveData<List<EntityPackageService>> = _packageServices
-//
-//    private val _packageProducts = MutableLiveData<List<EntityPackageProduct>>()
-//    val packageProducts: LiveData<List<EntityPackageProduct>> = _packageProducts
-//
-//    private val _packageExtras = MutableLiveData<List<EntityPackageExtras>>()
-//    val packageExtras: LiveData<List<EntityPackageExtras>> = _packageExtras
 
     private val _selectedPackageItem = MutableLiveData<PackageItem>()
     val selectedPackageItem: LiveData<PackageItem> = _selectedPackageItem
@@ -82,16 +76,15 @@ constructor(
 
             value = servicesTotal + productsTotal + extrasTotal
         }
-        addSource(_totalPriceRefresher) {update()}
+        addSource(_requireRefresh) {update()}
     }
 
-    fun get(id: UUID?) {
+    private fun load(id: UUID?) {
         viewModelScope.launch {
-            if(_packagePromo.value != null) return@launch
             packageRepository.getById(id)?.let { _package ->
-                _packagePromo.value = _package.prePackage
+                _packageId.value = _package.prePackage.id
 
-                val services = servicesRepository.menuItems().map { menuServiceItem->
+                _availableServices.value = servicesRepository.menuItems().map { menuServiceItem->
                     _package.services?.find {it.serviceId == menuServiceItem.serviceRefId}?.let {
                         menuServiceItem.selected = !it.deleted
                         menuServiceItem.price = it.unitPrice
@@ -102,7 +95,7 @@ constructor(
                     menuServiceItem
                 }
 
-                val products = productsRepository.menuItems().map {menuProductItem->
+                _availableProducts.value = productsRepository.menuItems().map {menuProductItem->
                     _package.products?.find {it.productId == menuProductItem.productRefId}?.let {
                         menuProductItem.selected = !it.deleted
                         menuProductItem.price = it.unitPrice
@@ -113,7 +106,7 @@ constructor(
                     menuProductItem
                 }
 
-                val extras = extrasRepository.menuItems().map {menuExtrasItem->
+                _availableExtras.value = extrasRepository.menuItems().map {menuExtrasItem->
                     _package.extras?.find {it.extrasId == menuExtrasItem.extrasRefId}?.let {
                         menuExtrasItem.selected = !it.deleted
                         menuExtrasItem.price = it.unitPrice
@@ -124,15 +117,19 @@ constructor(
                     menuExtrasItem
                 }
 
-                _availableServices.value = services
-                _availableProducts.value = products
-                _availableExtras.value = extras
-
-                _totalPriceRefresher.value = true
-
-//                _navigationState.value = NavigationState.LoadAll(services, products, extras)
+                _requireRefresh.value = true
             }
         }
+    }
+
+    fun reset() {
+        load(_packageId.value)
+        _modified.value = false
+    }
+
+    fun get(id: UUID?) {
+        if(_packageId.value == id) return
+        load(id)
     }
 
 //    fun preselectServices(items: List<EntityPackageService>?) {
@@ -295,7 +292,8 @@ constructor(
                 }
             }
         }
-        _totalPriceRefresher.value = true
+        _modified.value = true
+        _requireRefresh.value = true
     }
 
     fun save() {
@@ -354,15 +352,34 @@ constructor(
                 )
             }
 
+            val packagePromo = packagePromo.value?.apply {
+                this.totalPrice = totalPrice
+            } ?: return@launch
+
             val packageWithItems = EntityPackageWithItems(
-                _packagePromo.value!!.apply {
-                    this.totalPrice = totalPrice
-                },
+                packagePromo,
                 packageServices,
                 packageExtras,
                 packageProducts,
             )
             packageRepository.saveAll(packageWithItems)
+            _modified.value = false
+        }
+    }
+
+    fun hideToggle() {
+        viewModelScope.launch {
+            _packageId.value.let {
+                packageRepository.hideToggle(it)
+            }
+        }
+    }
+
+    fun initiateDelete() {
+        viewModelScope.launch {
+            packagePromo.value?.let {
+                packageRepository.delete(it)
+            }
         }
     }
 

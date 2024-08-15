@@ -12,7 +12,10 @@ import com.vag.lmsapp.app.joborders.create.services.AvailableServicesAdapter
 import com.vag.lmsapp.app.packages.EnumPackageItemType
 import com.vag.lmsapp.app.packages.list.PackageItem
 import com.vag.lmsapp.databinding.ActivityPackagesPreviewBinding
+import com.vag.lmsapp.model.EnumActionPermission
+import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.PACKAGE_ID
+import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +27,8 @@ class PackagesPreviewActivity : AppCompatActivity() {
     private val servicesAdapter = AvailableServicesAdapter()
     private val productsAdapter = AvailableProductsAdapter()
     private val extrasAdapter = AvailableExtrasAdapter()
+
+    private val authLauncher = AuthLauncherActivity(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,9 +91,36 @@ class PackagesPreviewActivity : AppCompatActivity() {
             )
         }
 
-        binding.buttonCardConfirm.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.save()
             finish()
+        }
+
+        binding.cardButtonClose.setOnClickListener {
+            finish()
+        }
+
+        binding.buttonCardHideToggle.setOnClickListener {
+            viewModel.hideToggle()
+        }
+
+        binding.cardButtonDelete.setOnClickListener {
+            showDeleteConfirmationDialog("Delete package?", "Are you sure you want to delete this package?") {
+                authLauncher.launch(listOf(EnumActionPermission.MODIFY_SERVICES_PACKAGES), 1)
+            }
+        }
+
+        binding.cardButtonReset.setOnClickListener {
+            viewModel.reset()
+        }
+
+        authLauncher.onOk = { _, code ->
+            when(code) {
+                1 -> {
+                    viewModel.initiateDelete()
+                    finish()
+                }
+            }
         }
     }
 

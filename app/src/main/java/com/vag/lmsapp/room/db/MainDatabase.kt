@@ -40,7 +40,7 @@ import com.vag.lmsapp.util.converters.*
     EntityActivityLog::class,
     SanctumToken::class,
     EntityTextMessageTemplate::class,
-], version = 16,
+], version = 17,
     exportSchema = true,
 )
 @TypeConverters(
@@ -121,7 +121,8 @@ abstract class MainDatabase : RoomDatabase() {
                         AddColumnJobOrderItemsVoid(),
                         AddColumnJobOrderItemDiscountedPrice(),
                         AddColumnServiceType(),
-                        CreateTableTextMessageTemplate()
+                        CreateTableTextMessageTemplate(),
+                        AddColumnPackagesHidden()
 //                        AddColumnPaymentVoid(),
 //                        CreateTablePackage(),
 //                        CreateTablePackageService(),

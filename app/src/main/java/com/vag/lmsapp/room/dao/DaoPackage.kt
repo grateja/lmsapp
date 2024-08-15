@@ -107,4 +107,7 @@ interface DaoPackage : BaseDao<EntityPackage> {
             AND deleted = 0
     """)
     suspend fun filter(keyword: String?): List<EntityPackageWithItems>
+
+    @Query("UPDATE packages SET hidden = CASE WHEN hidden = 1 THEN 0 ELSE 1 END WHERE id = :packageId")
+    suspend fun hideToggle(packageId: UUID?)
 }

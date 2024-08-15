@@ -25,8 +25,8 @@ constructor(
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository
 ): ViewModel() {
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String> = _message
+    private val _action = MutableLiveData<String>()
+    val action: LiveData<String> = _action
 
     private val _authMethod = MutableLiveData(EnumAuthMethod.AUTH_BY_PATTERN)
     val authMethod: LiveData<EnumAuthMethod> = _authMethod
@@ -49,7 +49,7 @@ constructor(
     val emails = userRepository.getAllEmails()
 
     fun setMessage(message: String) {
-        _message.value = message
+        _action.value = message
     }
 
     fun setAuthMethod(authMethod: EnumAuthMethod) {

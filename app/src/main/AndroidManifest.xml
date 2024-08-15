@@ -72,7 +72,8 @@
             android:exported="false" />
         <activity
             android:name=".app.app_settings.shop_info.ShopInfoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/LightActionBar"/>
         <activity
             android:name=".app.lms_live.register.RegisterWithQrCodeActivity"
             android:exported="false" />
@@ -300,7 +301,8 @@
         <activity
             android:name=".app.discounts.edit.DiscountAddEditActivity"
             android:exported="false"
-            android:label="Discounts">
+            android:label="Discounts"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -341,7 +343,8 @@
             android:name=".app.joborders.cancel.JobOrderCancelActivity"
             android:exported="false"
             android:label="Cancel Job Order"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/LightActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

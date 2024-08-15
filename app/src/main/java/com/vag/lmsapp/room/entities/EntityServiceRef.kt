@@ -36,4 +36,12 @@ class EntityServiceRef(
     fun description(): String {
         return "$minutes minutes $washType"
     }
+
+    fun icon() : Int {
+        return if(serviceType == EnumServiceType.WASH) {
+            washType?.icon ?: serviceType.icon
+        } else {
+            serviceType.icon
+        }
+    }
 }

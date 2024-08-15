@@ -132,4 +132,5 @@ constructor (
     fun getUnpaidJobOrdersAsLiveData(customerId: UUID) = daoJobOrder.getUnpaidJobOrdersAsLiveData(customerId)
 
     suspend fun sync(jobOrderId: UUID) = daoJobOrder.sync(jobOrderId)
+    fun getAsLiveData(jobOrderId: UUID?) = daoJobOrder.getAsLiveData(jobOrderId)
 }

@@ -26,7 +26,6 @@ import com.vag.lmsapp.app.joborders.create.extras.MenuExtrasItem
 import com.vag.lmsapp.app.joborders.gallery.PictureAdapter
 import com.vag.lmsapp.app.joborders.create.packages.JobOrderCreateSelectPackageActivity
 import com.vag.lmsapp.app.joborders.create.packages.MenuJobOrderPackage
-import com.vag.lmsapp.app.joborders.create.packages.preview.JobOrderPackagePreviewBottomSheetFragment
 import com.vag.lmsapp.app.joborders.create.products.JobOrderCreateSelectProductsActivity
 import com.vag.lmsapp.app.joborders.create.products.JobOrderProductsItemAdapter
 import com.vag.lmsapp.app.joborders.create.products.MenuProductItem
@@ -49,7 +48,6 @@ import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
 import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -392,7 +390,7 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
     private fun prepareSubmit() {
         val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
             action = ACTION_CONFIRM_SAVE
-            putExtra(AuthActionDialogActivity.MESSAGE, "Authentication Required")
+            putExtra(AuthActionDialogActivity.ACTION_EXTRA, "Confirm and save Job Order")
         }
         launcher.launch(intent)
     }

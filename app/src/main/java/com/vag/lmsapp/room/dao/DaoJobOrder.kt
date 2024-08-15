@@ -339,4 +339,7 @@ interface DaoJobOrder {
         UPDATE job_orders SET sync = 1 WHERE id = :id
     """)
     suspend fun sync(id: UUID)
+
+    @Query("SELECT * FROM job_orders WHERE id = :jobOrderId")
+    fun getAsLiveData(jobOrderId: UUID?): LiveData<EntityJobOrder?>
 }

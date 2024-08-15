@@ -47,6 +47,11 @@ class ShopInfoActivity : CrudActivity() {
                     viewModel.save()
                     viewModel.resetState()
                 }
+
+                is DataState.RequestExit -> {
+                    confirmExit(it.promptPass)
+                    viewModel.resetState()
+                }
                 else -> {}
             }
         })

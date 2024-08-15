@@ -28,6 +28,7 @@
                     android:layout_height="wrap_content"/>
                 <include
                     layout="@layout/incl_machine_activation_details"
+                    app:serviceRef="@{viewModel.jobOrderService.serviceRef}"
                     app:machineName="@{viewModel.machine.machineName()}"
                     app:customerName="@{viewModel.customer.name}"
                     app:serviceName="@{viewModel.jobOrderService.label()}"/>

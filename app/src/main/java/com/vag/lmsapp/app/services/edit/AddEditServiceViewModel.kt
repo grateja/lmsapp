@@ -82,7 +82,7 @@ constructor(
             )
         )
 
-        if(machineType == EnumMachineType.REGULAR || machineType == EnumMachineType.TITAN) {
+        if(serviceType.value == EnumServiceType.WASH) {
             inputValidation.addRule(
                 "washType",
                 washType,

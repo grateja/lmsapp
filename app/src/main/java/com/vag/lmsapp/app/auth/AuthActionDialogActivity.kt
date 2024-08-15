@@ -1,16 +1,13 @@
 package com.vag.lmsapp.app.auth
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import androidx.activity.result.ActivityResult
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.google.android.material.tabs.TabLayoutMediator
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.databinding.ActivityAuthActionDialogBinding
@@ -20,9 +17,6 @@ import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.showDialog
 import com.itsxtt.patternlock.PatternLockView
-import com.vag.lmsapp.util.ActivityLauncher
-import com.vag.lmsapp.util.FragmentLauncher
-import com.vag.lmsapp.util.FragmentsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +24,7 @@ class AuthActionDialogActivity : AppCompatActivity() {
     companion object {
         const val AUTH_ACTION = "authAction"
 
-        const val MESSAGE = "message"
+        const val ACTION_EXTRA = "action_extra"
         const val PERMISSIONS_EXTRA = "permissions"
         const val ROLES_EXTRA = "roles"
         const val LAUNCH_CODE = "launchCode"
@@ -71,6 +65,7 @@ class AuthActionDialogActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth_action_dialog)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.recyclerViewPermissions.adapter = privilegeAdapter
 
         subscribeEvents()
         subscribeListeners()
@@ -89,7 +84,7 @@ class AuthActionDialogActivity : AppCompatActivity() {
             println(it)
             viewModel.setRoles(it)
         }
-        intent.getStringExtra(MESSAGE)?.let {
+        intent.getStringExtra(ACTION_EXTRA)?.let {
             viewModel.setMessage(it)
         }
     }
@@ -102,10 +97,10 @@ class AuthActionDialogActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.buttonOk.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.validate(AuthDialogViewModel.AuthMethod.AuthByPassword)
         }
-        binding.buttonCancel.setOnClickListener {
+        binding.cardButtonClose.setOnClickListener {
             finish()
         }
         binding.buttonAuthMethodPassword.setOnClickListener {
@@ -117,10 +112,10 @@ class AuthActionDialogActivity : AppCompatActivity() {
 //        binding.buttonAuthMethodBiometric.setOnClickListener {
 //            viewModel.setAuthMethod(EnumAuthMethod.AUTH_BY_BIOMETRIC)
 //        }
-        binding.buttonPrivilege.setOnClickListener {
-            val requiredAuthPrivilegesFragment = RequiredAuthPrivilegesFragment.newInstance()
-            requiredAuthPrivilegesFragment.show(supportFragmentManager, "privilege")
-        }
+//        binding.buttonPrivilege.setOnClickListener {
+//            val requiredAuthPrivilegesFragment = RequiredAuthPrivilegesFragment.newInstance()
+//            requiredAuthPrivilegesFragment.show(supportFragmentManager, "privilege")
+//        }
         binding.patternLock.setOnPatternListener(object : PatternLockView.OnPatternListener {
             override fun onComplete(ids: ArrayList<Int>): Boolean {
                 viewModel.validate(AuthDialogViewModel.AuthMethod.AuthByPattern(ids))

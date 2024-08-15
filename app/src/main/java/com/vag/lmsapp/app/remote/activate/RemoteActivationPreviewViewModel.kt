@@ -6,6 +6,7 @@ import com.vag.lmsapp.model.MachineActivationQueues
 import com.vag.lmsapp.model.MachineConnectionStatus
 import com.vag.lmsapp.room.repository.CustomerRepository
 import com.vag.lmsapp.room.repository.JobOrderQueuesRepository
+import com.vag.lmsapp.room.repository.JobOrderRepository
 import com.vag.lmsapp.room.repository.MachineRepository
 import com.vag.lmsapp.room.repository.RemoteRepository
 import com.vag.lmsapp.settings.DeveloperSettingsRepository
@@ -22,6 +23,7 @@ constructor(
     private val customerRepository: CustomerRepository,
     private val jobOrderQueuesRepository: JobOrderQueuesRepository,
     private val remoteRepository: RemoteRepository,
+    private val jobOrderRepository: JobOrderRepository,
     private val settingsRepository: DeveloperSettingsRepository
 ): ViewModel() {
     val fakeActivationOn = settingsRepository.fakeConnectionMode
@@ -53,6 +55,8 @@ constructor(
 //    private val _customer = MutableLiveData<EntityCustomer>()
 //    val customer: LiveData<EntityCustomer> = _customer
     val customer = _machineActivationQueue.switchMap {customerRepository.getCustomerAsLiveData(it.customerId) }
+
+    val jobOrder = jobOrderService.switchMap { jobOrderRepository.getAsLiveData(it?.jobOrderId) }
 
 //    private val _machineStatus = MutableLiveData<MachineConnectionStatus>()
 //    val machineStatus: LiveData<MachineConnectionStatus> = _machineStatus

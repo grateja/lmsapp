@@ -16,4 +16,6 @@ data class EntityPackage(
     @Json(name = "total_price")
     @ColumnInfo(name = "total_price")
     var totalPrice: Float = 0f,
+
+    var hidden: Boolean = false
 ) : BaseEntity()

@@ -10,6 +10,7 @@
             type="com.vag.lmsapp.app.auth.AuthDialogViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,150 +28,186 @@
                 android:layout_height="wrap_content"/>
         </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/container"
+            style="@style/RoundCard.NoElevation"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/title"
-            android:orientation="vertical"
-            android:divider="@drawable/divider_10"
-            android:showDividers="middle"
-            tools:layout_editor_absoluteX="16dp">
-
-            <TextView
-                android:visibility="@{viewModel.message != null || viewModel.message != ``}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.message}" />
-
-            <TextView
-                android:visibility="@{viewModel.roles.size() > 0}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.roles.toString()}" />
-
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/divider_5"
-                android:paddingVertical="12dp"
-                android:showDividers="middle">
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:layout_marginVertical="16dp"
+                android:orientation="vertical"
+                android:divider="@drawable/divider_10"
+                android:showDividers="middle"
+                tools:layout_editor_absoluteX="16dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/button_auth_method_pattern"
-                    style="@style/CardRoundButton"
-                    app:cardBackgroundColor="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PATTERN ? @color/neutral : @color/white}"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/neutral"
-                    app:strokeWidth="1dp"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_pattern"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.card.MaterialCardView>
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/button_auth_method_password"
-                    style="@style/CardRoundButton"
-                    app:cardBackgroundColor="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD ? @color/neutral : @color/white}"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/neutral"
-                    app:strokeWidth="1dp"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_password"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.card.MaterialCardView>
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/button_privilege"
-                    style="@style/CardRoundButton"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/neutral"
-                    app:strokeWidth="1dp"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:src="@drawable/icon_warning"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Username"
-                app:errorEnabled="true"
-                app:errorText="@{viewModel.validation.get(`userName`)}">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/textInputCashlessProvider"
+                <TextView
+                    android:visibility="@{viewModel.action != null &amp;&amp; viewModel.action != ``}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:completionThreshold="0"
-                    android:inputType="textNoSuggestions"
-                    android:maxLines="1"
-                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`userName`)}"
-                    android:padding="12dp"
-                    android:text="@={viewModel.userName}" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="@{`Action: ` + viewModel.action}"
+                    android:textAlignment="center"
+                    tools:text="Some message"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:visibility="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD}"
-                app:errorEnabled="true"
-                app:errorText="@{viewModel.validation.get(`password`)}">
-
-                <com.google.android.material.textfield.TextInputEditText
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_permissions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`password`)}"
-                    android:text="@={viewModel.password}" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="vertical"
+                    android:nestedScrollingEnabled="false"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD}">
-
-                <Button
-                    android:id="@+id/buttonCancel"
-                    style="@style/RoundButtonNeutral"
+                <TextView
+                    android:visibility="@{viewModel.roles.size() > 0}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cancel" />
+                    android:text="@{viewModel.roles.toString()}" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/buttonOk"
-                    style="@style/RoundButtonPrimary"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ok" />
+                    android:divider="@drawable/divider_5"
+                    android:paddingVertical="12dp"
+                    android:showDividers="middle">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/button_auth_method_pattern"
+                        style="@style/CardRoundButton"
+                        app:strokeColor="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PATTERN ? @color/primary : @color/white}"
+                        app:cardBackgroundColor="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PATTERN ? @color/primary_highlight : @color/white}"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            style="@style/LinearLayoutDivider5.Center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon_pattern"
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:text="Use pattern"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/button_auth_method_password"
+                        style="@style/CardRoundButton"
+                        app:strokeColor="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD ? @color/primary : @color/white}"
+                        app:cardBackgroundColor="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD ? @color/primary_highlight : @color/white}"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/LinearLayoutDivider5.Center">
+                            <ImageView
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon_password"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:text="Use password"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <!--                <com.google.android.material.card.MaterialCardView-->
+                    <!--                    android:id="@+id/button_privilege"-->
+                    <!--                    style="@style/CardRoundButton"-->
+                    <!--                    android:layout_width="0dp"-->
+                    <!--                    android:layout_height="40dp"-->
+                    <!--                    app:cardBackgroundColor="@color/white"-->
+                    <!--                    app:cardElevation="0dp"-->
+                    <!--                    app:strokeColor="@color/neutral"-->
+                    <!--                    app:strokeWidth="1dp"-->
+                    <!--                    android:layout_weight="1">-->
+                    <!--                    <ImageView-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:src="@drawable/icon_warning"-->
+                    <!--                        android:layout_width="40dp"-->
+                    <!--                        android:layout_height="wrap_content"/>-->
+                    <!--                </com.google.android.material.card.MaterialCardView>-->
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    app:errorEnabled="true"
+                    app:errorText="@{viewModel.validation.get(`userName`)}">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/textInputCashlessProvider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:completionThreshold="0"
+                        android:inputType="textNoSuggestions"
+                        android:maxLines="1"
+                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`userName`)}"
+                        android:padding="12dp"
+                        android:text="@={viewModel.userName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:visibility="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD}"
+                    app:errorEnabled="true"
+                    app:errorText="@{viewModel.validation.get(`password`)}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`password`)}"
+                        android:text="@={viewModel.password}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--            <LinearLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:orientation="horizontal"-->
+                <!--                android:visibility="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD}">-->
+
+                <!--                <Button-->
+                <!--                    android:id="@+id/buttonCancel"-->
+                <!--                    style="@style/RoundButtonNeutral"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="@string/cancel" />-->
+
+                <!--                <View-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="0dp"-->
+                <!--                    android:layout_weight="1" />-->
+
+                <!--                <Button-->
+                <!--                    android:id="@+id/buttonOk"-->
+                <!--                    style="@style/RoundButtonPrimary"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="@string/ok" />-->
+                <!--            </LinearLayout>-->
             </LinearLayout>
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.itsxtt.patternlock.PatternLockView
             android:id="@+id/pattern_lock"
@@ -181,6 +218,64 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/container" />
+
+        <LinearLayout
+            android:id="@+id/controls"
+            android:visibility="@{viewModel.authMethod == com.vag.lmsapp.model.EnumAuthMethod.AUTH_BY_PASSWORD}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_close"
+                style="@style/ButtonCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icon_close"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/close"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_confirm"
+                style="@style/ButtonCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/icon_confirm"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/confirm"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -21,6 +21,8 @@ constructor(private val daoPackage: DaoPackage) : BaseRepository<EntityPackage>(
         return daoPackage.getAll(keyword)
     }
 
+    fun getAsLiveData(packageId: UUID?) = daoPackage.getAsLiveData(packageId)
+
     suspend fun getPackageServicesByPackageId(packageId: UUID) = daoPackage.getPackageServicesByPackageId(packageId)
     suspend fun getPackageProductsByPackageId(packageId: UUID) = daoPackage.getPackageProductsByPackageId(packageId)
     suspend fun getPackageExtrasByPackageId(packageId: UUID) = daoPackage.getPackageExtrasByPackageId(packageId)
@@ -60,4 +62,5 @@ constructor(private val daoPackage: DaoPackage) : BaseRepository<EntityPackage>(
     fun getPackageWithItemsAsLiveData(packageId: UUID?) = daoPackage.getPackageAsLiveData(packageId)
 
     suspend fun saveAll(packageWithItems: EntityPackageWithItems) = daoPackage.saveAll(packageWithItems)
+    suspend fun hideToggle(packageId: UUID?) = daoPackage.hideToggle(packageId)
 }

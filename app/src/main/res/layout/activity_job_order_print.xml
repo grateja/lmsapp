@@ -8,52 +8,53 @@
             name="viewModel"
             type="com.vag.lmsapp.app.joborders.print.JobOrderPrintViewModel" />
     </data>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                app:title="Print Preview"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/controls">
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.appbar.AppBarLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="@color/text_grey"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    app:title="Print Preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.appbar.AppBarLayout>
             <androidx.core.widget.NestedScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/controls"
-                android:layout_marginBottom="16dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingVertical="24dp"
+                android:clipToPadding="false"
+                android:background="@color/text_grey"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
                 <com.google.android.material.card.MaterialCardView
                     app:cardElevation="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="12dp"
+                    android:clipToPadding="false"
+                    android:layout_gravity="center_horizontal"
                     app:contentPaddingLeft="12dp"
-                    app:contentPaddingRight="12dp"
-                    app:contentPaddingBottom="24dp">
+                    app:contentPaddingRight="12dp">
 
                     <LinearLayout
                         android:id="@+id/wrapper"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:paddingTop="36dp">
+                        android:layout_marginVertical="16dp">
 
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recycler_items"
+                            tools:layout_height="350dp"
                             android:nestedScrollingEnabled="false"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -62,74 +63,81 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </androidx.core.widget.NestedScrollView>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@color/white"
-                android:id="@+id/controls"
-                android:layout_width="match_parent"
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:background="@color/text_grey"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:paddingVertical="24dp"-->
+<!--                app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/white"
+            android:id="@+id/controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="16dp">
+            <Button
+                android:id="@+id/button_enable_bluetooth"
+                style="@style/RoundButtonNeutral.Small"
+                android:visibility="@{!viewModel.bluetoothEnabled}"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{viewModel.permitted ? `Turn on bluetooth` : `Allow app to use bluetooth`}"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:padding="16dp">
-                <Button
-                    android:id="@+id/button_enable_bluetooth"
-                    style="@style/RoundButtonNeutral.Small"
-                    android:visibility="@{!viewModel.bluetoothEnabled}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.permitted ? `Turn on bluetooth` : `Allow app to use bluetooth`}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-                <androidx.constraintlayout.widget.Group
-                    android:visibility="@{viewModel.bluetoothEnabled}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="text_title,print_options,text_printer_name"/>
-                <TextView
-                    android:id="@+id/text_title"
-                    style="@style/TextItemTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/what_do_you_want_to_print"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    app:layout_constraintTop_toBottomOf="@id/text_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="18dp"
-                    android:id="@+id/print_options"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    app:layout_constraintTop_toBottomOf="@id/print_options"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:id="@+id/text_printer_name"
-                    android:layout_margin="18dp"
-                    android:text="@{viewModel.printerName}"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="JP-58H"/>
-                <Button
-                    android:id="@+id/button_print"
-                    android:visibility="@{viewModel.canPrint}"
-                    style="@style/RoundButtonPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.buttonPrimaryAction}"
-                    android:layout_gravity="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/print_options"/>
-<!--                <TextView-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    android:visibility="@{!viewModel.isBluetoothAvailable}"-->
-<!--                    android:text="Bluetooth is not supported on this device!"-->
-<!--                    android:layout_margin="24dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"/>-->
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <androidx.constraintlayout.widget.Group
+                android:visibility="@{viewModel.bluetoothEnabled}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="text_title,print_options,text_printer_name"/>
+            <TextView
+                android:id="@+id/text_title"
+                style="@style/TextItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/what_do_you_want_to_print"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <androidx.recyclerview.widget.RecyclerView
+                app:layout_constraintTop_toBottomOf="@id/text_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="18dp"
+                android:id="@+id/print_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/print_options"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/text_printer_name"
+                android:layout_margin="18dp"
+                android:text="@{viewModel.printerName}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="JP-58H"/>
+            <Button
+                android:id="@+id/button_print"
+                android:visibility="@{viewModel.canPrint}"
+                style="@style/RoundButtonPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.buttonPrimaryAction}"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/print_options"/>
+            <!--                <TextView-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    android:visibility="@{!viewModel.isBluetoothAvailable}"-->
+            <!--                    android:text="Bluetooth is not supported on this device!"-->
+            <!--                    android:layout_margin="24dp"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"/>-->
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

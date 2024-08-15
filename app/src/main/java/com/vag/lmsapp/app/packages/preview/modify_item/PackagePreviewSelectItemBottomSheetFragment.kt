@@ -17,7 +17,7 @@ import com.vag.lmsapp.util.selectAllOnFocus
 import com.vag.lmsapp.util.showDeleteConfirmationDialog
 
 class PackagePreviewSelectItemBottomSheetFragment : BaseModalFragment() {
-    override var fullHeight: Boolean = true
+    override var fullHeight: Boolean = false
 
     var onOk: ((PackageItem) -> Unit)? = null
 
@@ -60,9 +60,9 @@ class PackagePreviewSelectItemBottomSheetFragment : BaseModalFragment() {
             dismiss()
         }
         binding.buttonCardRemove.setOnClickListener {
-            requireContext().showDeleteConfirmationDialog("Remove this item from package?") {
-                viewModel.remove()
-            }
+            viewModel.remove()
+//            requireContext().showDeleteConfirmationDialog("Remove this item from package?") {
+//            }
         }
     }
 

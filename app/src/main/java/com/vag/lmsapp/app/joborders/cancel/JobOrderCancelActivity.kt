@@ -13,8 +13,10 @@ import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityJobOrderCancelBinding
 import com.vag.lmsapp.internet.InternetConnectionCallback
 import com.vag.lmsapp.internet.InternetConnectionObserver
+import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.services.JobOrderSyncService
 import com.vag.lmsapp.util.ActivityLauncher
+import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.toUUID
@@ -30,19 +32,26 @@ class JobOrderCancelActivity : AppCompatActivity(), InternetConnectionCallback {
 
     private lateinit var binding: ActivityJobOrderCancelBinding
     private val viewModel: JobOrderCancelViewModel by viewModels()
-    private val authLauncher = ActivityLauncher(this)
+    private val authLauncher = AuthLauncherActivity(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_job_order_cancel)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.buttonSave.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.validate()
         }
-        authLauncher.onOk = { result ->
-            result.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
-                viewModel.save(it.userId)
-            }
+        binding.cardButtonClose.setOnClickListener {
+            finish()
+        }
+
+//        authLauncher.onOk = { result ->
+//            result.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
+//                viewModel.save(it.userId)
+//            }
+//        }
+        authLauncher.onOk = { loginCredentials, i ->
+            viewModel.save(loginCredentials.userId)
         }
         intent.getStringExtra(JOB_ORDER_ID).toUUID().let {
             viewModel.loadJobOrder(it)
@@ -54,8 +63,8 @@ class JobOrderCancelActivity : AppCompatActivity(), InternetConnectionCallback {
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is DataState.ValidationPassed -> {
-                    val intent = Intent(this, AuthActionDialogActivity::class.java)
-                    authLauncher.launch(intent)
+//                    val intent = Intent(this, AuthActionDialogActivity::class.java)
+                    authLauncher.launch(listOf(EnumActionPermission.DELETE_JOB_ORDERS), 1)
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {

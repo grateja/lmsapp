@@ -70,6 +70,7 @@ class PackagesAddEditBottomSheetFragment : ModalFragment<EntityPackage?>() {
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {
+                    onOk?.invoke(it.data)
                     dismiss()
                 }
 

@@ -50,7 +50,11 @@ class PackagesActivity : FilterActivity() {
         }
 
         binding.buttonCreateNew.setOnClickListener {
-            PackagesAddEditBottomSheetFragment().show(supportFragmentManager, "")
+            PackagesAddEditBottomSheetFragment().apply {
+                onOk = {
+                    openAddEdit(it?.id)
+                }
+            }.show(supportFragmentManager, "")
         }
     }
 

@@ -66,7 +66,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
     private fun auth(action: String, message: String) {
         val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
             this.action = action
-            putExtra(AuthActionDialogActivity.MESSAGE, message)
+            putExtra(AuthActionDialogActivity.ACTION_EXTRA, message)
         }
         authLauncher.launch(intent)
     }
@@ -127,7 +127,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is JobOrderPaymentViewModel.DataState.ValidationPassed -> {
-                    auth(AUTH_REQUEST_SAVE, "Saving job order requires authentication!")
+                    auth(AUTH_REQUEST_SAVE, "Confirm and save payment")
                     viewModel.resetState()
                 }
                 is JobOrderPaymentViewModel.DataState.PaymentSuccess -> {

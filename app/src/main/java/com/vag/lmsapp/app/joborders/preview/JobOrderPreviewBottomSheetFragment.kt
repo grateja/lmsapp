@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.squareup.moshi.JsonAdapter
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
@@ -177,7 +176,8 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
             viewModel.openPrint()
         }
         binding.buttonDelete.setOnClickListener {
-            requestAuthorization(ACTION_REQUEST_DELETE)
+            viewModel.openDelete()
+//            requestAuthorization(ACTION_REQUEST_DELETE)
         }
         binding.labelLocked.setOnClickListener {
             context?.let {
@@ -195,7 +195,7 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
             if(it.data?.action == ACTION_REQUEST_UNLOCK) {
                 viewModel.openJobOrder()
             } else if(it.data?.action == ACTION_REQUEST_DELETE) {
-                viewModel.openDelete()
+//                viewModel.openDelete()
             }
         }
 
@@ -235,7 +235,7 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
     private fun requestAuthorization(authAction: String) {
         val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
             action = authAction
-            putExtra(AuthActionDialogActivity.MESSAGE, "Authentication Required")
+            putExtra(AuthActionDialogActivity.ACTION_EXTRA, "Authentication Required")
             putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, arrayListOf(EnumActionPermission.MODIFY_JOB_ORDERS))
         }
         authLauncher.launch(intent)
