@@ -200,7 +200,9 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Machine number"
+                        android:hint="Machine name"
+                        app:prefixText="@{viewModel.machineFilter}"
+                        app:prefixTextColor="@color/card_selected"
                         app:errorEnabled="true"
                         app:errorText="@{viewModel.validation.get(`machineNumber`)}">
 
@@ -216,7 +218,9 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="IP End"
+                        android:hint="IP Address"
+                        app:prefixText="@{viewModel.ipPrefix}"
+                        app:prefixTextColor="@color/card_selected"
                         app:errorEnabled="true"
                         app:errorText="@{viewModel.validation.get(`ipEnd`)}">
 

@@ -71,7 +71,7 @@ class MachinePreviewActivity : FilterActivity() {
         authLauncher.onOk = { _, code ->
             when(code) {
                 AUTH_CODE_EDIT -> viewModel.openEdit()
-                AUTH_CODE_DELETE -> viewModel.openDelete()
+                AUTH_CODE_DELETE -> viewModel.deleteMachine()
             }
         }
 
@@ -141,6 +141,11 @@ class MachinePreviewActivity : FilterActivity() {
                 is MachinePreviewViewModel.NavigationState.OpenPing -> {
                     openPing(it.ipEnd)
                     viewModel.resetState()
+                }
+
+                is MachinePreviewViewModel.NavigationState.DeleteSuccess -> {
+                    viewModel.resetState()
+                    finish()
                 }
 
                 else -> {}

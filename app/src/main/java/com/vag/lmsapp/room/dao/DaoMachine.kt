@@ -18,17 +18,17 @@ import java.util.*
 
 @Dao
 interface DaoMachine : BaseDao<EntityMachine> {
-    @Query("SELECT * FROM machines WHERE machine_type = :machineType AND service_type = :serviceType ORDER BY stack_order")
+    @Query("SELECT * FROM machines WHERE machine_type = :machineType AND service_type = :serviceType AND deleted = 0 ORDER BY stack_order")
     suspend fun getAll(machineType: EnumMachineType, serviceType: EnumServiceType): List<EntityMachine>
 
     @Query("SELECT * FROM machines WHERE id = :id")
     suspend fun get(id: UUID): EntityMachine?
 
-    @Query("SELECT stack_order FROM machines WHERE machine_type = :machineType AND service_type = :serviceType ORDER BY stack_order DESC")
+    @Query("SELECT stack_order FROM machines WHERE machine_type = :machineType AND service_type = :serviceType AND deleted = 0 ORDER BY stack_order DESC LIMIT 1")
     suspend fun getLastStackOrder(machineType: EnumMachineType?, serviceType: EnumServiceType?): Int?
 
-    @Query("SELECT * FROM machines ORDER BY stack_order")
-    fun getAllAsLiveData(): LiveData<List<EntityMachine>>
+//    @Query("SELECT * FROM machines ORDER BY stack_order")
+//    fun getAllAsLiveData(): LiveData<List<EntityMachine>>
 
     @Query("""
         SELECT m.*, 
@@ -36,7 +36,7 @@ interface DaoMachine : BaseDao<EntityMachine> {
             COUNT(*) AS total_usage
         FROM machines m 
         LEFT JOIN machine_usages mu ON m.id = mu.machine_id
-        WHERE machine_type = :machineType AND service_type = :serviceType
+        WHERE machine_type = :machineType AND service_type = :serviceType AND m.deleted = 0
         GROUP BY m.id
         ORDER BY stack_order
     """)

@@ -12,10 +12,12 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.app.machines.addedit.MachinesAddEditActivity
 import com.vag.lmsapp.app.machines.preview.MachinePreviewActivity
 import com.vag.lmsapp.databinding.ActivityMachinesBinding
+import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.MachineTypeFilter
+import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.MACHINE_ID
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +27,11 @@ class MachinesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMachinesBinding
     private val viewModel: MachinesViewModel by viewModels()
     private val adapter = MachinesAdapter() //Adapter<MachineListItem>(R.layout.recycler_item_machine_details)
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { _, code ->
+            viewModel.openCreateNew()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,25 +82,7 @@ class MachinesActivity : AppCompatActivity() {
             viewModel.setMachineType(EnumMachineType.TITAN, EnumServiceType.DRY)
         }
 
-//        binding.tabMachineType.tabMachineType.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-//                viewModel.setMachineType(tab?.text.toString())
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//            }
-//
-//            override fun onTabReselected(tab: TabLayout.Tab?) {
-//            }
-//        })
         adapter.onItemClick = {
-//            val intent = Intent(this, MachinesAddEditActivity::class.java).apply {
-//                putExtra(Constants.MACHINE_ID, it.machine.id.toString())
-//                putExtra(MachinesAddEditActivity.MACHINE_TYPE_FILTER, MachineTypeFilter(
-//                    it.machine.machineType,
-//                    it.machine.serviceType
-//                ))
-//            }
             val intent = Intent(this, MachinePreviewActivity::class.java).apply {
                 putExtra(MACHINE_ID, it.machine.id.toString())
             }
@@ -101,6 +90,11 @@ class MachinesActivity : AppCompatActivity() {
         }
         adapter.onPositionChanged = {
             viewModel.setNewPositions(it)
+        }
+
+        binding.buttonCreateNew.setOnClickListener {
+            authLauncher.launch(listOf(EnumActionPermission.MODIFY_MACHINES), 1)
+//            viewModel.openCreateNew()
         }
 
         binding.cardButtonConfirm.setOnClickListener {
@@ -116,5 +110,23 @@ class MachinesActivity : AppCompatActivity() {
         viewModel.machines.observe(this, Observer {
             adapter.setData(it)
         })
+
+        viewModel.navigationState.observe(this, Observer {
+            when(it) {
+                is MachinesViewModel.NavigationState.OpenCreateNew -> {
+                    openCreateNew(it.machineTypeFilter)
+                    viewModel.resetState()
+                }
+
+                else -> {}
+            }
+        })
+    }
+
+    private fun openCreateNew(machineTypeFilter: MachineTypeFilter) {
+        val intent = Intent(this, MachinesAddEditActivity::class.java).apply {
+            putExtra(MachinesAddEditActivity.MACHINE_TYPE_FILTER, machineTypeFilter)
+        }
+        startActivity(intent)
     }
 }

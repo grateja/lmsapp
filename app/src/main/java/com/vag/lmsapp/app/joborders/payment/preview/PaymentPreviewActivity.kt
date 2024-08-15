@@ -67,6 +67,9 @@ class PaymentPreviewActivity : AppCompatActivity() {
         launcher.onOk = {
             finish()
         }
+        binding.buttonDelete.setOnClickListener {
+            viewModel.initiateDelete()
+        }
     }
 
     private fun subscribeListeners() {

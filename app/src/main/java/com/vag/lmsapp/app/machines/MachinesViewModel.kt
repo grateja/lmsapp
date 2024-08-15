@@ -20,6 +20,9 @@ class MachinesViewModel
 constructor(
     private val machineRepository: MachineRepository
 ) : ViewModel() {
+    private val _navigationState = MutableLiveData<NavigationState>()
+    val navigationState: LiveData<NavigationState> = _navigationState
+
     private val _filter = MutableLiveData(MachineTypeFilter(
         EnumMachineType.REGULAR,
         EnumServiceType.WASH
@@ -56,5 +59,20 @@ constructor(
                 _requireSave.value = false
             }
         }
+    }
+
+    fun openCreateNew() {
+        _filter.value?.let {
+            _navigationState.value = NavigationState.OpenCreateNew(it)
+        }
+    }
+
+    fun resetState() {
+        _navigationState.value = NavigationState.StateLess
+    }
+
+    sealed class NavigationState {
+        data object StateLess: NavigationState()
+        data class OpenCreateNew(val machineTypeFilter: MachineTypeFilter): NavigationState()
     }
 }

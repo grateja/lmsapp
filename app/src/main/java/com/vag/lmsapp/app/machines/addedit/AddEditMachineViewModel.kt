@@ -1,5 +1,6 @@
 package com.vag.lmsapp.app.machines.addedit
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.model.EnumMachineType
@@ -7,6 +8,7 @@ import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.MachineTypeFilter
 import com.vag.lmsapp.room.entities.EntityMachine
 import com.vag.lmsapp.room.repository.MachineRepository
+import com.vag.lmsapp.settings.DeveloperSettingsRepository
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.InputValidation
 import com.vag.lmsapp.util.toUUID
@@ -22,11 +24,28 @@ import javax.inject.Inject
 class AddEditMachineViewModel
 @Inject
 constructor(
-    private val repository: MachineRepository
+    private val repository: MachineRepository,
+    private val developerSettingsRepository: DeveloperSettingsRepository
 ) : CreateViewModel<EntityMachine>(repository) {
 
     val connecting = MutableLiveData(false)
-//    val state = MutableLiveData<RemoteActivationState>()
+
+    val machineFilter = MediatorLiveData<String>().apply {
+        addSource(model) {
+            value = "${it?.machineType?.value} ${it?.serviceType?.value}er"
+        }
+    }
+
+    private val _ipPrefix = developerSettingsRepository.prefix
+    private val _ipSubnet = developerSettingsRepository.subnet
+    val ipPrefix = MediatorLiveData<String>().apply {
+        fun update() {
+            value = "${_ipPrefix.value}.${_ipSubnet.value}."
+        }
+
+        addSource(_ipPrefix) {update()}
+        addSource(_ipSubnet) {update()}
+    }
 
     fun get(id: String?, filter: MachineTypeFilter?) {
         model.value.let {
@@ -47,7 +66,6 @@ constructor(
     override fun save() {
         model.value?.let {
             val inputValidation = InputValidation()
-//            inputValidation.addRules("name", it.name.toString(), arrayOf(Rule.REQUIRED))
             if(inputValidation.isInvalid()) {
                 validation.value = inputValidation
                 return@let

@@ -129,8 +129,13 @@ constructor(
         _navigationState.value = NavigationState.OpenEdit(filterParams.value?.machineId)
     }
 
-    fun openDelete() {
-        _navigationState.value = NavigationState.OpenDelete(filterParams.value?.machineId)
+    fun deleteMachine() {
+        viewModelScope.launch {
+            machine.value?.let {
+                machineRepository.delete(it)
+                _navigationState.value = NavigationState.DeleteSuccess(filterParams.value?.machineId)
+            }
+        }
     }
 
     fun openPing() {
@@ -141,7 +146,7 @@ constructor(
         data object Stateless: NavigationState()
         data class OpenMachineSelector(val machineId: UUID?): NavigationState()
         data class OpenEdit(val machineId: UUID?): NavigationState()
-        data class OpenDelete(val machineId: UUID?): NavigationState()
+        data class DeleteSuccess(val machineId: UUID?): NavigationState()
         data class OpenPing(val ipEnd: Int): NavigationState()
     }
 }

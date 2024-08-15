@@ -36,7 +36,7 @@ class MachineRepository
 //        daoMachine.setWorkerId(machineId, workerId)
 //    }
 
-    fun getAllAsLiveData() = daoMachine.getAllAsLiveData()
+//    fun getAllAsLiveData() = daoMachine.getAllAsLiveData()
 
     fun getListAsLiveData(filter: MachineTypeFilter) = daoMachine.getListAllAsLiveData(filter.machineType, filter.serviceType)
 
