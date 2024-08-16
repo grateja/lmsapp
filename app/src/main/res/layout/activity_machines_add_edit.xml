@@ -228,7 +228,7 @@
                             android:text="@={viewModel.model.ipEnd + ``}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`ipEnd`)}"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
