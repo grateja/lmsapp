@@ -47,7 +47,7 @@ constructor(
     fun openActivationPreview(joServiceId: UUID) {
         val machineId = _machineId.value ?: return
         val customerId = customerQueue.value?.customerId ?: return
-        val queues = MachineActivationQueues(machineId, joServiceId, customerId)
+        val queues = MachineActivationQueues(machineId, joServiceId, customerId, null)
         _navigationState.value = NavigationState.OpenActivationPreview(queues)
     }
 

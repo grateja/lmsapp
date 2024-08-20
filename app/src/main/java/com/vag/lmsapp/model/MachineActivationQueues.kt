@@ -9,6 +9,7 @@ class MachineActivationQueues(
     val machineId: UUID,
     val jobOrderServiceId: UUID?,
     val customerId: UUID?,
+    val userId: UUID?,
 //    val customerName: String,
 //    val serviceName: String,
 //    val machineName: String,

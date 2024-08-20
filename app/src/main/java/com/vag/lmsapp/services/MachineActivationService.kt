@@ -234,13 +234,14 @@ class MachineActivationService : Service() {
 
                     if (connect(machine, jobOrderService)) {
 
-                        val machineUsage = EntityMachineUsage(machine.id, jobOrderService.id, customer.id)
+                        val machineUsage = EntityMachineUsage(machine.id, jobOrderService.id, customer.id, queue.userId)
                         val activationRef = EntityActivationRef(
                             Instant.now(),
                             jobOrderService.serviceRef.minutes,
                             jobOrderService.jobOrderId,
                             customer.id,
-                            machineUsage.id
+                            machineUsage.id,
+                            queue.userId
                         )
 
                         remoteRepository.activate(

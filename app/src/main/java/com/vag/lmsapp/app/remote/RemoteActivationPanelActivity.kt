@@ -182,7 +182,7 @@ class RemoteActivationPanelActivity : AppCompatActivity() {
                 val machineId = item.machine.id
                 val joServiceId = item.machine.serviceActivationId
                 val customerId = item.customer?.id
-                val queue = MachineActivationQueues(machineId, joServiceId, customerId)
+                val queue = MachineActivationQueues(machineId, joServiceId, customerId, item.machine.activationRef?.userId)
                 putExtra(MachineActivationService.ACTIVATION_QUEUES_EXTRA, queue)
             }
         } else {

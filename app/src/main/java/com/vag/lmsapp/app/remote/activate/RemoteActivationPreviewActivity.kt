@@ -16,6 +16,7 @@ import com.vag.lmsapp.databinding.ActivityRemoteActivationPreviewBinding
 import com.vag.lmsapp.model.MachineActivationQueues
 import com.vag.lmsapp.model.MachineConnectionStatus
 import com.vag.lmsapp.services.MachineActivationService
+import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.CASCADE_CLOSE
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class RemoteActivationPreviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRemoteActivationPreviewBinding
     private val viewModel: RemoteActivationPreviewViewModel by viewModels()
+    private val authActivity = AuthLauncherActivity(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,8 +107,13 @@ class RemoteActivationPreviewActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
+        authActivity.onOk = {loginCredentials, i ->
+            viewModel.prepareSubmit(loginCredentials.userId)
+        }
+
         binding.buttonActivate.setOnClickListener {
-            viewModel.prepareSubmit()
+            authActivity.launch(listOf(), 1)
+//            viewModel.prepareSubmit()
         }
 
         binding.buttonFix.setOnClickListener {

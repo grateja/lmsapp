@@ -52,6 +52,9 @@ data class EntityMachineUsageDetails(
     @ColumnInfo("discounted_price")
     val discountedPrice: Float,
 
+    @ColumnInfo("activated_by")
+    val activatedBy: String?,
+
     val sync: Boolean
 ): Parcelable {
     fun machineName() : String {

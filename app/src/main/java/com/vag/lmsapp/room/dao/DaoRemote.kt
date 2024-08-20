@@ -18,7 +18,8 @@ interface DaoRemote {
         service_activation_id = null, 
         jo_service_id = :jobOrderServiceId, 
         customer_id = :customerId, 
-        machine_usage_id = :machineUsageId 
+        machine_usage_id = :machineUsageId,
+        user_id = :userId
         WHERE id = :machineId
     """)
     fun startMachine(
@@ -27,7 +28,8 @@ interface DaoRemote {
         customerId: UUID?,
         timeActivated: Instant?,
         totalMinutes: Int?,
-        machineUsageId: UUID?
+        machineUsageId: UUID?,
+        userId: UUID?
     )
 
     @Upsert
@@ -46,7 +48,8 @@ interface DaoRemote {
             activationRef.customerId,
             activationRef.timeActivated,
             activationRef.totalMinutes,
-            activationRef.machineUsageId
+            activationRef.machineUsageId,
+            activationRef.userId
         )
         insertMachineUsage(machineUsage)
     }

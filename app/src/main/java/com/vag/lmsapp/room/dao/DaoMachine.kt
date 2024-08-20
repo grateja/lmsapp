@@ -46,12 +46,13 @@ interface DaoMachine : BaseDao<EntityMachine> {
     fun getMachineLiveData(id: UUID?): LiveData<EntityMachine?>
 
     @Query("""
-        SELECT mu.id, machine_id, ma.machine_number, ma.created_at, mu.machine_id, mu.customer_id, mu.created_at AS activated, cu.name as customer_name, jos.job_order_id, jos.service_name, jos.svc_minutes, jos.svc_wash_type, jos.svc_machine_type, jos.svc_service_type, job_order_number, jos.price, jos.discounted_price, mu.sync
+        SELECT mu.id, machine_id, ma.machine_number, ma.created_at, mu.machine_id, mu.customer_id, mu.created_at AS activated, cu.name as customer_name, jos.job_order_id, jos.service_name, jos.svc_minutes, jos.svc_wash_type, jos.svc_machine_type, jos.svc_service_type, job_order_number, jos.price, jos.discounted_price, u.name as activated_by, mu.sync
         FROM machine_usages mu
         LEFT JOIN machines ma ON mu.machine_id = ma.id
         LEFT JOIN customers cu ON mu.customer_id = cu.id
         LEFT JOIN job_order_services jos ON mu.job_order_service_id = jos.id
         LEFT JOIN job_orders jo ON jos.job_order_id = jo.id
+        LEFT JOIN users u ON mu.user_id = u.id
         WHERE (mu.machine_id = :machineId OR :machineId IS NULL)
         AND (mu.customer_id = :customerId OR :customerId IS NULL)
         AND (customer_name LIKE '%' || :keyword || '%' OR job_order_number LIKE '%' || :keyword || '%')
@@ -63,7 +64,7 @@ interface DaoMachine : BaseDao<EntityMachine> {
         ORDER BY
             CASE WHEN :orderBy = 'Customer' AND :sortDirection = 'ASC' THEN cu.name END ASC,
             CASE WHEN :orderBy = 'Date used' AND :sortDirection = 'ASC' THEN mu.created_at END ASC,
-            CASE WHEN :orderBy = 'Customer' AND :sortDirection = 'DESC' THEN name END DESC,
+            CASE WHEN :orderBy = 'Customer' AND :sortDirection = 'DESC' THEN cu.name END DESC,
             CASE WHEN :orderBy = 'Date used' AND :sortDirection = 'DESC' THEN mu.created_at END DESC
         LIMIT 20 OFFSET :offset
     """)
@@ -131,8 +132,6 @@ interface DaoMachine : BaseDao<EntityMachine> {
     suspend fun resultCount(customerId: UUID?, machineId: UUID?, machineType: EnumMachineType?, serviceType: EnumServiceType?, keyword: String?, dateFrom: LocalDate?, dateTo: LocalDate?): ResultCount
 
     suspend fun filterMachineUsage(keyword: String?, offset: Int, filter: MachineUsageAdvancedFilter): QueryResult<EntityMachineUsageDetails> {
-        println("date filter")
-        println(filter.dateFilter)
         return QueryResult(
             getMachineUsage(
                 filter.customerId,

@@ -12,6 +12,7 @@ import com.vag.lmsapp.room.repository.RemoteRepository
 import com.vag.lmsapp.settings.DeveloperSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -100,12 +101,12 @@ constructor(
 //        }
     }
 
-    fun prepareSubmit() {
+    fun prepareSubmit(userId: UUID) {
         val machineId = this.machine.value?.id ?: return
         val serviceId = this.jobOrderService.value?.id
         val customerId = this.customer.value?.id
 
-        _dataState.value = DataState.InitiateActivation(MachineActivationQueues(machineId, serviceId, customerId))
+        _dataState.value = DataState.InitiateActivation(MachineActivationQueues(machineId, serviceId, customerId, userId))
     }
 
     fun dismiss() {
