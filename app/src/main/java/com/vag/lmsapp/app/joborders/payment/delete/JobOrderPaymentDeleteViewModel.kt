@@ -44,21 +44,26 @@ constructor(
         _validation.value = _validation.value?.removeError(key)
     }
 
+    fun validate() {
+        val inputValidation = InputValidation().apply {
+            addRule("remarks", remarks.value, arrayOf(Rule.Required))
+        }
+
+        if(inputValidation.isInvalid()) {
+            _validation.value = inputValidation
+        } else {
+            _dataState.value = DataState.ValidationPassed
+        }
+    }
+
     fun confirm(userId: UUID) {
         viewModelScope.launch {
-            val inputValidation = InputValidation().apply {
-                addRule("remarks", remarks.value, arrayOf(Rule.Required))
-            }
-            if(inputValidation.isInvalid()) {
-                _validation.value = inputValidation
-            } else {
-                val paymentId = _paymentId.value ?: return@launch
-                val remarks = remarks.value ?: return@launch
-                paymentRepository.delete(
-                    paymentId, userId, remarks
-                )
-                _dataState.value = DataState.SaveSuccess(paymentId)
-            }
+            val paymentId = _paymentId.value ?: return@launch
+            val remarks = remarks.value ?: return@launch
+            paymentRepository.delete(
+                paymentId, userId, remarks
+            )
+            _dataState.value = DataState.SaveSuccess(paymentId)
         }
     }
 }

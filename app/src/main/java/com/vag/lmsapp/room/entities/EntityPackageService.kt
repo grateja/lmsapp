@@ -28,6 +28,8 @@ data class EntityPackageService(
     @Embedded
     var serviceRef: EntityServiceRef,
 
+//    @ColumnInfo(name = "unit_price")
+    @Json(name = "unit_price")
     var unitPrice: Float,
 
     var quantity: Int,

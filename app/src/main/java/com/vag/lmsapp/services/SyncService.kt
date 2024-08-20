@@ -10,12 +10,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.lms_live.SyncActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 abstract class SyncService(private val name: String, private val descriptions: String): Service() {
     companion object {
         const val CHANNEL_ID = "sync_service"
+        var running = false
     }
 
     private val notificationManager by lazy {
@@ -33,6 +35,17 @@ abstract class SyncService(private val name: String, private val descriptions: S
         }
 
     protected fun getNotification(title: String, text: String): Notification {
+        val notificationIntent = Intent(this, SyncActivity::class.java).apply {
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+
+
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(text)
@@ -40,6 +53,7 @@ abstract class SyncService(private val name: String, private val descriptions: S
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setOngoing(false)
             .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
 
         notificationManager.createNotificationChannel(createChannel())
         return builder.build()
@@ -53,4 +67,5 @@ abstract class SyncService(private val name: String, private val descriptions: S
             }
         }.start()
     }
+
 }

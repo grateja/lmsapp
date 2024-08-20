@@ -60,7 +60,7 @@ class RegisterWithQrCodeActivity : AppCompatActivity() {
     }
 
     private fun syncSetup() {
-        ShopSetupSyncWorker.enqueue(this)
+        ShopSetupSyncWorker.enqueue(this, true)
 //        val intent = JobOrderPaymentSyncService.getIntent(this, JobOrderPaymentSyncService.ACTION_SYNC_SETUP, null)
 //        startForegroundService(intent)
     }

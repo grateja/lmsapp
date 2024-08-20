@@ -8,6 +8,7 @@ import com.vag.lmsapp.room.entities.BaseEntity
 import com.vag.lmsapp.room.repository.IRepository
 import com.vag.lmsapp.util.*
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.UUID
 
 open class CreateViewModel<T : BaseEntity> (private val iRepository: IRepository<T>) : ViewModel() {
@@ -57,7 +58,9 @@ open class CreateViewModel<T : BaseEntity> (private val iRepository: IRepository
         model.value?.let {
             viewModelScope.launch {
                 iRepository.save(it).let {
-                    model.value = it
+                    model.value = it.apply {
+                        this?.updatedAt = Instant.now()
+                    }
                 }
                 dataState.value = DataState.SaveSuccess(it)
             }

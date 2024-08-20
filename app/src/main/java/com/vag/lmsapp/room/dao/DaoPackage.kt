@@ -110,4 +110,11 @@ interface DaoPackage : BaseDao<EntityPackage> {
 
     @Query("UPDATE packages SET hidden = CASE WHEN hidden = 1 THEN 0 ELSE 1 END WHERE id = :packageId")
     suspend fun hideToggle(packageId: UUID?)
+
+    @Query("""
+        SELECT *
+        FROM packages
+        WHERE sync = 0 OR :forced
+    """)
+    suspend fun unSynced(forced: Boolean): List<EntityPackageWithItems>
 }

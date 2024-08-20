@@ -63,4 +63,5 @@ constructor(private val daoPackage: DaoPackage) : BaseRepository<EntityPackage>(
 
     suspend fun saveAll(packageWithItems: EntityPackageWithItems) = daoPackage.saveAll(packageWithItems)
     suspend fun hideToggle(packageId: UUID?) = daoPackage.hideToggle(packageId)
+    suspend fun unSynced(forced: Boolean) = daoPackage.unSynced(forced)
 }

@@ -18,4 +18,7 @@ data class EntityPackage(
     var totalPrice: Float = 0f,
 
     var hidden: Boolean = false
-) : BaseEntity()
+) : BaseEntity() {
+    @Json(ignore = true)
+    var sync: Boolean = false
+}

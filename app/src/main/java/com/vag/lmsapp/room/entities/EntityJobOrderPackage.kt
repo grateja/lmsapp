@@ -10,12 +10,15 @@ import java.util.UUID
 @Entity(JOB_ORDER_PACKAGES)
 data class EntityJobOrderPackage(
     @ColumnInfo("job_order_id")
+    @Json(name = "job_order_id")
     val jobOrderId: UUID,
 
     @ColumnInfo("package_id")
+    @Json(name = "package_id")
     val packageId: UUID,
 
     @ColumnInfo("package_name")
+    @Json(name = "package_name")
     val packageName: String,
 
     val price: Float,

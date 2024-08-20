@@ -1,6 +1,7 @@
 package com.vag.lmsapp.app.remote.end_time
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -35,8 +36,11 @@ class RemoteActivationEndTimeActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
-        binding.buttonSave.setOnClickListener {
+        binding.cardButtonConfirm.setOnClickListener {
             viewModel.validate()
+        }
+        binding.cardButtonClose.setOnClickListener {
+            finish()
         }
         authLauncherActivity.onOk = { loginCredentials, i ->
             if(i == 1) {
@@ -56,6 +60,11 @@ class RemoteActivationEndTimeActivity : AppCompatActivity() {
                 is DataState.SaveSuccess -> {
                     viewModel.resetState()
                     finish()
+                }
+
+                is DataState.Invalidate -> {
+                    viewModel.resetState()
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
 
                 else -> {}

@@ -10,6 +10,7 @@
             type="com.vag.lmsapp.app.joborders.cancel.JobOrderCancelViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,27 +27,41 @@
                 android:layout_height="wrap_content"/>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <TextView
             app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintBottom_toTopOf="@id/controls"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_marginVertical="24dp"
+            android:id="@+id/label_remarks"
+            style="@style/CardTitle"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/remarks"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:hint="@string/remarks"
-            app:errorEnabled="true"
-            app:errorText="@{viewModel.validation.get(`remarks`)}">
+            style="@style/TextInputFlatGreyCard"
+            app:layout_constraintTop_toBottomOf="@id/label_remarks"
+            app:layout_constraintBottom_toTopOf="@id/control_divider">
 
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/TextInputFlatGreyEditText"
+                android:hint="Description..."
                 android:text="@={viewModel.remarks}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
                 android:inputType="textMultiLine"
-                android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`remarks`)}"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+                android:onTextChanged="@{(s, start, before, count) -> viewModel.clearError(`remarks`)}" />
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/control_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toTopOf="@id/controls"/>
         <LinearLayout
             android:id="@+id/controls"
             android:layout_width="match_parent"

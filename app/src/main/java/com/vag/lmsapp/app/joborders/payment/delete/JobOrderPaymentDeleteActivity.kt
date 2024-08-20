@@ -40,14 +40,21 @@ class JobOrderPaymentDeleteActivity : AppCompatActivity() {
                 viewModel.confirm(loginCredentials.userId)
             }
         }
-        binding.buttonConfirm.setOnClickListener {
-            authLauncher.launch(listOf(EnumActionPermission.MODIFY_JOB_ORDER_PAYMENTS), 1)
+        binding.cardButtonConfirm.setOnClickListener {
+            viewModel.validate()
+        }
+        binding.cardButtonClose.setOnClickListener {
+            finish()
         }
     }
 
     private fun subscribeListeners() {
         viewModel.dataState.observe(this, Observer {
             when(it) {
+                is DataState.ValidationPassed -> {
+                    authLauncher.launch(listOf(EnumActionPermission.MODIFY_JOB_ORDER_PAYMENTS), 1)
+                    viewModel.resetState()
+                }
                 is DataState.SaveSuccess -> {
                     file(it.data).let {
                         if(it.exists()) {

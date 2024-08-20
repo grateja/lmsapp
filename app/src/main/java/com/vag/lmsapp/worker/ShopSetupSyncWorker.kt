@@ -15,6 +15,7 @@ import com.vag.lmsapp.network.NetworkRepository
 import com.vag.lmsapp.room.repository.DeliveryProfilesRepository
 import com.vag.lmsapp.room.repository.DiscountsRepository
 import com.vag.lmsapp.room.repository.ExtrasRepository
+import com.vag.lmsapp.room.repository.JobOrderPackageRepository
 import com.vag.lmsapp.room.repository.MachineRepository
 import com.vag.lmsapp.room.repository.ProductRepository
 import com.vag.lmsapp.room.repository.SanctumRepository
@@ -40,7 +41,8 @@ constructor(
     private val extraRepository: ExtrasRepository,
     private val deliveryRepository: DeliveryProfilesRepository,
     private val discountRepository: DiscountsRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val packageRepository: JobOrderPackageRepository
 ) : CoroutineWorker(context, workerParams) {
     companion object {
         private const val FORCED = "forced"
@@ -81,6 +83,7 @@ constructor(
         val deliveryProfiles = deliveryRepository.unSynced(forced)
         val discounts = discountRepository.unSynced(forced)
         val staffs = userRepository.unSynced(forced)
+        val packages = packageRepository.unSynced(forced)
 
         if(shopId == null) {
             println("Shop id cannot be null")
@@ -106,7 +109,8 @@ constructor(
             products,
             extras,
             deliveryProfiles,
-            discounts
+            discounts,
+            packages
         )
 
         return networkRepository.sendBulkPayload(payload, shopId, token).let {

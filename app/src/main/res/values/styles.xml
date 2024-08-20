@@ -339,4 +339,14 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="TextInputFlatGreyCard">
+        <item name="cardBackgroundColor">@color/secondary_background</item>
+        <item name="cardCornerRadius">15dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="TextInputFlatGreyEditText">
+        <item name="android:background">@color/secondary_background</item>
+        <item name="android:layout_margin">16dp</item>
+    </style>
 </resources>

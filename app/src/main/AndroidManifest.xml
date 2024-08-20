@@ -32,7 +32,10 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LMS2025">
+        android:theme="@style/LightActionBar">
+        <activity
+            android:name=".app.lms_live.SyncActivity"
+            android:exported="false" />
         <activity
             android:name=".app.machines.ping.PingActivity"
             android:exported="false"
@@ -40,40 +43,33 @@
             android:theme="@style/Theme.MaterialComponents.Light.Dialog.Alert" />
         <activity
             android:name=".app.machines.preview.MachinePreviewActivity"
-            android:exported="false"
-            android:theme="@style/LightActionBar" />
+            android:exported="false" />
         <activity
             android:name=".app.app_settings.text_message_templates.add_edit.TextMessageTemplateAddEditActivity"
-            android:exported="false"
-            android:theme="@style/LightActionBar" />
+            android:exported="false" />
         <activity
             android:name=".app.app_settings.text_message_templates.TextMessageTemplateListActivity"
             android:exported="false"
-            android:label="Text Message Template"
-            android:theme="@style/LightActionBar" />
+            android:label="Text Message Template" />
         <activity
             android:name=".app.products.preview.ProductPreviewActivity"
             android:exported="false"
-            android:label="Product preview"
-            android:theme="@style/LightActionBar" />
+            android:label="Product preview" />
         <activity
             android:name=".app.daily_report.job_order_items.preview.DailyReportJobOrderItemsPreviewActivity"
             android:exported="false" />
         <activity
             android:name=".app.export_options.ExportOptionsActivity"
-            android:exported="false"
-            android:theme="@style/LightActionBar" />
+            android:exported="false" />
         <activity
             android:name=".app.daily_report.DailyReportActivity"
-            android:exported="false"
-            android:theme="@style/LightActionBar" />
+            android:exported="false" />
         <activity
             android:name=".app.remote.end_time.RemoteActivationEndTimeActivity"
             android:exported="false" />
         <activity
             android:name=".app.app_settings.shop_info.ShopInfoActivity"
-            android:exported="false"
-            android:theme="@style/LightActionBar" />
+            android:exported="false" />
         <activity
             android:name=".app.lms_live.register.RegisterWithQrCodeActivity"
             android:exported="false" />
@@ -97,8 +93,7 @@
         </activity>
         <activity
             android:name=".app.pickup_and_deliveries.add_edit.AddEditDeliveryProfileActivity"
-            android:exported="false"
-            android:theme="@style/LightActionBar">
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -113,8 +108,7 @@
         <activity
             android:name=".app.payment_list.PaymentListActivity"
             android:exported="false"
-            android:label="Payments"
-            android:theme="@style/LightActionBar">
+            android:label="Payments">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -122,8 +116,7 @@
         <activity
             android:name=".app.joborders.payment.preview.PaymentPreviewActivity"
             android:exported="false"
-            android:label="Payment"
-            android:theme="@style/LightActionBar">
+            android:label="Payment">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -131,8 +124,7 @@
         <activity
             android:name=".app.app_settings.user.list.AppSettingsUserAccountsActivity"
             android:exported="false"
-            android:label="User accounts"
-            android:theme="@style/LightActionBar" />
+            android:label="User accounts" />
         <activity
             android:name=".app.app_settings.shop_preferences.AppSettingsShopPreferencesActivity"
             android:exported="false"
@@ -174,8 +166,7 @@
         <activity
             android:name=".app.remote.queues.RemoteActivationQueuesActivity"
             android:exported="false"
-            android:label="Select Service"
-            android:theme="@style/LightActionBar">
+            android:label="Select Service">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -183,8 +174,7 @@
         <activity
             android:name=".app.remote.customer.RemoteActivationCustomerActivity"
             android:exported="false"
-            android:label="Select customer"
-            android:theme="@style/LightActionBar">
+            android:label="Select customer">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -192,8 +182,7 @@
         <activity
             android:name=".app.remote.RemoteActivationPanelActivity"
             android:exported="false"
-            android:label="Remote Activation"
-            android:theme="@style/Theme.LMS2025.NoActionBar">
+            android:label="Remote Activation">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -210,8 +199,7 @@
         <activity
             android:name=".app.packages.preview.PackagesPreviewActivity"
             android:exported="false"
-            android:label="Packages"
-            android:theme="@style/Theme.LMS2025.NoActionBar">
+            android:label="Packages">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -219,13 +207,11 @@
         <activity
             android:name=".app.packages.list.PackagesActivity"
             android:exported="false"
-            android:label="Packages"
-            android:theme="@style/LightActionBar" />
+            android:label="Packages" />
         <activity
             android:name=".app.services.edit.AddEditServiceActivity"
             android:exported="false"
-            android:label="Services"
-            android:theme="@style/LightActionBar">
+            android:label="Services">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -233,8 +219,7 @@
         <activity
             android:name=".app.services.ServicesActivity"
             android:exported="false"
-            android:label="Services"
-            android:theme="@style/LightActionBar">
+            android:label="Services">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -242,8 +227,7 @@
         <activity
             android:name=".app.customers.preview.CustomerPreviewActivity"
             android:exported="false"
-            android:label="Customer Details"
-            android:theme="@style/LightActionBar">
+            android:label="Customer Details">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -251,8 +235,7 @@
         <activity
             android:name=".app.joborders.unpaid.prompt.JobOrdersUnpaidPromptActivity"
             android:exported="false"
-            android:label="Unpaid Job Orders"
-            android:theme="@style/LightActionBar">
+            android:label="Unpaid Job Orders">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -260,8 +243,7 @@
         <activity
             android:name=".app.customers.list.CustomersActivity"
             android:exported="false"
-            android:label="Customers"
-            android:theme="@style/LightActionBar">
+            android:label="Customers">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -277,18 +259,15 @@
         <activity
             android:name=".app.extras.edit.ExtrasAddEditActivity"
             android:exported="false"
-            android:label="Extras Services"
-            android:theme="@style/LightActionBar" />
+            android:label="Extras Services" />
         <activity
             android:name=".app.extras.list.ExtrasActivity"
             android:exported="false"
-            android:label="Extras Services"
-            android:theme="@style/LightActionBar" />
+            android:label="Extras Services" />
         <activity
             android:name=".app.products.edit.ProductAddEditActivity"
             android:exported="false"
-            android:label="Products"
-            android:theme="@style/LightActionBar">
+            android:label="Products">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -296,13 +275,11 @@
         <activity
             android:name=".app.products.list.ProductsActivity"
             android:exported="false"
-            android:label="Products"
-            android:theme="@style/LightActionBar" />
+            android:label="Products" />
         <activity
             android:name=".app.discounts.edit.DiscountAddEditActivity"
             android:exported="false"
-            android:label="Discounts"
-            android:theme="@style/LightActionBar">
+            android:label="Discounts">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -310,13 +287,11 @@
         <activity
             android:name=".app.discounts.list.DiscountsActivity"
             android:exported="false"
-            android:label="Discounts"
-            android:theme="@style/LightActionBar" />
+            android:label="Discounts" />
         <activity
             android:name=".app.expenses.edit.ExpenseAddEditActivity"
             android:exported="false"
-            android:label="Expenses"
-            android:theme="@style/LightActionBar">
+            android:label="Expenses">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -324,8 +299,7 @@
         <activity
             android:name=".app.expenses.ExpensesActivity"
             android:exported="false"
-            android:label="Expenses"
-            android:theme="@style/LightActionBar">
+            android:label="Expenses">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -333,8 +307,7 @@
         <activity
             android:name=".app.joborders.create.packages.JobOrderCreateSelectPackageActivity"
             android:exported="false"
-            android:label="Select Package"
-            android:theme="@style/LightActionBar">
+            android:label="Select Package">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -343,7 +316,6 @@
             android:name=".app.joborders.cancel.JobOrderCancelActivity"
             android:exported="false"
             android:label="Cancel Job Order"
-            android:theme="@style/LightActionBar"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -352,8 +324,7 @@
         <activity
             android:name=".app.joborders.list.JobOrderListActivity"
             android:exported="false"
-            android:label="Job Orders"
-            android:theme="@style/Theme.LMS2025.NoActionBar">
+            android:label="Job Orders">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -362,6 +333,7 @@
             android:name=".app.remote.running.RemoteActivationRunningActivity"
             android:exported="false"
             android:label="Remote Panel"
+            android:noHistory="true"
             android:theme="@style/Theme.MaterialComponents.Light.Dialog">
             <meta-data
                 android:name="android.app.lib_name"

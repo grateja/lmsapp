@@ -40,6 +40,7 @@ import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.viewmodels.MainViewModel
+import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -290,6 +291,7 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
 
     override fun onConnected() {
         BacklogSyncService.start(this)
+        ShopSetupSyncWorker.enqueue(this, true)
     }
 
     override fun onDisconnected() { }
