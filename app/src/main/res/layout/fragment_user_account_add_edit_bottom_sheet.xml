@@ -182,7 +182,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{!viewModel.canModifyPermissions}"
+                        style="@style/LinearLayoutDivider5.Center">
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:checked="true"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@{viewModel.role == com.vag.lmsapp.model.Role.OWNER ? `Full access` : `Basic operations only`}"/>
+                    </LinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
+                        android:visibility="@{viewModel.canModifyPermissions}"
                         android:id="@+id/recycler_view_permissions"
                         android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"

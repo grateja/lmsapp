@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import com.vag.lmsapp.app.app_settings.user.components.SelectPermissionsAdapter
 import com.vag.lmsapp.databinding.FragmentUserAccountAddEditBottomSheetBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.model.Role
+import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
 import com.vag.lmsapp.util.Constants.Companion.USER_ID
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.toUUID
@@ -40,6 +42,10 @@ class UserAccountAddEditBottomSheetFragment : BaseModalFragment() {
 
         val userId = arguments?.getString(USER_ID).toUUID()
         viewModel.get(userId)
+
+        arguments?.getString(AUTH_ID).toUUID()?.let {
+            viewModel.setAuthId(it)
+        }
 
         return binding.root
     }
@@ -71,18 +77,30 @@ class UserAccountAddEditBottomSheetFragment : BaseModalFragment() {
                     dismiss()
                 }
 
+                is DataState.Invalidate -> {
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    viewModel.resetState()
+                }
+
                 else -> {}
             }
         })
         viewModel.permissions.observe(viewLifecycleOwner, Observer {
             permissions.setSelected(it)
         })
+        viewModel.authorizedUser.observe(viewLifecycleOwner, Observer {
+            println("authorizer")
+            println(it.user)
+        })
     }
 
     companion object {
-        fun newInstance(userId: UUID): UserAccountAddEditBottomSheetFragment{
+        const val CAN_CREATE_OWNER = "can_create_owner"
+
+        fun newInstance(userId: UUID?, authId: UUID): UserAccountAddEditBottomSheetFragment{
             val args = Bundle().apply {
                 putString(USER_ID, userId.toString())
+                putString(AUTH_ID, authId.toString())
             }
 
             val fragment = UserAccountAddEditBottomSheetFragment()

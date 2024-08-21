@@ -34,6 +34,9 @@
         android:supportsRtl="true"
         android:theme="@style/LightActionBar">
         <activity
+            android:name=".app.app_settings.user.change_pattern.ChangePatternActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.lms_live.SyncActivity"
             android:exported="false" />
         <activity

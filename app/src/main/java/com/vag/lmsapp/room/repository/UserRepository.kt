@@ -30,9 +30,7 @@ constructor (
         return daoUser.queryResult(keyword ?: "", offset, advancedFilter)
     }
 
-    suspend fun getAdmin() : EntityUser? {
-        return daoUser.getAdmin()
-    }
+    suspend fun getOwners() = daoUser.getOwners()
 
     suspend fun getByEmail(email: String) : EntityUser? {
         return daoUser.getByEmail(email)
@@ -62,4 +60,5 @@ constructor (
 
     suspend fun changePassword(userId: UUID, newPassword: String) = daoUser.changePassword(userId, newPassword)
     suspend fun unSynced(forced: Boolean) = daoUser.unSynced(forced)
+    suspend fun changePattern(userId: UUID, patternIds: ArrayList<Int>) = daoUser.changePattern(userId, patternIds)
 }

@@ -111,9 +111,36 @@
                                     android:scaleType="centerInside"
                                     android:layout_width="match_parent"
                                     android:layout_height="25dp"
-                                    android:src="@drawable/icon_locked"/>
+                                    android:src="@drawable/icon_password"/>
                                 <TextView
+                                    android:textAlignment="center"
                                     android:text="Change password"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_change_pattern"
+                            app:cardElevation="0dp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_margin="12dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center"
+                                android:gravity="center">
+                                <ImageView
+                                    android:layout_margin="8dp"
+                                    android:scaleType="centerInside"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/icon_pattern"/>
+                                <TextView
+                                    android:textAlignment="center"
+                                    android:text="Change pattern"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                             </LinearLayout>
@@ -138,7 +165,32 @@
                                     android:layout_height="25dp"
                                     android:src="@drawable/icon_edit"/>
                                 <TextView
-                                    android:text="Edit account info"
+                                    android:text="Edit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_edit_delete"
+                            app:cardElevation="0dp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_margin="12dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center"
+                                android:gravity="center">
+                                <ImageView
+                                    android:layout_margin="8dp"
+                                    android:scaleType="centerInside"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/icon_delete"/>
+                                <TextView
+                                    android:text="Delete"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                             </LinearLayout>

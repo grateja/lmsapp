@@ -1,7 +1,9 @@
 package com.vag.lmsapp.app.app_settings.user.add_edit
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.model.EnumCRUDAction
 import com.vag.lmsapp.model.EnumActionPermission
@@ -9,6 +11,7 @@ import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.model.Rule
 import com.vag.lmsapp.room.entities.EntityUser
 import com.vag.lmsapp.room.repository.UserRepository
+import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.InputValidation
 import com.vag.lmsapp.util.addOrRemove
 import com.vag.lmsapp.viewmodels.CreateViewModel
@@ -24,6 +27,9 @@ class UserAccountAddEditViewModel
 constructor(
     private val repository: UserRepository
 ): CreateViewModel<EntityUser>(repository) {
+//    private val _navigationState = MutableLiveData<NavigationState>()
+//    val navigationState: LiveData<NavigationState> = _navigationState
+
     val confirmPassword = MutableLiveData<String>()
     private var originalName: String? = null
     private var originalEmail: String? = null
@@ -34,17 +40,22 @@ constructor(
     private val _permissions = MutableLiveData<MutableList<EnumActionPermission>>()
     val permissions: LiveData<MutableList<EnumActionPermission>> = _permissions
 
+    private val _authId = MutableLiveData<UUID>()
+    val authorizedUser = _authId.switchMap { repository.getByIdAsLiveData(it) }
+
+    val canModifyPermissions = MediatorLiveData<Boolean>().apply {
+        fun update() {
+            val authorized = authorizedUser.value
+            val role = role.value
+
+            value = role == Role.STAFF && authorized?.user?.role == Role.OWNER
+        }
+        addSource(authorizedUser) {update()}
+        addSource(_role) {update()}
+    }
+
     fun get(userId: UUID?) {
         viewModelScope.launch {
-//            val defaultUser = EntityUser()
-//                Role.STAFF,
-//                "",
-//                "",
-//                "",
-//                listOf(EnumActionPermission.BASIC),
-//                null,
-//                arrayListOf()
-//            )
             super.get(userId, EntityUser()).let {
                 originalName = it.name
                 originalEmail = it.email
@@ -55,7 +66,12 @@ constructor(
     }
 
     fun setRole(role: Role) {
-        _role.value = role
+        val authorizer = authorizedUser.value
+        if(authorizer?.user?.role == Role.OWNER) {
+            _role.value = role
+        } else {
+            dataState.value = DataState.Invalidate("Only owners can create another owner")
+        }
     }
 
     override fun save() {
@@ -69,7 +85,7 @@ constructor(
             val user = model.value
             val validation = InputValidation().apply {
                 addRule("name", user?.name, arrayOf(Rule.Required))
-                addRule("email", user?.email, arrayOf(Rule.Required, Rule.IsEmail))
+                addRule("email", user?.email, arrayOf(Rule.Required))
 
                 if(originalName != user?.name && repository.checkName(user?.name)) {
                     addError("name", "Name already taken. Please specify more details")
@@ -99,4 +115,16 @@ constructor(
             addOrRemove(permission)
         }
     }
+
+    fun setAuthId(authId: UUID) {
+        _authId.value = authId
+    }
+
+//    fun clearState() {
+//        _navigationState.value = NavigationState.Stateless
+//    }
+
+//    sealed class NavigationState {
+//        data object Stateless: NavigationState()
+//    }
 }

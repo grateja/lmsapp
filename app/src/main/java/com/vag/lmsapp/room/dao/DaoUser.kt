@@ -62,8 +62,8 @@ abstract class DaoUser : BaseDao<EntityUser> {
     @Query("SELECT * FROM users WHERE :role IS NULL OR role = :role")
     abstract fun getByRoleAsLiveData(role: Role?) : LiveData<List<UserPreview>>
 
-    @Query("SELECT * FROM users WHERE role = 'admin'")
-    abstract suspend fun getAdmin() : EntityUser?
+    @Query("SELECT * FROM users WHERE role = 'owner'")
+    abstract suspend fun getOwners() : List<EntityUser>
 
     @Query("SELECT * FROM users WHERE email = :email AND deleted = 0 LIMIT 1")
     abstract fun getByEmailLiveData(email: String?): LiveData<EntityUser?>
@@ -91,4 +91,7 @@ abstract class DaoUser : BaseDao<EntityUser> {
 
     @Query("SELECT * FROM users WHERE sync = 0 OR :forced")
     abstract suspend fun unSynced(forced: Boolean): List<EntityUser>
+
+    @Query("UPDATE users SET pattern_ids = :patternIds WHERE id = :userId")
+    abstract suspend fun changePattern(userId: UUID, patternIds: ArrayList<Int>)
 }

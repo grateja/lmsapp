@@ -30,7 +30,7 @@ class AppSettingsUserAccountsActivity : FilterActivity() {
     private lateinit var binding: ActivityAppSettingsUserAccountsBinding
     private val viewModel: AppSettingsUserAccountsViewModel by viewModels()
     private val adapter = Adapter<UserPreview>(R.layout.recycler_item_user_list_item)
-    private var authId: UUID? = null
+//    private var authId: UUID? = null
     override var filterHint = "Search staff name"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,11 +40,17 @@ class AppSettingsUserAccountsActivity : FilterActivity() {
         binding.lifecycleOwner = this
         binding.recyclerViewUsers.adapter = adapter
 
-        authId = intent.getStringExtra(AUTH_ID).toUUID()
+        intent.getStringExtra(AUTH_ID).toUUID()?.let {
+            viewModel.setUserId(it)
+        }
 
         subscribeEvents()
         subscribeListeners()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.setFilterParams(UserAccountAdvancedFilter())
         viewModel.filter(true)
     }
@@ -73,11 +79,12 @@ class AppSettingsUserAccountsActivity : FilterActivity() {
         })
 
         adapter.onItemClick = {
-            openUserPreview(it.user.id)
+            viewModel.openPreview(it.user.id)
+//            openUserPreview(it.user.id)
         }
 
         binding.buttonCreateNew.setOnClickListener {
-            add()
+            viewModel.openAdd()
         }
     }
 
@@ -106,17 +113,32 @@ class AppSettingsUserAccountsActivity : FilterActivity() {
                 else -> {}
             }
         })
+
+        viewModel.navigationState.observe(this, Observer {
+            when(it) {
+                is AppSettingsUserAccountsViewModel.NavigationState.OpenPreview -> {
+                    openUserPreview(it.authorized, it.userId)
+                    viewModel.clearNavigationState()
+                }
+
+                is AppSettingsUserAccountsViewModel.NavigationState.OpenAdd -> {
+                    openAdd(it.authorized)
+                }
+
+                else -> {}
+            }
+        })
     }
 
-    private fun openUserPreview(userId: UUID) {
+    private fun openUserPreview(authorized: UUID, userId: UUID) {
         val intent = Intent(this, UserAccountPreviewActivity::class.java).apply {
             putExtra(USER_ID, userId.toString())
-            putExtra(AUTH_ID, authId.toString())
+            putExtra(AUTH_ID, authorized.toString())
         }
         startActivity(intent)
     }
 
-    private fun add() {
-        UserAccountAddEditBottomSheetFragment().show(supportFragmentManager, null)
+    private fun openAdd(authorizedId: UUID) {
+        UserAccountAddEditBottomSheetFragment.newInstance(null, authorizedId).show(supportFragmentManager, null)
     }
 }

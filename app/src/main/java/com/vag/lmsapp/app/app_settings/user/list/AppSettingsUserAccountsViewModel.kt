@@ -13,6 +13,7 @@ import com.vag.lmsapp.viewmodels.ListViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +27,11 @@ constructor(
 //    val role: LiveData<Role?> = _role
 //
 //    val users = _role.switchMap { repository.getByRoleAsLiveData(it) }
+    private val _navigationState = MutableLiveData<NavigationState>()
+    val navigationState: LiveData<NavigationState> = _navigationState
+
+    private val _authorizedId = MutableLiveData<UUID>()
+    val authorizedUser = _authorizedId.switchMap { repository.getByIdAsLiveData(it) }
 
     fun setRole(role: Role?) {
         val filter = filterParams.value ?: UserAccountAdvancedFilter()
@@ -66,5 +72,31 @@ constructor(
     fun showAdvancedFilter() {
         val filter = filterParams.value ?: UserAccountAdvancedFilter()
         setFilterState(FilterState.ShowAdvancedFilter(filter))
+    }
+
+    fun setUserId(userId: UUID) {
+        _authorizedId.value = userId
+    }
+
+    fun openPreview(userId: UUID) {
+        _authorizedId.value?.let {
+            _navigationState.value = NavigationState.OpenPreview(it, userId)
+        }
+    }
+
+    fun clearNavigationState() {
+        _navigationState.value = NavigationState.Stateless
+    }
+
+    fun openAdd() {
+        _authorizedId.value?.let {
+            _navigationState.value = NavigationState.OpenAdd(it)
+        }
+    }
+
+    sealed class NavigationState {
+        data object Stateless: NavigationState()
+        data class OpenPreview(val authorized: UUID, val userId: UUID): NavigationState()
+        data class OpenAdd(val authorized: UUID): NavigationState()
     }
 }

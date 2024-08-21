@@ -91,7 +91,7 @@ constructor(
                 val email = userName.value
                 val roles = _roles.value
 
-                this.addRule("userName", email, arrayOf(Rule.Required, Rule.IsEmail))
+                this.addRule("userName", email, arrayOf(Rule.Required))
                 if(method is AuthMethod.AuthByPassword) {
                     this.addRule("password", password, arrayOf(Rule.Required))
                 }

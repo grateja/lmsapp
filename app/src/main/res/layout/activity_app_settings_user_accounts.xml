@@ -20,6 +20,15 @@
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <TextView
+                tools:text="admin"
+                android:textAlignment="center"
+                android:background="@color/primary"
+                android:padding="4dp"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.authorizedUser.label()}"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/button_create_new"

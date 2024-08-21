@@ -14,4 +14,8 @@ data class UserPreview(
         }
         return "${user.permissions.size} permissions"
     }
+
+    fun label(): String {
+        return "${user.name} [${user.role}], ${permissionStr()}"
+    }
 }
