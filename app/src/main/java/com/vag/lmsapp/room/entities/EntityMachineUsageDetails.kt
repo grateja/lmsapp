@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.model.EnumWashType
+import com.vag.lmsapp.model.PrinterItem
+import com.vag.lmsapp.util.toShort
 import kotlinx.parcelize.Parcelize
 import java.time.Instant
 import java.util.*
@@ -63,5 +65,15 @@ data class EntityMachineUsageDetails(
 
     fun serviceLabel() : String {
         return "$serviceName ($minutes mins.)"
+    }
+
+    fun printItems(): List<PrinterItem> {
+        return listOf(
+            PrinterItem.TextCenter("DATE: ${activated.toShort()}"),
+            PrinterItem.HeaderDoubleCenter("JO#: $jobOrderNumber"),
+            PrinterItem.HeaderDoubleCenter(serviceName),
+            PrinterItem.HeaderDoubleCenter(machineName()),
+            PrinterItem.TextCenterTall(customerName)
+        )
     }
 }

@@ -1,6 +1,10 @@
 package com.vag.lmsapp.util
 
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
 import com.vag.lmsapp.app.auth.LoginCredentials
+import kotlin.reflect.KClass
 
 sealed class DataState<out R> {
     object StateLess : DataState<Nothing>()
@@ -14,4 +18,5 @@ sealed class DataState<out R> {
     data class Submit<out T>(val data: T): DataState<T>()
     data class LoadItems<R>(val items: List<R>, val reset: Boolean) : DataState<R>()
     data class ShowDateRangePicker(val dateFilter: DateFilter?): DataState<Nothing>()
+    data class OpenActivity(val activityClass: Class<*>?, val extras: Bundle? = null, val launchCode: Int? = null): DataState<Nothing>()
 }

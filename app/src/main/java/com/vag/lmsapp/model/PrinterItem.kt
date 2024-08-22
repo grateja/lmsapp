@@ -1,13 +1,17 @@
 package com.vag.lmsapp.model
 
-sealed class PrinterItem(val characterLength: Int, val showPrice: Boolean) {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+sealed class PrinterItem(open val characterLength: Int, open val showPrice: Boolean): Parcelable {
     open fun formattedString(): String = toString()
 
-    class SingleLine(characterLength: Int) : PrinterItem(characterLength, false) {
+    class SingleLine(override val characterLength: Int) : PrinterItem(characterLength, false) {
         override fun toString(): String = "-".repeat(characterLength)
     }
 
-    class Cutter(characterLength: Int): PrinterItem(characterLength, false) {
+    class Cutter(override val characterLength: Int): PrinterItem(characterLength, false) {
         override fun toString(): String = "\n"+(".".repeat(characterLength)) + "\n"
     }
 
@@ -16,13 +20,14 @@ sealed class PrinterItem(val characterLength: Int, val showPrice: Boolean) {
         override fun formattedString(): String = "<b>${text.orEmpty()}</b>"
     }
 
-    class HeaderDoubleCenter(text: String?) : Header(text) {
+    class HeaderDoubleCenter(val text: String?) : PrinterItem(0, false) {
+        override fun toString(): String = text.orEmpty()
         override fun formattedString(): String = "[C]<font size='big'><b>${text.orEmpty()}</b></font>"
     }
 
     open class ListItem(
-        characterLength: Int,
-        showPrice: Boolean,
+        override val characterLength: Int,
+        override val showPrice: Boolean,
         val count: Float,
         val title: String,
         val price: Float
@@ -63,7 +68,7 @@ sealed class PrinterItem(val characterLength: Int, val showPrice: Boolean) {
     }
 
     open class DefinitionTerm(
-        characterLength: Int,
+        override val characterLength: Int,
         val term: String,
         val definition: String?
     ) : PrinterItem(characterLength, false) {

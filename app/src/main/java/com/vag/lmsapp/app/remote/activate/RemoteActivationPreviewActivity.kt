@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.printer.PrinterPreviewActivity
 import com.vag.lmsapp.databinding.ActivityRemoteActivationPreviewBinding
 import com.vag.lmsapp.model.MachineActivationQueues
 import com.vag.lmsapp.model.MachineConnectionStatus
@@ -101,6 +102,12 @@ class RemoteActivationPreviewActivity : AppCompatActivity() {
                     viewModel.resetState()
                 }
 
+                is RemoteActivationPreviewViewModel.DataState.InitiatePrint -> {
+                    val intent = PrinterPreviewActivity.getIntent(this, it.machineUsage.printItems())
+                    startActivity(intent)
+                    viewModel.resetState()
+                }
+
                 else -> {}
             }
         })
@@ -123,6 +130,10 @@ class RemoteActivationPreviewActivity : AppCompatActivity() {
         binding.buttonHide.setOnClickListener {
             setResult(RESULT_OK, Intent(CASCADE_CLOSE))
             finish()
+        }
+
+        binding.buttonPrint.setOnClickListener {
+            viewModel.initiatePrint()
         }
     }
 

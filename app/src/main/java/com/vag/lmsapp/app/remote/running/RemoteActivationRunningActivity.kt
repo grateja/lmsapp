@@ -11,6 +11,7 @@ import com.vag.lmsapp.app.remote.end_time.RemoteActivationEndTimeActivity
 import com.vag.lmsapp.databinding.ActivityRemoteActivationRunningBinding
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.Constants.Companion.ID
+import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,17 +39,32 @@ class RemoteActivationRunningActivity : AppCompatActivity() {
         binding.buttonEndTime.setOnClickListener {
             viewModel.initiateEntTime()
         }
+        binding.buttonPrint.setOnClickListener {
+            viewModel.initiatePrint()
+        }
     }
 
     private fun subscribeListeners() {
         viewModel.runningMachine.observe(this, Observer {
             title = "${it?.machine?.machineName()} running"
         })
-        viewModel.navigationState.observe(this, Observer {
+//        viewModel.navigationState.observe(this, Observer {
+//            when(it) {
+//                is RemoteRunningViewModel.NavigationState.InitiateEndTime -> {
+//                    val intent = Intent(this, RemoteActivationEndTimeActivity::class.java).apply {
+//                        putExtra(ID, it.machineId.toString())
+//                    }
+//                    startActivity(intent)
+//                    viewModel.resetState()
+//                }
+//                else -> {}
+//            }
+//        })
+        viewModel.dataState.observe(this, Observer {
             when(it) {
-                is RemoteRunningViewModel.NavigationState.InitiateEndTime -> {
-                    val intent = Intent(this, RemoteActivationEndTimeActivity::class.java).apply {
-                        putExtra(ID, it.machineId.toString())
+                is DataState.OpenActivity -> {
+                    val intent = Intent(this, it.activityClass).apply {
+                        it.extras?.let { extras -> putExtras(extras) }
                     }
                     startActivity(intent)
                     viewModel.resetState()

@@ -52,6 +52,7 @@ class MachineRepository
     suspend fun unSynced(forced: Boolean) = daoMachine.unSynced(forced)
 
     suspend fun getMachineUsage(machineUsageId: UUID) = daoMachine.getMachineUsage(machineUsageId)
+
     fun getMachineUsageAsLiveData(id: UUID?) = daoMachine.getMachineUsageAsLiveData(id)
 
     suspend fun addRemarks(machineRemarks: EntityMachineRemarks) = daoMachine.addRemarks(machineRemarks)

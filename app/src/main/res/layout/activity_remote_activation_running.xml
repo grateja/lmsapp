@@ -23,12 +23,25 @@
                 layout="@layout/incl_machine_activation_details"
                 app:machineName="@{viewModel.runningMachine.machine.machineName()}"
                 app:customerName="@{viewModel.runningMachine.customer.name}"
-                app:serviceName="@{viewModel.runningMachine.jobOrderService.label()}"/>
+                app:serviceName="@{viewModel.runningMachine.jobOrderService.label()}"
+                app:serviceRef="@{viewModel.runningMachine.jobOrderService.serviceRef}"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="12dp"/>
             <Button
+                style="@style/RoundButtonNeutral"
                 android:id="@+id/button_end_time"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="End time"/>
+            <Button
+                android:id="@+id/button_print"
+                style="@style/RoundButtonNeutral"
+                android:visibility="@{viewModel.machineUsage != null}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/print"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

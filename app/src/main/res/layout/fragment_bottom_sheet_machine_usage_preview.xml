@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.room.entities.EntityMachineUsageDetails" />
+            type="com.vag.lmsapp.app.machines.preview.machine_usages.MachineUsagePreviewViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
                 android:fontFamily="sans-serif-thin"
                 android:textFontWeight="200"
                 android:layout_marginVertical="18dp"
-                android:text="@{viewModel.machineName()}"
+                android:text="@{viewModel.machineUsageDetails.machineName()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 tools:text="Today"
                 style="@style/TextItemTitle.Medium"
-                android:text="@{viewModel.activated}"/>
+                android:text="@{viewModel.machineUsageDetails.activated}"/>
 
             <TextView
                 android:layout_marginTop="18dp"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 tools:text="10201"
                 style="@style/TextItemTitle.Medium"
-                android:text="@{viewModel.jobOrderNumber}"/>
+                android:text="@{viewModel.machineUsageDetails.jobOrderNumber}"/>
 
             <TextView
                 android:layout_marginTop="18dp"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 tools:text="Tony Stark"
                 style="@style/TextItemTitle.Medium"
-                android:text="@{viewModel.customerName}"/>
+                android:text="@{viewModel.machineUsageDetails.customerName}"/>
 
             <TextView
                 android:layout_marginTop="18dp"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 tools:text="Regular Wash (36 mins.)"
                 style="@style/TextItemTitle.Medium"
-                android:text="@{viewModel.serviceLabel()}"/>
+                android:text="@{viewModel.machineUsageDetails.serviceLabel()}"/>
 
             <TextView
                 android:layout_marginTop="18dp"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 tools:text="P 70.0"
                 style="@style/TextItemTitle.Medium"
-                android:peso="@{viewModel.discountedPrice}"/>
+                android:peso="@{viewModel.machineUsageDetails.discountedPrice}"/>
 
             <TextView
                 android:layout_marginTop="18dp"
@@ -94,8 +94,28 @@
                 android:layout_height="wrap_content"
                 tools:text="Staff 1"
                 style="@style/TextItemTitle.Medium"
-                android:text="@{viewModel.activatedBy}"
+                android:text="@{viewModel.machineUsageDetails.activatedBy}"
                 android:layout_marginBottom="36dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_print"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/LinearLayoutDivider5.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icon_print"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/print"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -87,8 +87,17 @@ interface DaoMachine : BaseDao<EntityMachine> {
     @Query("SELECT * FROM machine_usages WHERE id = :machineUsageId")
     suspend fun getMachineUsage(machineUsageId: UUID): EntityMachineUsageFull?
 
-    @Query("SELECT * FROM machine_usages WHERE id = :id")
-    fun getMachineUsageAsLiveData(id: UUID?): LiveData<EntityMachineUsageFull?>
+    @Query("""
+        SELECT mu.id, machine_id, ma.machine_number, ma.created_at, mu.machine_id, mu.customer_id, mu.created_at AS activated, cu.name as customer_name, jos.job_order_id, jos.service_name, jos.svc_minutes, jos.svc_wash_type, jos.svc_machine_type, jos.svc_service_type, job_order_number, jos.price, jos.discounted_price, u.name as activated_by, mu.sync
+        FROM machine_usages mu
+            LEFT JOIN machines ma ON mu.machine_id = ma.id
+            LEFT JOIN customers cu ON mu.customer_id = cu.id
+            LEFT JOIN job_order_services jos ON mu.job_order_service_id = jos.id
+            LEFT JOIN job_orders jo ON jos.job_order_id = jo.id
+            LEFT JOIN users u ON mu.user_id = u.id
+        WHERE mu.id = :id
+    """)
+    fun getMachineUsageAsLiveData(id: UUID?): LiveData<EntityMachineUsageDetails?>
 
     @Upsert
     suspend fun addRemarks(machineRemarks: EntityMachineRemarks)

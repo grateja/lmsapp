@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.lifecycle.*
 import com.vag.lmsapp.model.MachineActivationQueues
 import com.vag.lmsapp.model.MachineConnectionStatus
+import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import com.vag.lmsapp.room.repository.CustomerRepository
 import com.vag.lmsapp.room.repository.JobOrderQueuesRepository
 import com.vag.lmsapp.room.repository.JobOrderRepository
@@ -50,6 +51,8 @@ constructor(
 //    private val machineId = MutableLiveData<UUID>()
     val machine = _machineActivationQueue.switchMap { machineRepository.getMachineLiveData(it.machineId) } //: LiveData<EntityMachine> = _machine
 
+
+    val machineUsage = machine.switchMap { machineRepository.getMachineUsageAsLiveData(it?.activationRef?.machineUsageId) }
 //    private val joServiceId = MutableLiveData<UUID>()
     val jobOrderService = _machineActivationQueue.switchMap { jobOrderQueuesRepository.getAsLiveData(it.jobOrderServiceId) } //: LiveData<EntityJobOrderService> = _jobOrderService
 
@@ -143,10 +146,17 @@ constructor(
         }
     }
 
+    fun initiatePrint() {
+        machineUsage.value?.let {
+            _dataState.value = DataState.InitiatePrint(it)
+        }
+    }
+
     sealed class DataState {
         object StateLess: DataState()
         object FixDataInconsistencies : DataState()
         class InitiateActivation(val queue: MachineActivationQueues) : DataState()
+        data class InitiatePrint(val machineUsage: EntityMachineUsageDetails): DataState()
         class Dismiss(val result: Int) : DataState()
     }
 }

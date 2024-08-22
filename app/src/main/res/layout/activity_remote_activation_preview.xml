@@ -68,12 +68,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:visibility="visible"/>
-                <!--            <com.google.android.material.progressindicator.CircularProgressIndicator-->
-                <!--                android:layout_gravity="center"-->
-                <!--                android:visibility="@{viewModel.machineActivationQueue.status == com.csi.palabakosys.model.MachineConnectionStatus.CONNECTING}"-->
-                <!--                android:indeterminate="true"-->
-                <!--                android:layout_width="30dp"-->
-                <!--                android:layout_height="30dp"/>-->
+                <Button
+                    style="@style/RoundButtonNeutral"
+                    android:id="@+id/button_print"
+                    android:visibility="@{viewModel.machineUsage != null}"
+                    android:text="@string/print"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:visibility="visible"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

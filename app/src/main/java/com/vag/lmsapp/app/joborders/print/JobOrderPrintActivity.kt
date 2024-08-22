@@ -133,9 +133,9 @@ class JobOrderPrintActivity : AppCompatActivity() {
             viewModel.setBluetoothState(it)
         }
 
-        helper.setOnBluetoothAvailabilityChanged {
-            viewModel.setBluetoothAvailability(it)
-        }
+//        helper.setOnBluetoothAvailabilityChanged {
+//            viewModel.setBluetoothAvailability(it)
+//        }
 
         launcher.onOk = {
             it.data?.getParcelableExtra<PrinterDevice>(PRINTER_DEVICE_EXTRA)?.let(viewModel::setDevice)

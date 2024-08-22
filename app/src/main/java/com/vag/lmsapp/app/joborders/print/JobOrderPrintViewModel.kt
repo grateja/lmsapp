@@ -31,7 +31,7 @@ constructor(
     private val shopRepository: ShopRepository,
     private val printerSettings: PrinterSettingsRepository
 ) : ViewModel() {
-    private val showPackageItems = printerSettings.showPackageItems
+//    private val showPackageItems = printerSettings.showPackageItems
     private val showJoItemized = printerSettings.showJoItemized
     private val showJoPrices = printerSettings.showJoPrices
     private val showClaimStubItemized = printerSettings.showClaimStubItemized
@@ -39,7 +39,7 @@ constructor(
     private val showDisclaimer = printerSettings.showDisclaimer
     val characterLength = printerSettings.printerCharactersPerLine
 
-    val isBluetoothAvailable = MutableLiveData<Boolean>()
+//    val isBluetoothAvailable = MutableLiveData<Boolean>()
     val bluetoothEnabled = MutableLiveData(false)
     val printerName = printerSettings.printerName
 
@@ -144,6 +144,7 @@ constructor(
                     for(i in 1..service.quantity) {
                         items.add(PrinterItem.TextCenter("DATE: ${jobOrder.jobOrder.createdAt.toShort()}"))
                         items.add(PrinterItem.HeaderDoubleCenter("JO#: ${jobOrder.jobOrder.jobOrderNumber}"))
+                        items.add(PrinterItem.HeaderDoubleCenter(service.serviceName))
                         items.add(PrinterItem.TextCenterTall(jobOrder.customer?.name))
                         if(i <= service.quantity) {
                             items.add(PrinterItem.Cutter(characters))
@@ -181,23 +182,69 @@ constructor(
                 }
 
                 if((itemizedJo == true && tab == TAB_JOB_ORDER) || (itemizedClaimStub == true && tab == TAB_CLAIM_STUB)) {
+                    jobOrder?.packages?.filter { !it.deleted }?.takeIf { it.isNotEmpty() }?.let { packages ->
+                        items.add(PrinterItem.Header("PACKAGES"))
+                        packages.forEach { _package ->
+                            items.add(PrinterItem.ListItemBold(
+                                characters, false, _package.quantity.toFloat(), _package.packageName, _package.price * _package.quantity))
+
+                            items.addAll(
+                                jobOrder.services?.filter { !it.deleted && it.jobOrderPackageId == _package.packageId }?.takeIf { it.isNotEmpty() }?.map {
+                                    PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), " " + it.serviceName, it.price * it.quantity)
+                                } ?: emptyList()
+                            )
+
+                            items.addAll(
+                                jobOrder.products?.filter { !it.deleted && it.jobOrderPackageId  == _package.packageId }?.takeIf { it.isNotEmpty() } ?.map {
+                                    PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), " " + it.productName, it.price * it.quantity)
+                                } ?: emptyList()
+                            )
+
+                            items.addAll(
+                                jobOrder.extras?.filter { !it.deleted && it.jobOrderPackageId  == _package.packageId }?.takeIf { it.isNotEmpty() }?.map {
+                                    PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), " " + it.extrasName, it.price * it.quantity)
+                                } ?: emptyList()
+                            )
+                        }
+                    }
+
+//                    items.addAll(
+//                        jobOrder?.packages?.filter { !it.deleted }?.takeIf { it.isNotEmpty() }?.map {
+//                            PrinterItem.ListItem(characters, false, it.quantity.toFloat(), it.packageName, it.price * it.quantity)
+//                        }?.let { listOf(PrinterItem.Header("PACKAGES")) + it } ?: emptyList()
+//                    )
+
+//                    items.addAll(
+//                        jobOrder?.services?.filter { !it.deleted && it.jobOrderPackageId != null }?.takeIf { it.isNotEmpty() }?.map {
+//                            PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), " " + it.serviceName, it.price * it.quantity)
+//                        } ?: emptyList()
+//                    )
+//
+//                    items.addAll(
+//                        jobOrder?.products?.filter { !it.deleted && it.jobOrderPackageId != null }?.takeIf { it.isNotEmpty() } ?.map {
+//                            PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), " " + it.productName, it.price * it.quantity)
+//                        } ?: emptyList()
+//                    )
+//
+//                    items.addAll(
+//                        jobOrder?.extras?.filter { !it.deleted && it.jobOrderPackageId != null }?.takeIf { it.isNotEmpty() }?.map {
+//                            PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), " " + it.extrasName, it.price * it.quantity)
+//                        } ?: emptyList()
+//                    )
+
                     items.addAll(
-                        jobOrder?.packages?.filter { !it.deleted }?.takeIf { it.isNotEmpty() }?.map {
-                            PrinterItem.ListItem(characters, false, it.quantity.toFloat(), it.packageName, it.price * it.quantity)
-                        }?.let { listOf(PrinterItem.Header("PACKAGES")) + it } ?: emptyList()
-                    )
-                    items.addAll(
-                        jobOrder?.services?.filter { !it.deleted }?.takeIf { it.isNotEmpty() }?.map {
+                        jobOrder?.services?.filter { !it.deleted && it.jobOrderPackageId == null }?.takeIf { it.isNotEmpty() }?.map {
                             PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), it.serviceName, it.price * it.quantity)
                         }?.let { listOf(PrinterItem.Header("SERVICES")) + it } ?: emptyList()
                     )
+
                     items.addAll(
-                        jobOrder?.products?.filter { !it.deleted }?.takeIf { it.isNotEmpty() } ?.map {
+                        jobOrder?.products?.filter { !it.deleted && it.jobOrderPackageId == null }?.takeIf { it.isNotEmpty() } ?.map {
                             PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), it.productName, it.price * it.quantity)
                         }?.let { listOf(PrinterItem.Header("PRODUCTS")) + it } ?: emptyList()
                     )
                     items.addAll(
-                        jobOrder?.extras?.filter { !it.deleted }?.takeIf { it.isNotEmpty() }?.map {
+                        jobOrder?.extras?.filter { !it.deleted && it.jobOrderPackageId == null }?.takeIf { it.isNotEmpty() }?.map {
                             PrinterItem.ListItem(characters, showPrice, it.quantity.toFloat(), it.extrasName, it.price * it.quantity)
                         }?.let { listOf(PrinterItem.Header("EXTRAS")) + it } ?: emptyList()
                     )
@@ -564,9 +611,9 @@ constructor(
         _printState.value = printState
     }
 
-    fun setBluetoothAvailability(available: Boolean) {
-        isBluetoothAvailable.value = available
-    }
+//    fun setBluetoothAvailability(available: Boolean) {
+//        isBluetoothAvailable.value = available
+//    }
 
     fun setPermissionStatus(status: Boolean) {
         _permitted.value = status

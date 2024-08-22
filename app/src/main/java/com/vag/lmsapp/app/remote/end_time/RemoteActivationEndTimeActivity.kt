@@ -10,6 +10,7 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.databinding.ActivityRemoteActivationEndTimeBinding
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.ID
+import com.vag.lmsapp.util.Constants.Companion.MACHINE_ID
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +31,7 @@ class RemoteActivationEndTimeActivity : AppCompatActivity() {
         subscribeEvents()
         subscribeListener()
 
-        intent.getStringExtra(ID).toUUID()?.let {
+        intent.getStringExtra(MACHINE_ID).toUUID()?.let {
             viewModel.setMachineId(it)
         }
     }
