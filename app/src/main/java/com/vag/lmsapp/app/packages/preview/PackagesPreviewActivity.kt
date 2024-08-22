@@ -10,6 +10,7 @@ import com.vag.lmsapp.app.joborders.create.extras.AvailableExtrasAdapter
 import com.vag.lmsapp.app.joborders.create.products.AvailableProductsAdapter
 import com.vag.lmsapp.app.joborders.create.services.AvailableServicesAdapter
 import com.vag.lmsapp.app.packages.EnumPackageItemType
+import com.vag.lmsapp.app.packages.edit.PackagesAddEditBottomSheetFragment
 import com.vag.lmsapp.app.packages.list.PackageItem
 import com.vag.lmsapp.databinding.ActivityPackagesPreviewBinding
 import com.vag.lmsapp.model.EnumActionPermission
@@ -49,6 +50,10 @@ class PackagesPreviewActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
+        binding.appbar.setOnClickListener {
+            viewModel.openEdit()
+        }
+
         servicesAdapter.onItemClick = {
             viewModel.selectPackageItem(
                 PackageItem(
@@ -127,6 +132,10 @@ class PackagesPreviewActivity : AppCompatActivity() {
     private fun subscribeListeners() {
         viewModel.navigationState.observe(this, Observer {
             when(it) {
+                is PackagesPreviewViewModel.NavigationState.OpenEdit -> {
+                    PackagesAddEditBottomSheetFragment.newInstance(it.packageId).show(supportFragmentManager, null)
+                    viewModel.resetState()
+                }
                 is PackagesPreviewViewModel.NavigationState.SelectPackageItem -> {
                     PackagePreviewSelectItemBottomSheetFragment.newInstance(it.packageItem).apply {
                         onOk = {

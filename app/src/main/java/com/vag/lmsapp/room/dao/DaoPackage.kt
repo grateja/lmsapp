@@ -12,7 +12,14 @@ interface DaoPackage : BaseDao<EntityPackage> {
     suspend fun get(id: UUID?): EntityPackage?
 
     @Query("""
-        SELECT packages.id, packages.package_name, total_price, description, 0 as void, 0 AS discounted_price, 1 as quantity, 0 as deleted FROM packages WHERE package_name LIKE '%' || :keyword || '%' AND deleted = 0
+        SELECT COUNT(*) as c, pkg.id, pkg.package_name, total_price, description, 0 as void, 0 AS discounted_price, 1 as quantity, 0 as deleted 
+        FROM packages pkg 
+            JOIN package_services pkg_svc ON pkg.id = pkg_svc.package_id
+            JOIN package_products pkg_prd ON pkg.id = pkg_prd.package_id
+            JOIN package_extras pkg_ext ON pkg.id = pkg_ext.package_id
+        WHERE package_name LIKE '%' || :keyword || '%' AND pkg.deleted = 0
+        GROUP BY pkg.id
+        HAVING c > 0
     """)
     suspend fun getAll(keyword: String?): List<MenuJobOrderPackage>
 

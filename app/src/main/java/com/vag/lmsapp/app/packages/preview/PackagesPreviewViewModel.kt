@@ -383,8 +383,15 @@ constructor(
         }
     }
 
+    fun openEdit() {
+        _packageId.value?.let {
+            _navigationState.value = NavigationState.OpenEdit(it)
+        }
+    }
+
     sealed class NavigationState {
         data object StateLess: NavigationState()
+        data class OpenEdit(val packageId: UUID): NavigationState()
         data class SelectPackageItem(val packageItem: PackageItem): NavigationState()
         data class UpdateAvailableServices(val menuServiceItem: MenuServiceItem): NavigationState()
         data class UpdateAvailableProducts(val menuProductItem: MenuProductItem): NavigationState()
