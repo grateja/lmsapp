@@ -44,4 +44,8 @@ open class EntityJobOrder(
 
     @Json(ignore = true)
     var sync: Boolean = false
+
+    @Json(name = "remarks")
+    @ColumnInfo(name = "remarks")
+    var remarks: String? = null
 }

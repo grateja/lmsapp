@@ -75,6 +75,8 @@ constructor(
         _dataState.value = DataState.StateLess
     }
 
+    val remarks = MutableLiveData<String>()
+    var originalRemarks: String? = null
     private val _jobOrderId = MutableLiveData<UUID>()
     val createdAt = MutableLiveData<Instant>()
     val jobOrderNumber = MutableLiveData("")
@@ -399,6 +401,9 @@ constructor(
             )
         }
 
+        remarks.value = jobOrder.jobOrder.remarks
+        originalRemarks = jobOrder.jobOrder.remarks
+
         _saved.value = true
         _deleted.value = jobOrder.jobOrder.deleted || jobOrder.jobOrder.entityJobOrderVoid != null
     }
@@ -577,6 +582,13 @@ constructor(
             jobOrderPackages.value = packages ?: emptyList()
             _saved.value = false
             _modified.value = true
+        }
+    }
+
+    fun remarksChanged() {
+        if(originalRemarks != remarks.value) {
+            _modified.value = true
+            _saved.value = false
         }
     }
 
@@ -904,6 +916,7 @@ constructor(
             val jobOrderExtras = jobOrderExtras.value
             val deliveryCharge = deliveryCharge.value
             val jobOrderDiscount = discount.value
+            val _remarks = remarks.value
 
             val jobOrder = EntityJobOrder(
                 jobOrderNumber,
@@ -917,6 +930,7 @@ constructor(
                 this.id = jobOrderId
                 this.createdAt = createdAt
                 this.sync = false
+                this.remarks = _remarks
             }
 
             val packages = jobOrderPackages.value?.map {

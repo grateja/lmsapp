@@ -20,6 +20,7 @@ import com.vag.lmsapp.app.joborders.gallery.JobOrderGalleryBottomSheetFragment
 import com.vag.lmsapp.app.joborders.payment.JobOrderPaymentActivity
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
 import com.vag.lmsapp.app.joborders.print.JobOrderPrintActivity
+import com.vag.lmsapp.app.joborders.remarks.JobOrderRemarksActivity
 import com.vag.lmsapp.databinding.FragmentBottomSheetJobOrderPreviewBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
@@ -134,6 +135,15 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                     JobOrderGalleryBottomSheetFragment.newInstance(it.jobOrderId).show(parentFragmentManager, null)
                     viewModel.resetState()
                 }
+
+                is JobOrderPreviewViewModel.NavigationState.OpenRemarks -> {
+                    val intent = Intent(context, JobOrderRemarksActivity::class.java).apply {
+                        putExtra(JOB_ORDER_ID, it.jobOrderId.toString())
+                    }
+                    startActivity(intent)
+                    viewModel.resetState()
+                }
+
                 else -> {}
             }
         })
@@ -212,6 +222,10 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
 
         packagesAdapter.onItemClick = {
             JobOrderPackagePreviewBottomSheetFragment.newInstance(it.id).show(parentFragmentManager,null)
+        }
+
+        binding.cardRemarks.setOnClickListener {
+            viewModel.openRemarks()
         }
 
 //        adapter.onItemClick = {

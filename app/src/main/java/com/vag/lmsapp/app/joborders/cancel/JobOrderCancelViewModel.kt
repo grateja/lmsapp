@@ -69,21 +69,7 @@ constructor(
 
     fun save(userId: UUID?) {
         viewModelScope.launch {
-//            val validation = _validation.value ?: InputValidation()
             val jobOrderWithItems = _jobOrder.value ?: return@launch
-
-//            validation.addRule("remarks", remarks.value, arrayOf(Rule.Required))
-//
-//            if(validation.isInvalid()) {
-//                _validation.value = validation
-//                return@launch
-//            }
-
-//            if(jobOrderWithItems == null) {
-//                _dataState.value = DataState.Invalidate("Invalid Job Order or deleted")
-//                return@launch
-//            }
-
             val jobOrderVoid = EntityJobOrderVoid(userId, remarks.value)
             jobOrderRepository.cancelJobOrder(jobOrderWithItems, jobOrderVoid).let {
                 _dataState.value = DataState.SaveSuccess(jobOrderWithItems.jobOrder.id)

@@ -3,6 +3,7 @@ package com.vag.lmsapp.room.entities
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.squareup.moshi.Json
+import com.vag.lmsapp.util.isNotEmpty
 
 data class EntityJobOrderWithItems (
     @Embedded var jobOrder: EntityJobOrder,
@@ -62,6 +63,10 @@ data class EntityJobOrderWithItems (
         entity = EntityJobOrderPayment::class
     )
     var paymentWithUser: EntityJobOrderPaymentFull? = null
+
+    fun hasRemarks(): Boolean {
+        return jobOrder.remarks != null && jobOrder.remarks != ""
+    }
 
 //    fun servicesTotal() : Float {
 //        return services?.filter { !it.deleted }?.let {

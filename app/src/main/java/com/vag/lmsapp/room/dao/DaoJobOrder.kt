@@ -342,4 +342,9 @@ interface DaoJobOrder {
 
     @Query("SELECT * FROM job_orders WHERE id = :jobOrderId")
     fun getAsLiveData(jobOrderId: UUID?): LiveData<EntityJobOrder?>
+
+    @Query("""
+        UPDATE job_orders SET remarks = :remarks WHERE id = :jobOrderId
+    """)
+    suspend fun updateRemarks(jobOrderId: UUID, remarks: String?)
 }

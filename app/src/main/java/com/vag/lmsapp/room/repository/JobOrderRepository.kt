@@ -133,4 +133,5 @@ constructor (
 
     suspend fun sync(jobOrderId: UUID) = daoJobOrder.sync(jobOrderId)
     fun getAsLiveData(jobOrderId: UUID?) = daoJobOrder.getAsLiveData(jobOrderId)
+    suspend fun updateRemarks(jobOrderId: UUID, remarks: String?) = daoJobOrder.updateRemarks(jobOrderId, remarks)
 }

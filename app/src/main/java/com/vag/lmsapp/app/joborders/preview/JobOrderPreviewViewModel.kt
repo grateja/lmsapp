@@ -200,6 +200,12 @@ constructor(
         }
     }
 
+    fun openRemarks() {
+        _jobOrderId.value?.let {
+            _navigationState.value = NavigationState.OpenRemarks(it)
+        }
+    }
+
     sealed class NavigationState {
         data object StateLess: NavigationState()
         data class InitiateEdit(val id: UUID): NavigationState()
@@ -210,7 +216,7 @@ constructor(
         data object RequestEdit: NavigationState()
         data class Invalidate(val message: String): NavigationState()
         data class OpenGallery(val jobOrderId: UUID): NavigationState()
-
+        data class OpenRemarks(val jobOrderId: UUID): NavigationState()
         data object RequireRefresh: NavigationState()
     }
 }
