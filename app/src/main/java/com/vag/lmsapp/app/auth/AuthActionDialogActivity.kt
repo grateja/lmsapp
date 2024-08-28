@@ -94,6 +94,7 @@ class AuthActionDialogActivity : AppCompatActivity() {
             if (hasFocus) {
                 view.post {
                     binding.textInputCashlessProvider.selectAll()
+                    binding.textInputCashlessProvider.showDropDown()
                 }
             }
         }
@@ -103,12 +104,12 @@ class AuthActionDialogActivity : AppCompatActivity() {
         binding.cardButtonClose.setOnClickListener {
             finish()
         }
-        binding.buttonAuthMethodPassword.setOnClickListener {
-            viewModel.setAuthMethod(EnumAuthMethod.AUTH_BY_PASSWORD)
-        }
-        binding.buttonAuthMethodPattern.setOnClickListener {
-            viewModel.setAuthMethod(EnumAuthMethod.AUTH_BY_PATTERN)
-        }
+//        binding.buttonAuthMethodPassword.setOnClickListener {
+//            viewModel.setAuthMethod(EnumAuthMethod.AUTH_BY_PASSWORD)
+//        }
+//        binding.buttonAuthMethodPattern.setOnClickListener {
+//            viewModel.setAuthMethod(EnumAuthMethod.AUTH_BY_PATTERN)
+//        }
 //        binding.buttonAuthMethodBiometric.setOnClickListener {
 //            viewModel.setAuthMethod(EnumAuthMethod.AUTH_BY_BIOMETRIC)
 //        }

@@ -2,8 +2,10 @@ package com.vag.lmsapp.app.auth
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.model.EnumAuthMethod
@@ -28,9 +30,9 @@ constructor(
     private val _action = MutableLiveData<String>()
     val action: LiveData<String> = _action
 
-    private val _authMethod = MutableLiveData(EnumAuthMethod.AUTH_BY_PATTERN)
-    val authMethod: LiveData<EnumAuthMethod> = _authMethod
-
+//    private val _authMethod = MutableLiveData(EnumAuthMethod.AUTH_BY_PATTERN)
+//    val authMethod: LiveData<EnumAuthMethod> = _authMethod
+//
     private val _dataState = MutableLiveData<DataState<LoginCredentials>>()
     val dataState: LiveData<DataState<LoginCredentials>> = _dataState
 
@@ -40,6 +42,8 @@ constructor(
     val userName = MutableLiveData(authRepository.getLastEmail())
     val password = MutableLiveData("")
 
+    val user = userName.switchMap { userRepository.getByEmailAsLiveData(it) }
+
     private val _permissions = MutableLiveData<List<EnumActionPermission>>()
     val permissions: LiveData<List<EnumActionPermission>> = _permissions
 
@@ -48,13 +52,27 @@ constructor(
 
     val emails = userRepository.getAllEmails()
 
+    val authMethod = MediatorLiveData<EnumAuthMethod?>().apply {
+        addSource(user) {
+            val pattern = it?.patternIds
+            val password = it?.password
+            value = if(pattern != null && pattern.size > 0) {
+                EnumAuthMethod.AUTH_BY_PATTERN
+            } else if(password != null) {
+                EnumAuthMethod.AUTH_BY_PASSWORD
+            } else {
+                null
+            }
+        }
+    }
+
     fun setMessage(message: String) {
         _action.value = message
     }
 
-    fun setAuthMethod(authMethod: EnumAuthMethod) {
-        _authMethod.value = authMethod
-    }
+//    fun setAuthMethod(authMethod: EnumAuthMethod) {
+//        _authMethod.value = authMethod
+//    }
 
     fun clearError(key: String) {
         _inputValidation.value = _inputValidation.value?.removeError(key)
@@ -136,7 +154,7 @@ constructor(
     }
 
     sealed class AuthMethod {
-        object AuthByPassword : AuthMethod()
+        data object AuthByPassword : AuthMethod()
         data class AuthByPattern(val pattern: ArrayList<Int>) : AuthMethod()
     }
 }

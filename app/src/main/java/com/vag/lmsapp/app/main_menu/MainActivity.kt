@@ -23,6 +23,7 @@ import com.vag.lmsapp.app.app_settings.printer.SettingsPrinterActivity
 import com.vag.lmsapp.app.app_settings.shop_info.ShopInfoActivity
 import com.vag.lmsapp.app.app_settings.text_message_templates.TextMessageTemplateListActivity
 import com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsActivity
+import com.vag.lmsapp.app.app_settings.user.preview.UserAccountPreviewActivity
 import com.vag.lmsapp.app.daily_report.DailyReportActivity
 import com.vag.lmsapp.app.machines.MachinesActivity
 import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
@@ -190,8 +191,14 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
                         permissions = listOf(EnumActionPermission.MODIFY_USERS)
                     ),
                     MenuItem(
+                        "My Account",
+                        "Setup username, password or pattern.",
+                        UserAccountPreviewActivity::class.java,
+                        permissions = listOf()
+                    ),
+                    MenuItem(
                         "Network",
-                        "Technical properties and settings of the shop. Do not modify unless adviced.",
+                        "Technical properties and settings of the shop. Do not modify unless advised.",
                         AppSettingsNetworkActivity::class.java,
                         permissions = listOf(EnumActionPermission.MODIFY_SETTINGS_IPADDRESS),
                     ),

@@ -66,7 +66,7 @@ abstract class DaoUser : BaseDao<EntityUser> {
     abstract suspend fun getOwners() : List<EntityUser>
 
     @Query("SELECT * FROM users WHERE email = :email AND deleted = 0 LIMIT 1")
-    abstract fun getByEmailLiveData(email: String?): LiveData<EntityUser?>
+    abstract fun getByEmailLiveAsData(email: String?): LiveData<EntityUser?>
 
     @Query("SELECT * FROM users WHERE email = :email AND password = :password AND deleted = 0 LIMIT 1")
     abstract suspend fun getByEmailAndPassword(email: String, password: String): EntityUser?
@@ -86,12 +86,12 @@ abstract class DaoUser : BaseDao<EntityUser> {
     @Query("SELECT EXISTS(SELECT * FROM users WHERE email LIKE :email AND deleted = 0)")
     abstract suspend fun checkEmail(email: String?): Boolean
 
-    @Query("UPDATE users SET password = :newPassword WHERE id = :userId")
+    @Query("UPDATE users SET password = :newPassword, pattern_ids = '' WHERE id = :userId")
     abstract suspend fun changePassword(userId: UUID, newPassword: String)
 
     @Query("SELECT * FROM users WHERE sync = 0 OR :forced")
     abstract suspend fun unSynced(forced: Boolean): List<EntityUser>
 
-    @Query("UPDATE users SET pattern_ids = :patternIds WHERE id = :userId")
+    @Query("UPDATE users SET pattern_ids = :patternIds, password = '' WHERE id = :userId")
     abstract suspend fun changePattern(userId: UUID, patternIds: ArrayList<Int>)
 }

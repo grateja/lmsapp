@@ -36,11 +36,12 @@ constructor(
     private val _initialPattern = MutableLiveData<ArrayList<Int>?>()
 
     val title = MediatorLiveData<String>().apply {
+        value = "Set new pattern"
         addSource(_initialPattern) {
-            value = if(it == null) {
-                "Set new pattern"
-            } else {
+            value = if(!it.isNullOrEmpty()) {
                 "Confirm new pattern"
+            } else {
+                "Set new pattern"
             }
         }
     }
@@ -61,7 +62,7 @@ constructor(
         if(user.value?.user?.role == Role.OWNER && userId != loginCredentials.userId) {
             _dataState.value = DataState.Invalidate("You are not the owner of this account!")
             return
-        } else if(loginCredentials.role == Role.STAFF) {
+        } else if(loginCredentials.role == Role.STAFF && userId != loginCredentials.userId) {
             _dataState.value = DataState.Invalidate("Only owners can edit staff's password")
             return
         }

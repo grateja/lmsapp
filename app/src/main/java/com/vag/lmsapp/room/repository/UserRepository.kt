@@ -43,7 +43,7 @@ constructor (
     suspend fun getAll() = daoUser.getAll()
 
     fun getCurrentUserByEmail(email: String?): LiveData<EntityUser?> {
-        return daoUser.getByEmailLiveData(email)
+        return daoUser.getByEmailLiveAsData(email)
     }
 
     suspend fun getByEmailAndPattern(email: String, patternIds: ArrayList<Int>): EntityUser? {
@@ -61,4 +61,5 @@ constructor (
     suspend fun changePassword(userId: UUID, newPassword: String) = daoUser.changePassword(userId, newPassword)
     suspend fun unSynced(forced: Boolean) = daoUser.unSynced(forced)
     suspend fun changePattern(userId: UUID, patternIds: ArrayList<Int>) = daoUser.changePattern(userId, patternIds)
+    fun getByEmailAsLiveData(username: String?) = daoUser.getByEmailLiveAsData(username)
 }
