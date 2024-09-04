@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".app.security.select_security_type.SelectSecurityTypeActivity">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.security.select_security_type.SelectSecurityTypeViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                style="@style/TextTitleFragment.Center"
+                android:text="Set security type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.card.MaterialCardView>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toTopOf="@id/controls"
+            android:paddingTop="16dp"
+            android:clipToPadding="false">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:divider="@drawable/divider_20"
+                android:showDividers="middle"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_security_type_app_opened"
+                    style="@style/RoundCard.NoElevation"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.START_UP ? @color/primary : @color/neutral}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TextItemTitle"
+                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.START_UP ? @color/primary : @color/text_dark_grey}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.START_UP.label}"
+                            tools:text="App opened"/>
+                        <TextView
+                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.START_UP ? @color/primary : @color/text_dark_grey}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.START_UP.description}"
+                            tools:text="App opened"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_security_type_sensitive_actions"
+                    style="@style/RoundCard.NoElevation"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.SENSITIVE_ACTIONS ? @color/primary : @color/neutral}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:animateLayoutChanges="true"
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TextItemTitle"
+                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.SENSITIVE_ACTIONS ? @color/primary : @color/text_dark_grey}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.SENSITIVE_ACTIONS.label}"
+                            tools:text="App opened"/>
+                        <TextView
+                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.SENSITIVE_ACTIONS ? @color/primary : @color/text_dark_grey}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.SENSITIVE_ACTIONS.description}"
+                            tools:text="App opened"/>
+                        <com.google.android.material.card.MaterialCardView
+                            android:visibility="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.SENSITIVE_ACTIONS}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recycler_view_sensitive_actions"
+                                android:layout_margin="16dp"
+                                android:nestedScrollingEnabled="false"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_security_type_none"
+                    style="@style/RoundCard.NoElevation"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/neutral}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_margin="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TextItemTitle"
+                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/text_dark_grey}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.NONE.label}"
+                            tools:text="App opened"/>
+                        <TextView
+                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/text_dark_grey}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.NONE.description}"
+                            tools:text="App opened"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <LinearLayout
+            android:id="@+id/controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_close"
+                style="@style/ButtonCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icon_close"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/close"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_button_confirm"
+                style="@style/ButtonCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_margin="6dp"
+                    android:divider="@drawable/divider_5"
+                    android:showDividers="middle|end|beginning">
+                    <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
+                        android:src="@drawable/icon_confirm"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/confirm"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

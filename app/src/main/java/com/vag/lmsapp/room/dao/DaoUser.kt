@@ -69,10 +69,10 @@ abstract class DaoUser : BaseDao<EntityUser> {
     abstract fun getByEmailLiveAsData(email: String?): LiveData<EntityUser?>
 
     @Query("SELECT * FROM users WHERE email = :email AND password = :password AND deleted = 0 LIMIT 1")
-    abstract suspend fun getByEmailAndPassword(email: String, password: String): EntityUser?
+    abstract suspend fun getByEmailAndPassword(email: String?, password: String?): EntityUser?
 
     @Query("SELECT * FROM users WHERE email = :email AND pattern_ids = :patternIds AND deleted = 0 LIMIT 1")
-    abstract suspend fun getByEmailAndPattern(email: String, patternIds: ArrayList<Int>): EntityUser?
+    abstract suspend fun getByEmailAndPattern(email: String?, patternIds: ArrayList<Int>): EntityUser?
 
     @Query("SELECT email FROM users WHERE deleted = 0")
     abstract fun getAllEmails(): LiveData<List<String>>

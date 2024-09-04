@@ -34,6 +34,12 @@
         android:supportsRtl="true"
         android:theme="@style/LightActionBar">
         <activity
+            android:name=".app.security.master_password.SetMasterPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".app.security.select_security_type.SelectSecurityTypeActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.joborders.remarks.JobOrderRemarksActivity"
             android:exported="false" />
         <activity

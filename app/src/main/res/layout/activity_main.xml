@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.viewmodels.MainViewModel" />
+            type="com.vag.lmsapp.app.main_menu.MainViewModel" />
     </data>
     <androidx.core.widget.NestedScrollView
         android:background="@drawable/background_gradient_primary"
@@ -17,6 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment_current_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.vag.lmsapp.app.security.current_user.CurrentUserFragment"
+                tools:layout="@layout/fragment_current_user"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_menu"
                 android:layout_width="match_parent"

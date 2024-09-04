@@ -12,7 +12,6 @@ import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.databinding.ActivityAuthActionDialogBinding
 import com.vag.lmsapp.model.EnumActionPermission
-import com.vag.lmsapp.model.EnumAuthMethod
 import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.showDialog
@@ -22,8 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AuthActionDialogActivity : AppCompatActivity() {
     companion object {
-        const val AUTH_ACTION = "authAction"
-
         const val ACTION_EXTRA = "action_extra"
         const val PERMISSIONS_EXTRA = "permissions"
         const val ROLES_EXTRA = "roles"
@@ -31,28 +28,6 @@ class AuthActionDialogActivity : AppCompatActivity() {
 
         @SuppressLint("Returns Login Credentials if Authentication succeeded")
         const val RESULT = "LoginCredential"
-//
-//        fun launch(context: Context, launcher: ActivityLauncher, permissions: List<EnumActionPermission>, onOk: ((ActivityResult) -> Unit) ?) {
-//            launcher.onOk = {
-//                onOk?.invoke(it)
-//            }
-//            val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
-//                putExtra(MESSAGE, "Authentication Required")
-//                putExtra(PERMISSIONS_EXTRA, ArrayList(permissions))
-//            }
-//            launcher.launch(intent)
-//        }
-//
-//        fun launch(context: Context, launcher: FragmentLauncher, permissions: List<EnumActionPermission>, onOk: ((ActivityResult) -> Unit) ?) {
-//            launcher.onOk = {
-//                onOk?.invoke(it)
-//            }
-//            val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
-//                putExtra(MESSAGE, "Authentication Required")
-//                putExtra(PERMISSIONS_EXTRA, ArrayList(permissions))
-//            }
-//            launcher.launch(intent)
-//        }
     }
 
     private lateinit var binding: ActivityAuthActionDialogBinding
@@ -69,24 +44,20 @@ class AuthActionDialogActivity : AppCompatActivity() {
 
         subscribeEvents()
         subscribeListeners()
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         intent.getParcelableArrayListExtra<EnumActionPermission>(PERMISSIONS_EXTRA)?.let {
-            println("permissions")
-            println(it)
             viewModel.setPermissions(it)
         }
+
         intent.getParcelableArrayListExtra<Role>(ROLES_EXTRA)?.let {
-            println("roles")
-            println(it)
             viewModel.setRoles(it)
         }
+
         intent.getStringExtra(ACTION_EXTRA)?.let {
             viewModel.setMessage(it)
         }
+
+        viewModel.checkSecurityType()
     }
 
     private fun subscribeEvents() {

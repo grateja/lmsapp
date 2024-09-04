@@ -106,7 +106,7 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                     viewModel.resetState()
                 }
                 is JobOrderPreviewViewModel.NavigationState.RequestEdit -> {
-                    requestAuthorization(ACTION_REQUEST_UNLOCK)
+                    requestAuthorization(it.permissions)
                     viewModel.resetState()
                 }
                 is JobOrderPreviewViewModel.NavigationState.OpenPrint -> {
@@ -246,11 +246,10 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
 //        }
 //        startActivity(intent)
 //    }
-    private fun requestAuthorization(authAction: String) {
+    private fun requestAuthorization(permissions: List<EnumActionPermission>) {
         val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
-            action = authAction
-            putExtra(AuthActionDialogActivity.ACTION_EXTRA, "Authentication Required")
-            putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, arrayListOf(EnumActionPermission.MODIFY_JOB_ORDERS))
+            action = ACTION_REQUEST_UNLOCK
+            putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(permissions))
         }
         authLauncher.launch(intent)
         viewModel.resetState()

@@ -36,7 +36,7 @@ constructor (
         return daoUser.getByEmail(email)
     }
 
-    suspend fun getByEmailAndPassword(email: String, password: String) : EntityUser? {
+    suspend fun getByEmailAndPassword(email: String?, password: String?) : EntityUser? {
         return daoUser.getByEmailAndPassword(email, password)
     }
 
@@ -46,7 +46,7 @@ constructor (
         return daoUser.getByEmailLiveAsData(email)
     }
 
-    suspend fun getByEmailAndPattern(email: String, patternIds: ArrayList<Int>): EntityUser? {
+    suspend fun getByEmailAndPattern(email: String?, patternIds: ArrayList<Int>): EntityUser? {
         return daoUser.getByEmailAndPattern(email, patternIds)
     }
 

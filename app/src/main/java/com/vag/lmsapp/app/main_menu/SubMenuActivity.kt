@@ -12,7 +12,7 @@ import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivitySubMenuBinding
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
-import com.vag.lmsapp.viewmodels.MainViewModel
+import com.vag.lmsapp.util.showDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,6 +52,10 @@ class SubMenuActivity : AppCompatActivity() {
                 }
                 is MainViewModel.NavigationState.RequestAuthentication -> {
                     requestPermission(it.menuItem)
+                    mainViewModel.resetState()
+                }
+                is MainViewModel.NavigationState.Invalidate -> {
+                    showDialog("Permission denied", it.message)
                     mainViewModel.resetState()
                 }
 

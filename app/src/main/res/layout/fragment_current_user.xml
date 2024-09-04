@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".app.security.current_user.CurrentUserFragment">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.security.current_user.CurrentUserViewModel" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:visibility="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.START_UP}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp">
+        <LinearLayout
+            style="@style/LinearLayoutDivider5.Center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.currentUser.label()}"
+                android:layout_weight="1"
+                tools:text="Admin"/>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/CardRoundButton"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="0dp"
+                android:id="@+id/button_switch_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Switch user"/>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

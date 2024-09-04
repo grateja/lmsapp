@@ -23,7 +23,7 @@
             app:layout_scrollFlags="enterAlways|scroll">
             <TextView
                 style="@style/TextTitleFragment.Center"
-                android:text="Authentication required"
+                android:text="@{viewModel.title}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.card.MaterialCardView>

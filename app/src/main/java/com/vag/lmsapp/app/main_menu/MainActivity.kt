@@ -30,22 +30,28 @@ import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
 import com.vag.lmsapp.app.products.list.ProductsActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
+import com.vag.lmsapp.app.security.select_security_type.SelectSecurityTypeActivity
 import com.vag.lmsapp.app.services.ServicesActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
 import com.vag.lmsapp.internet.InternetConnectionCallback
 import com.vag.lmsapp.internet.InternetConnectionObserver
 import com.vag.lmsapp.model.EnumActionPermission
+import com.vag.lmsapp.model.EnumSecurityType
 import com.vag.lmsapp.services.BacklogSyncService
 import com.vag.lmsapp.util.ActivityContractsLauncher
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.NetworkHelper
 import com.vag.lmsapp.util.calculateSpanCount
-import com.vag.lmsapp.viewmodels.MainViewModel
+import com.vag.lmsapp.util.showDialog
 import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : EndingActivity(), InternetConnectionCallback {
+    companion object {
+        private const val LAUNCH_CODE_AUTH_STARTUP = -1
+        private const val LAUNCH_CODE_AUTH_OPEN_MENU = 1
+    }
     private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
@@ -60,15 +66,9 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
         }
     }
 
+    /* region menu items */
     private val menuItems by lazy {
         listOf(
-//            MenuItem(
-//                "QR code",
-//                "Manage and track job orders.",
-//                RegisterWithQrCodeActivity::class.java,
-//                R.drawable.icon_job_orders,
-//                backgroundColor = resources.getColor(R.color.color_code_job_order, null)
-//            ),
             MenuItem(
                 "Dashboard",
                 "Generate and view sales reports.",
@@ -197,6 +197,12 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
                         permissions = listOf()
                     ),
                     MenuItem(
+                        "Security",
+                        "Setup username, password or pattern.",
+                        SelectSecurityTypeActivity::class.java,
+                        permissions = listOf(EnumActionPermission.MODIFY_SETTINGS_SECURITY)
+                    ),
+                    MenuItem(
                         "Network",
                         "Technical properties and settings of the shop. Do not modify unless advised.",
                         AppSettingsNetworkActivity::class.java,
@@ -207,9 +213,12 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
             ),
         )
     }
+    /* endregion menu items */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mainViewModel.checkSecurity()
 
         InternetConnectionObserver
             .instance(this)
@@ -217,16 +226,7 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
             .register()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        adapter.setData(
-            menuItems
-        )
-
-        binding.recyclerMenu.adapter = adapter
-        binding.recyclerMenu.layoutManager = GridLayoutManager(
-            this, this.calculateSpanCount(R.dimen.menu_tile_width)
-        )
-
+        
         subscribeEvents()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -245,37 +245,53 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
                     requestPermission(it.menuItem)
                     mainViewModel.resetState()
                 }
+                is MainViewModel.NavigationState.RequireOneTimeLogin -> {
+                    authLauncher.launch(listOf(), LAUNCH_CODE_AUTH_STARTUP)
+                    mainViewModel.resetState()
+                }
+                is MainViewModel.NavigationState.Invalidate -> {
+                    showDialog("Permission denied", it.message)
+                    mainViewModel.resetState()
+                }
+                is MainViewModel.NavigationState.SetupUI -> {
+                    setupUi()
+                    mainViewModel.resetState()
+                }
 
                 else -> {}
             }
         })
         authLauncher.onOk = { loginCredentials, code ->
-            mainViewModel.permissionGranted(loginCredentials)
-//            when(it.data?.action) {
-//                AuthActionDialogActivity.AUTH_ACTION -> {
-//                    it.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
-//                        println("auth passed")
-//                        mainViewModel.permissionGranted(loginCredentials)
-//                    }
-//                }
-//            }
+            if(code == LAUNCH_CODE_AUTH_STARTUP) {
+                setupUi()
+            } else if(code == LAUNCH_CODE_AUTH_OPEN_MENU) {
+                mainViewModel.permissionGranted(loginCredentials)
+            }
+        }
+        authLauncher.onCancel = {code ->
+            if(code == LAUNCH_CODE_AUTH_STARTUP) {
+                finish()
+            }
         }
         adapter.onItemClick = {
-            println("menu item")
-            println(it)
             mainViewModel.openMenu(it)
         }
     }
 
+    private fun setupUi() {
+        adapter.setData(
+            menuItems
+        )
+
+        binding.recyclerMenu.adapter = adapter
+        binding.recyclerMenu.layoutManager = GridLayoutManager(
+            this, this.calculateSpanCount(R.dimen.menu_tile_width)
+        )
+    }
+
     private fun requestPermission(menuItem: MenuItem) {
-//        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-//            action = AuthActionDialogActivity.AUTH_ACTION
-//            menuItem.permissions?.let {
-//                putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(it))
-//            }
-//        }
         menuItem.permissions?.let {
-            authLauncher.launch(ArrayList(it), 1)
+            authLauncher.launch(ArrayList(it), LAUNCH_CODE_AUTH_OPEN_MENU)
         }
     }
 

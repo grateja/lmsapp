@@ -3,13 +3,14 @@ package com.vag.lmsapp.util
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity.Companion.LAUNCH_CODE
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
 
-class AuthLauncherFragment(private val fragment: BaseModalFragment) {
+class AuthLauncherFragment(private val fragment: Fragment) {
     var onOk: ((LoginCredentials, Int) -> Unit) ? = null
     var onCancel: (() -> Unit) ? = null
     private var active = false

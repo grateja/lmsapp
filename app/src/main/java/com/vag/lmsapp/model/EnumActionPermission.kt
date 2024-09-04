@@ -24,7 +24,9 @@ enum class EnumActionPermission(val id: Int, val description: String) : Parcelab
     MODIFY_SETTINGS_SHOP_DETAILS(1016, "Can modify shop details. (Shop name, address, contact number)"),
     MODIFY_JOB_ORDER_PAYMENTS(1017, "Can modify job order payments"),
     MODIFY_SETTINGS_MACHINE(1018, "Can modify machine configurations"),
-    MODIFY_SERVICES_PACKAGES(1019, "Can modify package services");
+    MODIFY_SERVICES_PACKAGES(1019, "Can modify package services"),
+    MODIFY_SETTINGS_SECURITY(1020, "Can modify security settings");
+
     override fun toString() : String {
         return description
     }
@@ -51,5 +53,19 @@ enum class EnumActionPermission(val id: Int, val description: String) : Parcelab
         fun toIds(permissions: List<EnumActionPermission>) : String {
             return permissions.joinToString(",") { it.id.toString() }
         }
+
+        fun deniedPermissions(userPrivileges: List<EnumActionPermission>?, requiredPermissions: List<EnumActionPermission>?) : List<EnumActionPermission> {
+            if(requiredPermissions == null || userPrivileges == null || userPrivileges.contains(ALL)) return emptyList()
+
+            val result = mutableListOf<EnumActionPermission>()
+
+            for (item in requiredPermissions) {
+                if (!userPrivileges.contains(item)) {
+                    result.add(item)
+                }
+            }
+            return result
+        }
+
     }
 }

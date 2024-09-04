@@ -10,18 +10,18 @@ import com.vag.lmsapp.model.EnumActionPermission
 
 class AuthLauncherActivity(private val activity: AppCompatActivity) {
     var onOk: ((LoginCredentials, Int) -> Unit) ? = null
-    var onCancel: (() -> Unit) ? = null
+    var onCancel: ((Int?) -> Unit) ? = null
     private var active = false
     private var resultLauncher =
         activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val launchCode = result.data?.getIntExtra(LAUNCH_CODE, -1) ?: -1
             if(result.resultCode == AppCompatActivity.RESULT_OK) {
-                val launchCode = result.data?.getIntExtra(LAUNCH_CODE, -1) ?: -1
                 val loginCredentials = result.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)
                 onOk?.invoke(loginCredentials!!, launchCode)
                 println("launch code")
                 println(launchCode)
             } else if(result.resultCode == AppCompatActivity.RESULT_CANCELED) {
-                onCancel?.invoke()
+                onCancel?.invoke(launchCode)
             }
             active = false
         }
