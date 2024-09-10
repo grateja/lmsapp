@@ -15,7 +15,7 @@ import com.vag.lmsapp.app.EndingActivity
 import com.vag.lmsapp.app.auth.AuthResult
 import com.vag.lmsapp.app.auth.AuthViewModel
 import com.vag.lmsapp.app.customers.list.CustomersActivity
-import com.vag.lmsapp.app.reports.daily_report.DailyReportActivity
+import com.vag.lmsapp.app.reports.summary_report.SummaryReportActivity
 import com.vag.lmsapp.app.expenses.ExpensesActivity
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.app.menu.MenuItem
@@ -30,7 +30,6 @@ import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.services.BacklogSyncService
 import com.vag.lmsapp.util.ActivityContractsLauncher
 import com.vag.lmsapp.util.AuthLauncherActivity
-import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.calculateSpanCount
 import com.vag.lmsapp.worker.ShopSetupSyncWorker
@@ -72,7 +71,7 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
                 MenuItem(
                     "Dashboard",
                     "Generate and view sales reports.",
-                    DailyReportActivity::class.java,
+                    SummaryReportActivity::class.java,
                     R.drawable.icon_sales_report,
                     permissions = listOf(
                         EnumActionPermission.VIEW_DASHBOARD

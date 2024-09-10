@@ -3,13 +3,13 @@ package com.vag.lmsapp.room.dao
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import com.vag.lmsapp.app.reports.daily_report.PriceCountAggregate
-import com.vag.lmsapp.app.reports.daily_report.expenses.DailyReportExpenses
-import com.vag.lmsapp.app.reports.daily_report.job_order.DailyReportJobOrder
-import com.vag.lmsapp.app.reports.daily_report.job_order_items.DailyReportJobOrderItemDetails
-import com.vag.lmsapp.app.reports.daily_report.job_order_paid.DailyReportJobOrderPayment
-import com.vag.lmsapp.app.reports.daily_report.job_order_paid.DailyReportJobOrderPaymentSummary
-import com.vag.lmsapp.app.reports.daily_report.machine_usage.DailyReportMachineUsageSummary
+import com.vag.lmsapp.app.reports.summary_report.PriceCountAggregate
+import com.vag.lmsapp.app.reports.summary_report.expenses.SummaryReportExpenses
+import com.vag.lmsapp.app.reports.summary_report.job_order.SummaryReportJobOrder
+import com.vag.lmsapp.app.reports.summary_report.job_order_items.SummaryReportJobOrderItemDetails
+import com.vag.lmsapp.app.reports.summary_report.job_order_paid.SummaryReportJobOrderPayment
+import com.vag.lmsapp.app.reports.summary_report.job_order_paid.SummaryReportJobOrderPaymentSummary
+import com.vag.lmsapp.app.reports.summary_report.machine_usage.SummaryReportMachineUsageSummary
 import com.vag.lmsapp.model.EnumServiceType
 import java.time.LocalDate
 
@@ -44,7 +44,7 @@ abstract class DaoDailyReport {
             DATE(jo.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :date AND :dateTo
             AND void_by IS NULL AND jo.deleted = 0
     """)
-    abstract fun jobOrder(date: LocalDate, dateTo: LocalDate): LiveData<DailyReportJobOrder>
+    abstract fun jobOrder(date: LocalDate, dateTo: LocalDate): LiveData<SummaryReportJobOrder>
 
     @Query("""
         SELECT 
@@ -66,7 +66,7 @@ abstract class DaoDailyReport {
             WHEN payment_method = 3 THEN 'CASH + ' || cashless_provider
         END
     """)
-    abstract fun jobOrderPayment(date: LocalDate): LiveData<List<DailyReportJobOrderPayment>>
+    abstract fun jobOrderPayment(date: LocalDate): LiveData<List<SummaryReportJobOrderPayment>>
 
     @Query("""
         SELECT 
@@ -81,7 +81,7 @@ abstract class DaoDailyReport {
             DATE(e.created_at / 1000, 'unixepoch', 'localtime') = :date
             AND deleted = 0
     """)
-    abstract fun jobOrderPaymentSummary(date: LocalDate): LiveData<DailyReportJobOrderPaymentSummary>
+    abstract fun jobOrderPaymentSummary(date: LocalDate): LiveData<SummaryReportJobOrderPaymentSummary>
 
     @Query("""
         SELECT
@@ -141,7 +141,7 @@ abstract class DaoDailyReport {
             AND mu.deleted = 0
         GROUP BY jos.svc_machine_type, jos.svc_service_type 
     """)
-    abstract fun machineUsageSummary(date: LocalDate): LiveData<List<DailyReportMachineUsageSummary>>
+    abstract fun machineUsageSummary(date: LocalDate): LiveData<List<SummaryReportMachineUsageSummary>>
 
     @Query("""
         SELECT
@@ -152,7 +152,7 @@ abstract class DaoDailyReport {
             AND deleted = 0
         ORDER BY remarks
     """)
-    abstract fun expenses(date: LocalDate): LiveData<List<DailyReportExpenses>>
+    abstract fun expenses(date: LocalDate): LiveData<List<SummaryReportExpenses>>
 
     @Query("""
         SELECT
@@ -180,7 +180,7 @@ abstract class DaoDailyReport {
             AND jos.deleted = 0 AND jos.void = 0 
             AND jo.deleted = 0 AND jo.void_by IS NULL
     """)
-    abstract suspend fun getJobOrderItemDetailsServices(date: LocalDate, serviceType: EnumServiceType): List<DailyReportJobOrderItemDetails>
+    abstract suspend fun getJobOrderItemDetailsServices(date: LocalDate, serviceType: EnumServiceType): List<SummaryReportJobOrderItemDetails>
 
     @Query("""
         SELECT jo.id AS job_order_id,
@@ -198,7 +198,7 @@ abstract class DaoDailyReport {
             AND joe.deleted = 0 AND joe.void = 0
             AND jo.deleted = 0 AND jo.void_by IS NULL
     """)
-    abstract suspend fun getJobOrderItemDetailsExtras(date: LocalDate): List<DailyReportJobOrderItemDetails>
+    abstract suspend fun getJobOrderItemDetailsExtras(date: LocalDate): List<SummaryReportJobOrderItemDetails>
 
     @Query("""
         SELECT jo.id AS job_order_id,
@@ -216,7 +216,7 @@ abstract class DaoDailyReport {
             AND jop.deleted = 0 AND jop.void = 0
             AND jo.deleted = 0 AND jo.void_by IS NULL
     """)
-    abstract suspend fun getJobOrderItemDetailsProducts(date: LocalDate): List<DailyReportJobOrderItemDetails>
+    abstract suspend fun getJobOrderItemDetailsProducts(date: LocalDate): List<SummaryReportJobOrderItemDetails>
 
     @Query("""
         SELECT jo.id AS job_order_id,
@@ -243,5 +243,5 @@ abstract class DaoDailyReport {
             AND jodc.deleted = 0 AND jodc.void = 0
             AND jo.deleted = 0 AND jo.void_by IS NULL
     """)
-    abstract suspend fun getJobOrderItemDetailsDeliveries(date: LocalDate): List<DailyReportJobOrderItemDetails>
+    abstract suspend fun getJobOrderItemDetailsDeliveries(date: LocalDate): List<SummaryReportJobOrderItemDetails>
 }

@@ -1,7 +1,7 @@
 package com.vag.lmsapp.room.repository
 
 import androidx.lifecycle.LiveData
-import com.vag.lmsapp.app.reports.daily_report.job_order.DailyReportJobOrder
+import com.vag.lmsapp.app.reports.summary_report.job_order.SummaryReportJobOrder
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.room.dao.DaoDailyReport
 import com.vag.lmsapp.util.DateFilter
@@ -16,7 +16,7 @@ class DailyReportRepository
 constructor(
     private val dao: DaoDailyReport
 ) {
-    fun jobOrder(dateFilter: DateFilter): LiveData<DailyReportJobOrder> {
+    fun jobOrder(dateFilter: DateFilter): LiveData<SummaryReportJobOrder> {
         val dateTo = dateFilter.dateTo ?: dateFilter.dateFrom
         return dao.jobOrder(dateFilter.dateFrom, dateTo)
     }

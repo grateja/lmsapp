@@ -77,13 +77,13 @@
             android:exported="false"
             android:label="Product preview" />
         <activity
-            android:name=".app.reports.daily_report.job_order_items.preview.DailyReportJobOrderItemsPreviewActivity"
+            android:name=".app.reports.summary_report.job_order_items.preview.SummaryReportJobOrderItemsPreviewActivity"
             android:exported="false" />
         <activity
             android:name=".app.export_options.ExportOptionsActivity"
             android:exported="false" />
         <activity
-            android:name=".app.reports.daily_report.DailyReportActivity"
+            android:name=".app.reports.summary_report.SummaryReportActivity"
             android:exported="false" />
         <activity
             android:name=".app.remote.end_time.RemoteActivationEndTimeActivity"

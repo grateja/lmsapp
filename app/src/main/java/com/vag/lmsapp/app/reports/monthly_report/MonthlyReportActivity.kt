@@ -2,17 +2,13 @@ package com.vag.lmsapp.app.reports.monthly_report
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.unit.dp
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
-import com.vag.lmsapp.adapters.Adapter
-import com.vag.lmsapp.app.reports.daily_report.DailyReportActivity
+import com.vag.lmsapp.app.reports.summary_report.SummaryReportActivity
 import com.vag.lmsapp.databinding.ActivityMonthlyReportBinding
 import com.vag.lmsapp.util.setGridLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,8 +45,8 @@ class MonthlyReportActivity : AppCompatActivity() {
 
     private fun subscribeEvents() {
         adapter.onItemClick = {
-            val intent = Intent(this, DailyReportActivity::class.java).apply {
-                putExtra(DailyReportActivity.CURRENT_MONTH_EXTRA, it.month.monthNumber.toInt())
+            val intent = Intent(this, SummaryReportActivity::class.java).apply {
+                putExtra(SummaryReportActivity.CURRENT_MONTH_EXTRA, it.month.monthNumber.toInt())
             }
             startActivity(intent)
         }

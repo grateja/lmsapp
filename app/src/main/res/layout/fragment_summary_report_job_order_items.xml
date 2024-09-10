@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".app.daily_report.job_order_items.DailyReportJobOrderItemsFragment">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.reports.summary_report.SummaryReportViewModel" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:divider="@drawable/divider_10"
+        android:showDividers="middle"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+        <LinearLayout
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:divider="@drawable/divider_10"
+            android:showDividers="middle">
+            <com.google.android.material.card.MaterialCardView
+                app:cardBackgroundColor="@color/secondary_background"
+                android:visibility="@{viewModel.jobOrderWashItems.count == 0}"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="No wash services!"
+                    android:layout_margin="20dp"
+                    android:gravity="center"/>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="@{viewModel.jobOrderWashItems.count > 0}"
+                android:id="@+id/card_washes"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/icon_service_type_wash"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/icon_washes"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
+                    <TextView
+                        android:id="@+id/text_caption_washes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toEndOf="@id/icon_washes"
+                        app:layout_constraintTop_toTopOf="@id/icon_washes"
+                        app:layout_constraintBottom_toBottomOf="@id/icon_washes"
+                        tools:text="12 Washes"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_text_heading_washes"
+                        style="@style/CardSpan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/icon_washes"
+                        app:layout_constraintTop_toBottomOf="@id/text_caption_washes">
+
+                        <TextView
+                            style="@style/TileTitle"
+                            android:textColor="@color/primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:peso="@{viewModel.jobOrderWashItems.price}"
+                            tools:text="P20,030" />
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                app:cardBackgroundColor="@color/secondary_background"
+                android:visibility="@{viewModel.jobOrderDryItems.count == 0}"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="No dry services!"
+                    android:layout_margin="20dp"
+                    android:gravity="center"/>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="@{viewModel.jobOrderDryItems.count > 0}"
+                android:id="@+id/card_dries"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/icon_service_type_dry"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/icon_dries"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
+                    <TextView
+                        android:id="@+id/text_caption_dries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toEndOf="@id/icon_dries"
+                        app:layout_constraintTop_toTopOf="@id/icon_dries"
+                        app:layout_constraintBottom_toBottomOf="@id/icon_dries"
+                        tools:text="12 Washes"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_text_heading_dries"
+                        style="@style/CardSpan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/icon_dries"
+                        app:layout_constraintTop_toBottomOf="@id/text_caption_dries">
+
+                        <TextView
+                            style="@style/TileTitle"
+                            android:textColor="@color/primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:peso="@{viewModel.jobOrderDryItems.price}"
+                            tools:text="P20,030" />
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+        <LinearLayout
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:divider="@drawable/divider_10"
+            android:showDividers="middle">
+            <com.google.android.material.card.MaterialCardView
+                app:cardBackgroundColor="@color/secondary_background"
+                android:visibility="@{viewModel.jobOrderExtrasItems.count == 0}"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="No extra services!"
+                    android:layout_margin="20dp"
+                    android:gravity="center"/>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="@{viewModel.jobOrderExtrasItems.count > 0}"
+                android:id="@+id/card_extras"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/icon_extras"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/icon_extras"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
+                    <TextView
+                        android:id="@+id/text_caption_extras"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toEndOf="@id/icon_extras"
+                        app:layout_constraintTop_toTopOf="@id/icon_extras"
+                        app:layout_constraintBottom_toBottomOf="@id/icon_extras"
+                        tools:text="12 Washes"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_text_heading_extras"
+                        style="@style/CardSpan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/icon_extras"
+                        app:layout_constraintTop_toBottomOf="@id/text_caption_extras">
+
+                        <TextView
+                            style="@style/TileTitle"
+                            android:textColor="@color/primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:peso="@{viewModel.jobOrderExtrasItems.price}"
+                            tools:text="P20,030" />
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                app:cardBackgroundColor="@color/secondary_background"
+                android:visibility="@{viewModel.jobOrderProductsItems.count == 0}"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="No products and chemicals!"
+                    android:layout_margin="20dp"
+                    android:gravity="center"/>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="@{viewModel.jobOrderProductsItems.count > 0}"
+                android:id="@+id/card_products"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/icon_products_and_chemicals"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/icon_products"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
+                    <TextView
+                        android:id="@+id/text_caption_products"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toEndOf="@id/icon_products"
+                        app:layout_constraintTop_toTopOf="@id/icon_products"
+                        app:layout_constraintBottom_toBottomOf="@id/icon_products"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="12 Products"
+                        android:ellipsize="end"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_text_heading_products"
+                        style="@style/CardSpan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/icon_products"
+                        app:layout_constraintTop_toBottomOf="@id/text_caption_products">
+
+                        <TextView
+                            style="@style/TileTitle"
+                            android:textColor="@color/primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:peso="@{viewModel.jobOrderProductsItems.price}"
+                            tools:text="P20,030" />
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+        <LinearLayout
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:divider="@drawable/divider_10"
+            android:showDividers="middle">
+            <com.google.android.material.card.MaterialCardView
+                app:cardBackgroundColor="@color/secondary_background"
+                android:visibility="@{viewModel.jobOrderDeliveryItems.count == 0}"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="No pickup and deliveries!"
+                    android:layout_margin="20dp"
+                    android:gravity="center"/>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_delivery"
+                android:visibility="@{viewModel.jobOrderDeliveryItems.count > 0}"
+                app:cardElevation="0dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_margin="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/icon_delivery"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/icon_delivery"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
+                    <TextView
+                        android:id="@+id/text_caption_delivery"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toEndOf="@id/icon_delivery"
+                        app:layout_constraintTop_toTopOf="@id/icon_delivery"
+                        app:layout_constraintBottom_toBottomOf="@id/icon_delivery"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="12 Delivery"
+                        android:ellipsize="end"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_text_heading_delivery"
+                        style="@style/CardSpan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/icon_delivery"
+                        app:layout_constraintTop_toBottomOf="@id/text_caption_delivery">
+
+                        <TextView
+                            style="@style/TileTitle"
+                            android:textColor="@color/primary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:peso="@{viewModel.jobOrderDeliveryItems.price}"
+                            tools:text="P20,030" />
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
