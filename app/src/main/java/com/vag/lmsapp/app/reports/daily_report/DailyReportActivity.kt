@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report
+package com.vag.lmsapp.app.reports.daily_report
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,13 +16,13 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.lifecycle.Observer
-import com.vag.lmsapp.app.daily_report.job_order_items.BottomSheetJobOrderItemPreviewFragment
 import com.vag.lmsapp.app.expenses.ExpensesActivity
 import com.vag.lmsapp.app.export_options.ExportOptionsActivity
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
 import com.vag.lmsapp.app.machines.preview.MachinePreviewActivity
+import com.vag.lmsapp.app.reports.daily_report.job_order_items.BottomSheetJobOrderItemPreviewFragment
 import com.vag.lmsapp.util.Constants.Companion.ADVANCED_FILTER
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import com.vag.lmsapp.util.DateFilter

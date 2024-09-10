@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.daily_report.machine_usage.DailyReportMachineUsageSummary" />
+            type="com.vag.lmsapp.app.reports.daily_report.machine_usage.DailyReportMachineUsageSummary" />
     </data>
     <com.google.android.material.card.MaterialCardView
         app:cardCornerRadius="0dp"

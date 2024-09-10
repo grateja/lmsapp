@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report.unpaid_job_orders
+package com.vag.lmsapp.app.reports.daily_report.unpaid_job_orders
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
-import com.vag.lmsapp.app.daily_report.DailyReportViewModel
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.databinding.FragmentDailyReportUnpaidJobOrdersBinding
 import com.vag.lmsapp.model.EnumPaymentStatus
 import com.vag.lmsapp.app.joborders.list.advanced_filter.JobOrderListAdvancedFilter
+import com.vag.lmsapp.app.reports.daily_report.DailyReportViewModel
 import com.vag.lmsapp.util.Constants.Companion.ADVANCED_FILTER
 
 class DailyReportUnpaidJobOrdersFragment : Fragment() {

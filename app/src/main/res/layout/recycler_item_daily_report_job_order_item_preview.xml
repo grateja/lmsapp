@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.daily_report.job_order_items.DailyReportJobOrderItemDetails" />
+            type="com.vag.lmsapp.app.reports.daily_report.job_order_items.DailyReportJobOrderItemDetails" />
     </data>
     <com.google.android.material.card.MaterialCardView
         android:layout_marginVertical="4dp"

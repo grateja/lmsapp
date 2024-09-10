@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report
+package com.vag.lmsapp.app.reports.daily_report
 
 data class PriceCountAggregate(
     val count: Int = 0,

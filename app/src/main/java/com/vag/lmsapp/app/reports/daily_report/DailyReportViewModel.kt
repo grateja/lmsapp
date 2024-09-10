@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report
+package com.vag.lmsapp.app.reports.daily_report
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.vag.lmsapp.app.daily_report.job_order_items.DailyReportJobOrderItemDetails
-import com.vag.lmsapp.app.daily_report.machine_usage.DailyReportMachineUsageSummary
+import com.vag.lmsapp.app.reports.daily_report.job_order_items.DailyReportJobOrderItemDetails
+import com.vag.lmsapp.app.reports.daily_report.machine_usage.DailyReportMachineUsageSummary
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.room.repository.DailyReportRepository

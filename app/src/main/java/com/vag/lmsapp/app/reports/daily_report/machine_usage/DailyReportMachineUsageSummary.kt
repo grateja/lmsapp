@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report.machine_usage
+package com.vag.lmsapp.app.reports.daily_report.machine_usage
 
 import androidx.room.ColumnInfo
 import com.vag.lmsapp.model.EnumMachineType

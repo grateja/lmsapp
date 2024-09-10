@@ -3,13 +3,13 @@ package com.vag.lmsapp.room.dao
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import com.vag.lmsapp.app.daily_report.PriceCountAggregate
-import com.vag.lmsapp.app.daily_report.expenses.DailyReportExpenses
-import com.vag.lmsapp.app.daily_report.job_order.DailyReportJobOrder
-import com.vag.lmsapp.app.daily_report.job_order_items.DailyReportJobOrderItemDetails
-import com.vag.lmsapp.app.daily_report.job_order_paid.DailyReportJobOrderPayment
-import com.vag.lmsapp.app.daily_report.job_order_paid.DailyReportJobOrderPaymentSummary
-import com.vag.lmsapp.app.daily_report.machine_usage.DailyReportMachineUsageSummary
+import com.vag.lmsapp.app.reports.daily_report.PriceCountAggregate
+import com.vag.lmsapp.app.reports.daily_report.expenses.DailyReportExpenses
+import com.vag.lmsapp.app.reports.daily_report.job_order.DailyReportJobOrder
+import com.vag.lmsapp.app.reports.daily_report.job_order_items.DailyReportJobOrderItemDetails
+import com.vag.lmsapp.app.reports.daily_report.job_order_paid.DailyReportJobOrderPayment
+import com.vag.lmsapp.app.reports.daily_report.job_order_paid.DailyReportJobOrderPaymentSummary
+import com.vag.lmsapp.app.reports.daily_report.machine_usage.DailyReportMachineUsageSummary
 import com.vag.lmsapp.model.EnumServiceType
 import java.time.LocalDate
 

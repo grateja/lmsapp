@@ -13,7 +13,7 @@ import com.vag.lmsapp.app.app_settings.user.list.AppSettingsUserAccountsActivity
 import com.vag.lmsapp.app.auth.AuthRepository
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.customers.list.CustomersActivity
-import com.vag.lmsapp.app.daily_report.DailyReportActivity
+//import com.vag.lmsapp.app.daily_report.DailyReportActivity
 import com.vag.lmsapp.app.discounts.list.DiscountsActivity
 import com.vag.lmsapp.app.expenses.ExpensesActivity
 import com.vag.lmsapp.app.extras.list.ExtrasActivity

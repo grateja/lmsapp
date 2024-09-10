@@ -5,6 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.reports.daily_report.job_order_items.preview.DailyReportJobOrderItemsPreviewActivity">
+    tools:context=".app.reports.monthly_report.MonthlyReportActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

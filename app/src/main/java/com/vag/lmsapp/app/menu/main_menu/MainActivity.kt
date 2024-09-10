@@ -15,7 +15,7 @@ import com.vag.lmsapp.app.EndingActivity
 import com.vag.lmsapp.app.auth.AuthResult
 import com.vag.lmsapp.app.auth.AuthViewModel
 import com.vag.lmsapp.app.customers.list.CustomersActivity
-import com.vag.lmsapp.app.daily_report.DailyReportActivity
+import com.vag.lmsapp.app.reports.daily_report.DailyReportActivity
 import com.vag.lmsapp.app.expenses.ExpensesActivity
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.app.menu.MenuItem

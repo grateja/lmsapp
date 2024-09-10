@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report.job_order_items.preview
+package com.vag.lmsapp.app.reports.daily_report.job_order_items.preview
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

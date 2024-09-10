@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    tools:context=".app.daily_report.DailyReportActivity">
+    tools:context=".app.reports.daily_report.DailyReportActivity">
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.daily_report.DailyReportViewModel" />
+            type="com.vag.lmsapp.app.reports.daily_report.DailyReportViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@drawable/background_gradient_primary"
@@ -159,7 +159,7 @@
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/fragment_job_order"
-                        android:name="com.vag.lmsapp.app.daily_report.job_order.DailyReportJobOrderFragment"
+                        android:name="com.vag.lmsapp.app.reports.daily_report.job_order.DailyReportJobOrderFragment"
                         android:layout_width="match_parent"
                         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                         tools:layout="@layout/fragment_daily_report_job_order"
@@ -167,7 +167,7 @@
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/fragment_payment"
-                        android:name="com.vag.lmsapp.app.daily_report.job_order_paid.DailyReportJobOrderPaymentFragment"
+                        android:name="com.vag.lmsapp.app.reports.daily_report.job_order_paid.DailyReportJobOrderPaymentFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
@@ -175,21 +175,21 @@
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/fragment_machine_usage"
-                        android:name="com.vag.lmsapp.app.daily_report.machine_usage.DailyReportMachineUsageFragment"
+                        android:name="com.vag.lmsapp.app.reports.daily_report.machine_usage.DailyReportMachineUsageFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:layout="@layout/fragment_daily_report_machine_usage"/>
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/fragment_job_order_items"
-                        android:name="com.vag.lmsapp.app.daily_report.job_order_items.DailyReportJobOrderItemsFragment"
+                        android:name="com.vag.lmsapp.app.reports.daily_report.job_order_items.DailyReportJobOrderItemsFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:layout="@layout/fragment_daily_report_job_order_items"/>
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/fragment_expenses"
-                        android:name="com.vag.lmsapp.app.daily_report.expenses.DailyReportExpensesFragment"
+                        android:name="com.vag.lmsapp.app.reports.daily_report.expenses.DailyReportExpensesFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
@@ -197,7 +197,7 @@
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/fragment_unpaid_job_orders"
-                        android:name="com.vag.lmsapp.app.daily_report.unpaid_job_orders.DailyReportUnpaidJobOrdersFragment"
+                        android:name="com.vag.lmsapp.app.reports.daily_report.unpaid_job_orders.DailyReportUnpaidJobOrdersFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"

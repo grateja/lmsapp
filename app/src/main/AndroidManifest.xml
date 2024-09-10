@@ -34,7 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/LightActionBar">
         <activity
-            android:name=".app.security.master_password.SetMasterPasswordActivity"
+            android:name=".app.reports.monthly_report.MonthlyReportActivity"
             android:exported="false" />
         <activity
             android:name=".app.security.select_security_type.SelectSecurityTypeActivity"
@@ -74,13 +74,13 @@
             android:exported="false"
             android:label="Product preview" />
         <activity
-            android:name=".app.daily_report.job_order_items.preview.DailyReportJobOrderItemsPreviewActivity"
+            android:name=".app.reports.daily_report.job_order_items.preview.DailyReportJobOrderItemsPreviewActivity"
             android:exported="false" />
         <activity
             android:name=".app.export_options.ExportOptionsActivity"
             android:exported="false" />
         <activity
-            android:name=".app.daily_report.DailyReportActivity"
+            android:name=".app.reports.daily_report.DailyReportActivity"
             android:exported="false" />
         <activity
             android:name=".app.remote.end_time.RemoteActivationEndTimeActivity"

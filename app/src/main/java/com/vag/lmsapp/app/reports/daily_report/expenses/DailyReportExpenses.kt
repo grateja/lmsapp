@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report.expenses
+package com.vag.lmsapp.app.reports.daily_report.expenses
 
 import java.text.NumberFormat
 import java.util.Locale

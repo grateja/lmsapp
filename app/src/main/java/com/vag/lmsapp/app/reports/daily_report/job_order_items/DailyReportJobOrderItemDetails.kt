@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report.job_order_items
+package com.vag.lmsapp.app.reports.daily_report.job_order_items
 
 import androidx.room.ColumnInfo
 import java.time.Instant

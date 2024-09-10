@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.daily_report.DailyReportViewModel" />
+            type="com.vag.lmsapp.app.reports.daily_report.DailyReportViewModel" />
     </data>
     <LinearLayout
         android:animateLayoutChanges="true"

@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report.job_order
+package com.vag.lmsapp.app.reports.daily_report.job_order
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
-import com.vag.lmsapp.app.daily_report.DailyReportViewModel
+import com.vag.lmsapp.app.reports.daily_report.DailyReportViewModel
 import com.vag.lmsapp.databinding.FragmentDailyReportJobOrderBinding
 import dagger.hilt.android.AndroidEntryPoint
 

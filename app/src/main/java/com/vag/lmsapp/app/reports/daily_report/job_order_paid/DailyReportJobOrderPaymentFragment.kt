@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report.job_order_paid
+package com.vag.lmsapp.app.reports.daily_report.job_order_paid
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
-import com.vag.lmsapp.app.daily_report.DailyReportViewModel
+import com.vag.lmsapp.app.reports.daily_report.DailyReportViewModel
 import com.vag.lmsapp.databinding.FragmentDailyReportJobOrderPaymentBinding
 
 class DailyReportJobOrderPaymentFragment : Fragment() {

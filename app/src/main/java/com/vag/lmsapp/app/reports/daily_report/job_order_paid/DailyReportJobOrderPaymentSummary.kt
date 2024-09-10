@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.daily_report.job_order_paid
+package com.vag.lmsapp.app.reports.daily_report.job_order_paid
 
 import androidx.room.ColumnInfo
 
