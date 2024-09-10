@@ -1,4 +1,4 @@
-package com.vag.lmsapp.app.main_menu
+package com.vag.lmsapp.app.menu
 
 import android.os.Parcelable
 import com.vag.lmsapp.model.EnumActionPermission
@@ -12,6 +12,6 @@ data class MenuItem(
     val imageResource: Int? = null,
     val permissions: List<EnumActionPermission>? = null,
 //    val roles: List<Role>? = null,
-    val menuItems: List<MenuItem>? = null,
-    val backgroundColor: Int? = -1
+//    val menuItems: List<MenuItem>? = null,
+//    val backgroundColor: Int? = -1
 ) : Parcelable

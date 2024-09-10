@@ -7,32 +7,32 @@ import androidx.fragment.app.Fragment
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity.Companion.LAUNCH_CODE
 import com.vag.lmsapp.app.auth.LoginCredentials
-import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
 
 class AuthLauncherFragment(private val fragment: Fragment) {
-    var onOk: ((LoginCredentials, Int) -> Unit) ? = null
-    var onCancel: (() -> Unit) ? = null
+    var onOk: ((LoginCredentials, String) -> Unit) ? = null
+    var onCancel: ((String) -> Unit) ? = null
     private var active = false
     private var resultLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val launchCode = result.data?.getStringExtra(LAUNCH_CODE) ?: ""
             if(result.resultCode == AppCompatActivity.RESULT_OK) {
-                val launchCode = result.data?.getIntExtra(LAUNCH_CODE, -1) ?: -1
                 val loginCredentials = result.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)
                 onOk?.invoke(loginCredentials!!, launchCode)
                 println("launch code")
                 println(launchCode)
             } else if(result.resultCode == AppCompatActivity.RESULT_CANCELED) {
-                onCancel?.invoke()
+                onCancel?.invoke(launchCode)
             }
             active = false
         }
 
-    fun launch(permissions: List<EnumActionPermission>, launchCode: Int) {
+    fun launch(permissions: List<EnumActionPermission>, action: String, mandate: Boolean) {
         if(!active) {
             val intent = Intent(fragment.activity, AuthActionDialogActivity::class.java).apply {
-                putExtra(LAUNCH_CODE, launchCode)
+                putExtra(LAUNCH_CODE, action)
                 putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(permissions))
+                putExtra(AuthActionDialogActivity.MANDATE, mandate)
             }
             resultLauncher.launch(intent)
             active = true

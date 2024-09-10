@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
+import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.joborders.JobOrderItemMinimal
 import com.vag.lmsapp.app.joborders.cancel.JobOrderCancelActivity
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
@@ -24,10 +29,12 @@ import com.vag.lmsapp.app.joborders.remarks.JobOrderRemarksActivity
 import com.vag.lmsapp.databinding.FragmentBottomSheetJobOrderPreviewBinding
 import com.vag.lmsapp.fragments.BaseModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
+import com.vag.lmsapp.util.AuthLauncherFragment
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.Constants.Companion.CUSTOMER_ID
 import com.vag.lmsapp.util.Constants.Companion.JOB_ORDER_ID
 import com.vag.lmsapp.util.Constants.Companion.PAYMENT_ID
+import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.FragmentLauncher
 import com.vag.lmsapp.util.setGridLayout
 import com.vag.lmsapp.util.showMessageDialog
@@ -38,7 +45,21 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
     override var fullHeight: Boolean = true
     private lateinit var binding: FragmentBottomSheetJobOrderPreviewBinding
     private val viewModel: JobOrderPreviewViewModel by activityViewModels()
-    private val authLauncher = FragmentLauncher(this)
+    private val authViewModel: AuthViewModel by activityViewModels()
+
+    private val authLauncher = AuthLauncherFragment(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_REQUEST_UNLOCK -> {
+                viewModel.openJobOrder()
+            }
+        }
+    }
+
+//    private val authLauncher = FragmentLauncher(this)
     private val launcher = FragmentLauncher(this)
     private val packagesAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
     private val servicesAdapter = Adapter<JobOrderItemMinimal>(R.layout.recycler_item_job_order_item_minimal)
@@ -106,7 +127,7 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
                     viewModel.resetState()
                 }
                 is JobOrderPreviewViewModel.NavigationState.RequestEdit -> {
-                    requestAuthorization(it.permissions)
+                    authViewModel.authenticate(listOf(EnumActionPermission.MODIFY_JOB_ORDERS), ACTION_REQUEST_UNLOCK, false)
                     viewModel.resetState()
                 }
                 is JobOrderPreviewViewModel.NavigationState.OpenPrint -> {
@@ -167,9 +188,32 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
 //                viewModel.test(it)
 //            }
         })
-//        viewModel.joText.observe(viewLifecycleOwner, Observer {
-//            viewModel.test(it)
-//        })
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.controls, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAnchorView(binding.controls)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
     }
 
     private fun subscribeEvents() {
@@ -199,14 +243,6 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
         }
         binding.jobOrderGallery.setOnClickListener {
             viewModel.openGallery()
-        }
-
-        authLauncher.onOk = {
-            if(it.data?.action == ACTION_REQUEST_UNLOCK) {
-                viewModel.openJobOrder()
-            } else if(it.data?.action == ACTION_REQUEST_DELETE) {
-//                viewModel.openDelete()
-            }
         }
 
         launcher.onOk = {
@@ -246,18 +282,18 @@ class JobOrderPreviewBottomSheetFragment : BaseModalFragment() {
 //        }
 //        startActivity(intent)
 //    }
-    private fun requestAuthorization(permissions: List<EnumActionPermission>) {
-        val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
-            action = ACTION_REQUEST_UNLOCK
-            putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(permissions))
-        }
-        authLauncher.launch(intent)
-        viewModel.resetState()
-    }
+//    private fun requestAuthorization(permissions: List<EnumActionPermission>) {
+//        val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
+//            action = ACTION_REQUEST_UNLOCK
+//            putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(permissions))
+//        }
+//        authLauncher.launch(intent)
+//        viewModel.resetState()
+//    }
 
     companion object {
         const val ACTION_REQUEST_UNLOCK = "request_unlock"
-        const val ACTION_REQUEST_DELETE = "request_delete"
+//        const val ACTION_REQUEST_DELETE = "request_delete"
         private const val STATE_PREVIEW_ONLY = "read_only"
         fun newInstance(previewOnly: Boolean, jobOrderId: UUID) : JobOrderPreviewBottomSheetFragment {
             return JobOrderPreviewBottomSheetFragment().apply {

@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".app.main_menu.MainActivity">
+    tools:context=".app.menu.main_menu.MainActivity">
 
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.main_menu.MainViewModel" />
+            type="com.vag.lmsapp.app.menu.main_menu.MainMenuViewModel" />
     </data>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

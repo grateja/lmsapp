@@ -54,7 +54,7 @@ constructor(
         data class PickCustomer(val customerId: UUID?) : DataState()
         data class SearchCustomer(val customerId: UUID?) : DataState()
         data class OpenPrinter(val jobOrderId: UUID) : DataState()
-        object ProceedToSaveJO: DataState()
+        object ValidationPassed: DataState()
     }
 
     private val _modified = MutableLiveData(false)
@@ -866,11 +866,11 @@ constructor(
                         _dataState.value = DataState.InvalidOperation(unavailable)
                         return@launch
                     } else {
-                        _dataState.value = DataState.ProceedToSaveJO
+                        _dataState.value = DataState.ValidationPassed
                     }
                 }
             } else {
-                _dataState.value = DataState.ProceedToSaveJO
+                _dataState.value = DataState.ValidationPassed
             }
         }
     }

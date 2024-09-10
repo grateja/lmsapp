@@ -9,12 +9,12 @@ import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.model.EnumActionPermission
 
 class AuthLauncherActivity(private val activity: AppCompatActivity) {
-    var onOk: ((LoginCredentials, Int) -> Unit) ? = null
-    var onCancel: ((Int?) -> Unit) ? = null
+    var onOk: ((LoginCredentials, String) -> Unit) ? = null
+    var onCancel: ((String?) -> Unit) ? = null
     private var active = false
     private var resultLauncher =
         activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val launchCode = result.data?.getIntExtra(LAUNCH_CODE, -1) ?: -1
+            val launchCode = result.data?.getStringExtra(LAUNCH_CODE) ?: ""
             if(result.resultCode == AppCompatActivity.RESULT_OK) {
                 val loginCredentials = result.data?.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)
                 onOk?.invoke(loginCredentials!!, launchCode)
@@ -26,11 +26,12 @@ class AuthLauncherActivity(private val activity: AppCompatActivity) {
             active = false
         }
 
-    fun launch(permissions: List<EnumActionPermission>, launchCode: Int) {
+    fun launch(permissions: List<EnumActionPermission>, action: String, mandate: Boolean) {
         if(!active) {
             val intent = Intent(activity, AuthActionDialogActivity::class.java).apply {
-                putExtra(LAUNCH_CODE, launchCode)
+                putExtra(LAUNCH_CODE, action)
                 putExtra(AuthActionDialogActivity.PERMISSIONS_EXTRA, ArrayList(permissions))
+                putExtra(AuthActionDialogActivity.MANDATE, mandate)
             }
             resultLauncher.launch(intent)
             active = true

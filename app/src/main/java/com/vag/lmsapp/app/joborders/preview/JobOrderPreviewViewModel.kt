@@ -25,7 +25,7 @@ class JobOrderPreviewViewModel
 @Inject
 constructor(
     private val jobOrderRepository: JobOrderRepository,
-    private val securityRepository: SecuritySettingsRepository
+//    private val securityRepository: SecuritySettingsRepository
 ) : ViewModel() {
     private val _navigationState = MutableLiveData<NavigationState>()
     val navigationState: LiveData<NavigationState> = _navigationState
@@ -158,29 +158,22 @@ constructor(
                     _navigationState.value = NavigationState.InitiateEdit(it)
                 }
             } else {
-                viewModelScope.launch {
-                    securityRepository.getSecurityType().let {securityType ->
-                        val permissions = listOf(EnumActionPermission.MODIFY_JOB_ORDERS)
-                        if(securityType == EnumSecurityType.SENSITIVE_ACTIONS) {
-                            _navigationState.value = NavigationState.RequestEdit(permissions)
-                        } else if(securityType == EnumSecurityType.START_UP) {
-                            val loginCredentials = securityRepository.verifyPermissions(permissions)
-                            if(loginCredentials == null) {
-                                _navigationState.value = NavigationState.Invalidate("You do not have necessary permission to perform this action")
-                            } else {
-                                openJobOrder()
-                            }
-//                            securityRepository.getCurrentUser().let {user ->
-//                                if(EnumActionPermission.deniedPermissions(
-//                                    user?.permissions,
-//                                    listOf(EnumActionPermission.MODIFY_JOB_ORDERS),
-//                                ).isNotEmpty()) {
-//                                } else {
-//                                }
+                _navigationState.value = NavigationState.RequestEdit
+//                viewModelScope.launch {
+//                    securityRepository.getSecurityType().let {securityType ->
+//                        val permissions = listOf(EnumActionPermission.MODIFY_JOB_ORDERS)
+//                        if(securityType == EnumSecurityType.SENSITIVE_ACTIONS) {
+//                            _navigationState.value = NavigationState.RequestEdit(permissions)
+//                        } else if(securityType == EnumSecurityType.START_UP) {
+//                            val loginCredentials = securityRepository.verifyPermissions(permissions)
+//                            if(loginCredentials == null) {
+//                                _navigationState.value = NavigationState.Invalidate("You do not have necessary permission to perform this action")
+//                            } else {
+//                                openJobOrder()
 //                            }
-                        }
-                    }
-                }
+//                        }
+//                    }
+//                }
             }
         }
     }
@@ -239,7 +232,7 @@ constructor(
         data class OpenPayment(val paymentId: UUID, val customerId: UUID): NavigationState()
         data class OpenPrint(val id: UUID) : NavigationState()
         data class OpenDelete(val id: UUID) : NavigationState()
-        data class RequestEdit(val permissions: List<EnumActionPermission>): NavigationState()
+        data object RequestEdit: NavigationState()
         data class Invalidate(val message: String): NavigationState()
         data class OpenGallery(val jobOrderId: UUID): NavigationState()
         data class OpenRemarks(val jobOrderId: UUID): NavigationState()

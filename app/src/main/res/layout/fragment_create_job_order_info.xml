@@ -108,7 +108,7 @@
                     android:id="@+id/label_date_created"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Customer name"
+                    android:text="Created"
                     app:layout_constraintStart_toEndOf="@id/icon_date_created"
                     app:layout_constraintTop_toTopOf="@id/icon_date_created"
                     android:layout_marginStart="8dp"/>

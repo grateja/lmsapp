@@ -17,11 +17,7 @@ import com.vag.lmsapp.util.Constants.Companion.USER_ID
 class CurrentUserFragment : Fragment() {
     private val viewModel: CurrentUserViewModel by activityViewModels()
     private lateinit var binding: FragmentCurrentUserBinding
-    private val authFragmentLauncher = AuthLauncherFragment(this).apply {
-        onCancel = {
-            activity?.finish()
-        }
-    }
+    private val authFragmentLauncher = AuthLauncherFragment(this)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,10 +36,16 @@ class CurrentUserFragment : Fragment() {
     }
 
     private fun subscribeListeners() {
+
+        viewModel.currentUser.observe(viewLifecycleOwner, Observer {
+            println("current user")
+            println(it.user.email)
+        })
+
         viewModel.navigationState.observe(viewLifecycleOwner, Observer {
             when(it) {
                 is CurrentUserViewModel.NavigationState.SwitchUser -> {
-                    authFragmentLauncher.launch(listOf(), 1)
+                    authFragmentLauncher.launch(listOf(), "Switch user", true)
                     viewModel.resetState()
                 }
 

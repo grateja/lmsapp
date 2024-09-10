@@ -7,7 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
+import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.FragmentProductAddStockBottomSheetBinding
 import com.vag.lmsapp.fragments.ModalFragment
 import com.vag.lmsapp.model.EnumActionPermission
@@ -27,7 +31,20 @@ class ProductAddStockBottomSheetFragment : ModalFragment<UUID>() {
     override var fullHeight = true
     private lateinit var binding: FragmentProductAddStockBottomSheetBinding
     private val viewModel: ProductAddStockViewModel by viewModels()
-    private val authLauncher = AuthLauncherFragment(this)
+    private val authViewModel: AuthViewModel by viewModels()
+
+    private val authLauncher = AuthLauncherFragment(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_ADD_STOCK -> {
+                viewModel.save(loginCredentials.userId)
+            }
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,17 +77,43 @@ class ProductAddStockBottomSheetFragment : ModalFragment<UUID>() {
             dismiss()
         }
         authLauncher.onOk = { loginCredentials, code ->
-            if(code == 1) {
-                viewModel.save(loginCredentials.userId)
-            }
+            viewModel.save(loginCredentials.userId)
         }
     }
 
     private fun subscribeListeners() {
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAnchorView(binding.cardButtonClose)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
+
         viewModel.dataState.observe(viewLifecycleOwner, Observer {
             when(it) {
                 is DataState.ValidationPassed -> {
-                    authLauncher.launch(listOf(EnumActionPermission.MODIFY_INVENTORY), 1)
+                    authViewModel.authenticate(listOf(EnumActionPermission.MODIFY_INVENTORY), ACTION_ADD_STOCK, false)
+//                    authLauncher.launch(listOf(EnumActionPermission.MODIFY_INVENTORY), ACTION_ADD_STOCK, false)
                     viewModel.resetState()
                 }
 
@@ -86,6 +129,7 @@ class ProductAddStockBottomSheetFragment : ModalFragment<UUID>() {
     }
 
     companion object {
+        private const val ACTION_ADD_STOCK = "Add stock"
         fun newInstance(productId: UUID, inventoryLogId: UUID?): ProductAddStockBottomSheetFragment {
             val args = Bundle().apply {
                 putString(ID, inventoryLogId.toString())

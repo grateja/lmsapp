@@ -95,7 +95,7 @@ class ProductAddEditActivity(
                 }
                 is DataState.ValidationPassed -> {
 //                    viewModel.save()
-                    authenticate(1)
+                    authenticate(ACTION_SAVE)
                     viewModel.resetState()
                 }
 

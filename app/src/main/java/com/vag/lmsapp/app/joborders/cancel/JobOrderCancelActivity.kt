@@ -7,8 +7,11 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityJobOrderCancelBinding
 import com.vag.lmsapp.internet.InternetConnectionCallback
@@ -27,12 +30,25 @@ class JobOrderCancelActivity : AppCompatActivity(), InternetConnectionCallback {
 
     companion object {
 //        const val JOB_ORDER_ID = "jobOrderId"
-        const val ACTION_DELETE_JOB_ORDER = "deleteJobOrder"
+        const val ACTION_DELETE_JOB_ORDER = "Delete Job Order"
     }
 
     private lateinit var binding: ActivityJobOrderCancelBinding
     private val viewModel: JobOrderCancelViewModel by viewModels()
-    private val authLauncher = AuthLauncherActivity(this)
+    private val authViewModel: AuthViewModel by viewModels()
+
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_DELETE_JOB_ORDER -> {
+                viewModel.save(loginCredentials.userId)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_job_order_cancel)
@@ -50,9 +66,9 @@ class JobOrderCancelActivity : AppCompatActivity(), InternetConnectionCallback {
 //                viewModel.save(it.userId)
 //            }
 //        }
-        authLauncher.onOk = { loginCredentials, i ->
-            viewModel.save(loginCredentials.userId)
-        }
+//        authLauncher.onOk = { loginCredentials, i ->
+//            viewModel.save(loginCredentials.userId)
+//        }
         intent.getStringExtra(JOB_ORDER_ID).toUUID().let {
             viewModel.loadJobOrder(it)
         }
@@ -60,11 +76,39 @@ class JobOrderCancelActivity : AppCompatActivity(), InternetConnectionCallback {
     }
 
     private fun subscribeListeners() {
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAnchorView(binding.controls)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
+
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is DataState.ValidationPassed -> {
 //                    val intent = Intent(this, AuthActionDialogActivity::class.java)
-                    authLauncher.launch(listOf(EnumActionPermission.DELETE_JOB_ORDERS), 1)
+                    authViewModel.authenticate(listOf(EnumActionPermission.DELETE_JOB_ORDERS), ACTION_DELETE_JOB_ORDER, false)
+//                    authLauncher.launch(listOf(EnumActionPermission.DELETE_JOB_ORDERS), "Cancel Job Order", false)
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {

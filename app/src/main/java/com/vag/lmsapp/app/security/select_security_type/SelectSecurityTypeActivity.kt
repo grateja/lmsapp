@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SelectSecurityTypeActivity : AppCompatActivity() {
     companion object {
-        private const val LAUNCH_CODE_SECURITY_NONE = 2
+        private const val LAUNCH_CODE_SECURITY_NONE = "Select security code: None"
     }
 
     private val adapter = Adapter<String>(R.layout.recycler_item_simple_item).apply {
@@ -67,9 +67,9 @@ class SelectSecurityTypeActivity : AppCompatActivity() {
             viewModel.setSecurityType(EnumSecurityType.SENSITIVE_ACTIONS)
         }
 
-        binding.cardSecurityTypeNone.setOnClickListener {
-            authLauncher.launch(listOf(EnumActionPermission.MODIFY_SETTINGS_SECURITY), LAUNCH_CODE_SECURITY_NONE)
-        }
+//        binding.cardSecurityTypeNone.setOnClickListener {
+//            authLauncher.launch(listOf(EnumActionPermission.MODIFY_SETTINGS_SECURITY), LAUNCH_CODE_SECURITY_NONE, true)
+//        }
 
         binding.cardSecurityTypeAppOpened.setOnClickListener {
             viewModel.setSecurityType(EnumSecurityType.START_UP)

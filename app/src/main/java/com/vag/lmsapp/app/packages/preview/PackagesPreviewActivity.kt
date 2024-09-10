@@ -5,7 +5,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
+import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.joborders.create.extras.AvailableExtrasAdapter
 import com.vag.lmsapp.app.joborders.create.products.AvailableProductsAdapter
 import com.vag.lmsapp.app.joborders.create.services.AvailableServicesAdapter
@@ -16,6 +20,7 @@ import com.vag.lmsapp.databinding.ActivityPackagesPreviewBinding
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.PACKAGE_ID
+import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,12 +29,23 @@ import dagger.hilt.android.AndroidEntryPoint
 class PackagesPreviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPackagesPreviewBinding
     private val viewModel: PackagesPreviewViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     private val servicesAdapter = AvailableServicesAdapter()
     private val productsAdapter = AvailableProductsAdapter()
     private val extrasAdapter = AvailableExtrasAdapter()
 
-    private val authLauncher = AuthLauncherActivity(this)
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_DELETE_PACKAGE -> {
+                viewModel.initiateDelete()
+                finish()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,7 +127,8 @@ class PackagesPreviewActivity : AppCompatActivity() {
 
         binding.cardButtonDelete.setOnClickListener {
             showDeleteConfirmationDialog("Delete package?", "Are you sure you want to delete this package?") {
-                authLauncher.launch(listOf(EnumActionPermission.MODIFY_SERVICES_PACKAGES), 1)
+                authViewModel.authenticate(listOf(EnumActionPermission.MODIFY_SERVICES_PACKAGES), ACTION_DELETE_PACKAGE, false)
+//                authLauncher.launch(listOf(EnumActionPermission.MODIFY_SERVICES_PACKAGES), "Delete package", false)
             }
         }
 
@@ -119,17 +136,42 @@ class PackagesPreviewActivity : AppCompatActivity() {
             viewModel.reset()
         }
 
-        authLauncher.onOk = { _, code ->
-            when(code) {
-                1 -> {
-                    viewModel.initiateDelete()
-                    finish()
-                }
-            }
-        }
+//        authLauncher.onOk = { _, code ->
+//            viewModel.initiateDelete()
+//            finish()
+//        }
     }
 
     private fun subscribeListeners() {
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAnchorView(binding.controls)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                        // is AuthResult.NoAuthentication -> {
+                        //     setupUi()
+                        //  }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
         viewModel.navigationState.observe(this, Observer {
             when(it) {
                 is PackagesPreviewViewModel.NavigationState.OpenEdit -> {
@@ -187,5 +229,9 @@ class PackagesPreviewActivity : AppCompatActivity() {
                 extrasAdapter.setData(it)
             }
         })
+    }
+
+    companion object {
+        private const val ACTION_DELETE_PACKAGE = "Delete package"
     }
 }

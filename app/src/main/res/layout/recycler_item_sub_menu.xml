@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.main_menu.MenuItem" />
+            type="com.vag.lmsapp.app.menu.MenuItem" />
     </data>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -42,14 +42,14 @@
                 app:layout_constraintTop_toBottomOf="@id/tab"
                 app:layout_constraintStart_toStartOf="@id/tab"
                 tools:text="Some description"/>
-            <ImageView
-                android:visibility="@{viewModel.menuItems != null}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/browse_right"/>
+<!--            <ImageView-->
+<!--                android:visibility="@{viewModel.menuItems != null}"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:src="@drawable/browse_right"/>-->
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
                 android:layout_marginTop="12dp"

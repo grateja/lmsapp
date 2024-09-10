@@ -29,4 +29,11 @@ class EntityUser : BaseEntity() {
 
     @Json(ignore = true)
     var sync: Boolean = false
+
+    fun permissionStr() : String {
+        if(permissions.size == 1) {
+            return permissions.first().toString()
+        }
+        return "${permissions.size} permissions"
+    }
 }

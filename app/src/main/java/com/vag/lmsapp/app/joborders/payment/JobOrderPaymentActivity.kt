@@ -66,7 +66,7 @@ class JobOrderPaymentActivity : AppCompatActivity() {
     private fun auth(action: String, message: String) {
         val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
             this.action = action
-            putExtra(AuthActionDialogActivity.ACTION_EXTRA, message)
+            putExtra(AuthActionDialogActivity.LAUNCH_CODE, message)
         }
         authLauncher.launch(intent)
     }

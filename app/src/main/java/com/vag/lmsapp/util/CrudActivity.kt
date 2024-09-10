@@ -9,8 +9,8 @@ import java.util.*
 abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
     companion object {
         const val ENTITY_ID = "entity_id"
-        const val ACTION_SAVE = 1
-        const val ACTION_DELETE = 2
+        const val ACTION_SAVE = "Save"
+        const val ACTION_DELETE = "Delete"
     }
 
     private lateinit var authLauncher: AuthLauncherActivity
@@ -56,11 +56,11 @@ abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
         showDeleteDialog()
     }
 
-    protected open fun authenticate(code: Int) {
+    protected open fun authenticate(code: String) {
 //        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
 //            this.action = action
 //        }
-        authLauncher.launch(emptyList(), code)
+        authLauncher.launch(emptyList(), code, false)
     }
 
     private fun showDeleteDialog() {

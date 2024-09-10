@@ -8,23 +8,24 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.databinding.ActivityAuthActionDialogBinding
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.model.Role
 import com.vag.lmsapp.util.DataState
-import com.vag.lmsapp.util.showDialog
 import com.itsxtt.patternlock.PatternLockView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AuthActionDialogActivity : AppCompatActivity() {
     companion object {
-        const val ACTION_EXTRA = "action_extra"
+//        const val ACTION_EXTRA = "action_extra"
         const val PERMISSIONS_EXTRA = "permissions"
         const val ROLES_EXTRA = "roles"
         const val LAUNCH_CODE = "launchCode"
+        const val MANDATE = "pre_login"
 
         @SuppressLint("Returns Login Credentials if Authentication succeeded")
         const val RESULT = "LoginCredential"
@@ -40,7 +41,7 @@ class AuthActionDialogActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth_action_dialog)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        binding.recyclerViewPermissions.adapter = privilegeAdapter
+//        binding.recyclerViewPermissions.adapter = privilegeAdapter
 
         subscribeEvents()
         subscribeListeners()
@@ -53,11 +54,13 @@ class AuthActionDialogActivity : AppCompatActivity() {
             viewModel.setRoles(it)
         }
 
-        intent.getStringExtra(ACTION_EXTRA)?.let {
-            viewModel.setMessage(it)
+        intent.getStringExtra(LAUNCH_CODE)?.let {
+            viewModel.setLaunchCode(it)
         }
 
-        viewModel.checkSecurityType()
+//        val mandate = intent.getBooleanExtra(MANDATE, true)
+
+//        viewModel.checkSecurityType(mandate)
     }
 
     private fun subscribeEvents() {
@@ -73,7 +76,7 @@ class AuthActionDialogActivity : AppCompatActivity() {
             viewModel.validate(AuthDialogViewModel.AuthMethod.AuthByPassword)
         }
         binding.cardButtonClose.setOnClickListener {
-            finish()
+            close()
         }
 //        binding.buttonAuthMethodPassword.setOnClickListener {
 //            viewModel.setAuthMethod(EnumAuthMethod.AUTH_BY_PASSWORD)
@@ -111,19 +114,37 @@ class AuthActionDialogActivity : AppCompatActivity() {
                 is DataState.SaveSuccess -> {
                     setResult(RESULT_OK, Intent().apply {
                         action = intent.action
-                        putExtra(LAUNCH_CODE, intent.getIntExtra(LAUNCH_CODE, -1))
+                        putExtra(LAUNCH_CODE, intent.getStringExtra(LAUNCH_CODE))
                         putExtra(RESULT, it.data)
                     })
                     finish()
                     viewModel.clearState()
                 }
                 is DataState.Invalidate -> {
-                    showDialog(it.message)
+                    binding.container.post {
+                        Snackbar.make(binding.container, it.message, Snackbar.LENGTH_LONG)
+                            .setAnchorView(binding.controls)
+                            .show()
+                    }
                     viewModel.clearState()
                 }
 
                 else -> {}
             }
         })
+    }
+
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("MissingSuperCall")
+    override fun onBackPressed() {
+        close()
+    }
+
+    private fun close() {
+        setResult(RESULT_CANCELED, Intent().apply {
+            action = intent.action
+            putExtra(LAUNCH_CODE, intent.getStringExtra(LAUNCH_CODE))
+        })
+        finish()
     }
 }

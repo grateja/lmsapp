@@ -88,8 +88,8 @@ constructor(
         }
     }
 
-    fun setMessage(message: String) {
-        _action.value = message
+    fun setLaunchCode(launchCode: String) {
+        _action.value = launchCode
     }
 
 //    fun setAuthMethod(authMethod: EnumAuthMethod) {
@@ -152,6 +152,8 @@ constructor(
                         if(it != null) {
                             if(checkPermissions(it)) {
                                 securitySettingsRepository.setCurrentUser(it.id)
+                                println("set user")
+                                println(it)
                             }
 ////                            val deniedPermissions = checkPermissions(it.permissions)
 //                            val permissions = _permissions.value ?: emptyList()
@@ -181,17 +183,19 @@ constructor(
         _roles.value = roles
     }
 
-    fun checkSecurityType() {
-        viewModelScope.launch {
-            securitySettingsRepository.getSecurityType().let {
-                if(it == EnumSecurityType.START_UP) {
-                    securitySettingsRepository.getCurrentUser()?.let {
-                        checkPermissions(it)
-                    }
-                }
-            }
-        }
-    }
+//    fun checkSecurityType(mandate: Boolean) {
+//        if(mandate) return // Security type is disregarded. Authentication is required
+//
+//        viewModelScope.launch {
+//            securitySettingsRepository.getSecurityType().let {
+//                if(it == EnumSecurityType.START_UP) {
+//                    securitySettingsRepository.getCurrentUser()?.let {
+//                        checkPermissions(it)
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     private fun checkPermissions(user: EntityUser): Boolean {
         val hasRole = _roles.value?.contains(user.role)
@@ -199,7 +203,8 @@ constructor(
             user.permissions,
             _permissions.value
         ).isNotEmpty() || (hasRole != null && hasRole == false)) {
-            _dataState.value = DataState.Invalidate("You do not have the necessary permissions to perform this action.")
+            _dataState.value = DataState.Invalidate("You do not have necessary permissions to perform this action.")
+            userName.value = user.email
             false
         } else {
             _dataState.value = DataState.SaveSuccess(

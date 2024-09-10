@@ -33,7 +33,7 @@ constructor(
 
     fun switchUser() {
         viewModelScope.launch {
-            securitySettingsRepository.setCurrentUser(null)
+//            securitySettingsRepository.setCurrentUser(null)
             _navigationState.value = NavigationState.SwitchUser
         }
     }

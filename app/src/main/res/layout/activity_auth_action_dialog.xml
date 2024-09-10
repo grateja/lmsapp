@@ -23,7 +23,7 @@
             app:layout_scrollFlags="enterAlways|scroll">
             <TextView
                 style="@style/TextTitleFragment.Center"
-                android:text="@{viewModel.title}"
+                android:text="Authentication required"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.card.MaterialCardView>
@@ -54,13 +54,13 @@
                     android:textAlignment="center"
                     tools:text="Some message"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_permissions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="vertical"
-                    android:nestedScrollingEnabled="false"/>
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/recycler_view_permissions"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:nestedScrollingEnabled="false"/>-->
 
                 <TextView
                     android:visibility="@{viewModel.roles.size() > 0}"
@@ -146,7 +146,12 @@
                         android:padding="12dp"
                         android:text="@={viewModel.userName}" />
                 </com.google.android.material.textfield.TextInputLayout>
-
+                <TextView
+                    android:visibility="@{viewModel.user != null}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="label"
+                    android:text="@{viewModel.user.permissionStr()}"/>
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"

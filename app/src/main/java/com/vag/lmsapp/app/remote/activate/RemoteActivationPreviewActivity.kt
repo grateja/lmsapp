@@ -119,7 +119,7 @@ class RemoteActivationPreviewActivity : AppCompatActivity() {
         }
 
         binding.buttonActivate.setOnClickListener {
-            authActivity.launch(listOf(), 1)
+            authActivity.launch(listOf(), "Activate machine", false)
 //            viewModel.prepareSubmit()
         }
 

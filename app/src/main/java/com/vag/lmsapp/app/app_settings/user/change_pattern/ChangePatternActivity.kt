@@ -56,7 +56,7 @@ class ChangePatternActivity : AppCompatActivity() {
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is DataState.ValidationPassed -> {
-                    authLauncherActivity.launch(listOf(EnumActionPermission.MODIFY_USERS), 1)
+                    authLauncherActivity.launch(listOf(EnumActionPermission.MODIFY_USERS), "Change pattern", false)
                     viewModel.resetState()
                 }
 

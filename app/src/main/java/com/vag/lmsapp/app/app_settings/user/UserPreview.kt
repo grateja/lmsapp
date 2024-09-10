@@ -8,14 +8,14 @@ data class UserPreview(
     @Embedded
     val user: EntityUser
 ) {
-    fun permissionStr() : String {
-        if(user.permissions.size == 1) {
-            return user.permissions.first().toString()
-        }
-        return "${user.permissions.size} permissions"
-    }
+//    fun permissionStr() : String {
+//        if(user.permissions.size == 1) {
+//            return user.permissions.first().toString()
+//        }
+//        return "${user.permissions.size} permissions"
+//    }
 
     fun label(): String {
-        return "${user.name} [${user.role}], ${permissionStr()}"
+        return "${user.name} [${user.role}], ${user.permissionStr()}"
     }
 }

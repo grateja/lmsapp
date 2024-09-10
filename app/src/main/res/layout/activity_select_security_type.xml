@@ -106,33 +106,33 @@
                         </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_security_type_none"
-                    style="@style/RoundCard.NoElevation"
-                    app:strokeWidth="2dp"
-                    app:strokeColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/neutral}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_margin="16dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <TextView
-                            style="@style/TextItemTitle"
-                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/text_dark_grey}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.NONE.label}"
-                            tools:text="App opened"/>
-                        <TextView
-                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/text_dark_grey}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.NONE.description}"
-                            tools:text="App opened"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    android:id="@+id/card_security_type_none"-->
+<!--                    style="@style/RoundCard.NoElevation"-->
+<!--                    app:strokeWidth="2dp"-->
+<!--                    app:strokeColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/neutral}"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_margin="16dp"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:orientation="vertical">-->
+<!--                        <TextView-->
+<!--                            style="@style/TextItemTitle"-->
+<!--                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/text_dark_grey}"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.NONE.label}"-->
+<!--                            tools:text="App opened"/>-->
+<!--                        <TextView-->
+<!--                            android:textColor="@{viewModel.securityType == com.vag.lmsapp.model.EnumSecurityType.NONE ? @color/danger : @color/text_dark_grey}"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@{com.vag.lmsapp.model.EnumSecurityType.NONE.description}"-->
+<!--                            tools:text="App opened"/>-->
+<!--                    </LinearLayout>-->
+<!--                </com.google.android.material.card.MaterialCardView>-->
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

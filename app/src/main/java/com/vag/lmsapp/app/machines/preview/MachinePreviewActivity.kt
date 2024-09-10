@@ -5,8 +5,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
+import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.machines.addedit.MachinesAddEditActivity
 import com.vag.lmsapp.app.machines.machine_selector.MachineSelectorBottomSheetFragment
 import com.vag.lmsapp.app.machines.ping.PingActivity
@@ -20,6 +24,7 @@ import com.vag.lmsapp.room.entities.EntityMachineUsageDetails
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import com.vag.lmsapp.util.Constants.Companion.MACHINE_ID
+import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.DateFilter
 import com.vag.lmsapp.util.FilterActivity
 import com.vag.lmsapp.util.FilterState
@@ -31,18 +36,30 @@ import java.util.UUID
 @AndroidEntryPoint
 class MachinePreviewActivity : FilterActivity() {
     companion object {
-        const val AUTH_CODE_EDIT = 1
-        const val AUTH_CODE_DELETE = 2
+        const val AUTH_CODE_EDIT = "Edit machine"
+        const val AUTH_CODE_DELETE = "Delete machine"
 
         const val MACHINE_TYPE_EXTRA = "machine_type_extra"
         const val SERVICE_TYPE_EXTRA = "service_type_extra"
     }
     private lateinit var binding: ActivityMachinePreviewBinding
     private val viewModel: MachinePreviewViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
+
     override var filterHint: String = "Search customer name or job order number"
 
     private val adapter = Adapter<EntityMachineUsageDetails>(R.layout.recycler_item_machine_usage_details)
-    private val authLauncher = AuthLauncherActivity(this)
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            AUTH_CODE_EDIT -> viewModel.openEdit()
+            AUTH_CODE_DELETE -> viewModel.deleteMachine()
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_machine_preview)
@@ -68,12 +85,12 @@ class MachinePreviewActivity : FilterActivity() {
     }
 
     private fun subscribeEvents() {
-        authLauncher.onOk = { _, code ->
-            when(code) {
-                AUTH_CODE_EDIT -> viewModel.openEdit()
-                AUTH_CODE_DELETE -> viewModel.deleteMachine()
-            }
-        }
+//        authLauncher.onOk = { _, code ->
+//            when(code) {
+//                AUTH_CODE_EDIT -> viewModel.openEdit()
+//                AUTH_CODE_DELETE -> viewModel.deleteMachine()
+//            }
+//        }
 
         adapter.onScrollAtTheBottom = {
             viewModel.loadMore()
@@ -86,14 +103,16 @@ class MachinePreviewActivity : FilterActivity() {
             viewModel.openMachineSelector()
         }
         binding.buttonEdit.setOnClickListener {
-            authLauncher.launch(listOf(EnumActionPermission.MODIFY_SETTINGS_MACHINE), AUTH_CODE_EDIT)
+            authViewModel.authenticate(listOf(EnumActionPermission.MODIFY_SETTINGS_MACHINE), AUTH_CODE_EDIT, false)
+//            authLauncher.launch(listOf(EnumActionPermission.MODIFY_SETTINGS_MACHINE), AUTH_CODE_EDIT, false)
         }
         binding.buttonDelete.setOnClickListener {
             showDeleteConfirmationDialog(
                 "Delete machine?",
                 "Machine will be deleted and all usage history referenced to this machine.\nThis function cannot be undone!\nAre you sure you want to continue?"
             ) {
-                authLauncher.launch(listOf(EnumActionPermission.MODIFY_SETTINGS_MACHINE), AUTH_CODE_DELETE)
+                authViewModel.authenticate(listOf(EnumActionPermission.MODIFY_SETTINGS_MACHINE), AUTH_CODE_DELETE, false)
+//                authLauncher.launch(listOf(EnumActionPermission.MODIFY_SETTINGS_MACHINE), AUTH_CODE_DELETE, false)
             }
         }
         binding.buttonPing.setOnClickListener {
@@ -102,6 +121,32 @@ class MachinePreviewActivity : FilterActivity() {
     }
 
     private fun subscribeListeners() {
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
+
         viewModel.filterState.observe(this, Observer {
             when(it) {
                 is FilterState.LoadItems -> {

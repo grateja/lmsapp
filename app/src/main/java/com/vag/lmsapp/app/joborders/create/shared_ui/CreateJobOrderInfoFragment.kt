@@ -12,10 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.app.auth.AuthActionDialogActivity
+import com.vag.lmsapp.app.auth.AuthViewModel
 import com.vag.lmsapp.app.joborders.create.CreateJobOrderViewModel
 import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity
+import com.vag.lmsapp.app.joborders.create.JobOrderCreateActivity.Companion.ACTION_MODIFY_DATE_TIME
 import com.vag.lmsapp.databinding.FragmentCreateJobOrderInfoBinding
 import com.vag.lmsapp.model.EnumActionPermission
+import com.vag.lmsapp.util.AuthLauncherFragment
 import com.vag.lmsapp.util.DateTimePicker
 import com.vag.lmsapp.util.FragmentLauncher
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,9 +26,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CreateJobOrderInfoFragment : Fragment() {
     private val viewModel: CreateJobOrderViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
     private lateinit var binding: FragmentCreateJobOrderInfoBinding
 
-    val launcher = FragmentLauncher(this)
+//    val launcher = AuthLauncherFragment(this)
 
     private val dateTimePicker: DateTimePicker by lazy {
         DateTimePicker(requireContext())
@@ -48,9 +52,9 @@ class CreateJobOrderInfoFragment : Fragment() {
     }
 
     private fun subscribeEvents() {
-        launcher.onOk = {
-            viewModel.requestModifyDateTime()
-        }
+//        launcher.onOk = { loginCredentials, code ->
+//            viewModel.requestModifyDateTime()
+//        }
         binding.cardButtonCreatedAt.setOnClickListener {
             openAuthRequestModifyDateTime()
         }
@@ -88,14 +92,18 @@ class CreateJobOrderInfoFragment : Fragment() {
     }
 
     private fun openAuthRequestModifyDateTime() {
-        val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
-            action = JobOrderCreateActivity.ACTION_MODIFY_DATETIME
-            putExtra(
-                AuthActionDialogActivity.PERMISSIONS_EXTRA, arrayListOf(
-                EnumActionPermission.MODIFY_JOB_ORDERS,
-                EnumActionPermission.MODIFY_SERVICES
-            ))
-        }
-        launcher.launch(intent)
+        authViewModel.authenticate(
+            listOf(EnumActionPermission.MODIFY_JOB_ORDERS), ACTION_MODIFY_DATE_TIME, false
+        )
+//        launcher.launch(listOf(EnumActionPermission.MODIFY_JOB_ORDERS), "Modify date time", false)
+//        val intent = Intent(context, AuthActionDialogActivity::class.java).apply {
+//            action = JobOrderCreateActivity.ACTION_MODIFY_DATETIME
+//            putExtra(
+//                AuthActionDialogActivity.PERMISSIONS_EXTRA, arrayListOf(
+//                EnumActionPermission.MODIFY_JOB_ORDERS,
+//                EnumActionPermission.MODIFY_SERVICES
+//            ))
+//        }
+//        launcher.launch(intent)
     }
 }

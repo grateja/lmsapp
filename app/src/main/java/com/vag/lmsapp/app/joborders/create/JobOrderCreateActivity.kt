@@ -10,9 +10,11 @@ import androidx.activity.viewModels
 import androidx.compose.ui.unit.dp
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
-import com.vag.lmsapp.app.auth.AuthActionDialogActivity
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.joborders.cancel.JobOrderCancelActivity
 import com.vag.lmsapp.app.joborders.create.customer.JobOrderCreateSelectCustomerActivity
@@ -62,7 +64,6 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         const val ITEM_PRESET_EXTRA = "itemPreset"
 
         const val ACTION_SELECT_CUSTOMER = "searchCustomer"
-        const val ACTION_MODIFY_DATETIME = "modifyDateTime"
         const val ACTION_SYNC_PACKAGE = "package"
         const val ACTION_SYNC_SERVICES = "services"
         const val ACTION_SYNC_PRODUCTS = "products"
@@ -70,14 +71,19 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         const val ACTION_SYNC_DELIVERY = "delivery"
         const val ACTION_SYNC_DISCOUNT = "discount"
         const val ACTION_DELETE_JOB_ORDER = "deleteJobOrder"
-        const val ACTION_CONFIRM_SAVE = "auth"
+        const val ACTION_CONFIRM_SAVE = "Confirm save"
+        const val ACTION_MODIFY_DATE_TIME = "Modify Date & Time"
     }
 
     private var internetAvailable: Boolean = false
     private lateinit var binding: ActivityJobOrderCreateBinding
     private val viewModel: CreateJobOrderViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     private val launcher = ActivityLauncher(this)
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
 
     private val servicesAdapter = JobOrderServiceItemAdapter()
     private val productsAdapter = JobOrderProductsItemAdapter()
@@ -86,7 +92,17 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
     private val packageAdapter = Adapter<MenuJobOrderPackage>(R.layout.recycler_item_create_job_order_selected_package)
     private val pictureListAdapter = PictureAdapter(this)
 
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_CONFIRM_SAVE -> {
+                viewModel.save(loginCredentials.userId)
+            }
 
+            ACTION_MODIFY_DATE_TIME -> {
+                viewModel.requestModifyDateTime()
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -201,11 +217,11 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
                 ACTION_DELETE_JOB_ORDER -> {
                     finish()
                 }
-                ACTION_CONFIRM_SAVE -> {
-                    data.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
-                        viewModel.save(it.userId)
-                    }
-                }
+//                ACTION_CONFIRM_SAVE -> {
+//                    data.getParcelableExtra<LoginCredentials>(AuthActionDialogActivity.RESULT)?.let {
+//                        viewModel.save(it.userId)
+//                    }
+//                }
 //                ACTION_REQUEST_UNLOCK -> {
 //                    viewModel.unlock()
 //                }
@@ -333,7 +349,7 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
                     JobOrderGalleryBottomSheetFragment.newInstance(it.jobOrderId).show(supportFragmentManager, null)
                     viewModel.resetState()
                 }
-                is CreateJobOrderViewModel.DataState.ProceedToSaveJO -> {
+                is CreateJobOrderViewModel.DataState.ValidationPassed -> {
                     prepareSubmit()
                     viewModel.resetState()
                 }
@@ -385,14 +401,43 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
                 else -> {}
             }
         })
+
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
+
     }
 
     private fun prepareSubmit() {
-        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-            action = ACTION_CONFIRM_SAVE
-            putExtra(AuthActionDialogActivity.ACTION_EXTRA, "Confirm and save Job Order")
-        }
-        launcher.launch(intent)
+        authViewModel.authenticate(listOf(), ACTION_CONFIRM_SAVE, false)
+//        authLauncher.launch(listOf(), ACTION_CONFIRM_SAVE, false)
+//        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
+//            action = ACTION_CONFIRM_SAVE
+//            putExtra(AuthActionDialogActivity.ACTION_EXTRA, "Confirm and save Job Order")
+//        }
+//        launcher.launch(intent)
     }
 
     private fun openPackages(packages: List<MenuJobOrderPackage>?, itemPreset: MenuJobOrderPackage?) {

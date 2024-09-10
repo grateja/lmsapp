@@ -158,7 +158,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".app.main_menu.SubMenuActivity"
+            android:name=".app.menu.sub_menu.SubMenuActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -540,7 +540,7 @@
             android:noHistory="true"
             android:theme="@style/LightActionBar" />
         <activity
-            android:name=".app.main_menu.MainActivity"
+            android:name=".app.menu.main_menu.MainActivity"
             android:exported="true"
             android:noHistory="false"
             android:theme="@style/Theme.LMS2025.NoActionBar">

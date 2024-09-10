@@ -44,9 +44,7 @@ class RemoteActivationEndTimeActivity : AppCompatActivity() {
             finish()
         }
         authLauncherActivity.onOk = { loginCredentials, i ->
-            if(i == 1) {
-                viewModel.save(loginCredentials.userId)
-            }
+            viewModel.save(loginCredentials.userId)
         }
     }
 
@@ -55,7 +53,7 @@ class RemoteActivationEndTimeActivity : AppCompatActivity() {
             when(it) {
                 is DataState.ValidationPassed -> {
                     viewModel.resetState()
-                    authLauncherActivity.launch(listOf(), 1)
+                    authLauncherActivity.launch(listOf(), "End machine timer", false)
                 }
 
                 is DataState.SaveSuccess -> {

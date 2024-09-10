@@ -5,10 +5,9 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vag.lmsapp.app.main_menu.MenuItem" />
+            type="com.vag.lmsapp.app.menu.MenuItem" />
     </data>
     <com.google.android.material.card.MaterialCardView
-        app:cardBackgroundColor="@{viewModel.backgroundColor}"
         app:cardCornerRadius="16dp"
         android:layout_margin="8dp"
         android:layout_width="match_parent"
