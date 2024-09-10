@@ -190,6 +190,12 @@ object RoomModule {
 
     @Singleton
     @Provides
+    fun providesDaoMonthlyReport(mainDatabase: MainDatabase): DaoMonthlyReport {
+        return mainDatabase.daoMonthlyReport()
+    }
+
+    @Singleton
+    @Provides
     fun providesDaoExport(mainDatabase: MainDatabase): DaoExport {
         return mainDatabase.daoExport()
     }

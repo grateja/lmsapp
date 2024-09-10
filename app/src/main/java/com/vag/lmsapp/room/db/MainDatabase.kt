@@ -60,7 +60,8 @@ import com.vag.lmsapp.util.converters.*
     ArrayListConverter::class,
     LocalDateConverters::class,
     JoFilterByConverter::class,
-    CrudActionConverter::class
+    CrudActionConverter::class,
+    MonthConverter::class,
 )
 abstract class MainDatabase : RoomDatabase() {
     abstract fun daoUser() : DaoUser
@@ -88,9 +89,11 @@ abstract class MainDatabase : RoomDatabase() {
     abstract fun daoActivityLog(): DaoActivityLog
     abstract fun daoSanctum(): DaoSanctum
     abstract fun daoSync(): DaoSync
-    abstract fun daoDailyReport(): DaoDailyReport
     abstract fun daoExport(): DaoExport
     abstract fun daoTextMessageTemplate(): DaoTextMessageTemplate
+    abstract fun daoDailyReport(): DaoDailyReport
+    abstract fun daoMonthlyReport(): DaoMonthlyReport
+
 
     companion object {
         private const val DATABASE_NAME: String = "main_db"

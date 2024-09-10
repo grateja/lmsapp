@@ -66,6 +66,12 @@ class DailyReportActivity : AppCompatActivity() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
         binding.spinnerYear.setSelection(yearIndex)
+
+        intent.getIntExtra(CURRENT_MONTH_EXTRA, -1).let {
+            if(it > 0) {
+                daysAdapter.setMonth(it)
+            }
+        }
     }
 
     private fun subscribeListeners() {
@@ -141,12 +147,12 @@ class DailyReportActivity : AppCompatActivity() {
                 binding.spinnerMonth.setSelection(monthIndex)
             }
         }
-        binding.spinnerMonth.onItemSelectedListener = object: OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                daysAdapter.setMonth(p2)
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) { }
-        }
+//        binding.spinnerMonth.onItemSelectedListener = object: OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                daysAdapter.setMonth(p2)
+//            }
+//            override fun onNothingSelected(p0: AdapterView<*>?) { }
+//        }
 
         binding.spinnerYear.onItemSelectedListener = object: OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, index: Int, p3: Long) {
@@ -172,5 +178,10 @@ class DailyReportActivity : AppCompatActivity() {
 //                }
 //            }
 //        }
+    }
+
+    companion object {
+        const val CURRENT_YEAR_EXTRA = "current_year_extra"
+        const val CURRENT_MONTH_EXTRA = "current_month_extra"
     }
 }

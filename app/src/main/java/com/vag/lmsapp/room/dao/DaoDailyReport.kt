@@ -15,6 +15,21 @@ import java.time.LocalDate
 
 @Dao
 abstract class DaoDailyReport {
+//    @Query("""
+//        SELECT
+//            COUNT(*) as created_count,
+//            SUM(discounted_amount) as total_amount,
+//            SUM(CASE WHEN DATE(customers.created_at/1000, 'unixepoch', 'localtime') = DATE(jo.created_at/1000, 'unixepoch', 'localtime') THEN 1 ELSE 0 END) as new_customer,
+//            SUM(CASE WHEN DATE(customers.created_at/1000, 'unixepoch', 'localtime') <> DATE(jo.created_at/1000, 'unixepoch', 'localtime') THEN 1 ELSE 0 END) as returning_customer,
+//            SUM(CASE WHEN discount_in_peso > 0 THEN 1 ELSE 0 END) as discounted_jo_count,
+//            SUM(CASE WHEN discount_in_peso > 0 THEN discounted_amount ELSE 0 END) as discounted_jo_amount
+//        FROM job_orders jo
+//        LEFT JOIN customers ON jo.customer_id = customers.id
+//        WHERE
+//            DATE(jo.created_at / 1000, 'unixepoch', 'localtime') = :date
+//            AND void_by IS NULL AND jo.deleted = 0
+//    """)
+//    abstract fun jobOrder(date: LocalDate, dateTo: LocalDate): LiveData<DailyReportJobOrder>
     @Query("""
         SELECT 
             COUNT(*) as created_count,
@@ -26,10 +41,10 @@ abstract class DaoDailyReport {
         FROM job_orders jo
         LEFT JOIN customers ON jo.customer_id = customers.id
         WHERE
-            DATE(jo.created_at / 1000, 'unixepoch', 'localtime') = :date
+            DATE(jo.created_at / 1000, 'unixepoch', 'localtime') BETWEEN :date AND :dateTo
             AND void_by IS NULL AND jo.deleted = 0
     """)
-    abstract fun jobOrder(date: LocalDate): LiveData<DailyReportJobOrder>
+    abstract fun jobOrder(date: LocalDate, dateTo: LocalDate): LiveData<DailyReportJobOrder>
 
     @Query("""
         SELECT 

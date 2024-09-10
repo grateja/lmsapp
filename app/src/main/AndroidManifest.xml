@@ -34,6 +34,9 @@
         android:supportsRtl="true"
         android:theme="@style/LightActionBar">
         <activity
+            android:name=".app.reports.calendar.CalendarReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.reports.monthly_report.MonthlyReportActivity"
             android:exported="false" />
         <activity

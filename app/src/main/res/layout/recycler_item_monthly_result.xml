@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.reports.monthly_report.MonthlyResult" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_margin="8dp"
+        style="@style/RoundCard.RecyclerItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_month_name"
+                style="@style/TextItemTitle"
+                android:text="@{viewModel.month.monthName}"
+                tools:text="January"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/container_customer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/text_month_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/LinearLayoutDivider5.Center">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/prepend_icon_customer"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.newCustomerCount + ` new customers`}"
+                    tools:text="1 new customer"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/text_job_order_count"
+                android:text="@{viewModel.jobOrderCount + ` job order`}"
+                tools:text="10 Job Orders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/container_customer"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="8dp"/>
+            <TextView
+                android:id="@+id/text_job_order_amount"
+                style="@style/TextPrimary"
+                android:peso="@{viewModel.jobOrderAmount}"
+                tools:text="P 2,400"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/text_job_order_count"
+                app:layout_constraintBottom_toBottomOf="@id/text_job_order_count"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/text_expenses_count"
+                android:text="Expenses"
+                android:textColor="@color/danger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/text_job_order_count"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="8dp"/>
+            <TextView
+                android:id="@+id/text_expenses_amount"
+                style="@style/TextPrimary"
+                android:textColor="@color/danger"
+                android:peso="@{viewModel.expensesAmount}"
+                tools:text="P 100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/text_expenses_count"
+                app:layout_constraintBottom_toBottomOf="@id/text_expenses_count"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/extra"
+                app:layout_constraintTop_toBottomOf="@id/text_expenses_count"
+                app:layout_constraintStart_toStartOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

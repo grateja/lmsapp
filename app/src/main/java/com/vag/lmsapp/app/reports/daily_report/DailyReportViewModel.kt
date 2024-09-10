@@ -11,6 +11,7 @@ import com.vag.lmsapp.app.reports.daily_report.machine_usage.DailyReportMachineU
 import com.vag.lmsapp.model.EnumMachineType
 import com.vag.lmsapp.model.EnumServiceType
 import com.vag.lmsapp.room.repository.DailyReportRepository
+import com.vag.lmsapp.util.DateFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -27,8 +28,9 @@ constructor(
     val navigationState: LiveData<NavigationState> = _navigationState
 
     private val _date = MutableLiveData(LocalDate.now())
+    private val _dateFilter = MutableLiveData<DateFilter>()
 
-    val jobOrder = _date.switchMap { dailyReportRepository.jobOrder(it) }
+    val jobOrder = _dateFilter.switchMap { dailyReportRepository.jobOrder(it) }
 
     val jobOrderPayment = _date.switchMap { dailyReportRepository.jobOrderPayment(it) }
     val jobOrderPaymentSummary = _date.switchMap { dailyReportRepository.jobOrderPaymentSummary(it) }
@@ -53,6 +55,7 @@ constructor(
 
     fun setDate(date: LocalDate) {
         _date.value = date
+        _dateFilter.value = DateFilter(date)
     }
 
     fun openExportToExcelDialog() {

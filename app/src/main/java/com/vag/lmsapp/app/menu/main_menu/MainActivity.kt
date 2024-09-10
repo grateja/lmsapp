@@ -22,6 +22,7 @@ import com.vag.lmsapp.app.menu.MenuItem
 import com.vag.lmsapp.app.menu.sub_menu.SubMenuActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
+import com.vag.lmsapp.app.reports.monthly_report.MonthlyReportActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
 import com.vag.lmsapp.internet.InternetConnectionCallback
 import com.vag.lmsapp.internet.InternetConnectionObserver
@@ -62,6 +63,12 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
     private val mainMenuAdapter = Adapter<MenuItem>(R.layout.recycler_item_main_menu).apply {
         setData(
             listOf(
+                MenuItem(
+                    "Dashboard",
+                    "Generate and view sales reports.",
+                    MonthlyReportActivity::class.java,
+                    R.drawable.icon_sales_report,
+                ),
                 MenuItem(
                     "Dashboard",
                     "Generate and view sales reports.",
