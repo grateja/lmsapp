@@ -13,7 +13,7 @@ class MonthlyResultAdapter: RecyclerView.Adapter<MonthlyResultAdapter.ViewHolder
         fun bind(model: MonthlyResult) {
             binding.viewModel = model
 
-            val thisMonth = LocalDate.now().month.value == model.month.monthNumber.toInt()
+            val thisMonth = LocalDate.now().month.value == model.month.monthNumberStr.toInt()
             if(thisMonth) {
                 binding.extra.text = "Today"
             } else {

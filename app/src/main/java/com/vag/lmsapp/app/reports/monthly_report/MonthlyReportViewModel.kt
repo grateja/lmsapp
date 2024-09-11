@@ -25,20 +25,18 @@ constructor(
         _year.value = year
         viewModelScope.launch {
             val items = mutableListOf<MonthlyResult>()
-            val jobOrders = repository.jobOrders(year)
-            val customers = repository.customers(year)
-            val expenses = repository.expenses(year)
+            val result = repository.monthly(year)
+//            val jobOrders = repository.jobOrders(year)
+//            val customers = repository.customers(year)
+//            val expenses = repository.expenses(year)
             EnumMonths.entries.forEach { month ->
-                val jobOrder = jobOrders.find { month.monthNumber == it.month.monthNumber }
-                val customer = customers.find { month.monthNumber == it.month.monthNumber }
-                val expense = expenses.find { month.monthNumber == it.month.monthNumber }
+//                val jobOrder = jobOrders.find { month.monthNumberStr == it.month.monthNumberStr }
+//                val customer = customers.find { month.monthNumberStr == it.month.monthNumberStr }
+//                val expense = expenses.find { month.monthNumberStr == it.month.monthNumberStr }
+                val monthly = result.find { it.month.monthNumberStr == month.monthNumberStr }
                 items.add(
-                    MonthlyResult(
-                        month,
-                        customer?.count ?: 0,
-                        jobOrder?.count ?: 0,
-                        jobOrder?.price ?: 0f,
-                        expense?.price ?: 0f
+                    monthly ?: MonthlyResult(
+                        year, month
                     )
                 )
             }

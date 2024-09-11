@@ -9,12 +9,7 @@ import com.vag.lmsapp.databinding.ActivitySummaryReportBinding
 import dagger.hilt.android.AndroidEntryPoint
 import android.icu.util.Calendar
 import android.os.Parcelable
-import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.app.expenses.ExpensesActivity
 import com.vag.lmsapp.app.export_options.ExportOptionsActivity
@@ -26,7 +21,6 @@ import com.vag.lmsapp.app.reports.summary_report.job_order_items.BottomSheetJobO
 import com.vag.lmsapp.util.Constants.Companion.ADVANCED_FILTER
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import com.vag.lmsapp.util.DateFilter
-import java.time.LocalDate
 
 @AndroidEntryPoint
 class SummaryReportActivity : AppCompatActivity() {
@@ -45,10 +39,10 @@ class SummaryReportActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(binding.recyclerDays)
+//        val snapHelper = LinearSnapHelper()
+//        snapHelper.attachToRecyclerView(binding.recyclerDays)
 
-        binding.recyclerDays.adapter = daysAdapter
+//        binding.recyclerDays.adapter = daysAdapter
 
         subscribeEvents()
         subscribeListeners()
@@ -57,21 +51,25 @@ class SummaryReportActivity : AppCompatActivity() {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val yearIndex = years.indexOf(currentYear.toString())
 
-        binding.textToday.text = calendar.get(Calendar.DATE).toString()
+//        binding.textToday.text = calendar.get(Calendar.DATE).toString()
+//
+//        binding.spinnerMonth.setSelection(calendar.get(Calendar.MONTH))
+//
+//        binding.spinnerYear.adapter = ArrayAdapter(this,
+//            android.R.layout.simple_spinner_item, years).apply {
+//            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        }
+//        binding.spinnerYear.setSelection(yearIndex)
 
-        binding.spinnerMonth.setSelection(calendar.get(Calendar.MONTH))
-
-        binding.spinnerYear.adapter = ArrayAdapter(this,
-            android.R.layout.simple_spinner_item, years).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        intent.getParcelableExtra<DateFilter>(DATE_RANGE_FILTER)?.let {
+            viewModel.setDateFilter(it)
         }
-        binding.spinnerYear.setSelection(yearIndex)
 
-        intent.getIntExtra(CURRENT_MONTH_EXTRA, -1).let {
-            if(it > 0) {
-                daysAdapter.setMonth(it)
-            }
-        }
+//        intent.getIntExtra(CURRENT_MONTH_EXTRA, -1).let {
+//            if(it > 0) {
+//                daysAdapter.setMonth(it)
+//            }
+//        }
     }
 
     private fun subscribeListeners() {
@@ -79,7 +77,7 @@ class SummaryReportActivity : AppCompatActivity() {
             when(it) {
                 is SummaryReportViewModel.NavigationState.OpenExportOptions -> {
                     val intent = Intent(this, ExportOptionsActivity::class.java).apply {
-                        putExtra(DATE_RANGE_FILTER, DateFilter(it.date))
+                        putExtra(DATE_RANGE_FILTER, it.date)
                     }
                     startActivity(intent)
                     viewModel.resetState()
@@ -88,7 +86,7 @@ class SummaryReportActivity : AppCompatActivity() {
                 is SummaryReportViewModel.NavigationState.OpenJobOrders -> {
                     val intent = Intent(this, JobOrderListActivity::class.java).apply {
                         putExtra(ADVANCED_FILTER, JobOrderListAdvancedFilter(
-                            dateFilter = DateFilter(it.date))
+                            dateFilter = it.date)
                         )
                     }
                     startActivity(intent)
@@ -97,7 +95,7 @@ class SummaryReportActivity : AppCompatActivity() {
 
                 is SummaryReportViewModel.NavigationState.OpenPayments -> {
                     val intent = Intent(this, PaymentListActivity::class.java).apply {
-                        val dateRange = DateFilter(it.date)
+                        val dateRange = it.date
                         putExtra(DATE_RANGE_FILTER, dateRange)
                     }
                     startActivity(intent)
@@ -106,7 +104,7 @@ class SummaryReportActivity : AppCompatActivity() {
 
                 is SummaryReportViewModel.NavigationState.OpenExpenses -> {
                     val intent = Intent(this, ExpensesActivity::class.java).apply {
-                        val dateRange = DateFilter(it.date)
+                        val dateRange = it.date
                         putExtra(DATE_RANGE_FILTER, dateRange)
                     }
                     startActivity(intent)
@@ -115,7 +113,7 @@ class SummaryReportActivity : AppCompatActivity() {
 
                 is SummaryReportViewModel.NavigationState.OpenMachineUsage -> {
                     val intent = Intent(this, MachinePreviewActivity::class.java).apply {
-                        val dateRange = DateFilter(it.date)
+                        val dateRange = it.date
                         putExtra(DATE_RANGE_FILTER, dateRange)
                         putExtra(MachinePreviewActivity.MACHINE_TYPE_EXTRA, it.machineType as Parcelable)
                         putExtra(MachinePreviewActivity.SERVICE_TYPE_EXTRA, it.serviceType as Parcelable)
@@ -137,16 +135,16 @@ class SummaryReportActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
-        binding.buttonToday.setOnClickListener {
-            LocalDate.now().let {
-                daysAdapter.setDate(it)
-                val yearIndex = years.indexOf(it.year.toString())
-                val monthIndex = it.monthValue - 1
-
-                binding.spinnerYear.setSelection(yearIndex)
-                binding.spinnerMonth.setSelection(monthIndex)
-            }
-        }
+//        binding.buttonToday.setOnClickListener {
+//            LocalDate.now().let {
+//                daysAdapter.setDate(it)
+//                val yearIndex = years.indexOf(it.year.toString())
+//                val monthIndex = it.monthValue - 1
+//
+//                binding.spinnerYear.setSelection(yearIndex)
+//                binding.spinnerMonth.setSelection(monthIndex)
+//            }
+//        }
 //        binding.spinnerMonth.onItemSelectedListener = object: OnItemSelectedListener {
 //            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 //                daysAdapter.setMonth(p2)
@@ -154,15 +152,15 @@ class SummaryReportActivity : AppCompatActivity() {
 //            override fun onNothingSelected(p0: AdapterView<*>?) { }
 //        }
 
-        binding.spinnerYear.onItemSelectedListener = object: OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, index: Int, p3: Long) {
-                daysAdapter.setYear(years[index].toInt())
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) { }
-        }
-        daysAdapter.setOnDaySelectedListener {
-            viewModel.setDate(it)
-        }
+//        binding.spinnerYear.onItemSelectedListener = object: OnItemSelectedListener {
+//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, index: Int, p3: Long) {
+//                daysAdapter.setYear(years[index].toInt())
+//            }
+//            override fun onNothingSelected(p0: AdapterView<*>?) { }
+//        }
+//        daysAdapter.setOnDaySelectedListener {
+//            viewModel.setDateFilter(it)
+//        }
         binding.buttonCardExport.setOnClickListener {
             viewModel.openExportToExcelDialog()
         }

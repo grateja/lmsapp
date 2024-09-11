@@ -39,7 +39,7 @@ class CurrentUserFragment : Fragment() {
 
         viewModel.currentUser.observe(viewLifecycleOwner, Observer {
             println("current user")
-            println(it.user.email)
+            println(it?.user?.email)
         })
 
         viewModel.navigationState.observe(viewLifecycleOwner, Observer {

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.joborders.payment.preview.PaymentPreviewActivity
+import com.vag.lmsapp.app.payment_list.advanced_filter.JobOrderPaymentAdvancedFilter
 import com.vag.lmsapp.app.payment_list.advanced_filter.PaymentListFilterBottomSheetFragment
 import com.vag.lmsapp.databinding.ActivityPaymentListBinding
 import com.vag.lmsapp.room.entities.EntityJobOrderPaymentListItem
@@ -37,7 +38,11 @@ class PaymentListActivity : FilterActivity() {
         subscribeEvents()
 
         intent.getParcelableExtra<DateFilter>(DATE_RANGE_FILTER).let {
-            viewModel.setDateFilter(it)
+            viewModel.setFilterParams(
+                JobOrderPaymentAdvancedFilter().apply {
+                    dateFilter = it
+                }
+            )
             viewModel.filter(true)
         }
     }

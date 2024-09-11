@@ -90,7 +90,7 @@ class UserAccountAddEditBottomSheetFragment : BaseModalFragment() {
         })
         viewModel.authorizedUser.observe(viewLifecycleOwner, Observer {
             println("authorizer")
-            println(it.user)
+            println(it?.user)
         })
     }
 

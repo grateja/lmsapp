@@ -18,5 +18,7 @@ class Constants {
         const val PRODUCT_ID = "productId"
         const val PACKAGE_ID = "productId"
         const val PAYLOAD = "payload"
+        
+        const val MONTHLY_RESULT = "MonthlyResult"
     }
 }

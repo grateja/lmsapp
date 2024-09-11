@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
+import com.vag.lmsapp.app.expenses.advanced_filter.ExpensesAdvancedFilter
 import com.vag.lmsapp.app.expenses.advanced_filter.ExpensesAdvancedFilterBottomSheetFragment
 import com.vag.lmsapp.app.expenses.edit.ExpenseAddEditActivity
 import com.vag.lmsapp.databinding.ActivityExpensesBinding
@@ -34,7 +35,11 @@ class ExpensesActivity : FilterActivity() {
         subscribeListeners()
 
         intent.getParcelableExtra<DateFilter>(Constants.DATE_RANGE_FILTER).let {
-            viewModel.setDateFilter(it)
+            viewModel.setFilterParams(
+                ExpensesAdvancedFilter().apply {
+                    dateFilter = it
+                }
+            )
             viewModel.filter(true)
         }
     }

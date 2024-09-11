@@ -69,7 +69,9 @@ class UserAccountPreviewActivity : AppCompatActivity() {
 
     private fun subscribeListeners() {
         viewModel.user.observe(this, Observer {
-            adapter.setData(it.user.permissions.map {it.toString()})
+            it?.let {up ->
+                adapter.setData(up.user.permissions.map {it.toString()})
+            }
         })
         viewModel.navigationState.observe(this, Observer {
             when(it) {

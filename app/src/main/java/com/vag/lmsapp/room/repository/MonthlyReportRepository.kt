@@ -11,7 +11,5 @@ class MonthlyReportRepository
 constructor(
     private val dao: DaoMonthlyReport
 ) {
-    suspend fun jobOrders(year: Int) = dao.jobOrders(year.toString())
-    suspend fun customers(year: Int) = dao.customers(year.toString())
-    suspend fun expenses(year: Int) = dao.expenses(year.toString())
+    suspend fun monthly(year: Int) = dao.monthly(year.toString())
 }

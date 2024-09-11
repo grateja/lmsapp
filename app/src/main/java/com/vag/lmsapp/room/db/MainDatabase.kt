@@ -91,6 +91,7 @@ abstract class MainDatabase : RoomDatabase() {
     abstract fun daoSync(): DaoSync
     abstract fun daoExport(): DaoExport
     abstract fun daoTextMessageTemplate(): DaoTextMessageTemplate
+    abstract fun daoSummaryReport(): DaoSummaryReport
     abstract fun daoDailyReport(): DaoDailyReport
     abstract fun daoMonthlyReport(): DaoMonthlyReport
 

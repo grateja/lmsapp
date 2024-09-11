@@ -8,8 +8,10 @@ import androidx.compose.ui.unit.dp
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.reports.calendar.CalendarReportActivity
 import com.vag.lmsapp.app.reports.summary_report.SummaryReportActivity
 import com.vag.lmsapp.databinding.ActivityMonthlyReportBinding
+import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.setGridLayout
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,8 +47,8 @@ class MonthlyReportActivity : AppCompatActivity() {
 
     private fun subscribeEvents() {
         adapter.onItemClick = {
-            val intent = Intent(this, SummaryReportActivity::class.java).apply {
-                putExtra(SummaryReportActivity.CURRENT_MONTH_EXTRA, it.month.monthNumber.toInt())
+            val intent = Intent(this, CalendarReportActivity::class.java).apply {
+                putExtra(Constants.MONTHLY_RESULT, it)
             }
             startActivity(intent)
         }

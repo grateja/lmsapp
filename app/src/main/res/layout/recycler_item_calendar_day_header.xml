@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.vag.lmsapp.app.reports.calendar.EnumDayOfWeek" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        app:cardBackgroundColor="@{viewModel == com.vag.lmsapp.app.reports.calendar.EnumDayOfWeek.SUNDAY ? @color/danger : @color/white}"
+        app:strokeColor="@color/neutral"
+        app:strokeWidth="1dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="0dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:textFontWeight="900"
+            android:fontFamily="sans-serif"
+            tools:text="MON"
+            android:text="@{viewModel.shortName}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

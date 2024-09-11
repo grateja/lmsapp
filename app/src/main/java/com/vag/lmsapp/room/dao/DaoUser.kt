@@ -78,7 +78,7 @@ abstract class DaoUser : BaseDao<EntityUser> {
     abstract fun getAllEmails(): LiveData<List<String>>
 
     @Query("SELECT * FROM users WHERE id = :id")
-    abstract fun getByIdAsLiveData(id: UUID?): LiveData<UserPreview>
+    abstract fun getByIdAsLiveData(id: UUID?): LiveData<UserPreview?>
 
     @Query("SELECT EXISTS(SELECT * FROM users WHERE name LIKE :name AND deleted = 0)")
     abstract suspend fun checkName(name: String?): Boolean
