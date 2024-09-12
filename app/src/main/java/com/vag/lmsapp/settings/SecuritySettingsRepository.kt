@@ -55,7 +55,7 @@ constructor(
             return null
         } else if(user != null) {
             return LoginCredentials(
-                user.email, user.password, user.id, user.name, user.role
+                user.email, user.password, user.id, user.name, user.permissions, user.role
             )
         } else {
             return null

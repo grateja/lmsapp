@@ -31,6 +31,7 @@ constructor(private val securitySettingsRepository: SecuritySettingsRepository) 
                 user.password,
                 user.id,
                 user.name,
+                user.permissions,
                 user.role
             ),
             authAction,

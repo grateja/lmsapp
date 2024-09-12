@@ -30,6 +30,7 @@ import com.vag.lmsapp.app.services.ServicesActivity
 import com.vag.lmsapp.databinding.ActivitySubMenuBinding
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.AuthLauncherActivity
+import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
 import com.vag.lmsapp.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -174,7 +175,9 @@ class SubMenuActivity : AppCompatActivity() {
         mainViewModel.dataState.observe(this, Observer {
             when(it) {
                 is SubMenuViewModel.NavigationState.OpenMenuWithPermission -> {
-                    val intent = Intent(this, it.menuItem.activityClass)
+                    val intent = Intent(this, it.menuItem.activityClass).apply {
+                        putExtra(AUTH_ID, it.loginCredentials.userId.toString())
+                    }
                     startActivity(intent)
                     mainViewModel.clearState()
                 }

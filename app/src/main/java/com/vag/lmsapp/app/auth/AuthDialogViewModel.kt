@@ -208,7 +208,7 @@ constructor(
             false
         } else {
             _dataState.value = DataState.SaveSuccess(
-                LoginCredentials(user.email, user.password, user.id, user.name, user.role)
+                LoginCredentials(user.email, user.password, user.id, user.name, user.permissions, user.role)
             )
             true
         }

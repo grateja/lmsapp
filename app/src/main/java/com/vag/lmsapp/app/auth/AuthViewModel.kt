@@ -20,16 +20,16 @@ class AuthViewModel
 @Inject
 constructor(
     private val authUseCase: AuthUseCase,
-//    private val settingsRepository: SecuritySettingsRepository
+    private val settingsRepository: SecuritySettingsRepository
 ): ViewModel() {
 //    val currentUser = settingsRepository.currentUser
 //
-//    private val _securityTypeOrdinal = settingsRepository.securityTypeOrdinal
-//    val securityType = MediatorLiveData<EnumSecurityType>().apply {
-//        addSource(_securityTypeOrdinal) {
-//            value = EnumSecurityType.entries[it]
-//        }
-//    }
+    private val _securityTypeOrdinal = settingsRepository.securityTypeOrdinal
+    val securityType = MediatorLiveData<EnumSecurityType>().apply {
+        addSource(_securityTypeOrdinal) {
+            value = EnumSecurityType.entries[it]
+        }
+    }
 
     private val _dataState = MutableLiveData<DataState<AuthResult>>()
     val dataState: LiveData<DataState<AuthResult>> = _dataState
