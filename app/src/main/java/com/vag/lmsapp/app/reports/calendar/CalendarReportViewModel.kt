@@ -34,7 +34,6 @@ constructor(
                 val result = repository.daily(m.year, m.month.monthNumberStr)
 
                 for(day in 1 until m.daysInMonth() + 1) {
-                    val item = result.find { it.date.dayOfMonth == day }
                     items.add(
                         result.find { it.date.dayOfMonth == day }.let {
                             if(it != null) {

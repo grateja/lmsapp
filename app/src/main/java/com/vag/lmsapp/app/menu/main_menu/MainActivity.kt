@@ -23,6 +23,7 @@ import com.vag.lmsapp.app.menu.sub_menu.SubMenuActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
 import com.vag.lmsapp.app.reports.monthly_report.MonthlyReportActivity
+import com.vag.lmsapp.app.reports.yearly_report.YearlyReportActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
 import com.vag.lmsapp.internet.InternetConnectionCallback
 import com.vag.lmsapp.internet.InternetConnectionObserver
@@ -63,10 +64,11 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
         setData(
             listOf(
                 MenuItem(
-                    "Dashboard",
+                    "Reports",
                     "Generate and view sales reports.",
-                    MonthlyReportActivity::class.java,
+                    YearlyReportActivity::class.java,
                     R.drawable.icon_sales_report,
+                    permissions = listOf()
                 ),
                 MenuItem(
                     "Dashboard",

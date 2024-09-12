@@ -10,13 +10,18 @@ import androidx.lifecycle.Observer
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.reports.calendar.CalendarReportActivity
 import com.vag.lmsapp.app.reports.summary_report.SummaryReportActivity
+import com.vag.lmsapp.app.reports.yearly_report.YearlyReportActivity
 import com.vag.lmsapp.databinding.ActivityMonthlyReportBinding
 import com.vag.lmsapp.util.Constants
 import com.vag.lmsapp.util.setGridLayout
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class MonthlyReportActivity : AppCompatActivity() {
+    companion object {
+        const val YEAR = "year"
+    }
     private lateinit var binding: ActivityMonthlyReportBinding
     private val viewModel: MonthlyReportViewModel by viewModels()
     private val adapter = MonthlyResultAdapter()
@@ -35,13 +40,21 @@ class MonthlyReportActivity : AppCompatActivity() {
 
         subscribeListeners()
         subscribeEvents()
-
-        viewModel.setYear(2024)
+        intent.getIntExtra(YEAR, LocalDate.now().year).let {
+            viewModel.setYear(it)
+        }
     }
 
     private fun subscribeListeners() {
-        viewModel.result.observe(this, Observer {
-            adapter.setData(it)
+        viewModel.navigationState.observe(this, Observer {
+            when(it) {
+                is MonthlyReportViewModel.NavigationState.LoadResult -> {
+                    adapter.setData(it.items)
+                    viewModel.resetState()
+                }
+
+                else -> {}
+            }
         })
     }
 

@@ -21,6 +21,7 @@ import com.vag.lmsapp.app.reports.summary_report.job_order_items.BottomSheetJobO
 import com.vag.lmsapp.util.Constants.Companion.ADVANCED_FILTER
 import com.vag.lmsapp.util.Constants.Companion.DATE_RANGE_FILTER
 import com.vag.lmsapp.util.DateFilter
+import com.vag.lmsapp.util.DatePicker
 
 @AndroidEntryPoint
 class SummaryReportActivity : AppCompatActivity() {
@@ -30,6 +31,14 @@ class SummaryReportActivity : AppCompatActivity() {
 
     private val years by lazy {
         (2020..2040).toList().map { it.toString() }
+    }
+
+    private val datePicker = DatePicker(this).apply {
+        setOnDateTimeSelectedListener { localDate, s ->
+            viewModel.setDateFilter(
+                DateFilter(localDate)
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +70,8 @@ class SummaryReportActivity : AppCompatActivity() {
 //        }
 //        binding.spinnerYear.setSelection(yearIndex)
 
-        intent.getParcelableExtra<DateFilter>(DATE_RANGE_FILTER)?.let {
-            viewModel.setDateFilter(it)
+        intent.getParcelableExtra<DateFilter>(DATE_RANGE_FILTER).let {
+            viewModel.setDateFilter(it ?: DateFilter())
         }
 
 //        intent.getIntExtra(CURRENT_MONTH_EXTRA, -1).let {
@@ -75,6 +84,10 @@ class SummaryReportActivity : AppCompatActivity() {
     private fun subscribeListeners() {
         viewModel.navigationState.observe(this, Observer {
             when(it) {
+                is SummaryReportViewModel.NavigationState.OpenDatePicker -> {
+                    datePicker.show(it.date)
+                }
+
                 is SummaryReportViewModel.NavigationState.OpenExportOptions -> {
                     val intent = Intent(this, ExportOptionsActivity::class.java).apply {
                         putExtra(DATE_RANGE_FILTER, it.date)
@@ -135,6 +148,15 @@ class SummaryReportActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
+        binding.appBar.setOnClickListener {
+            viewModel.openDatePicker()
+        }
+        binding.buttonBrowseNext.setOnClickListener {
+            viewModel.browseNext()
+        }
+        binding.buttonBrowsePrev.setOnClickListener {
+            viewModel.browsePrev()
+        }
 //        binding.buttonToday.setOnClickListener {
 //            LocalDate.now().let {
 //                daysAdapter.setDate(it)

@@ -196,8 +196,14 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun providesDaoDailyReport(mainDatabase: MainDatabase): DaoDailyReport {
-        return mainDatabase.daoDailyReport()
+    fun providesDaoDailyReport(mainDatabase: MainDatabase): DaoCalendarReport {
+        return mainDatabase.daoCalendarReport()
+    }
+
+    @Singleton
+    @Provides
+    fun providesDaoYearlyReport(mainDatabase: MainDatabase): DaoYearlyReport {
+        return mainDatabase.daoYearlyReport()
     }
 
     @Singleton

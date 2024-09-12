@@ -69,9 +69,9 @@ class ExportOptionsActivity : AppCompatActivity() {
             ExcelExportService.check(this)
         } else {
             stop()
-//            intent.getParcelableExtra<DateFilter>(DATE_RANGE_FILTER)?.let {
-//                viewModel.setDateFilter(it)
-//            }
+            intent.getParcelableExtra<DateFilter>(DATE_RANGE_FILTER)?.let {
+                viewModel.setDateFilter(it)
+            }
         }
 
         subscribeEvents()
@@ -246,9 +246,9 @@ class ExportOptionsActivity : AppCompatActivity() {
                 _colorAnimator.cancel()
             }
         })
-        viewModel.oldDateFilter.observe(this, Observer {
-            viewModel.setDateFilter(it)
-        })
+//        viewModel.oldDateFilter.observe(this, Observer {
+//            viewModel.setDateFilter(it)
+//        })
         viewModel.jobOrdersCount.observe(this, Observer {
             exportSelectionsAdapter.updateCount(ExcelExportService.INCLUDES_JOB_ORDER, it)
         })

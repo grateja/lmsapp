@@ -16,4 +16,8 @@ data class MonthlyResult(
     fun daysInMonth(): Int {
         return YearMonth.of(year, month.monthNumber).lengthOfMonth()
     }
+
+    override fun toString(): String {
+        return "${month.monthName} $year"
+    }
 }

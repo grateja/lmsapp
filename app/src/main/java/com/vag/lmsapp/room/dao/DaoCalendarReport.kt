@@ -3,10 +3,9 @@ package com.vag.lmsapp.room.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.vag.lmsapp.app.reports.calendar.DailyResult
-import com.vag.lmsapp.app.reports.calendar.DayPriceCountAggregate
 
 @Dao
-abstract class DaoDailyReport {
+abstract class DaoCalendarReport {
     @Query("""
         SELECT date, 
             SUM(newCustomerCount) AS newCustomerCount,

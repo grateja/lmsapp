@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.reports.monthly_report.MonthlyReportActivity
 import com.vag.lmsapp.app.reports.monthly_report.MonthlyResult
 import com.vag.lmsapp.app.reports.summary_report.SummaryReportActivity
 import com.vag.lmsapp.databinding.ActivityCalendarReportBinding
@@ -43,6 +44,9 @@ class CalendarReportActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
+//        binding.inclMonthlyResult.buttonMonthYear.setOnClickListener {
+//            finish()
+//        }
         adapter.onItemClick = {
             val intent = Intent(this, SummaryReportActivity::class.java).apply {
                 putExtra(DATE_RANGE_FILTER, DateFilter(it))
@@ -50,20 +54,17 @@ class CalendarReportActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.inclMonthlyResult.cardContainer.setOnClickListener {
+        binding.buttonCardExport.setOnClickListener {
             viewModel.openSummary()
         }
     }
 
     private fun subscribeListeners() {
-        viewModel.monthlyResult.observe(this, Observer {
-            binding.inclMonthlyResult.viewModel = it
-        })
-
         viewModel.navigationState.observe(this, Observer {
             when(it) {
                 is CalendarReportViewModel.NavigationState.LoadResult -> {
                     adapter.setData(it.items, it.year, it.month)
+                    viewModel.clearState()
                 }
 
                 is CalendarReportViewModel.NavigationState.OpenSummary -> {
@@ -71,6 +72,7 @@ class CalendarReportActivity : AppCompatActivity() {
                         putExtra(DATE_RANGE_FILTER, it.dateFilter)
                     }
                     startActivity(intent)
+                    viewModel.clearState()
                 }
 
                 else -> {}

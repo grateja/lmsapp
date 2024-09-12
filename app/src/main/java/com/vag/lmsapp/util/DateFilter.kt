@@ -25,7 +25,7 @@ data class DateFilter(
         } + (
                 dateTo?.let {
                     if (dateFrom != it) {
-                        val days = ChronoUnit.DAYS.between(dateFrom, it)
+                        val days = ChronoUnit.DAYS.between(dateFrom, it) + 1
                         " ($days)" // Remove "days" from the output
                     } else {
                         ""

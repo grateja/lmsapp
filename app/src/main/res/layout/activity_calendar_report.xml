@@ -9,29 +9,60 @@
             name="viewModel"
             type="com.vag.lmsapp.app.reports.calendar.CalendarReportViewModel" />
     </data>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_card_export"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <include
-                android:id="@+id/incl_monthly_result"
-                layout="@layout/incl_monthly_result"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:layout_marginVertical="16dp"
+            android:layout_height="0dp">
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.appbar.AppBarLayout>
-        <HorizontalScrollView
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                android:layout_height="wrap_content">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/title"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="0dp"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        style="@style/TextTitleFragment.Center"
+                        android:text="@{viewModel.monthlyResult.toString()}"
+                        tools:text="January 2023"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.appbar.AppBarLayout>
+            <HorizontalScrollView
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:clipToPadding="false"
+                    android:paddingTop="24dp"
+                    android:id="@+id/recycler_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+            </HorizontalScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/button_card_export"
+            app:cardBackgroundColor="@color/primary"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_days"
+            android:layout_height="wrap_content"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="0dp">
+            <TextView
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-black"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-        </HorizontalScrollView>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                android:layout_height="wrap_content"
+                android:text="Summary"/>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

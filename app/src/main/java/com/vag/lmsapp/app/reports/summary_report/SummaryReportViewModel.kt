@@ -14,6 +14,7 @@ import com.vag.lmsapp.room.repository.SummaryReportRepository
 import com.vag.lmsapp.util.DateFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -138,8 +139,31 @@ constructor(
         }
     }
 
+    fun openDatePicker() {
+        _dateFilter.value?.let {
+            _navigationState.value = NavigationState.OpenDatePicker(it.dateFrom)
+        }
+    }
+
+    fun browseNext() {
+        _dateFilter.value = _dateFilter.value?.apply {
+            val newDate = this.dateFrom.plusDays(1)
+            this.dateFrom = newDate
+            this.dateTo = newDate
+        }
+    }
+
+    fun browsePrev() {
+        _dateFilter.value = _dateFilter.value?.apply {
+            val newDate = this.dateFrom.plusDays(-1)
+            this.dateFrom = newDate
+            this.dateTo = newDate
+        }
+    }
+
     sealed class NavigationState {
         data object StateLess: NavigationState()
+        data class OpenDatePicker(val date: LocalDate): NavigationState()
         data class OpenExportOptions(val date: DateFilter): NavigationState()
         data class OpenJobOrders(val date: DateFilter): NavigationState()
         data class OpenPayments(val date: DateFilter): NavigationState()
