@@ -58,7 +58,7 @@
             android:name=".app.app_settings.user.change_pattern.ChangePatternActivity"
             android:exported="false" />
         <activity
-            android:name=".app.lms_live.SyncActivity"
+            android:name=".app.lms_live.sync.SyncActivity"
             android:exported="false" />
         <activity
             android:name=".app.machines.ping.PingActivity"
@@ -164,7 +164,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".app.menu.sub_menu.SubMenuActivity"
+            android:name=".app.menu.sub_menu.SettingsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

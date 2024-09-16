@@ -16,6 +16,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content">
         <TextView
+            app:textColor="@{viewModel == com.vag.lmsapp.app.reports.calendar.EnumDayOfWeek.SUNDAY ? @color/white : @color/text_dark_grey}"
             android:layout_margin="8dp"
             android:layout_gravity="center"
             android:textFontWeight="900"

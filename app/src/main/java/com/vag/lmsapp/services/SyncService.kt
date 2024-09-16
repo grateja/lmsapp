@@ -5,16 +5,17 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.vag.lmsapp.R
-import com.vag.lmsapp.app.lms_live.SyncActivity
+import com.vag.lmsapp.app.lms_live.sync.SyncActivity
+import com.vag.lmsapp.services.BacklogSyncService.Companion.SYNC_MESSAGE_EXTRA
+import com.vag.lmsapp.services.BacklogSyncService.Companion.SYNC_NAME_EXTRA
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
-abstract class SyncService(private val name: String, private val descriptions: String): Service() {
+abstract class SyncService(protected val name: String, private val descriptions: String): Service() {
     companion object {
         const val CHANNEL_ID = "sync_service"
         var running = false
@@ -36,6 +37,8 @@ abstract class SyncService(private val name: String, private val descriptions: S
 
     protected fun getNotification(title: String, text: String): Notification {
         val notificationIntent = Intent(this, SyncActivity::class.java).apply {
+            putExtra(SYNC_NAME_EXTRA, name)
+            putExtra(SYNC_MESSAGE_EXTRA, text)
         }
 
         val pendingIntent = PendingIntent.getActivity(

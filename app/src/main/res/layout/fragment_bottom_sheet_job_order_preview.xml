@@ -126,7 +126,8 @@
                                 android:id="@+id/label_date_created"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Created"
+                                android:text="@{`Created by: ` + viewModel.jobOrder.user.name}"
+                                tools:text="Created by: Staff 1"
                                 app:layout_constraintTop_toTopOf="@id/icon_date_created"
                                 app:layout_constraintStart_toEndOf="@id/icon_date_created"
                                 android:layout_marginStart="8dp"/>
@@ -141,6 +142,13 @@
                                 android:textSize="18sp"
                                 android:textColor="@color/black"/>
 
+                            <com.google.android.material.divider.MaterialDivider
+                                android:id="@+id/divider"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="8dp"
+                                app:layout_constraintTop_toBottomOf="@id/text_date_created"/>
+
                             <ImageView
                                 android:id="@+id/icon_date_paid"
                                 android:layout_width="18dp"
@@ -148,14 +156,15 @@
                                 android:src="@drawable/prepend_icon_date"
                                 android:layout_marginTop="12dp"
                                 android:visibility="@{viewModel.hasPayment}"
-                                app:layout_constraintTop_toBottomOf="@id/text_date_created"
+                                app:layout_constraintTop_toBottomOf="@id/divider"
                                 app:layout_constraintStart_toStartOf="parent"/>
                             <TextView
                                 android:id="@+id/label_date_paid"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Paid"
+                                android:text="@{`Payment received by: ` + viewModel.jobOrder.paymentWithUser.user.name}"
                                 android:visibility="@{viewModel.hasPayment}"
+                                tools:text="Payment received by: Staff 2"
                                 app:layout_constraintTop_toTopOf="@id/icon_date_paid"
                                 app:layout_constraintStart_toEndOf="@id/icon_date_paid"
                                 android:layout_marginStart="8dp"/>

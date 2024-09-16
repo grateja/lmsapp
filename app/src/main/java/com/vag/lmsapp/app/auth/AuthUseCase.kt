@@ -10,7 +10,12 @@ class AuthUseCase
 
 @Inject
 constructor(private val securitySettingsRepository: SecuritySettingsRepository) {
-    suspend operator fun invoke(requiredPermissions: List<EnumActionPermission>, authAction: String, mandate: Boolean, intent: Intent? = null): AuthResult {
+    suspend operator fun invoke(
+        requiredPermissions: List<EnumActionPermission>,
+        authAction: String,
+        mandate: Boolean,
+        intent: Intent? = null
+    ): AuthResult {
         val securityType = securitySettingsRepository.getSecurityType()
 
         val user = securitySettingsRepository.getCurrentUser()

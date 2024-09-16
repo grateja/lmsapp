@@ -13,7 +13,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BacklogSyncService : SyncService("Sync", "Backlog") {
+class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
     @Inject lateinit var networkRepository: NetworkRepository
     @Inject lateinit var sanctumRepository: SanctumRepository
     @Inject lateinit var shopRepository: ShopRepository
@@ -23,6 +23,9 @@ class BacklogSyncService : SyncService("Sync", "Backlog") {
             val intent = Intent(context, BacklogSyncService::class.java)
             context.startForegroundService(intent)
         }
+
+        const val SYNC_NAME_EXTRA = "sync name extra"
+        const val SYNC_MESSAGE_EXTRA = "sync message extra"
     }
 
     private suspend fun syncJobOrder(shopId: UUID, token: String): Boolean {
@@ -44,7 +47,7 @@ class BacklogSyncService : SyncService("Sync", "Backlog") {
                 }
             }
         } catch (e: Exception) {
-            startForeground(1, getNotification("Something went wrong during sync", ""))
+            startForeground(1, getNotification("Sync error: $name", e.message.toString()))
             // Handle exceptions such as network errors or unexpected issues
             println("An error occurred during job order synchronization: ${e.message}")
             e.printStackTrace()

@@ -21,13 +21,12 @@ import com.vag.lmsapp.app.discounts.list.DiscountsActivity
 import com.vag.lmsapp.app.extras.list.ExtrasActivity
 import com.vag.lmsapp.app.machines.MachinesActivity
 import com.vag.lmsapp.app.menu.MenuItem
-import com.vag.lmsapp.app.menu.main_menu.MainMenuViewModel
 import com.vag.lmsapp.app.packages.list.PackagesActivity
 import com.vag.lmsapp.app.pickup_and_deliveries.PickupAndDeliveriesActivity
 import com.vag.lmsapp.app.products.list.ProductsActivity
 import com.vag.lmsapp.app.security.select_security_type.SelectSecurityTypeActivity
 import com.vag.lmsapp.app.services.ServicesActivity
-import com.vag.lmsapp.databinding.ActivitySubMenuBinding
+import com.vag.lmsapp.databinding.ActivitySettingsBinding
 import com.vag.lmsapp.model.EnumActionPermission
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
@@ -35,7 +34,7 @@ import com.vag.lmsapp.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SubMenuActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
     private val subMenuAdapter = Adapter<MenuItem>(R.layout.recycler_item_sub_menu).apply {
         setData(
             listOf(
@@ -130,16 +129,16 @@ class SubMenuActivity : AppCompatActivity() {
             )
         )
     }
-    private lateinit var binding: ActivitySubMenuBinding
+    private lateinit var binding: ActivitySettingsBinding
 
-    private val mainViewModel: SubMenuViewModel by viewModels()
+    private val mainViewModel: SettingsViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
 
     private val authLauncher = AuthLauncherActivity(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_sub_menu)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_settings)
         binding.lifecycleOwner = this
         binding.recyclerSubMenu.adapter = subMenuAdapter
 
@@ -174,14 +173,14 @@ class SubMenuActivity : AppCompatActivity() {
         })
         mainViewModel.dataState.observe(this, Observer {
             when(it) {
-                is SubMenuViewModel.NavigationState.OpenMenuWithPermission -> {
+                is SettingsViewModel.NavigationState.OpenMenuWithPermission -> {
                     val intent = Intent(this, it.menuItem.activityClass).apply {
                         putExtra(AUTH_ID, it.loginCredentials.userId.toString())
                     }
                     startActivity(intent)
                     mainViewModel.clearState()
                 }
-                is SubMenuViewModel.NavigationState.SelectMenu -> {
+                is SettingsViewModel.NavigationState.SelectMenu -> {
                     if(it.menuItem.permissions.isNullOrEmpty()) {
                         startActivity(Intent(this, it.menuItem.activityClass))
                     } else {

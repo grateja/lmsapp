@@ -9,17 +9,21 @@
     </data>
     <com.google.android.material.card.MaterialCardView
         android:layout_margin="8dp"
-        app:cardBackgroundColor="@color/color_code_payments_highlight"
-        style="@style/RoundCard.RecyclerItem"
+        style="@style/RoundCard"
+        app:cardElevation="0dp"
         android:layout_width="match_parent"
         android:layout_height="90dp">
         <androidx.constraintlayout.widget.ConstraintLayout
+            app:cardBackgroundColor="@drawable/background_gradient_secondary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/text_month_name"
                 style="@style/TextItemTitle"
+                android:textFontWeight="500"
+                android:background="@color/color_code_payments_highlight"
+                android:padding="4dp"
+                android:id="@+id/text_month_name"
                 android:textColor="@color/text_grey"
                 android:text="@{viewModel.monthName}"
                 tools:text="January"

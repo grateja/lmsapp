@@ -21,10 +21,9 @@ import com.vag.lmsapp.app.reports.summary_report.SummaryReportActivity
 import com.vag.lmsapp.app.expenses.ExpensesActivity
 import com.vag.lmsapp.app.joborders.list.JobOrderListActivity
 import com.vag.lmsapp.app.menu.MenuItem
-import com.vag.lmsapp.app.menu.sub_menu.SubMenuActivity
+import com.vag.lmsapp.app.menu.sub_menu.SettingsActivity
 import com.vag.lmsapp.app.payment_list.PaymentListActivity
 import com.vag.lmsapp.app.remote.RemoteActivationPanelActivity
-import com.vag.lmsapp.app.reports.monthly_report.MonthlyReportActivity
 import com.vag.lmsapp.app.reports.yearly_report.YearlyReportActivity
 import com.vag.lmsapp.databinding.ActivityMainBinding
 import com.vag.lmsapp.internet.InternetConnectionCallback
@@ -228,7 +227,7 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
             this, this.calculateSpanCount(R.dimen.menu_tile_width)
         )
         binding.cardButtonSettings?.setOnClickListener {
-            val intent = Intent(this, SubMenuActivity::class.java)
+            val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
         binding.cardButtonReport?.setOnClickListener {
