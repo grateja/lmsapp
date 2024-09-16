@@ -35,7 +35,7 @@ interface DaoInventoryLog : BaseDao<EntityInventoryLog> {
     @Query("""
         SELECT * 
         FROM inventory_log 
-        WHERE remarks LIKE '%' || :keyword || '%' AND deleted = 0
+        WHERE (remarks LIKE '%' || :keyword || '%' OR remarks IS NULL) AND deleted = 0
             AND (product_id = :productId OR :productId IS NULL)
             AND ((:dateFrom IS NULL AND :dateTo IS NULL) OR 
                 (:dateFrom IS NOT NULL AND :dateTo IS NULL AND date(created_at / 1000, 'unixepoch', 'localtime') = :dateFrom) OR 

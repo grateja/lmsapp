@@ -83,13 +83,13 @@ class TextMessageTemplateAddEditActivity : CrudActivity() {
         viewModel.get(id)
     }
 
-    override fun confirmDelete(loginCredentials: LoginCredentials?) {
-        viewModel.confirmDelete(loginCredentials?.userId)
-    }
-
-    override fun confirmSave(loginCredentials: LoginCredentials?) {
-        viewModel.save()
-    }
+//    override fun confirmDelete(loginCredentials: LoginCredentials?) {
+//        viewModel.confirmDelete(loginCredentials?.userId)
+//    }
+//
+//    override fun confirmSave(loginCredentials: LoginCredentials?) {
+//        viewModel.save()
+//    }
 
     override fun requestExit() {
         viewModel.requestExit()

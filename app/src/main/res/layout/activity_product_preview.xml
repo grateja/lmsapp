@@ -66,7 +66,6 @@
 <!--                app:layout_constraintTop_toTopOf="parent"-->
 <!--                app:layout_constraintBottom_toTopOf="@id/controls"/>-->
             <androidx.recyclerview.widget.RecyclerView
-                android:visibility="@{inventoryLogViewModel.resultCount.filtered > 0}"
                 android:id="@+id/recycler_inventory_log"
                 android:orientation="vertical"
                 android:paddingTop="16dp"

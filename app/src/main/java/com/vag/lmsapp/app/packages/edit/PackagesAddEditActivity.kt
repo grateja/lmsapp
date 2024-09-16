@@ -13,6 +13,7 @@ import com.vag.lmsapp.databinding.ActivityPackagesAddEditBinding
 import com.vag.lmsapp.util.Constants.Companion.PACKAGE_ID
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.DataState
+import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -74,13 +75,19 @@ class PackagesAddEditActivity(
         viewModel.validate()
     }
 
-    override fun confirmSave(loginCredentials: LoginCredentials?) {
-        viewModel.save()
+    override fun onDelete() {
+        showDeleteConfirmationDialog {
+            viewModel.confirmDelete(null)
+//            authViewModel.authenticate(listOf(), ACTION_DELETE, false)
+        }
     }
-
-    override fun confirmDelete(loginCredentials: LoginCredentials?) {
-        viewModel.confirmDelete(loginCredentials?.userId)
-    }
+//    override fun confirmSave(loginCredentials: LoginCredentials?) {
+//        viewModel.save()
+//    }
+//
+//    override fun confirmDelete(loginCredentials: LoginCredentials?) {
+//        viewModel.confirmDelete(loginCredentials?.userId)
+//    }
 
     override fun requestExit() {
         viewModel.requestExit()

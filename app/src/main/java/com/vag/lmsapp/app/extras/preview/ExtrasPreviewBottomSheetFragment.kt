@@ -55,7 +55,6 @@ class ExtrasPreviewBottomSheetFragment : ModalFragment<UUID>() {
         binding.buttonCardDelete.setOnClickListener {
             requireContext().showDeleteConfirmationDialog("Are you sure you want to delete this service?", "This action cannot be undone! Do you want to continue?") {
                 viewModel.delete()
-                dismiss()
             }
         }
         binding.buttonCardHideToggle.setOnClickListener {
@@ -77,6 +76,7 @@ class ExtrasPreviewBottomSheetFragment : ModalFragment<UUID>() {
                 is ExtrasPreviewViewModel.NavigationState.DeleteSuccess -> {
                     onOk?.invoke(it.serviceId)
                     viewModel.resetState()
+                    dismiss()
                 }
 
                 else -> {}

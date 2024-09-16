@@ -87,13 +87,19 @@ class DiscountAddEditActivity(
         viewModel.validate()
     }
 
-    override fun confirmSave(loginCredentials: LoginCredentials?) {
-        viewModel.save()
+    override fun onDelete() {
+        showDeleteConfirmationDialog {
+            viewModel.confirmDelete(null)
+//            authViewModel.authenticate(listOf(), ACTION_DELETE, false)
+        }
     }
-
-    override fun confirmDelete(loginCredentials: LoginCredentials?) {
-        viewModel.confirmDelete(loginCredentials?.userId)
-    }
+//    override fun confirmSave(loginCredentials: LoginCredentials?) {
+//        viewModel.save()
+//    }
+//
+//    override fun confirmDelete(loginCredentials: LoginCredentials?) {
+//        viewModel.confirmDelete(loginCredentials?.userId)
+//    }
 
     override fun requestExit() {
         viewModel.requestExit()

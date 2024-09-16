@@ -13,7 +13,7 @@ abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
         const val ACTION_DELETE = "Delete"
     }
 
-    private lateinit var authLauncher: AuthLauncherActivity
+//    private lateinit var authLauncher: AuthLauncherActivity
     private var buttonSave: MaterialCardView? = null
     private var buttonDelete: MaterialCardView? = null
     private var buttonCancel: MaterialCardView? = null
@@ -37,36 +37,36 @@ abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
             requestExit()
         }
 
-        authLauncher.onOk = { loginCredentials, code ->
+//        authLauncher.onOk = { loginCredentials, code ->
 //            val loginCredentials = it.data?.getParcelableExtra<LoginCredentials>(
 //                AuthActionDialogActivity.RESULT)
-
-            when (code) {
-                ACTION_SAVE -> this.confirmSave(loginCredentials)
-                ACTION_DELETE ->  this.confirmDelete(loginCredentials)
-            }
-        }
+//
+//            when (code) {
+//                ACTION_SAVE -> this.confirmSave(loginCredentials)
+//                ACTION_DELETE ->  this.confirmDelete(loginCredentials)
+//            }
+//        }
     }
 
-    override fun onSave() {
-        authenticate(ACTION_SAVE)
-    }
+//    override fun onSave() {
+//        authenticate(ACTION_SAVE)
+//    }
 
     override fun onDelete() {
         showDeleteDialog()
     }
 
-    protected open fun authenticate(code: String) {
-//        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
-//            this.action = action
-//        }
-        authLauncher.launch(emptyList(), code, false)
-    }
+//    protected open fun authenticate(code: String) {
+////        val intent = Intent(this, AuthActionDialogActivity::class.java).apply {
+////            this.action = action
+////        }
+//        authLauncher.launch(emptyList(), code, false)
+//    }
 
     private fun showDeleteDialog() {
-        showDeleteConfirmationDialog {
-            authenticate(ACTION_DELETE)
-        }
+//        showDeleteConfirmationDialog {
+//            authenticate(ACTION_DELETE)
+//        }
 //        AlertDialog.Builder(this).apply {
 //            setTitle("Delete this item")
 //            setMessage("Are you sure you want to proceed?")
@@ -90,7 +90,7 @@ abstract class CrudActivity : BaseActivity(), CrudActivityInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        authLauncher = AuthLauncherActivity(this)
+//        authLauncher = AuthLauncherActivity(this)
 
         intent.getStringExtra(ENTITY_ID).toUUID().let {
             this.get(it)

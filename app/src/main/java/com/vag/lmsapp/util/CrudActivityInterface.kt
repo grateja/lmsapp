@@ -7,8 +7,8 @@ interface CrudActivityInterface {
     fun get(id: UUID?)
     fun onSave()
     fun onDelete()
-    fun confirmDelete(loginCredentials: LoginCredentials?)
-    fun confirmSave(loginCredentials: LoginCredentials?)
+//    fun confirmDelete(loginCredentials: LoginCredentials?)
+//    fun confirmSave(loginCredentials: LoginCredentials?)
     fun requestExit()
     fun confirmExit(entityId: UUID?)
 //    var requireAuthOnSave: Boolean

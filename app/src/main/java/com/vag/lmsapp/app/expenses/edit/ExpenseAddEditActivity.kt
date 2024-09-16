@@ -6,7 +6,10 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityExpenseAddEditBinding
 import com.vag.lmsapp.internet.InternetConnectionCallback
@@ -27,7 +30,24 @@ class ExpenseAddEditActivity(
 
     private lateinit var binding: ActivityExpenseAddEditBinding
     private val viewModel: ExpenseAddEditViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
     private val dateTimePicker = DateTimePicker(this)
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_SAVE -> {
+                viewModel.save(loginCredentials.userId)
+            }
+
+            ACTION_DELETE -> {
+                viewModel.confirmDelete(loginCredentials.userId)
+            }
+        }
+    }
+
 //     private val launcher = AuthLauncherActivity(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,10 +95,39 @@ class ExpenseAddEditActivity(
     }
 
     private fun subscribeListeners() {
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                        // is AuthResult.NoAuthentication -> {
+                        //     setupUi()
+                        //  }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
+
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is DataState.ValidationPassed -> {
-                    authenticate(ACTION_SAVE)
+                    authViewModel.authenticate(listOf(), ACTION_SAVE, false)
                     viewModel.resetState()
                 }
                 is DataState.SaveSuccess -> {
@@ -135,13 +184,19 @@ class ExpenseAddEditActivity(
         viewModel.validate()
     }
 
-    override fun confirmDelete(loginCredentials: LoginCredentials?) {
-        viewModel.confirmDelete(loginCredentials?.userId)
+    override fun onDelete() {
+        showDeleteConfirmationDialog {
+            authViewModel.authenticate(listOf(), ACTION_DELETE, false)
+        }
     }
+//
+//    override fun confirmDelete(loginCredentials: LoginCredentials?) {
+//        viewModel.confirmDelete(loginCredentials?.userId)
+//    }
 
-    override fun confirmSave(loginCredentials: LoginCredentials?) {
-        viewModel.save(loginCredentials?.userId)
-    }
+//    override fun confirmSave(loginCredentials: LoginCredentials?) {
+//        viewModel.save(loginCredentials?.userId)
+//    }
 
     override fun requestExit() {
         viewModel.requestExit()

@@ -9,20 +9,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.google.android.material.tabs.TabLayoutMediator
 import com.vag.lmsapp.R
 import com.vag.lmsapp.adapters.Adapter
 import com.vag.lmsapp.app.products.add_stock.ProductAddStockBottomSheetFragment
 import com.vag.lmsapp.app.products.edit.ProductAddEditActivity
-import com.vag.lmsapp.app.products.preview.inventory_in.InventoryLogFragment
 import com.vag.lmsapp.app.products.preview.inventory_in.InventoryLogViewModel
-import com.vag.lmsapp.app.products.preview.inventory_out.JobOrderProductFragment
 import com.vag.lmsapp.databinding.ActivityProductPreviewBinding
 import com.vag.lmsapp.room.entities.EntityInventoryLogFull
 import com.vag.lmsapp.util.Constants.Companion.PRODUCT_ID
 import com.vag.lmsapp.util.CrudActivity
 import com.vag.lmsapp.util.FilterState
-import com.vag.lmsapp.util.FragmentsAdapter
 import com.vag.lmsapp.util.showDeleteConfirmationDialog
 import com.vag.lmsapp.util.toUUID
 import dagger.hilt.android.AndroidEntryPoint
@@ -111,7 +107,8 @@ class ProductPreviewActivity : AppCompatActivity() {
                     viewModel.resetState()
                 }
 
-                is ProductPreviewViewModel.NavigationState.DeleteProduct -> {
+                is ProductPreviewViewModel.NavigationState.DeleteSuccess -> {
+                    finish()
                     viewModel.resetState()
                 }
 

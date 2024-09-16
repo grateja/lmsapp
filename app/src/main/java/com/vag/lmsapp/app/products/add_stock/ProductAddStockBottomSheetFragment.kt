@@ -112,7 +112,7 @@ class ProductAddStockBottomSheetFragment : ModalFragment<UUID>() {
         viewModel.dataState.observe(viewLifecycleOwner, Observer {
             when(it) {
                 is DataState.ValidationPassed -> {
-                    authViewModel.authenticate(listOf(EnumActionPermission.MODIFY_INVENTORY), ACTION_ADD_STOCK, false)
+                    authViewModel.authenticate(listOf(), ACTION_ADD_STOCK, false)
 //                    authLauncher.launch(listOf(EnumActionPermission.MODIFY_INVENTORY), ACTION_ADD_STOCK, false)
                     viewModel.resetState()
                 }

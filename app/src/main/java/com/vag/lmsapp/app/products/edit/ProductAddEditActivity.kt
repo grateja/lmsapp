@@ -6,7 +6,10 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
 import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityProductAddEditBinding
 import com.vag.lmsapp.model.EnumMeasureUnit
@@ -22,7 +25,24 @@ class ProductAddEditActivity(
 ) : CrudActivity() {
     private lateinit var binding: ActivityProductAddEditBinding
     private val viewModel: ProductAddEditViewModel by viewModels()
-//    private val authLauncher = ActivityLauncher(this)
+    private val authViewModel: AuthViewModel by viewModels()
+
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_SAVE -> {
+                viewModel.save(loginCredentials.userId)
+            }
+
+            ACTION_DELETE -> {
+                viewModel.confirmDelete(loginCredentials.userId)
+            }
+        }
+    }
+    //    private val authLauncher = ActivityLauncher(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_product_add_edit)
@@ -78,6 +98,34 @@ class ProductAddEditActivity(
     }
 
     private fun subscribeListeners() {
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                        // is AuthResult.NoAuthentication -> {
+                        //     setupUi()
+                        //  }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is DataState.SaveSuccess -> {
@@ -95,7 +143,8 @@ class ProductAddEditActivity(
                 }
                 is DataState.ValidationPassed -> {
 //                    viewModel.save()
-                    authenticate(ACTION_SAVE)
+                    authViewModel.authenticate(listOf(), ACTION_SAVE, false)
+//                    authenticate(ACTION_SAVE)
                     viewModel.resetState()
                 }
 
@@ -118,15 +167,21 @@ class ProductAddEditActivity(
         viewModel.validate()
     }
 
-    override fun confirmSave(loginCredentials: LoginCredentials?) {
-        loginCredentials?.userId?.let {
-            viewModel.save(it)
+    override fun onDelete() {
+        showDeleteConfirmationDialog {
+            viewModel.confirmDelete(null)
+//            authViewModel.authenticate(listOf(), ACTION_DELETE, false)
         }
     }
-
-    override fun confirmDelete(loginCredentials: LoginCredentials?) {
-        viewModel.confirmDelete(loginCredentials?.userId)
-    }
+//    override fun confirmSave(loginCredentials: LoginCredentials?) {
+//        loginCredentials?.userId?.let {
+//            viewModel.save(it)
+//        }
+//    }
+//
+//    override fun confirmDelete(loginCredentials: LoginCredentials?) {
+//        viewModel.confirmDelete(loginCredentials?.userId)
+//    }
 
     override fun requestExit() {
         viewModel.requestExit()

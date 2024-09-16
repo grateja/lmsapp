@@ -83,7 +83,9 @@ class ProductPreviewBottomSheetFragment : ModalFragment<UUID>() {
                     viewModel.resetState()
                 }
 
-                is ProductPreviewViewModel.NavigationState.DeleteProduct -> {
+                is ProductPreviewViewModel.NavigationState.DeleteSuccess -> {
+                    onOk?.invoke(it.productId)
+                    dismiss()
                     viewModel.resetState()
                 }
 

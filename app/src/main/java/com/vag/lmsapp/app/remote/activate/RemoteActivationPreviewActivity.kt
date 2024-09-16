@@ -11,7 +11,11 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
+import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.app.printer.PrinterPreviewActivity
 import com.vag.lmsapp.databinding.ActivityRemoteActivationPreviewBinding
 import com.vag.lmsapp.model.MachineActivationQueues
@@ -19,13 +23,31 @@ import com.vag.lmsapp.model.MachineConnectionStatus
 import com.vag.lmsapp.services.MachineActivationService
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.CASCADE_CLOSE
+import com.vag.lmsapp.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RemoteActivationPreviewActivity : AppCompatActivity() {
+    companion object {
+        private const val ACTION_ACTIVATE_MACHINE = "Activate machine"
+    }
+
     private lateinit var binding: ActivityRemoteActivationPreviewBinding
     private val viewModel: RemoteActivationPreviewViewModel by viewModels()
-    private val authActivity = AuthLauncherActivity(this)
+    private val authViewModel: AuthViewModel by viewModels()
+
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_ACTIVATE_MACHINE -> {
+                viewModel.prepareSubmit(loginCredentials.userId)
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +90,34 @@ class RemoteActivationPreviewActivity : AppCompatActivity() {
     }
 
     private fun subscribeObservers() {
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                        // is AuthResult.NoAuthentication -> {
+                        //     setupUi()
+                        //  }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
         viewModel.machine.observe(this, Observer{
             title = "Activate ${it?.machineName()}"
         })
@@ -114,12 +164,10 @@ class RemoteActivationPreviewActivity : AppCompatActivity() {
     }
 
     private fun subscribeEvents() {
-        authActivity.onOk = {loginCredentials, i ->
-            viewModel.prepareSubmit(loginCredentials.userId)
-        }
 
         binding.buttonActivate.setOnClickListener {
-            authActivity.launch(listOf(), "Activate machine", false)
+            authViewModel.authenticate(listOf(), ACTION_ACTIVATE_MACHINE, false)
+//            authActivity.launch(listOf(), "Activate machine", false)
 //            viewModel.prepareSubmit()
         }
 

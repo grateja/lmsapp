@@ -41,8 +41,11 @@ constructor(
     }
 
     fun deleteProduct() {
-        _productId.value?.let {
-            _navigationState.value = NavigationState.DeleteProduct(it)
+        viewModelScope.launch {
+            productPreview.value?.product?.let {
+                repository.delete(it)
+                _navigationState.value = NavigationState.DeleteSuccess(it.id)
+            }
         }
     }
 
@@ -62,6 +65,6 @@ constructor(
         data object StateLess: NavigationState()
         data class EditProduct(val productId: UUID): NavigationState()
         data class AddStock(val productId: UUID): NavigationState()
-        data class DeleteProduct(val productId: UUID): NavigationState()
+        data class DeleteSuccess(val productId: UUID): NavigationState()
     }
 }

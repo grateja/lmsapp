@@ -65,13 +65,13 @@ class ShopInfoActivity : CrudActivity() {
         viewModel.validate()
     }
 
-    override fun confirmSave(loginCredentials: LoginCredentials?) {
-        viewModel.save()
-    }
-
+//    override fun confirmSave(loginCredentials: LoginCredentials?) {
+//        viewModel.save()
+//    }
+//
     override fun requestExit() {
         viewModel.requestExit()
     }
 
-    override fun confirmDelete(loginCredentials: LoginCredentials?) { }
+//    override fun confirmDelete(loginCredentials: LoginCredentials?) { }
 }
