@@ -20,5 +20,7 @@ class Constants {
         const val PAYLOAD = "payload"
         
         const val MONTHLY_RESULT = "MonthlyResult"
+
+        const val ACTION_STOP_SERVICE = "stop service"
     }
 }

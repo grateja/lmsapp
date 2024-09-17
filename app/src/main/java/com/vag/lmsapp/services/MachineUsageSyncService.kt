@@ -40,27 +40,17 @@ class MachineUsageSyncService : SyncService("Sync", "Machine usage") {
 
                 if(token == null) {
                     println("No token")
-                    safeStop(1)
+                    safeStop()
                     return@runBlocking
-                } else {
-                    println("token")
-                    println(token)
                 }
 
                 if(shopId == null) {
-                    println("Shop id cannot be null")
-                    startForeground(1, getNotification("Shop's not setup yet", "Go to App settings and setup shop details"))
                     return@runBlocking
-                } else {
-                    println("Shop id")
-                    println(shopId)
                 }
 
                 if(machineUsage == null) {
                     println("Payment cannot be null")
                     return@runBlocking
-                } else {
-                    println(machineUsage)
                 }
 
                 try {
@@ -69,7 +59,7 @@ class MachineUsageSyncService : SyncService("Sync", "Machine usage") {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    startForeground(1, getNotification("Sync", e.message.toString()))
+                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync machine usage", e.message.toString())
                     safeStop(10)
                 }
             }
@@ -85,7 +75,7 @@ class MachineUsageSyncService : SyncService("Sync", "Machine usage") {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(1, getNotification("Sync", "Getting machine usage ready for sync."))
+        startForeground(SVC_SYNC_NOTIFICATION_ID, getNotification("Sync started", "Updating machine usages data."))
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

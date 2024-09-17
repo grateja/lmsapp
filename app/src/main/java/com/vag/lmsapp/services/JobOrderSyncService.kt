@@ -49,31 +49,26 @@ class JobOrderSyncService: SyncService("Sync", "Job order") {
 
                     if(token == null) {
                         println("No token")
-                        safeStop(1)
+                        safeStop()
                         return@runBlocking
-                    } else {
-                        println("token")
-                        println(token)
                     }
 
                     if(shopId == null) {
-                        println("Shop id cannot be null")
-                        startForeground(1, getNotification("Shop's not setup yet", "Go to App settings and setup shop details"))
+                        safeStop()
                         return@runBlocking
                     }
 
                     if(jobOrder == null) {
                         println("Job order may be deleted")
+                        safeStop()
                         return@runBlocking
                     }
-
-                    startForeground(1, getNotification("Job order sync", jobOrder.jobOrder.jobOrderNumber.toString()))
 
                     networkRepository.sendJobOrder(jobOrder, shopId, token).let {result ->
                         safeStop()
                     }
                 } catch (e: Exception) {
-                    startForeground(1, getNotification("Something went wrong while syncing Job Order", e.message.toString()))
+                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync job order", e.message.toString())
                     e.printStackTrace()
                     safeStop(60 * 5)
                 }
@@ -83,6 +78,6 @@ class JobOrderSyncService: SyncService("Sync", "Job order") {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(1, getNotification("Sync", "Getting job order ready for sync."))
+        startForeground(SVC_SYNC_NOTIFICATION_ID, getNotification("Sync started", "Updating job orders data"))
     }
 }

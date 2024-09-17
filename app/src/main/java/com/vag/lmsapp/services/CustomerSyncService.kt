@@ -38,28 +38,18 @@ class CustomerSyncService : SyncService("Sync", "Customer") {
                 val customer = customerRepository.get(id)
 
                 if(token == null) {
-                    println("No token")
-                    safeStop(1)
+                    safeStop()
                     return@runBlocking
-                } else {
-                    println("token")
-                    println(token)
                 }
 
                 if(shopId == null) {
-                    println("Shop id cannot be null")
-                    startForeground(1, getNotification("Shop's not setup yet", "Go to App settings and setup shop details"))
+                    safeStop()
                     return@runBlocking
-                } else {
-                    println("Shop id")
-                    println(shopId)
                 }
 
                 if(customer == null) {
-                    println("Payment cannot be null")
+                    safeStop()
                     return@runBlocking
-                } else {
-                    println(customer)
                 }
 
                 try {
@@ -68,8 +58,8 @@ class CustomerSyncService : SyncService("Sync", "Customer") {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    startForeground(1, getNotification("Sync", e.message.toString()))
-                    safeStop(10)
+                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync customer", e.message.toString())
+                    safeStop()
                 }
             }
         }.start()
@@ -84,7 +74,7 @@ class CustomerSyncService : SyncService("Sync", "Customer") {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(1, getNotification("Sync", "Getting customer profile ready for sync."))
+        startForeground(SVC_SYNC_NOTIFICATION_ID, getNotification("Sync started", "Updating customers data"))
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

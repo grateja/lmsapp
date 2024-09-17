@@ -1,5 +1,6 @@
 package com.vag.lmsapp.services
 
+import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,8 +8,11 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.IBinder
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.export_options.ExportOptionsActivity
@@ -122,6 +126,7 @@ class ExcelExportService: Service() {
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setOngoing(false)
+            .setAutoCancel(true)
             .setContentIntent(pendingIntent)
 
         if(count > 0) {
@@ -171,6 +176,7 @@ class ExcelExportService: Service() {
     }
 
     private fun start() {
+        val context = this
         Thread {
             runBlocking {
                 if(!running) {
@@ -201,13 +207,16 @@ class ExcelExportService: Service() {
 
                     operationSettingsRepository.setDateFilter(dateFilter)
 
-//                    FileOutputStream(File(filesDir, FILENAME_JSON)).use { fos ->
-//                        OutputStreamWriter(fos).use { writer ->
-//                            writer.write(moshi.adapter(DateFilter::class.java).toJson(dateFilter))
-//                        }
-//                    }
+                    with(NotificationManagerCompat.from(context)) {
+                        if (ActivityCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            notify(2, getNotification("Export done!"))
+                        }
+                    }
 
-                    startForeground(NOTIFICATION_ID, getNotification("Export done"))
                     setBroadcast(ACTION_FILE_CREATED)
 
                     running = false

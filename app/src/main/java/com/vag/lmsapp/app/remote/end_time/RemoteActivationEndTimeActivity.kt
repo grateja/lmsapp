@@ -6,7 +6,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
+import com.vag.lmsapp.app.auth.AuthResult
+import com.vag.lmsapp.app.auth.AuthViewModel
+import com.vag.lmsapp.app.auth.LoginCredentials
 import com.vag.lmsapp.databinding.ActivityRemoteActivationEndTimeBinding
 import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.ID
@@ -17,16 +21,30 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RemoteActivationEndTimeActivity : AppCompatActivity() {
+    companion object {
+        private const val ACTION_END_TIME = "End machine time"
+    }
     private lateinit var binding: ActivityRemoteActivationEndTimeBinding
     private val viewModel: RemoteActivationEndTimeViewModel by viewModels()
-    lateinit var authLauncherActivity: AuthLauncherActivity
+    private val authViewModel: AuthViewModel by viewModels()
+
+    private val authLauncher = AuthLauncherActivity(this).apply {
+        onOk = { loginCredentials, code -> permitted(loginCredentials, code)}
+    }
+
+    private fun permitted(loginCredentials: LoginCredentials, code: String) {
+        when(code) {
+            ACTION_END_TIME -> {
+                viewModel.save(loginCredentials.userId)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_remote_activation_end_time)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-
-        authLauncherActivity = AuthLauncherActivity(this)
 
         subscribeEvents()
         subscribeListener()
@@ -43,17 +61,45 @@ class RemoteActivationEndTimeActivity : AppCompatActivity() {
         binding.cardButtonClose.setOnClickListener {
             finish()
         }
-        authLauncherActivity.onOk = { loginCredentials, i ->
-            viewModel.save(loginCredentials.userId)
-        }
     }
 
     private fun subscribeListener() {
+        authViewModel.dataState.observe(this, Observer {
+            when(it) {
+                is DataState.Submit -> {
+                    when(val authResult = it.data) {
+                        is AuthResult.Authenticated -> {
+                            permitted(authResult.loginCredentials, authResult.action)
+                        }
+
+                        is AuthResult.MandateAuthentication -> {
+                            authLauncher.launch(authResult.permissions, authResult.action, true)
+                        }
+
+                        is AuthResult.OperationNotPermitted -> {
+                            Snackbar.make(binding.root, authResult.message, Snackbar.LENGTH_LONG)
+                                .setAnchorView(binding.controls)
+                                .setAction("Switch user") {
+                                    authLauncher.launch(authResult.permissions, authResult.action, true)
+                                }
+                                .show()
+                        }
+                        // is AuthResult.NoAuthentication -> {
+                        //     setupUi()
+                        //  }
+                    }
+                    authViewModel.resetState()
+                }
+                else -> {}
+            }
+        })
+
         viewModel.dataState.observe(this, Observer {
             when(it) {
                 is DataState.ValidationPassed -> {
                     viewModel.resetState()
-                    authLauncherActivity.launch(listOf(), "End machine timer", false)
+                    authViewModel.authenticate(listOf(), ACTION_END_TIME, false)
+                    // authLauncherActivity.launch(listOf(), "End machine timer", false)
                 }
 
                 is DataState.SaveSuccess -> {

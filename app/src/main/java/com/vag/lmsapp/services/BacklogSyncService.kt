@@ -13,7 +13,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
+class BacklogSyncService : SyncService(NAME, "Backlog") {
     @Inject lateinit var networkRepository: NetworkRepository
     @Inject lateinit var sanctumRepository: SanctumRepository
     @Inject lateinit var shopRepository: ShopRepository
@@ -24,8 +24,8 @@ class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
             context.startForegroundService(intent)
         }
 
-        const val SYNC_NAME_EXTRA = "sync name extra"
-        const val SYNC_MESSAGE_EXTRA = "sync message extra"
+        const val NAME = "Backlog Sync service"
+
     }
 
     private suspend fun syncJobOrder(shopId: UUID, token: String): Boolean {
@@ -33,24 +33,18 @@ class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
             val count = networkRepository.jobOrderCount()
             var current = 1
             while (true) {
-                val jobOrder = networkRepository.getUnSyncJobOrder()
-                if (jobOrder == null) {
-                    // all done
-                    return true
-                } else {
-                    startForeground(1, getNotification("Syncing job order ${current++}/$count", jobOrder.jobOrder.jobOrderNumber!!))
-                    val result = networkRepository.sendJobOrder(jobOrder, shopId, token)
+                val jobOrder = networkRepository.getUnSyncJobOrder() ?: return true
 
-                    if(result.isFailure) {
-                        throw Exception(result.exceptionOrNull())
-                    }
+                showNotification(UPT_SYNC_NOTIFICATION_ID,"Syncing job order ${current++}/$count", jobOrder.jobOrder.jobOrderNumber!!)
+
+                val result = networkRepository.sendJobOrder(jobOrder, shopId, token)
+
+                if(result.isFailure) {
+                    throw Exception(result.exceptionOrNull())
                 }
             }
         } catch (e: Exception) {
-            startForeground(1, getNotification("Sync error: $name", e.message.toString()))
-            // Handle exceptions such as network errors or unexpected issues
-            println("An error occurred during job order synchronization: ${e.message}")
-            e.printStackTrace()
+            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync job Orders", e.message.toString())
             return false
         }
     }
@@ -60,24 +54,18 @@ class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
             val count = networkRepository.expensesCount()
             var current = 1
             while (true) {
-                val expense = networkRepository.getUnSyncExpense()
-                if (expense == null) {
-                    // all done
-                    return true
-                } else {
-                    startForeground(1, getNotification("Syncing expenses ${current++}/$count", expense.expense.remarks.toString()))
-                    val result = networkRepository.sendExpense(expense, shopId, token)
+                val expense = networkRepository.getUnSyncExpense() ?: return true
 
-                    if(result.isFailure) {
-                        throw Exception(result.exceptionOrNull())
-                    }
+                showNotification(UPT_SYNC_NOTIFICATION_ID, "Syncing expenses ${current++}/$count", expense.expense.remarks.toString())
+
+                val result = networkRepository.sendExpense(expense, shopId, token)
+
+                if(result.isFailure) {
+                    throw Exception(result.exceptionOrNull())
                 }
             }
         } catch (e: Exception) {
-            startForeground(1, getNotification("Something went wrong during sync", ""))
-            // Handle exceptions such as network errors or unexpected issues
-            println("An error occurred during job order synchronization: ${e.message}")
-            e.printStackTrace()
+            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync expenses", e.message.toString())
             return false
         }
     }
@@ -87,29 +75,23 @@ class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
             val count = networkRepository.jobPaymentCount()
             var current = 1
             while (true) {
-                val payment = networkRepository.getUnSyncPayment()
-                if (payment == null) {
-                    // all done
-                    return true
-                } else {
-                    startForeground(1, getNotification("Syncing payment ${current++}/$count", ""))
-                    val paymentRequest = PaymentRequestBody(
-                        payment.payment,
-                        payment.user,
-                        payment.jobOrders.map {it.id}
-                    )
-                    val result = networkRepository.sendPayment(paymentRequest, shopId, token)
+                val payment = networkRepository.getUnSyncPayment() ?: return true
 
-                    if(result.isFailure) {
-                        throw Exception(result.exceptionOrNull())
-                    }
+                showNotification(UPT_SYNC_NOTIFICATION_ID,"Syncing payment ${current++}/$count", "")
+
+                val paymentRequest = PaymentRequestBody(
+                    payment.payment,
+                    payment.user,
+                    payment.jobOrders.map {it.id}
+                )
+                val result = networkRepository.sendPayment(paymentRequest, shopId, token)
+
+                if(result.isFailure) {
+                    throw Exception(result.exceptionOrNull())
                 }
             }
         } catch (e: Exception) {
-            startForeground(1, getNotification("Something went wrong during sync", ""))
-            // Handle exceptions such as network errors or unexpected issues
-            println("An error occurred during job order payment synchronization: ${e.message}")
-            e.printStackTrace()
+            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync job order payment", e.message.toString())
             return false
         }
     }
@@ -119,20 +101,18 @@ class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
             val count = networkRepository.machineUsageCount()
             var current = 1
             while (true) {
-                val machineUsage = networkRepository.getUnSyncMachineUsage()
-                if (machineUsage == null) {
-                    // all done
-                    return true
-                } else {
-                    startForeground(1, getNotification("Syncing machine usage", "${current++}/$count"))
-                    val result = networkRepository.sendMachineUsage(machineUsage, shopId, token)
-                    if(result.isFailure) {
-                        return false
-                    }
+                val machineUsage = networkRepository.getUnSyncMachineUsage() ?: return true
+
+                showNotification(UPT_SYNC_NOTIFICATION_ID, "Syncing machine usage", "${current++}/$count")
+
+                val result = networkRepository.sendMachineUsage(machineUsage, shopId, token)
+
+                if(result.isFailure) {
+                    return false
                 }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync machine usages", e.message.toString())
             return false
         }
     }
@@ -142,20 +122,18 @@ class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
             val count = networkRepository.inventoryLogCount()
             var current = 1
             while (true) {
-                val inventoryLog = networkRepository.getUnSyncInventoryLog()
-                if (inventoryLog == null) {
-                    // all done
-                    return true
-                } else {
-                    startForeground(1, getNotification("Syncing inventory log", "${current++}/$count"))
-                    val result = networkRepository.sendInventoryLog(inventoryLog, shopId, token)
-                    if(result.isFailure) {
-                        return false
-                    }
+                val inventoryLog = networkRepository.getUnSyncInventoryLog() ?: return true
+
+                showNotification(UPT_SYNC_NOTIFICATION_ID, "Syncing inventory log", "${current++}/$count")
+
+                val result = networkRepository.sendInventoryLog(inventoryLog, shopId, token)
+
+                if(result.isFailure) {
+                    return false
                 }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync inventory log", e.message.toString())
             return false
         }
     }
@@ -168,27 +146,27 @@ class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
 
                 if(token == null) {
                     println("No token")
-                    safeStop(1)
+                    safeStop()
                     return@runBlocking
-                } else {
-                    println("token")
-                    println(token)
                 }
 
                 if(shopId == null) {
                     println("Shop id cannot be null")
-                    startForeground(1, getNotification("Shop's not setup yet", "Go to App settings and setup shop details"))
+                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Shop's not setup yet", "Go to App settings and setup shop details")
+                    safeStop()
                     return@runBlocking
-                } else {
-                    println("Shop id")
-                    println(shopId)
                 }
 
-                if(syncJobOrder(shopId, token) && syncPayment(shopId, token) && syncMachineUsage(shopId, token) && syncInventoryLog(shopId, token) && syncExpenses(shopId, token)) {
-                    startForeground(1, getNotification("Sync", "Sync successful"))
-                    safeStop(30)
+                if(syncJobOrder(shopId, token)
+                    && syncPayment(shopId, token)
+                    && syncMachineUsage(shopId, token)
+                    && syncInventoryLog(shopId, token)
+                    && syncExpenses(shopId, token)
+                ) {
+                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Sync finished", "Data uploaded successful")
+                    safeStop()
                 } else {
-                    safeStop(60 * 5)
+                    safeStop()
                 }
             }
         }.start()
@@ -201,7 +179,7 @@ class BacklogSyncService : SyncService("Backlog Sync", "Backlog") {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(1, getNotification("Sync", "Getting customer profile ready for sync."))
+        startForeground(SVC_SYNC_NOTIFICATION_ID, getNotification("Sync started", "Retrieving information..."))
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

@@ -25,7 +25,7 @@ class NetworkModule {
     @Provides
     fun provideRetrofit(moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.18:8000")
+            .baseUrl("http://192.168.1.14:8000")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }

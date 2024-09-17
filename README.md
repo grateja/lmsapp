@@ -1,6 +1,5 @@
 <ul>
-    <li>Removed Dashboard in menu</li>
-    <li>Added permissions in loginCredentials</li>
-    <li>Added bottom sheet menu in the main activity</li>
+    <li>Bug fixed. Added authViewModel to JobOrderPayment</li>
+    <li>showNotification() implemented in all SyncServices</li>
     <li></li>
 </ul>
