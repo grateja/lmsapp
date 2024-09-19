@@ -7,6 +7,7 @@ import com.vag.lmsapp.network.NetworkRepository
 import com.vag.lmsapp.network.requests_body.PaymentRequestBody
 import com.vag.lmsapp.room.repository.SanctumRepository
 import com.vag.lmsapp.room.repository.ShopRepository
+import com.vag.lmsapp.util.periodicAsyncTask
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import java.util.UUID
@@ -28,14 +29,62 @@ class BacklogSyncService : SyncService(NAME, "Backlog") {
 
     }
 
+    private suspend fun syncCustomer(shopId: UUID, token: String): Boolean {
+        try {
+            val count = (networkRepository.customerCount() / 100) + 1
+
+            count.periodicAsyncTask(20) { step, iteration ->
+                val body = networkRepository.getUnSyncCustomers()
+
+                if(body.isEmpty()) return@periodicAsyncTask
+
+                if(step) {
+                    notifyProgress("Sync started", "Updating customer data", count, iteration)
+                }
+
+                val result = networkRepository.sendCustomer(body, shopId, token)
+
+                if(result.isFailure) {
+                    throw Exception(result.exceptionOrNull())
+                }
+            }
+
+            return true
+
+//            while (true) {
+//                val body = networkRepository.getUnSyncCustomers()
+//
+//                if(body.isEmpty()) return true
+//
+//                sendUpdate("Sync started", "Updating customer data")
+//
+//                val result = networkRepository.sendCustomer(body, shopId, token)
+//
+//                if(result.isFailure) {
+//                    throw Exception(result.exceptionOrNull())
+//                }
+//            }
+        } catch (e: Exception) {
+            sendUpdate("Failed to sync customer", e.message.toString())
+            e.printStackTrace()
+            return false
+        }
+    }
+
     private suspend fun syncJobOrder(shopId: UUID, token: String): Boolean {
         try {
-            val count = networkRepository.jobOrderCount()
-            var current = 1
-            while (true) {
-                val jobOrder = networkRepository.getUnSyncJobOrder() ?: return true
+            val count = (networkRepository.jobOrderCount() / 30) + 1
 
-                showNotification(UPT_SYNC_NOTIFICATION_ID,"Syncing job order ${current++}/$count", jobOrder.jobOrder.jobOrderNumber!!)
+            count.periodicAsyncTask(20) {stepped, iteration ->
+                val jobOrder = networkRepository.getUnSyncJobOrders(30)
+
+                if(jobOrder.isEmpty()) return@periodicAsyncTask
+
+                if(stepped) {
+                    notifyProgress("Sync started", "Updating job orders data", count, iteration)
+                }
+
+//                sendUpdate("Syncing job order ${iteration}/$count", jobOrder.jobOrder.jobOrderNumber!!)
 
                 val result = networkRepository.sendJobOrder(jobOrder, shopId, token)
 
@@ -43,20 +92,37 @@ class BacklogSyncService : SyncService(NAME, "Backlog") {
                     throw Exception(result.exceptionOrNull())
                 }
             }
+
+            return true
+//            var current = 1
+//            while (true) {
+//                val jobOrder = networkRepository.getUnSyncJobOrder() ?: return true
+//
+//                sendUpdate("Syncing job order ${current++}/$count", jobOrder.jobOrder.jobOrderNumber!!)
+//
+//                val result = networkRepository.sendJobOrder(jobOrder, shopId, token)
+//
+//                if(result.isFailure) {
+//                    throw Exception(result.exceptionOrNull())
+//                }
+//            }
         } catch (e: Exception) {
-            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync job Orders", e.message.toString())
+            sendUpdate("Failed to sync job orders", e.message.toString())
             return false
         }
     }
 
     private suspend fun syncExpenses(shopId: UUID, token: String): Boolean {
         try {
-            val count = networkRepository.expensesCount()
-            var current = 1
-            while (true) {
-                val expense = networkRepository.getUnSyncExpense() ?: return true
+            val count = (networkRepository.expensesCount() / 30) + 1
 
-                showNotification(UPT_SYNC_NOTIFICATION_ID, "Syncing expenses ${current++}/$count", expense.expense.remarks.toString())
+            count.periodicAsyncTask(20) { stepped, iteration ->
+                val expense = networkRepository.getUnSyncExpenses(30)
+
+                if(expense.isEmpty()) return@periodicAsyncTask
+                if(stepped) {
+                    notifyProgress( "Syncing started", "Updating expenses", count, iteration)
+                }
 
                 val result = networkRepository.sendExpense(expense, shopId, token)
 
@@ -64,76 +130,141 @@ class BacklogSyncService : SyncService(NAME, "Backlog") {
                     throw Exception(result.exceptionOrNull())
                 }
             }
+
+            return true
+
+//            while (true) {
+//                val expense = networkRepository.getUnSyncExpenses(30) ?: return true
+//
+//                sendUpdate( "Syncing expenses ${current++}/$count", expense.expense.remarks.toString())
+//
+//                val result = networkRepository.sendExpense(expense, shopId, token)
+//
+//                if(result.isFailure) {
+//                    throw Exception(result.exceptionOrNull())
+//                }
+//            }
         } catch (e: Exception) {
-            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync expenses", e.message.toString())
+            sendUpdate("Failed to sync expenses", e.message.toString())
             return false
         }
     }
 
     private suspend fun syncPayment(shopId: UUID, token: String): Boolean {
         try {
-            val count = networkRepository.jobPaymentCount()
-            var current = 1
-            while (true) {
-                val payment = networkRepository.getUnSyncPayment() ?: return true
+            val limit = 20
+            val count = (networkRepository.jobPaymentCount() / limit) + 1
 
-                showNotification(UPT_SYNC_NOTIFICATION_ID,"Syncing payment ${current++}/$count", "")
+            count.periodicAsyncTask(20) { stepped, iteration ->
+                val payments = networkRepository.getUnSyncPayment(limit)
+                if(payments.isEmpty()) return@periodicAsyncTask
 
-                val paymentRequest = PaymentRequestBody(
-                    payment.payment,
-                    payment.user,
-                    payment.jobOrders.map {it.id}
-                )
+                if(stepped) {
+                    notifyProgress( "Syncing started", "Updating payments", count, iteration)
+                }
+
+                val paymentRequest = payments.map {payment ->
+                    PaymentRequestBody(
+                        payment.payment,
+                        payment.user,
+                        payment.jobOrders.map {it.id}
+                    )
+                }
                 val result = networkRepository.sendPayment(paymentRequest, shopId, token)
 
                 if(result.isFailure) {
                     throw Exception(result.exceptionOrNull())
                 }
             }
+
+            return true
+//            while (true) {
+//                val payments = networkRepository.getUnSyncPayment(limit)
+//
+//                sendUpdate("Syncing payment ${current++}/$count", "")
+//
+//                val paymentRequest = payments.map {payment ->
+//                    PaymentRequestBody(
+//                        payment.payment,
+//                        payment.user,
+//                        payment.jobOrders.map {it.id}
+//                    )
+//                }
+//                val result = networkRepository.sendPayment(paymentRequest, shopId, token)
+//
+//                if(result.isFailure) {
+//                    throw Exception(result.exceptionOrNull())
+//                }
+//            }
         } catch (e: Exception) {
-            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync job order payment", e.message.toString())
+            sendUpdate("Failed to sync job order payment", e.message.toString())
             return false
         }
     }
 
     private suspend fun syncMachineUsage(shopId: UUID, token: String): Boolean {
         try {
-            val count = networkRepository.machineUsageCount()
-            var current = 1
-            while (true) {
-                val machineUsage = networkRepository.getUnSyncMachineUsage() ?: return true
+            val limit = 50
+            val count = (networkRepository.machineUsageCount() / limit) + 1
 
-                showNotification(UPT_SYNC_NOTIFICATION_ID, "Syncing machine usage", "${current++}/$count")
+            count.periodicAsyncTask(20) {stepped, iteration ->
+                val machineUsage = networkRepository.getUnSyncMachineUsage(limit)
+
+                if(machineUsage.isEmpty()) return@periodicAsyncTask
+
+                if(stepped) {
+                    notifyProgress("Sync started", "Updating machine usage", count, iteration)
+                }
 
                 val result = networkRepository.sendMachineUsage(machineUsage, shopId, token)
 
                 if(result.isFailure) {
-                    return false
+                    throw Exception(result.exceptionOrNull())
                 }
             }
+
+            return true
         } catch (e: Exception) {
-            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync machine usages", e.message.toString())
+            sendUpdate("Failed to sync machine usages", e.message.toString())
             return false
         }
     }
 
     private suspend fun syncInventoryLog(shopId: UUID, token: String): Boolean {
         try {
-            val count = networkRepository.inventoryLogCount()
-            var current = 1
-            while (true) {
-                val inventoryLog = networkRepository.getUnSyncInventoryLog() ?: return true
+            val limit = 100
+            val count = (networkRepository.inventoryLogCount() / limit) + 1
 
-                showNotification(UPT_SYNC_NOTIFICATION_ID, "Syncing inventory log", "${current++}/$count")
+            count.periodicAsyncTask(20) {stepped, iteration ->
+                val inventoryLog = networkRepository.getUnSyncInventoryLog(limit)
+
+                if(inventoryLog.isEmpty()) return@periodicAsyncTask
+
+                if(stepped) {
+                    notifyProgress("Sync started", "Updating inventory", count, iteration)
+                }
 
                 val result = networkRepository.sendInventoryLog(inventoryLog, shopId, token)
 
                 if(result.isFailure) {
-                    return false
+                    throw Exception(result.exceptionOrNull())
                 }
             }
+
+            return true
+
+//            while (true) {
+//
+//                sendUpdate( "Syncing inventory log", "${current++}/$count")
+//
+//                val result = networkRepository.sendInventoryLog(inventoryLog, shopId, token)
+//
+//                if(result.isFailure) {
+//                    return false
+//                }
+//            }
         } catch (e: Exception) {
-            showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync inventory log", e.message.toString())
+            sendUpdate("Failed to sync inventory log", e.message.toString())
             return false
         }
     }
@@ -152,18 +283,19 @@ class BacklogSyncService : SyncService(NAME, "Backlog") {
 
                 if(shopId == null) {
                     println("Shop id cannot be null")
-                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Shop's not setup yet", "Go to App settings and setup shop details")
+                    sendUpdate("Shop's not setup yet", "Go to App settings and setup shop details")
                     safeStop()
                     return@runBlocking
                 }
 
-                if(syncJobOrder(shopId, token)
+                if(syncCustomer(shopId, token)
+                    && syncJobOrder(shopId, token)
                     && syncPayment(shopId, token)
                     && syncMachineUsage(shopId, token)
                     && syncInventoryLog(shopId, token)
                     && syncExpenses(shopId, token)
                 ) {
-                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Sync finished", "Data uploaded successful")
+                    sendUpdate("Sync finished", "Data uploaded successful")
                     safeStop()
                 } else {
                     safeStop()

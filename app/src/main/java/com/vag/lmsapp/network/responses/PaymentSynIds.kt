@@ -4,12 +4,12 @@ import com.squareup.moshi.Json
 import java.util.UUID
 
 data class PaymentSynIds(
-    @Json(name = "payment_id")
-    val paymentId: UUID,
+    @Json(name = "payment_ids")
+    val paymentIds: List<UUID>,
 
-    @Json(name = "job_orders_ids")
+    @Json(name = "job_order_ids")
     val jobOrderIds: List<UUID>,
 
-    @Json(name = "paid_by")
-    val paidBy: UUID
+    @Json(name = "staff_ids")
+    val staffIds: List<UUID>
 )

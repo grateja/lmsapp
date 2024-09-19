@@ -34,6 +34,6 @@ data class ExportDataMachineUsage(
     val createdAt: Instant,
 ) {
     fun label() : String {
-        return "$machineType $machineNumber"
+        return "${machineType.value} ${serviceType.value}er $machineNumber"
     }
 }

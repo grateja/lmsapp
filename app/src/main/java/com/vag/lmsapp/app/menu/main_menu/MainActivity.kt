@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
@@ -36,8 +37,11 @@ import com.vag.lmsapp.util.Constants.Companion.AUTH_ID
 import com.vag.lmsapp.util.Constants.Companion.USER_ID
 import com.vag.lmsapp.util.DataState
 import com.vag.lmsapp.util.calculateSpanCount
+import com.vag.lmsapp.util.periodicAsyncTask
 import com.vag.lmsapp.worker.ShopSetupSyncWorker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 @AndroidEntryPoint
@@ -142,6 +146,14 @@ class MainActivity : EndingActivity(), InternetConnectionCallback {
     private val permissionRequestLauncher = ActivityContractsLauncher(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        lifecycleScope.launch {
+            11.periodicAsyncTask(5) { stepped, iteration ->
+                println("iteration $iteration $stepped")
+                delay(500)
+            }
+        }
+
+
         super.onCreate(savedInstanceState)
 
         mainViewModel.checkCurrentUser()

@@ -65,12 +65,12 @@ class JobOrderPaymentSyncService : SyncService("Sync", "Payment") {
                 )
 
                 try {
-                    networkRepository.sendPayment(paymentRequestBody, shopId, token).let {
+                    networkRepository.sendPayment(listOf(paymentRequestBody), shopId, token).let {
                         safeStop()
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync job order payment", e.message.toString())
+                    sendUpdate("Failed to sync job order payment", e.message.toString())
                     safeStop()
                 }
             }

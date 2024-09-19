@@ -35,7 +35,7 @@ interface ApiService {
     @Headers("Accept: application/json")
     @POST("api/sync/job-order/{shopId}")
     suspend fun sendJobOrder(
-        @Body jobOrderWithItems: EntityJobOrderWithItems,
+        @Body jobOrderWithItems: List<EntityJobOrderWithItems>,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
     ): Response<JobOrderSyncIds>
@@ -43,7 +43,7 @@ interface ApiService {
     @Headers("Accept: application/json")
     @POST("api/sync/payment/{shopId}")
     suspend fun sendPayment(
-        @Body paymentRequestBody: PaymentRequestBody,
+        @Body paymentRequestBody: List<PaymentRequestBody>,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
     ): Response<PaymentSynIds>
@@ -59,15 +59,15 @@ interface ApiService {
     @Headers("Accept: application/json")
     @POST("api/sync/customer/{shopId}")
     suspend fun sendCustomer(
-        @Body customer: EntityCustomer,
+        @Body customers: List<EntityCustomer>,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
-    ): Response<UuidSyncId>
+    ): Response<List<UUID>>
 
     @Headers("Accept: application/json")
     @POST("api/sync/machine-usage/{shopId}")
     suspend fun sendMachineActivation(
-        @Body machineUsage: EntityMachineUsageFull,
+        @Body machineUsage: List<EntityMachineUsageFull>,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
     ): Response<MachineUsageSyncIds>
@@ -75,15 +75,15 @@ interface ApiService {
     @Headers("Accept: application/json")
     @POST("api/sync/expense/{shopId}")
     suspend fun sendExpense(
-        @Body expense: EntityExpenseFull,
+        @Body expense: List<EntityExpenseFull>,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
-    ): Response<UuidSyncId>
+    ): Response<List<UUID>>
 
     @Headers("Accept: application/json")
     @POST("api/sync/inventory-log/{shopId}")
     suspend fun sendInventoryLog(
-        @Body body: EntityInventoryLogFull,
+        @Body body: List<EntityInventoryLogFull>,
         @Path("shopId") shopId: String,
         @Header("Authorization") token: String
     ): Response<InventoryLogSyncIds>

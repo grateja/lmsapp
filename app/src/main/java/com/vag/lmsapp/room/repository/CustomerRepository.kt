@@ -21,6 +21,11 @@ constructor (
         return daoCustomer.get(id)
     }
 
+    override suspend fun save(entity: EntityCustomer): EntityCustomer? {
+        entity.sync = false
+        return super.save(entity)
+    }
+
     fun getCustomerByPaymentIdAsLiveData(paymentId: UUID?) = daoCustomer.getCustomerByPaymentIdAsLiveData(paymentId)
 
 //    suspend fun filter(keyword: String) : List<EntityCustomer> {

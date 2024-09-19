@@ -1,8 +1,7 @@
 package com.vag.lmsapp.app.lms_live.sync
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.vag.lmsapp.network.NetworkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -10,11 +9,14 @@ import javax.inject.Inject
 class SyncViewModel
 
 @Inject
-constructor(): ViewModel(){
-    private val _title = MutableLiveData("")
-    val title: LiveData<String> = _title
-
-    fun setTitle(title: String?) {
-        _title.value = title
-    }
+constructor(
+    private val repository: NetworkRepository
+): ViewModel(){
+    val pending = repository.getAllCounts()
+    val customerCount = repository.customerCountAsLiveData()
+    val jobOrderCount = repository.jobOrderCountAsLiveData()
+    val machineUsageCount = repository.machineUsageCountAsLiveData()
+    val inventoryLogCount = repository.inventoryLogCountAsLiveData()
+    val jobOrderPaymentCount = repository.jobPaymentCountAsLiveData()
+    val expensesCount = repository.expensesCountAsLiveData()
 }

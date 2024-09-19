@@ -12,6 +12,7 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.vag.lmsapp.R
 import com.vag.lmsapp.app.lms_live.sync.SyncActivity
 import kotlinx.coroutines.delay
@@ -26,6 +27,9 @@ abstract class SyncService(protected val name: String, private val descriptions:
         const val SYNC_MESSAGE_EXTRA = "sync message extra"
         const val SVC_SYNC_NOTIFICATION_ID = 1
         const val UPT_SYNC_NOTIFICATION_ID = 2
+        const val ACTION_SYNC_BROADCAST = "sync broadcast"
+        const val SYNC_BROADCAST_ENTITY_EXTRA = "sync broadcast entity"
+        const val SYNC_BROADCAST_PROGRESS_EXTRA = "sync broadcast progress"
     }
 
     private val notificationManager by lazy {
@@ -42,7 +46,7 @@ abstract class SyncService(protected val name: String, private val descriptions:
             setSound(null, null)
         }
 
-    protected fun getNotification(title: String, text: String): Notification {
+    protected fun getNotification(title: String, text: String, totalCount: Int? = null, progress: Int? = null): Notification {
         val notificationIntent = Intent(this, SyncActivity::class.java).apply {
             putExtra(SYNC_NAME_EXTRA, name)
             putExtra(SYNC_MESSAGE_EXTRA, text)
@@ -65,6 +69,10 @@ abstract class SyncService(protected val name: String, private val descriptions:
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
 
+        if(totalCount != null && progress != null) {
+            builder.setProgress(totalCount, progress, false)
+        }
+
         notificationManager.createNotificationChannel(createChannel())
         return builder.build()
     }
@@ -78,7 +86,7 @@ abstract class SyncService(protected val name: String, private val descriptions:
         }.start()
     }
 
-    protected fun showNotification(notificationId: Int, title: String, text: String) {
+    protected fun notifyProgress(title: String, text: String, totalCount: Int, progress: Int) {
         val context = this
         with(NotificationManagerCompat.from(context)) {
             if (ActivityCompat.checkSelfPermission(
@@ -86,8 +94,24 @@ abstract class SyncService(protected val name: String, private val descriptions:
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                notify(notificationId, getNotification(title, text))
+                notify(SVC_SYNC_NOTIFICATION_ID, getNotification(title, text, totalCount, progress))
             }
+        }
+    }
+
+    protected fun sendUpdate(title: String, text: String, intent: Intent? = null) {
+        val context = this
+        with(NotificationManagerCompat.from(context)) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                notify(UPT_SYNC_NOTIFICATION_ID, getNotification(title, text))
+            }
+        }
+        intent?.let {
+            LocalBroadcastManager.getInstance(context).sendBroadcast(it)
         }
     }
 }

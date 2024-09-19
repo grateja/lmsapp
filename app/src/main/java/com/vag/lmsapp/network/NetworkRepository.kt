@@ -8,7 +8,6 @@ import com.vag.lmsapp.network.responses.JobOrderSyncIds
 import com.vag.lmsapp.network.responses.MachineUsageSyncIds
 import com.vag.lmsapp.network.responses.PaymentSynIds
 import com.vag.lmsapp.network.responses.SetupSyncIds
-import com.vag.lmsapp.network.responses.UuidSyncId
 import com.vag.lmsapp.room.dao.DaoSync
 import com.vag.lmsapp.room.entities.EntityCustomer
 import com.vag.lmsapp.room.entities.EntityExpenseFull
@@ -59,13 +58,13 @@ constructor(
         }
     }
 
-    suspend fun sendJobOrder(jobOrderWithItems: EntityJobOrderWithItems, shopId: UUID, token: String): Result<JobOrderSyncIds> {
+    suspend fun sendJobOrder(jobOrderWithItems: List<EntityJobOrderWithItems>, shopId: UUID, token: String): Result<JobOrderSyncIds> {
         return withContext(Dispatchers.IO) {
-            val response: Response<JobOrderSyncIds> = dao.sendJobOrder(jobOrderWithItems, shopId.toString(), "Bearer $token")
+            val response = dao.sendJobOrder(jobOrderWithItems, shopId.toString(), "Bearer $token")
 
             if (response.isSuccessful) {
                 val body = response.body()!!
-                daoSync.syncJobOrder(body)
+                daoSync.syncJobOrders(body)
                 Result.success(body)
             } else {
                 Result.failure(Exception("Error ${response.code()}: ${response.message() ?: "Unknown error"}"))
@@ -73,7 +72,7 @@ constructor(
         }
     }
 
-    suspend fun sendPayment(paymentRequestBody: PaymentRequestBody, shopId: UUID, token: String): Result<PaymentSynIds> {
+    suspend fun sendPayment(paymentRequestBody: List<PaymentRequestBody>, shopId: UUID, token: String): Result<PaymentSynIds> {
         return withContext(Dispatchers.IO) {
             val response: Response<PaymentSynIds> = dao.sendPayment(paymentRequestBody, shopId.toString(), "Bearer $token")
             if (response.isSuccessful) {
@@ -99,12 +98,15 @@ constructor(
         }
     }
 
-    suspend fun sendCustomer(customer: EntityCustomer, shopId: UUID, token: String): Result<UuidSyncId> {
+    suspend fun sendCustomer(customer: EntityCustomer, shopId: UUID, token: String): Result<List<UUID>> {
+        return sendCustomer(listOf(customer), shopId, token)
+    }
+    suspend fun sendCustomer(customers: List<EntityCustomer>, shopId: UUID, token: String): Result<List<UUID>> {
         return withContext(Dispatchers.IO) {
-            val response = dao.sendCustomer(customer, shopId.toString(), "Bearer $token")
+            val response = dao.sendCustomer(customers, shopId.toString(), "Bearer $token")
             if (response.isSuccessful) {
                 val body = response.body()!!
-                daoSync.syncCustomer(body.id)
+                daoSync.syncCustomers(body)
                 Result.success(body)
             } else {
                 Result.failure(Exception("Error ${response.code()}: ${response.message() ?: "Unknown error"}"))
@@ -112,7 +114,7 @@ constructor(
         }
     }
 
-    suspend fun sendMachineUsage(machineUsageFull: EntityMachineUsageFull, shopId: UUID, token: String): Result<MachineUsageSyncIds> {
+    suspend fun sendMachineUsage(machineUsageFull: List<EntityMachineUsageFull>, shopId: UUID, token: String): Result<MachineUsageSyncIds> {
         return withContext(Dispatchers.IO) {
             val response = dao.sendMachineActivation(machineUsageFull, shopId.toString(), "Bearer $token")
             if (response.isSuccessful) {
@@ -125,12 +127,12 @@ constructor(
         }
     }
 
-    suspend fun sendExpense(expense: EntityExpenseFull, shopId: UUID, token: String): Result<UuidSyncId> {
+    suspend fun sendExpense(expense: List<EntityExpenseFull>, shopId: UUID, token: String): Result<List<UUID>> {
         return withContext(Dispatchers.IO) {
             val response = dao.sendExpense(expense, shopId.toString(), "Bearer $token")
             if (response.isSuccessful) {
                 val body = response.body()!!
-                daoSync.syncExpense(body.id)
+                daoSync.syncExpenses(body)
                 Result.success(body)
             } else {
                 Result.failure(Exception("Error ${response.code()}: ${response.message() ?: "Unknown error"}"))
@@ -138,7 +140,7 @@ constructor(
         }
     }
 
-    suspend fun sendInventoryLog(expense: EntityInventoryLogFull, shopId: UUID, token: String): Result<InventoryLogSyncIds> {
+    suspend fun sendInventoryLog(expense: List<EntityInventoryLogFull>, shopId: UUID, token: String): Result<InventoryLogSyncIds> {
         return withContext(Dispatchers.IO) {
             val response = dao.sendInventoryLog(expense, shopId.toString(), "Bearer $token")
             if (response.isSuccessful) {
@@ -151,15 +153,26 @@ constructor(
         }
     }
 
-    suspend fun getUnSyncJobOrder() = daoSync.getUnSyncJobOrder()
-    suspend fun getUnSyncMachineUsage() = daoSync.getUnSyncMachineUsage()
-    suspend fun getUnSyncInventoryLog() = daoSync.getUnSyncInventoryLog()
-    suspend fun getUnSyncPayment() = daoSync.getUnSyncPayment()
-    suspend fun getUnSyncExpense() = daoSync.getUnSyncExpense()
+    suspend fun getUnSyncJobOrders(limit: Int) = daoSync.getUnSyncJobOrders(limit)
+    suspend fun getUnSyncMachineUsage(limit: Int) = daoSync.getUnSyncMachineUsage(limit)
+    suspend fun getUnSyncInventoryLog(limit: Int) = daoSync.getUnSyncInventoryLog(limit)
+    suspend fun getUnSyncPayment(limit: Int) = daoSync.getUnSyncPayment(limit)
+    suspend fun getUnSyncExpenses(limit: Int) = daoSync.getUnSyncExpenses(limit)
+    suspend fun getUnSyncCustomers() = daoSync.getUnSyncCustomers()
 
     suspend fun jobOrderCount() = daoSync.jobOrderCount()
     suspend fun machineUsageCount() = daoSync.machineUsageCount()
     suspend fun inventoryLogCount() = daoSync.inventoryLogCount()
     suspend fun jobPaymentCount() = daoSync.paymentCount()
     suspend fun expensesCount() = daoSync.expensesCount()
+    suspend fun customerCount() = daoSync.customerCount()
+
+    fun jobOrderCountAsLiveData() = daoSync.jobOrderCountAsLiveData()
+    fun machineUsageCountAsLiveData() = daoSync.machineUsageCountAsLiveData()
+    fun inventoryLogCountAsLiveData() = daoSync.inventoryLogCountAsLiveData()
+    fun jobPaymentCountAsLiveData() = daoSync.paymentCountAsLiveData()
+    fun expensesCountAsLiveData() = daoSync.expensesCountAsLiveData()
+    fun customerCountAsLiveData() = daoSync.customerCountAsLiveData()
+
+    fun getAllCounts() = daoSync.getAllCounts()
 }

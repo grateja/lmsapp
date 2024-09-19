@@ -523,7 +523,7 @@ class ExcelExportService: Service() {
                             setCellValue(exportDataMachineUsage.activated.toShort())
                         }
                         createCell(1).apply {
-                            setCellValue(exportDataMachineUsage.toString())
+                            setCellValue(exportDataMachineUsage.label())
                         }
                         createCell(2).apply {
                             setCellValue(exportDataMachineUsage.serviceName)

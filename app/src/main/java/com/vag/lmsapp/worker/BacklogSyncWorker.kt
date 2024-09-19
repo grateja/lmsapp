@@ -64,38 +64,38 @@ constructor(
 //        }
 //    }
 
-    private suspend fun syncJobOrder(shopId: UUID, token: String): Boolean {
-        try {
-            while (true) {
-                println("get job order")
-                val jobOrder = networkRepository.getUnSyncJobOrder()
-                println(jobOrder)
-                if (jobOrder == null) {
-                    // all done
-                    return true
-                } else {
-                    println("syncing job order ${jobOrder.jobOrder.jobOrderNumber}")
-                    val result = networkRepository.sendJobOrder(jobOrder, shopId, token)
-                    println("result")
-                    println(result)
-                    if(result.isFailure) {
-                        return false
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            // Handle exceptions such as network errors or unexpected issues
-            println("An error occurred during job order synchronization: ${e.message}")
-            return false
-        }
-    }
+//    private suspend fun syncJobOrder(shopId: UUID, token: String): Boolean {
+//        try {
+//            while (true) {
+//                println("get job order")
+//                val jobOrder = networkRepository.getUnSyncJobOrder()
+//                println(jobOrder)
+//                if (jobOrder == null) {
+//                    // all done
+//                    return true
+//                } else {
+//                    println("syncing job order ${jobOrder.jobOrder.jobOrderNumber}")
+//                    val result = networkRepository.sendJobOrder(jobOrder, shopId, token)
+//                    println("result")
+//                    println(result)
+//                    if(result.isFailure) {
+//                        return false
+//                    }
+//                }
+//            }
+//        } catch (e: Exception) {
+//            // Handle exceptions such as network errors or unexpected issues
+//            println("An error occurred during job order synchronization: ${e.message}")
+//            return false
+//        }
+//    }
 
     override suspend fun doWork(): Result {
         val shopId = shopRepository.get()?.id
         val token = sanctumRepository.getSyncToken()
 
         println("Sync started")
-        syncJobOrder(shopId!!, token!!)
+//        syncJobOrder(shopId!!, token!!)
         println("sync ended")
 
         return Result.success()

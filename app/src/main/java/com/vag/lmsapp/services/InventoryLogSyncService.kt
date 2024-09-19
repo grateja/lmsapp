@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import com.vag.lmsapp.network.NetworkRepository
-import com.vag.lmsapp.room.repository.ExpensesRepository
 import com.vag.lmsapp.room.repository.InventoryLogRepository
-import com.vag.lmsapp.room.repository.MachineRepository
 import com.vag.lmsapp.room.repository.SanctumRepository
 import com.vag.lmsapp.room.repository.ShopRepository
 import com.vag.lmsapp.util.Constants.Companion.ID
@@ -58,12 +56,12 @@ class InventoryLogSyncService : SyncService("Sync", "Machine usage") {
                 }
 
                 try {
-                    networkRepository.sendInventoryLog(body, shopId, token).let {
+                    networkRepository.sendInventoryLog(listOf(body), shopId, token).let {
                         safeStop()
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    showNotification(UPT_SYNC_NOTIFICATION_ID, "Failed to sync inventory log", e.message.toString())
+                    sendUpdate( "Failed to sync inventory log", e.message.toString())
                     safeStop()
                 }
             }

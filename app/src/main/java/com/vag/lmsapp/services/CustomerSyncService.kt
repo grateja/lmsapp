@@ -58,7 +58,7 @@ class CustomerSyncService : SyncService("Sync", "Customer") {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync customer", e.message.toString())
+                    sendUpdate("Failed to sync customer", e.message.toString())
                     safeStop()
                 }
             }

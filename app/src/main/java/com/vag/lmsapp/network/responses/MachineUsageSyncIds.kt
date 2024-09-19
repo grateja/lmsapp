@@ -4,12 +4,12 @@ import com.squareup.moshi.Json
 import java.util.UUID
 
 data class MachineUsageSyncIds(
-    @Json(name = "machine_usage_id")
-    val machineUsageId: UUID,
+    @Json(name = "machine_usage_ids")
+    val machineUsageIds: List<UUID>,
 
-    @Json(name = "job_order_service_id")
-    val jobOrderServiceId: UUID,
+    @Json(name = "job_order_service_ids")
+    val jobOrderServiceIds: List<UUID>,
 
-    @Json(name = "customer_id")
-    val customerId: UUID
+    @Json(name = "customer_ids")
+    val customerIds: List<UUID>
 )

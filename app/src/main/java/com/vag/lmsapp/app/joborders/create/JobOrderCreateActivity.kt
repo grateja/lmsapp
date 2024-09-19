@@ -555,7 +555,7 @@ class JobOrderCreateActivity : BaseActivity(), InternetConnectionCallback {
         if(internetAvailable) {
             JobOrderSyncService.start(this, jobOrderId)
         }
-        ShopSetupSyncWorker.enqueue(this)
+        // ShopSetupSyncWorker.enqueue(this)
     }
 
     override fun onPause() {

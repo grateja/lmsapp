@@ -64,11 +64,11 @@ class JobOrderSyncService: SyncService("Sync", "Job order") {
                         return@runBlocking
                     }
 
-                    networkRepository.sendJobOrder(jobOrder, shopId, token).let {result ->
+                    networkRepository.sendJobOrder(listOf(jobOrder), shopId, token).let {result ->
                         safeStop()
                     }
                 } catch (e: Exception) {
-                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync job order", e.message.toString())
+                    sendUpdate("Failed to sync job order", e.message.toString())
                     e.printStackTrace()
                     safeStop(60 * 5)
                 }

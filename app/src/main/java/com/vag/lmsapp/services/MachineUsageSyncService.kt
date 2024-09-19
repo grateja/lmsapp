@@ -54,12 +54,12 @@ class MachineUsageSyncService : SyncService("Sync", "Machine usage") {
                 }
 
                 try {
-                    networkRepository.sendMachineUsage(machineUsage, shopId, token).let {
+                    networkRepository.sendMachineUsage(listOf(machineUsage), shopId, token).let {
                         safeStop()
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    showNotification(UPT_SYNC_NOTIFICATION_ID,"Failed to sync machine usage", e.message.toString())
+                    sendUpdate("Failed to sync machine usage", e.message.toString())
                     safeStop(10)
                 }
             }
