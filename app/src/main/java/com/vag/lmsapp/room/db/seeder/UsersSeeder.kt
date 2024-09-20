@@ -12,6 +12,9 @@ class UsersSeeder(private val daoUser: DaoUser) : EntitySeederImpl<EntityUser>(d
 //                listOf(EnumActionPermission.ALL), "",
 //                arrayListOf(4)
 //            ),
+            // 0 1 2
+            // 3 4 5
+            // 6 7 8
             EntityUser().apply {
                 role = Role.OWNER
                 name = "Admin"
@@ -20,7 +23,7 @@ class UsersSeeder(private val daoUser: DaoUser) : EntitySeederImpl<EntityUser>(d
                 permissions = listOf(
                     EnumActionPermission.ALL,
                 )
-                patternIds = arrayListOf(4)
+                patternIds = arrayListOf(0,1,3,2,4,6,5,7,8)
             },
             EntityUser().apply {
                 role = Role.STAFF
@@ -28,17 +31,7 @@ class UsersSeeder(private val daoUser: DaoUser) : EntitySeederImpl<EntityUser>(d
                 email = "staff1@dev.com"
                 password = "123"
                 permissions = listOf(
-                    EnumActionPermission.ALL,
-                )
-                patternIds = arrayListOf(4)
-            },
-            EntityUser().apply {
-                role = Role.STAFF
-                name = "Staff 2"
-                email = "staff2@dev.com"
-                password = "123"
-                permissions = listOf(
-                    EnumActionPermission.ALL,
+                    EnumActionPermission.BASIC,
                 )
                 patternIds = arrayListOf(4)
             },

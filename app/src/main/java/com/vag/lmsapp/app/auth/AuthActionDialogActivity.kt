@@ -123,7 +123,6 @@ class AuthActionDialogActivity : AppCompatActivity() {
                 is DataState.Invalidate -> {
                     binding.container.post {
                         Snackbar.make(binding.container, it.message, Snackbar.LENGTH_LONG)
-                            .setAnchorView(binding.controls)
                             .show()
                     }
                     viewModel.clearState()

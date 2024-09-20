@@ -105,7 +105,7 @@ class ExcelExportService: Service() {
 
     override fun onCreate() {
         super.onCreate()
-        startForeground(NOTIFICATION_ID, getNotification("Export started"))
+        startForeground(NOTIFICATION_ID, getNotification("Starting export"))
     }
 
 
@@ -123,7 +123,7 @@ class ExcelExportService: Service() {
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(this.getString(R.string.app_name))
             .setContentText(message)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.icon_excel_export_white)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setOngoing(false)
             .setAutoCancel(true)
@@ -220,6 +220,8 @@ class ExcelExportService: Service() {
                     setBroadcast(ACTION_FILE_CREATED)
 
                     running = false
+
+                    stopSelf()
                 }
             }
         }.start()

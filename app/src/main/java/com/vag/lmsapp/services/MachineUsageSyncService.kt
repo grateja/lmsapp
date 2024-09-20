@@ -60,7 +60,7 @@ class MachineUsageSyncService : SyncService("Sync", "Machine usage") {
                 } catch (e: Exception) {
                     e.printStackTrace()
                     sendUpdate("Failed to sync machine usage", e.message.toString())
-                    safeStop(10)
+                    safeStop()
                 }
             }
         }.start()

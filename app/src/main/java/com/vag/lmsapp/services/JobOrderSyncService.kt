@@ -70,7 +70,7 @@ class JobOrderSyncService: SyncService("Sync", "Job order") {
                 } catch (e: Exception) {
                     sendUpdate("Failed to sync job order", e.message.toString())
                     e.printStackTrace()
-                    safeStop(60 * 5)
+                    safeStop()
                 }
             }
         }.start()

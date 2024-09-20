@@ -10,6 +10,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.snackbar.Snackbar
 import com.vag.lmsapp.R
@@ -25,6 +26,8 @@ import com.vag.lmsapp.util.AuthLauncherActivity
 import com.vag.lmsapp.util.Constants.Companion.CASCADE_CLOSE
 import com.vag.lmsapp.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RemoteActivationPreviewActivity : AppCompatActivity() {
@@ -166,6 +169,13 @@ class RemoteActivationPreviewActivity : AppCompatActivity() {
     private fun subscribeEvents() {
 
         binding.buttonActivate.setOnClickListener {
+            it.isEnabled = false
+            lifecycleScope.launch {
+                // Wait for 1 second
+                delay(1000)
+                // Re-enable the button
+                it.isEnabled = true
+            }
             authViewModel.authenticate(listOf(), ACTION_ACTIVATE_MACHINE, false)
 //            authActivity.launch(listOf(), "Activate machine", false)
 //            viewModel.prepareSubmit()
